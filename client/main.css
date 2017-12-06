@@ -22,7 +22,7 @@ html, body {
 
 #app-body {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: auto auto;
   grid-template-rows: repeat(10, 500px, [row-start]);
   padding-top: 110px
 }

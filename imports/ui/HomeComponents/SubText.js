@@ -3,7 +3,7 @@ import Typography from 'material-ui/Typography';
 
 const leftTextStyle = {
   float: 'left',
-  width: '400px',
+  width: '125px',
   paddingRight: '10px'
 }
 const dividerStyle = {
@@ -15,7 +15,14 @@ const dividerStyle = {
 }
 const rightTextStyle = {
   float: 'left',
+  width: '125px',
   paddingLeft: '10px'
+}
+const cellStyle = {
+  height: '50px',
+  align: 'right',
+  margin: '0 0 0 auto',
+  paddingRight: '10px'
 }
 
 /*
@@ -29,7 +36,7 @@ class SubText extends Component {
 
   render() {
     return(
-      <div className="app-body-cell" style={{height: '50px'}}>
+      <div className="app-body-cell" style={cellStyle}>
         <div style={leftTextStyle}>
           <Typography type="title" align="right">SubTextTitle1</Typography>
           <Typography type="subheading" align="right">SubTextBody1</Typography>
