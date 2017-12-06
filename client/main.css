@@ -13,3 +13,19 @@ html, body {
 
   margin: 0 auto;
 }
+
+#app {
+  height: 100%;
+  width: 100%;
+}
+
+
+#app-body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: repeat(10, 500px, [row-start]);
+  padding-top: 110px
+}
+.app-body-cell {
+  display: inline;
+}
