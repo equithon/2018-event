@@ -15,17 +15,23 @@ html, body {
 }
 
 #app {
-  height: 100%;
-  width: 100%;
+  width: auto;
+  height: auto;
 }
-
 
 #app-body {
   display: grid;
-  grid-template-columns: auto auto;
-  grid-template-rows: repeat(10, 500px, [row-start]);
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 60px repeat(5, 300px [row-start]);
+  grid-template-areas:
+    "st st" /* SubText */
+    "lr1 rr1" /* LeftRow1 && RightRow1 */
+    "lr2 rr2" /* LeftRow2 && RightRow2 */
+    "lr3 rr3" /* ''                 '' */
+    "lr4 rr4"
+    "lr5 rr5";
+  grid-row-gap: 5px;
+  grid-column-gap: 15px;
+
   padding-top: 110px
-}
-.app-body-cell {
-  display: inline;
 }
