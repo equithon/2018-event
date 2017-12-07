@@ -1,28 +1,23 @@
 import React, {Component } from 'react';
 import Typography from 'material-ui/Typography';
+import { withTheme } from 'material-ui/styles';
 
+const cellStyle = {
+  height: '50px',
+  align: 'right',
+  margin: '0 0 0 auto',
+  paddingRight: '10px',
+  gridArea: 'st'
+}
 const leftTextStyle = {
   float: 'left',
   width: '125px',
   paddingRight: '10px'
 }
-const dividerStyle = {
-  borderLeft: '1px solid #AB6CFE',
-  borderRight: '1px solid #AB6CFE',
-  height: '50px',
-  position: 'relative',
-  float: 'left'
-}
 const rightTextStyle = {
   float: 'left',
   width: '125px',
   paddingLeft: '10px'
-}
-const cellStyle = {
-  height: '50px',
-  align: 'right',
-  margin: '0 0 0 auto',
-  paddingRight: '10px'
 }
 
 /*
@@ -35,8 +30,16 @@ class SubText extends Component {
   };
 
   render() {
+    const dividerStyle = {
+      borderLeft: '1px solid ' + this.props.theme.palette.primary[500],
+      borderRight: '1px solid ' + this.props.theme.palette.primary[500],
+      height: '50px',
+      position: 'relative',
+      float: 'left'
+    }
+
     return(
-      <div className="app-body-cell" style={cellStyle}>
+      <div style={cellStyle}>
         <div style={leftTextStyle}>
           <Typography type="title" align="right">SubTextTitle1</Typography>
           <Typography type="subheading" align="right">SubTextBody1</Typography>
@@ -53,4 +56,4 @@ class SubText extends Component {
   }
 }
 
-export default SubText;
+export default withTheme()(SubText);
