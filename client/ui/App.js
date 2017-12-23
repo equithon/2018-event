@@ -8,6 +8,7 @@ import HomeAppBar from '/client/ui/HomeAppBar.js';
 import SubText from '/client/ui/components/home-components/SubText.js';
 
 import {StayPosted, Facebook, Twitter, Instagram} from '/client/ui/buttons/SocialMedia.js';
+import {List, ListItem} from "material-ui";
 
 const theme = createMuiTheme({
     palette: {
@@ -41,17 +42,14 @@ const StayPostedStyle = {
     float: 'left',
     padding: '10px',
 };
-
 const FacebookButtonStyle = {
     float: 'left',
     padding: '10px',
 };
-
 const TwitterButtonStyle = {
     float: 'left',
     padding: '10px',
 };
-
 const InstagramButtonStyle = {
     float: 'left',
     padding: '10px',
@@ -116,7 +114,12 @@ export default class App extends Component {
 
                         {/* Row 4*/}
                         <div style={{gridArea: 'faq-row', justifySelf: 'center'}}>
-
+                            <Typography color="primary" type="display2" align="left">Frequently Asked Questions</Typography>
+                            <List>
+                                <ListItem primaryText="1. What is a Hackathon?" open={true} nestedItems={[
+                                    <ListItem secondaryText="A hackathon is..."/>
+                                ]}/>
+                            </List>
                         </div>
 
                     </div>
