@@ -12,12 +12,12 @@ const cellStyle = {
 const leftTextStyle = {
   float: 'left',
   width: '125px',
-  paddingRight: '10px'
+  paddingRight: '20px'
 };
 const rightTextStyle = {
   float: 'left',
-  width: '125px',
-  paddingLeft: '10px'
+  width: 'auto',
+  paddingLeft: '20px'
 };
 
 /*
@@ -41,15 +41,15 @@ class SubText extends Component {
     return(
       <div style={cellStyle}>
         <div style={leftTextStyle}>
-          <Typography type="title" align="right">SubTextTitle1</Typography>
-          <Typography type="subheading" align="right">SubTextBody1</Typography>
+          <Typography type="title" align="right">When</Typography>
+          <Typography type="subheading" align="right">May 2018</Typography>
         </div>
 
         <div style={dividerStyle}></div>
 
         <div style={rightTextStyle}>
-          <Typography type="title" align="left">SubTextTitle2</Typography>
-          <Typography type="subheading" align="left">SubTextBody2</Typography>
+          <Typography type="title" align="left">Where</Typography>
+          <Typography type="subheading" align="left">University of Waterloo</Typography>
         </div>
       </div>
     );
