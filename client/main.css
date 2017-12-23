@@ -1,37 +1,43 @@
 /* CSS declarations go here */
 
 html, body {
-  height: 100%;
+    height: 100%;
 }
 #main {
-  height: 100%;
+    height: 100%;
 }
 
 .equithon-logo {
-  height: 100px;
-  width: auto;
+    height: 100px;
+    width: auto;
 
-  margin: 0 auto;
+    margin: 0 auto;
 }
 
 #app {
-  width: auto;
-  height: auto;
+    width: auto;
+    height: auto;
 }
 
 #app-body {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 60px repeat(5, 300px [row-start]);
-  grid-template-areas:
-    "st st" /* SubText */
-    "lr1 rr1" /* LeftRow1 && RightRow1 */
-    "lr2 rr2" /* LeftRow2 && RightRow2 */
-    "lr3 rr3" /* ''                 '' */
-    "lr4 rr4"
-    "lr5 rr5";
-  grid-row-gap: 5px;
-  grid-column-gap: 15px;
+    display: grid;
+    grid-row-gap: 50px;
+    grid-column-gap: 15px;
 
-  padding-top: 110px
+    grid-template-columns: 10% 80% 10%;
+    grid-template-rows: auto;
+    grid-template-areas:
+        ". subtext-row ."
+        ". title-row ."
+        ". info-row ."
+        ". quote-row ."
+        ". faq-row .";
+
+    padding-top: 110px
+}
+
+.split-column-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: "left right";
 }
