@@ -17,18 +17,6 @@ const theme = createMuiTheme({
     }
 });
 
-const imageStyle = {
-    // Z - Image is centered in its grid cell but it won't scale
-    // screen size.
-    maxHeight: '300px',
-    maxWidth: '500px',
-    height: '100%',
-    width: 'auto',
-    display: 'block',
-    marginLeft: 'auto',
-    marginRight: 'auto',
-};
-
 const mainTextBoxStyle = {
     gridArea: 'right',
 
@@ -74,9 +62,10 @@ export default class App extends Component {
                         </div>
 
                         {/* Row 1 */}
-                        <div className="split-column-row" style={{gridArea: 'title-row',gridColumnGap: '20px', alignItems: 'center'}}>
-                            <div style={{gridArea: 'left', width: '100%', height: '100%'}}>
-                                <img style={imageStyle} src="/images/placeholder.jpg"/>
+                        <div className="split-column-row" style={{gridArea: 'title-row', gridColumnGap: '20px', alignItems: 'center'}}>
+                            <div style={{gridArea: 'left'}}>
+                                <img style={{ width: '100%', height: 'auto' }}
+                                src="/images/placeholder.jpg"/>
                             </div>
                             <div style={mainTextBoxStyle}>
                                 <Typography color="primary" type="display2" align="left">
@@ -92,7 +81,7 @@ export default class App extends Component {
                         </div>
 
                         {/* Row 2*/}
-                        <div className="split-column-row" style={{gridArea: 'info-row', alignItems: 'center'}}>
+                        <div className="split-column-row" style={{gridArea: 'info-row', gridColumnGap: '20px', alignItems: 'center'}}>
                             <div style={{gridArea: 'left'}}>
                                 <Typography color="primary" type="display1">
                                     What is Equithon?
@@ -101,8 +90,8 @@ export default class App extends Component {
                                     Equithon is a hackathon for students to create technical projects that solve an equity issue or promote equity. We strive to provide an inclusive environment at our event where hackers can get support from industry mentors to develop their ideas and projects.
                                 </Typography>
                             </div>
-                            <div style={{gridArea: 'right', width: '100%', height: '100%'}}>
-                                <img style={imageStyle} src="/images/placeholder.jpg"/>
+                            <div style={{gridArea: 'right'}}>
+                                <img style={{width: '100%', height: 'auto'}} src="/images/placeholder.jpg"/>
                             </div>
                         </div>
 
