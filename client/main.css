@@ -22,7 +22,7 @@ html, body {
 #app-body {
     display: grid;
     grid-row-gap: 50px;
-    grid-column-gap: 15px;
+    /*grid-column-gap: 15px;*/
 
     grid-template-columns: 10% 80% 10%;
     grid-template-rows: auto;
@@ -40,4 +40,16 @@ html, body {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-areas: "left right";
+}
+
+@media screen and (max-width: 600px) {
+  .split-column-row {
+    display: grid;
+    grid-template-columns: auto;
+    grid-template-rows: 1fr 1fr;
+    grid-template-areas:
+      "left"
+      "right";
+    grid-row-gap: 5px;
+  }
 }
