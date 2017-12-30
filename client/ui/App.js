@@ -1,11 +1,13 @@
 import React, {Component} from 'react';
+import MediaQuery from 'react-responsive';
+
 import {MuiThemeProvider, createMuiTheme} from 'material-ui/styles';
 import purple from 'material-ui/colors/purple';
 import indigo from 'material-ui/colors/indigo';
-import Typography from 'material-ui/Typography';
 
 import HomeAppBar from '/client/ui/HomeAppBar.js';
 import SubText from '/client/ui/components/home-components/SubText.js';
+import Text from '/client/ui/components/Text.js';
 
 import {StayPosted, Facebook, Twitter, Instagram} from '/client/ui/buttons/SocialMedia.js';
 import {List, ListItem} from "material-ui";
@@ -57,9 +59,15 @@ export default class App extends Component {
 
                     <div id="app-body">
                         {/* SubText */}
-                        <div style={{gridArea: 'subtext-row', justifySelf: 'end'}}>
-                            <SubText/>
-                        </div>
+                        <MediaQuery maxWidth='600px'>
+                          { (matches) => {
+                            if (matches) return(
+                              <div style={{ gridArea: 'subtext-row'}}>
+                                <SubText />
+                              </div>);
+                            else return <div style={{ gridArea: 'subtext-row', justifySelf: 'end'}}><SubText /></div>;
+                          }}
+                        </MediaQuery>
 
                         {/* Row 1 */}
                         <div className="split-column-row" style={{gridArea: 'title-row', gridColumnGap: '20px', alignItems: 'center'}}>
@@ -68,9 +76,11 @@ export default class App extends Component {
                                 src="/images/placeholder.jpg"/>
                             </div>
                             <div style={mainTextBoxStyle}>
-                                <Typography color="primary" type="display2" align="left">
-                                    Waterloo's biggest social innovation hackathon is coming back in May 2018.
-                                </Typography>
+
+                                <Text color="primary" type="display2" align="left"
+                                  text="Waterloo's biggest social innovation hackathon is coming back in May 2018."
+                                />
+
                                 <div>
                                     <div style={StayPostedStyle}>{StayPosted()}</div>
                                     <div style={FacebookButtonStyle}>{Facebook()}</div>
@@ -83,12 +93,10 @@ export default class App extends Component {
                         {/* Row 2*/}
                         <div className="split-column-row" style={{gridArea: 'info-row', gridColumnGap: '20px', alignItems: 'center'}}>
                             <div style={{gridArea: 'left'}}>
-                                <Typography color="primary" type="display1">
-                                    What is Equithon?
-                                </Typography>
-                                <Typography color="secondary" type="Body1" align="left">
-                                    Equithon is a hackathon for students to create technical projects that solve an equity issue or promote equity. We strive to provide an inclusive environment at our event where hackers can get support from industry mentors to develop their ideas and projects.
-                                </Typography>
+                                <Text color="primary" type="display2" text="What is Equithon?" />
+                                <Text color="secondary" type="Body1" align="left"
+                                  text="Equithon is a hackathon for students to create technical projects that solve an equity issue or promote equity. We strive to provide an inclusive environment at our event where hackers can get support from industry mentors to develop their ideas and projects."
+                                />
                             </div>
                             <div style={{gridArea: 'right'}}>
                                 <img style={{width: '100%', height: 'auto'}} src="/images/placeholder.jpg"/>
@@ -97,13 +105,15 @@ export default class App extends Component {
 
                         {/* Row 3 */}
                         <div style={{gridArea: 'quote-row', justifySelf: 'center'}}>
-                            <Typography color="primary" type="display2" align="left" style={{whiteSpace: 'pre'}}>"Equity isn't a women's issue,<br/>   Equity is an everyone issue."</Typography>
-                            <Typography color="primary" type="headline" align="left">Feridun Hamdullahpur, President and Vice-Chancellor</Typography>
+                            <Text color="primary" type="display1" align="left"
+                              text="&quotEquity isn't a women's issue,<br/>    Equity is an everyone issue.&quot" />
+                            <br/>
+                            <Text color="primary" type="headline" align="right" text="Feridun Hamdullahpur,<br/> President and Vice-Chancellor" />
                         </div>
 
                         {/* Row 4*/}
                         <div style={{gridArea: 'faq-row', justifySelf: 'center'}}>
-                            <Typography color="primary" type="display2" align="left">Frequently Asked Questions</Typography>
+                            <Text color="primary" type="display2" align="left" text="Frequently Asked Questions" />
                             <List>
                                 <ListItem primaryText="1. What is a Hackathon?" open={true} nestedItems={[
                                     <ListItem secondaryText="A hackathon is..."/>

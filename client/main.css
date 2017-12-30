@@ -36,6 +36,13 @@ html, body {
     padding-top: 110px
 }
 
+.subtext-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-areas: "left right";
+  grid-column-gap: 2px;
+}
+
 .split-column-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -46,10 +53,14 @@ html, body {
   .split-column-row {
     display: grid;
     grid-template-columns: auto;
-    grid-template-rows: 1fr 1fr;
+    grid-template-rows: auto auto;
     grid-template-areas:
       "left"
       "right";
     grid-row-gap: 5px;
+  }
+
+  #app-body {
+    grid-row-gap: 20px;
   }
 }
