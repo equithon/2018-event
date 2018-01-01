@@ -36,6 +36,12 @@ html, body {
     padding-top: 110px
 }
 
+.split-column-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: "left right";
+}
+
 .subtext-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -43,21 +49,31 @@ html, body {
   grid-column-gap: 2px;
 }
 
-.split-column-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-areas: "left right";
+.social-media-buttons {
+  display: grid;
+  max-width: 400px;
+  grid-template-columns: 40% 60%;
+  grid-template-areas: "email social";
 }
 
 @media screen and (max-width: 600px) {
   .split-column-row {
     display: grid;
-    grid-template-columns: auto;
-    grid-template-rows: auto auto;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
     grid-template-areas:
       "left"
       "right";
     grid-row-gap: 5px;
+  }
+
+  .social-media-buttons {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    grid-template-areas:
+      "email"
+      "social";
   }
 
   #app-body {
