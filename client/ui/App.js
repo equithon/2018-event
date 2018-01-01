@@ -28,23 +28,6 @@ const mainTextBoxStyle = {
     padding: '5px'
 };
 
-const StayPostedStyle = {
-    float: 'left',
-    padding: '10px',
-};
-const FacebookButtonStyle = {
-    float: 'left',
-    padding: '10px',
-};
-const TwitterButtonStyle = {
-    float: 'left',
-    padding: '10px',
-};
-const InstagramButtonStyle = {
-    float: 'left',
-    padding: '10px',
-};
-
 // Main application entry point
 export default class App extends Component {
     constructor(props) {
@@ -71,23 +54,27 @@ export default class App extends Component {
 
                         {/* Row 1 */}
                         <div className="split-column-row" style={{gridArea: 'title-row', gridColumnGap: '20px', alignItems: 'center'}}>
-                            <div style={{gridArea: 'left'}}>
-                                <img style={{ width: '100%', height: 'auto' }}
-                                src="/images/placeholder.jpg"/>
-                            </div>
-                            <div style={mainTextBoxStyle}>
+                          <div style={{gridArea: 'left'}}>
+                            <img style={{ width: '100%', height: 'auto' }}
+                              src="/images/placeholder.jpg"/>
+                          </div>
 
-                                <Text color="primary" type="display2" align="left"
-                                  text="Waterloo's biggest social innovation hackathon is coming back in May 2018."
-                                />
+                          <div style={mainTextBoxStyle}>
+                            <Text color="primary" type="display2" align="left"
+                              text="Waterloo's biggest social innovation hackathon is coming back in May 2018."
+                            />
 
-                                <div>
-                                    <div style={StayPostedStyle}>{StayPosted()}</div>
-                                    <div style={FacebookButtonStyle}>{Facebook()}</div>
-                                    <div style={TwitterButtonStyle}>{Twitter()}</div>
-                                    <div style={InstagramButtonStyle}>{Instagram()}</div>
-                                </div>
+                          {/* <div className='split-column-row'> */}
+
+                            <div className='social-media-buttons'>
+                              <div style={{gridArea: 'email', padding: '10px', width: 'auto', textAlign: 'center'}}>{StayPosted()}</div>
+                              <div style={{gridArea: 'social', display: 'inline', width: 'auto', textAlign: 'center'}}>
+                                {Facebook()}
+                                {Twitter()}
+                                {Instagram()}
+                              </div>
                             </div>
+                          </div>
                         </div>
 
                         {/* Row 2*/}
