@@ -22,7 +22,8 @@ class SubscriptionModal extends Component {
 
     this.state = {
       value: '',
-      successMessageVisible: 'hidden'
+      success: false,
+      messageVisible: 'hidden'
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -31,22 +32,27 @@ class SubscriptionModal extends Component {
 
   handleChange(event) {
     this.setState({ value:  event.target.value });
-    console.log('Change made: ' + this.state.value);
   }
 
   handleSubmit(event) {
     event.preventDefault();
-    console.log('Value submitted: ' + this.state.value);
 
-    EmailSubscriptions.insert({
-      email: this.state.value,
-      createdAt: new Date()
-    });
-
-    this.setState({
-      value: '',
-      successMessageVisible: 'visible'
-    });
+    Meteor.call('email_subscriptions.insert', this.state.value,
+      (err, res) => {
+        if (err) {
+          this.setState({
+            success: false,
+            messageVisible: 'visible'
+          });
+        } else {
+          this.setState({
+            value: '',
+            success: true,
+            messageVisible: 'visible'
+          });
+        }
+      }
+    );
   }
 
   render() {
@@ -92,8 +98,11 @@ class SubscriptionModal extends Component {
               </div>
             </form>
 
-            <div style={{ visibility: this.state.successMessageVisible }} ref="success">
-              <Text type='body1' color='accent' text='Your email was successfully submitted.' />
+            <div style={{ visibility: this.state.messageVisible }} ref="success">
+              <Text type='body1' color={ this.state.success ? 'primary' : 'error' }
+                text={ this.state.success ? 'Your email was successfully submitted.' :
+                    'The email address you entered is invalid.' }
+              />
             </div>
           </Paper>
         </div>
