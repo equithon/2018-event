@@ -13,8 +13,6 @@ import Text from '/client/ui/components/Text.js';
 import {StayPosted, Facebook, Twitter, Instagram} from '/client/ui/buttons/SocialMedia.js';
 import SubscriptionModal from '/client/ui/components/SubscriptionModal.js';
 
-import { EmailSubscriptions } from '/imports/api/email-subscriptions.js';
-
 const theme = createMuiTheme({
     palette: {
         primary: indigo,  // Placeholders until we get actual

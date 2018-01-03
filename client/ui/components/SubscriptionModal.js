@@ -7,6 +7,7 @@ import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
 
 import Text from '/client/ui/components/Text.js';
+import { EmailSubscriptions } from '/imports/api/email-subscriptions.js';
 
 
 /* Popup modal for user to input email to subscribe to email notifications.
@@ -20,7 +21,8 @@ class SubscriptionModal extends Component {
     super(props);
 
     this.state = {
-      value: ''
+      value: '',
+      successMessageVisible: 'hidden'
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -35,6 +37,16 @@ class SubscriptionModal extends Component {
   handleSubmit(event) {
     event.preventDefault();
     console.log('Value submitted: ' + this.state.value);
+
+    EmailSubscriptions.insert({
+      email: this.state.value,
+      createdAt: new Date()
+    });
+
+    this.setState({
+      value: '',
+      successMessageVisible: 'visible'
+    });
   }
 
   render() {
@@ -79,6 +91,10 @@ class SubscriptionModal extends Component {
                 </div>
               </div>
             </form>
+
+            <div style={{ visibility: this.state.successMessageVisible }} ref="success">
+              <Text type='body1' color='accent' text='Your email was successfully submitted.' />
+            </div>
           </Paper>
         </div>
       </Modal>
