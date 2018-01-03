@@ -10,7 +10,7 @@ import Toolbar from 'material-ui/Toolbar';
 export default class HomeAppBar extends Component {
   render() {
     return (
-      <AppBar id="AppBar" position="fixed" color="white">
+      <AppBar id="AppBar" position="fixed" color="inherit">
         <Toolbar>
           <img className="equithon-logo" src="/images/equithon_logo.png" />
         </Toolbar>

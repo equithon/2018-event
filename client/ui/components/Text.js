@@ -4,6 +4,19 @@ import MediaQuery from 'react-responsive';
 import Typography from 'material-ui/Typography';
 import { withTheme } from 'material-ui/styles';
 
+
+/* Styles given text with Material-UI Typography
+ * using the correct scaled font-size.
+ *
+ * Note: Should probably support arbitrary styling passed
+ *       to the Typography component.
+ *
+ * Props:
+ * - color
+ * - type
+ * - align
+ * - text
+ */
 class Text extends Component {
   constructor(props) {
     super(props);

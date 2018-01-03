@@ -81,7 +81,7 @@ export default class App extends Component {
                         <div className="split-column-row" style={{gridArea: 'info-row', gridColumnGap: '20px', alignItems: 'center'}}>
                             <div style={{gridArea: 'left'}}>
                                 <Text color="primary" type="display2" text="What is Equithon?" />
-                                <Text color="secondary" type="Body1" align="left"
+                                <Text color="secondary" type="body1" align="left"
                                   text="Equithon is a hackathon for students to create technical projects that solve an equity issue or promote equity. We strive to provide an inclusive environment at our event where hackers can get support from industry mentors to develop their ideas and projects."
                                 />
                             </div>
@@ -101,11 +101,13 @@ export default class App extends Component {
                         {/* Row 4*/}
                         <div style={{gridArea: 'faq-row', justifySelf: 'center'}}>
                             <Text color="primary" type="display2" align="left" text="Frequently Asked Questions" />
+                            {/*
                             <List>
                                 <ListItem primaryText="1. What is a Hackathon?" open={true} nestedItems={[
                                     <ListItem secondaryText="A hackathon is..."/>
                                 ]}/>
                             </List>
+                            */}
                         </div>
 
                     </div>
