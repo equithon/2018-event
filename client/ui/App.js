@@ -4,13 +4,16 @@ import MediaQuery from 'react-responsive';
 import {MuiThemeProvider, createMuiTheme} from 'material-ui/styles';
 import purple from 'material-ui/colors/purple';
 import indigo from 'material-ui/colors/indigo';
+import {List, ListItem} from "material-ui";
+import Button from 'material-ui/Button';
 
 import HomeAppBar from '/client/ui/HomeAppBar.js';
 import SubText from '/client/ui/components/home-components/SubText.js';
 import Text from '/client/ui/components/Text.js';
-
 import {StayPosted, Facebook, Twitter, Instagram} from '/client/ui/buttons/SocialMedia.js';
-import {List, ListItem} from "material-ui";
+import SubscriptionModal from '/client/ui/components/SubscriptionModal.js';
+
+import { EmailSubscriptions } from '/imports/api/email-subscriptions.js';
 
 const theme = createMuiTheme({
     palette: {
@@ -31,8 +34,24 @@ const mainTextBoxStyle = {
 // Main application entry point
 export default class App extends Component {
     constructor(props) {
-        super(props);
+      super(props);
+
+      this.state = {
+        subModalOpen: false
+      };
     };
+
+    handleOpen = () => {
+      this.setState({
+        subModalOpen: true
+      });
+    }
+
+    handleClose = () => {
+      this.setState({
+        subModalOpen: false
+      });
+    }
 
     render() {
         return (
@@ -67,7 +86,12 @@ export default class App extends Component {
                           {/* <div className='split-column-row'> */}
 
                             <div className='social-media-buttons'>
-                              <div style={{gridArea: 'email', padding: '10px', width: 'auto', textAlign: 'center'}}>{StayPosted()}</div>
+                              <div style={{gridArea: 'email', padding: '10px', width: 'auto', textAlign: 'center'}}>
+                                <Button raised color="primary" onClick={this.handleOpen}>
+                                  Stay Posted
+                                </Button>
+                                <SubscriptionModal open={this.state.subModalOpen} onClose={this.handleClose} />
+                              </div>
                               <div style={{gridArea: 'social', display: 'inline', width: 'auto', textAlign: 'center'}}>
                                 {Facebook()}
                                 {Twitter()}
