@@ -1,6 +1,6 @@
 {
-  "name": "simple-todos",
-  "private": true,
+  "name": "equithon-website",
+  "version": "0.0.1",
   "scripts": {
     "start": "meteor run"
   },
