@@ -9,11 +9,12 @@ import indigo from 'material-ui/colors/indigo';
 import {List, ListItem} from "material-ui";
 import Button from 'material-ui/Button';
 
-import HomeAppBar from '/client/ui/HomeAppBar.js';
-import SubText from '/client/ui/components/home-components/SubText.js';
+import HomeAppBar from '/client/ui/components/HomeAppBar.js';
+import SubText from '/client/ui/components/SubText.js';
 import Text from '/client/ui/components/Text.js';
 import {StayPosted, Facebook, Twitter, Instagram} from '/client/ui/buttons/SocialMedia.js';
 import SubscriptionModal from '/client/ui/components/SubscriptionModal.js';
+import Login from '/client/ui/components/Login.js';
 
 const theme = createMuiTheme({
     palette: {
@@ -118,7 +119,7 @@ export default class App extends Component {
                     <HomeAppBar/>
 
                     <Route exact path="/" render={() => this.renderAppBody()} />
-                    <Route path="/login" component={UserLogin} />
+                    <Route path="/login" component={Login} />
                 </div>
               </Router>
             </MuiThemeProvider>
