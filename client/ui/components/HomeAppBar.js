@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import { Link } from 'react-router-dom';
+
 import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
 
@@ -13,6 +15,8 @@ export default class HomeAppBar extends Component {
       <AppBar id="AppBar" position="fixed" color="inherit">
         <Toolbar>
           <img className="equithon-logo" src="/images/equithon_logo.png" />
+
+          <Link to="/login">Login</Link>
         </Toolbar>
       </AppBar>
     );
