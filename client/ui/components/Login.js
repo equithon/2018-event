@@ -20,7 +20,6 @@ const loginStyle = {
 };
 
 
-// TODO: Use templates
 export default class Login extends Component {
   constructor(props) {
     super(props);
@@ -131,7 +130,6 @@ const LoginForm = ({ title, desc, username, password, handleLogin, handleChange 
     <form onSubmit={handleLogin}>
       <div>
         <TextField
-          name="username"
           label="Username"
           margin="normal"
           value={username}
@@ -141,7 +139,6 @@ const LoginForm = ({ title, desc, username, password, handleLogin, handleChange 
       </div>
       <div>
         <TextField
-          name="password"
           label="Password"
           type="password"
           autoComplete="current-password"
