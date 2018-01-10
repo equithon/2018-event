@@ -15,6 +15,7 @@ import Text from '/client/ui/components/Text.js';
 import {StayPosted, Facebook, Twitter, Instagram} from '/client/ui/buttons/SocialMedia.js';
 import SubscriptionModal from '/client/ui/components/SubscriptionModal.js';
 import Login from '/client/ui/components/Login.js';
+import Signup from '/client/ui/components/Signup.js';
 
 const theme = createMuiTheme({
     palette: {
@@ -120,6 +121,7 @@ export default class App extends Component {
 
                     <Route exact path="/" render={() => this.renderAppBody()} />
                     <Route path="/login" component={Login} />
+                    <Route path="/signup" component={Signup} />
                 </div>
               </Router>
             </MuiThemeProvider>

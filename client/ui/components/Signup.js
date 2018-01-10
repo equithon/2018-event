@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Redirect, Link } from 'react-router-dom';
 
-/*
-import { Accounts } from 'meteor/accounts-password';
-*/
+import Paper from 'material-ui/Paper';
+import TextField from 'material-ui/TextField';
+import Button from 'material-ui/Button';
 
+import Text from '/client/ui/components/Text.js';
+import { isEmailValid } from '/imports/api/EmailValidation.js';
 
 const signupStyle = {
   position: 'absolute',
@@ -17,27 +19,7 @@ const signupStyle = {
   paddingTop: '110px',
 };
 
-class Signup extends Component {
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
-    return(
-      <div style={signupStyle}>
-        <Paper style={{ padding: '50px' }}>
-          <Route exact path="/signup" component={UserSignup} />
-        </Paper>
-        
-      </div>
-    );
-  }
-}
-
-/*
- * User signup component
- */
-class UserSignup extends Component {
+export default class Signup extends Component {
   constructor(props) {
     super(props);
 
@@ -45,6 +27,9 @@ class UserSignup extends Component {
       username: '',
       email: '',
       password: '',
+
+      errorMessage: '',
+      redirect: '',
     };
 
     this.handleSignup = this.handleSignup.bind(this);
@@ -54,20 +39,40 @@ class UserSignup extends Component {
   handleSignup(event) {
     event.preventDefault();
 
-    console.log('HandleUserSignup: \n' +
-                'username: ' + this.state.username + '\n' +
-                'email: ' + this.state.email + '\n' +
-                'password: ' + this.state.password);
+    if (!isEmailValid(this.state.email)) {
+      this.setState({
+        errorMessage: "We've encountered an error: Email address incorrectly formatted"
+      });
+      return;
+    }
 
-    /*
-    Accounts.createUser({
+    let user = {
       username: this.state.username,
       email: this.state.email,
       password: this.state.password,
-    }, (err) => {
-      if (err) console.log("ERROR: Failed to create user - " + err.reason)
+    };
+
+    Accounts.createUser(user, (err) => {
+      if (err) {
+        this.setState({
+          errorMessage: "We've encountered an error: " + err.reason
+        });
+      } else {
+        this.setState({
+          errorMessage: ''
+        });
+        Meteor.call('sendVerificationEmail', (err, res) => {
+          if (err) {
+            // Inform user of error in some way.
+          }
+        });
+      }
     });
-    */
+
+    // Tell user we sent them a verification email.
+    this.setState({
+      redirect: <Redirect to={"/signup/verification/" + user.email} />
+    });
   }
 
   handleChange = name => event => {
@@ -78,49 +83,63 @@ class UserSignup extends Component {
 
   render() {
     return(
-      <SignupForm
-        title="Sign up"
-        desc="Please enter your username, email, and password to sign up."
-        username={this.state.username}
-        email={this.state.email}
-        password={this.state.password}
-        handleSignup={this.handleSignup}
-        handleChange={this.handleChange}
-      />
+      <div style={signupStyle}>
+        <Paper style={{ padding: '50px' }}>
+          <Route exact path="/signup" render={() => (
+            <div>
+              <SignupForm
+                username={this.state.username}
+                email={this.state.email}
+                password={this.state.password}
+                handleSignup={this.handleSignup}
+                handleChange={this.handleChange}
+              />
+              <Text color="error" type="body2" text={this.state.errorMessage} />
+
+              {/* Redirect for verification email once signup is complete */}
+              {this.state.redirect}
+            </div>
+          )} />
+
+          {/* Verification */}
+          <Route path="/signup/verification/:email" component={Verification} />
+        </Paper>
+      </div>
     );
   }
 }
 
-const LoginForm = ({ title, desc, username, password, handleSignup, handleChange }) => (
+const SignupForm = ({ username, email, password, handleSignup, handleChange }) => (
   <div>
-    <Text style={{ textAlign: 'center' }} color="primary" type="display1" text={title} />
-    <Text color="secondary" type="body2" text={desc} />
+    <Text style={{ textAlign: 'center' }} color="primary" type="display1" text="Sign up" />
+    <Text color="secondary" type="body2" text="Please submit your information below to sign up." />
     <form onSubmit={handleSignup}>
       <div>
         <TextField
+          style={{ width: '100%' }}
           label="Username"
-          margin="normal"
           value={username}
           onChange={handleChange('username')}
           required
         />
       </div>
       <div>
-        <Textfield
-          label="email"
-          type="email"
+        <TextField
+          style={{ width: '100%' }}
+          label="Email"
           value={email}
-          onchange={handlechange('email')}
+          onChange={handleChange('email')}
           required
         />
       </div>
       <div>
-        <Textfield
-          label="password"
+        <TextField
+          style={{ width: '100%' }}
+          label="Password"
           type="password"
-          autocomplete="current-password"
+          autoComplete="current-password"
           value={password}
-          onchange={handlechange('password')}
+          onChange={handleChange('password')}
           required
         />
       </div>
@@ -130,19 +149,14 @@ const LoginForm = ({ title, desc, username, password, handleSignup, handleChange
         </Button>
       </div>
     </form>
+  </div>
+);
 
-    {/* Link to staff or user signup depending on where we are */}
-    <div style={{ textAlign: 'right' }}>
-      <Route exact path="/signup/" render={() => (
-        <Link to="/signup/staff">
-          <Text type="body1" color="secondary" text="Staff Signup" />
-        </Link>
-      )}/>
-      <Route path="/signup/staff" render={() => (
-        <Link to="/signup">
-          <Text type="body1" color="secondary" text="User Signup" />
-        </Link>
-      )}/>
-    </div>
+const Verification = ({ match }) => (
+  <div>
+    <Text type="headline" color="primary" text="We sent a verification email!" />
+    <Text type="body2" color="accent"
+      text={"Please verify your account through our email sent to " + match.params.email + "."}
+    />
   </div>
 );

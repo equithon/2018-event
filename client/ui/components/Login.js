@@ -23,82 +23,24 @@ const loginStyle = {
 export default class Login extends Component {
   constructor(props) {
     super(props);
-  }
-
-  render() {
-    return(
-      <div style={loginStyle}>
-        <Paper id="login" style={{ padding: '50px' }}>
-          <Route exact path="/login" component={UserLogin} />
-          <Route path="/login/staff" component={StaffLogin} />
-        </Paper>
-      </div>
-    );
-  }
-}
-
-
-/*
- * User login component
- */
-class UserLogin extends Component {
-  constructor(props) {
-    super(props)
 
     this.state = {
       username: '',
       password: '',
     };
 
-    this.handleLogin = this.handleLogin.bind(this);
+    this.handleUserLogin = this.handleUserLogin.bind(this);
+		this.handleStaffLogin = this.handleStaffLogin.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
 
-  handleLogin(event) {
+  handleUserLogin(event) {
     event.preventDefault();
-
     console.log('HANDLEUSERLOGIN: ' + this.state.username + ' ' + this.state.password);
   }
 
-  handleChange = name => event => {
-    this.setState({
-      [name]: event.target.value
-    });
-  };
-
-  render() {
-    return(
-      <LoginForm
-        title="User Login"
-        desc="Please enter your username and password."
-        username={this.state.username}
-        password={this.state.password}
-        handleLogin={this.handleLogin}
-        handleChange={this.handleChange}
-      />
-    );
-  }
-}
-
-/*
- * Staff login component
- */
-class StaffLogin extends Component {
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      username: '',
-      password: '',
-    };
-
-    this.handleLogin = this.handleLogin.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-  }
-
-  handleLogin(event) {
+  handleStaffLogin(event) {
     event.preventDefault();
-
     console.log('HANDLESTAFFLOGIN: ' + this.state.username + ' ' + this.state.password);
   }
 
@@ -110,18 +52,56 @@ class StaffLogin extends Component {
 
   render() {
     return(
-      <LoginForm
-        title="Staff Login"
-        desc="Please enter your staff username and password."
-        username={this.state.username}
-        password={this.state.password}
-        handleLogin={this.handleLogin}
-        handleChange={this.handleChange}
-      />
+      <div style={loginStyle}>
+        <Paper id="login" style={{ padding: '50px' }}>
+
+					{/* User Login */}
+          <Route exact path="/login" render={() => (
+						<UserLogin
+							username={this.state.username}
+							password={this.state.password}
+							handleLogin={this.handleUserLogin}
+							handleChange={this.handleChange}
+						/>
+					)} />
+
+					{/* Staff Login */}
+          <Route path="/login/staff" render={() => (
+						<StaffLogin
+							username={this.state.username}
+							password={this.state.password}
+							handleLogin={this.handleUserLogin}
+							handleChange={this.handleChange}
+						/>
+					)} />
+        </Paper>
+      </div>
     );
   }
 }
 
+
+const UserLogin = ({ username, password, handleLogin, handleChange }) => (
+  <LoginForm
+    title="User Login"
+    desc="Please enter your username and password."
+    username={username}
+    password={password}
+    handleLogin={handleLogin}
+    handleChange={handleChange}
+  />
+);
+
+const StaffLogin = ({ username, password, handleLogin, handleChange }) => (
+	<LoginForm
+		title="Staff Login"
+		desc="Please enter your staff username and password."
+		username={username}
+		password={password}
+		handleLogin={handleLogin}
+		handleChange={handleChange}
+	/>
+);
 
 const LoginForm = ({ title, desc, username, password, handleLogin, handleChange }) => (
   <div>
