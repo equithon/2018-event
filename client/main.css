@@ -31,7 +31,8 @@ html, body {
         ". title-row ."
         ". info-row ."
         ". quote-row ."
-        ". faq-row .";
+        ". faq-row ."
+        ". footer ."; /* For extra spacing */
 
     padding-top: 110px
 }
@@ -56,6 +57,11 @@ html, body {
   grid-template-areas: "email social";
 }
 
+.faq-card {
+  margin: auto;
+  width: 400px;
+}
+
 @media screen and (max-width: 600px) {
   .split-column-row {
     display: grid;
@@ -74,6 +80,11 @@ html, body {
     grid-template-areas:
       "email"
       "social";
+  }
+
+  .faq-card {
+    min-width: 200px;
+    width: 100%;
   }
 
   #app-body {
