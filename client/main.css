@@ -37,6 +37,19 @@ html, body {
     padding-top: 110px
 }
 
+#title-row-image {
+    height: 300px;
+}
+
+#info-row-image {
+    height: 300px;
+}
+
+.image-card {
+    margin-left: inherit;
+    margin-right: inherit;
+}
+
 .split-column-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -44,50 +57,80 @@ html, body {
 }
 
 .subtext-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-areas: "left right";
-  grid-column-gap: 2px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: "left right";
+    grid-column-gap: 2px;
 }
 
 .social-media-buttons {
-  display: grid;
-  max-width: 400px;
-  grid-template-columns: 40% 60%;
-  grid-template-areas: "email social";
+    display: grid;
+    max-width: 400px;
+    grid-template-columns: 40% 60%;
+    grid-template-areas: "email social";
 }
 
 .faq-card {
-  margin: auto;
-  width: 400px;
+    margin: auto;
+    width: 400px;
 }
 
 @media screen and (max-width: 600px) {
-  .split-column-row {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: auto;
-    grid-template-areas:
-      "left"
-      "right";
-    grid-row-gap: 5px;
-  }
+    .split-column-row {
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+        grid-template-areas:
+            "left"
+            "right";
+        grid-row-gap: 5px;
+    }
 
-  .social-media-buttons {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: auto;
-    grid-template-areas:
-      "email"
-      "social";
-  }
+    .image-card {
+        margin-left: -10px;
+        margin-right: -10px;
+    }
 
-  .faq-card {
-    min-width: 200px;
-    width: 100%;
-  }
+    .social-media-buttons {
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+        grid-template-areas:
+            "email"
+            "social";
+    }
 
-  #app-body {
-    grid-row-gap: 20px;
-  }
+    #title-row {
+        margin-top: -60px;
+    }
+
+    .centered-mobile {
+        align-content: center;
+    }
+
+    #app-body {
+        display: grid;
+        grid-row-gap: 50px;
+
+        grid-template-columns: 100%;
+        grid-template-rows: auto;
+        grid-template-areas:
+            "subtext-row"
+            "title-row"
+            "info-row"
+            "quote-row"
+            "faq-row"
+            "footer"; /* For extra spacing */
+
+        padding-top: 110px
+    }
+
+    .faq-card {
+        min-width: 200px;
+        width: 100%;
+    }
+
+    #app-body {
+        grid-row-gap: 20px;
+    }
 }
