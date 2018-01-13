@@ -14,9 +14,7 @@ export default class HomeAppBar extends Component {
     return (
       <AppBar id="AppBar" position="fixed" color="inherit">
         <Toolbar>
-          <img className="equithon-logo" src="/images/equithon_logo.png" />
-
-          <Link to="/login">Login</Link>
+          <img className="equithon-logo" src="/logos/Logo.png" />
         </Toolbar>
       </AppBar>
     );
