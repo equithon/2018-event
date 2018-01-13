@@ -20,25 +20,25 @@ export function StayPosted() {
 }
 
 export function Facebook() {
-  return(
-    <IconButton color="primary">
-      <AddIcon />
-    </IconButton>
-  );
+    return(
+        <IconButton color="primary">
+            <i class="fab fa-facebook-f fa-lg"></i>
+        </IconButton>
+    );
 }
 
 export function Twitter() {
-  return(
-    <IconButton color="primary">
-      <AddIcon />
-    </IconButton>
-  );
+    return(
+        <IconButton color="primary">
+            <i class="fab fa-twitter fa-lg"></i>
+        </IconButton>
+    );
 }
 
 export function Instagram() {
-  return(
-    <IconButton color="primary">
-      <AddIcon />
-    </IconButton>
-  );
+    return(
+        <IconButton color="primary">
+            <i class="fab fa-instagram fa-lg"></i>
+        </IconButton>
+    );
 }
