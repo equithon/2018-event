@@ -93,6 +93,7 @@ html, body {
 
     .social-media-buttons {
         display: grid;
+        max-width: 600px;
         grid-template-columns: 1fr;
         grid-template-rows: auto;
         grid-template-areas:
