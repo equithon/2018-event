@@ -7,6 +7,7 @@ import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
 
 import Text from '/client/ui/components/Text.js';
+import { theme } from '/client/ui/CustomTheme.js';
 import { EmailSubscriptions } from '/imports/api/email-subscriptions.js';
 
 
@@ -81,17 +82,16 @@ class SubscriptionModal extends Component {
               <div className='split-column-row'>
                 <div style={{ gridArea: 'left', textAlign: 'left'}}>
                   <TextField
-                    style={{ float: 'left', width: '100%' }}
+                    style={{ marginTop: '6px', float: 'left', width: '100%' }}
                     label='Your Email Address'
-                    margin='normal'
                     value={this.state.value}
                     onChange={this.handleChange}
                     required
                   />
                 </div>
                 <div style={{ gridArea: 'right', padding: '20px' }}>
-                  <Button style={{ width: '100%' }}
-                    raised color='primary' onClick={this.handleSubmit}>
+                  <Button style={{ background: theme.palette.primary[500], borderRadius: '25px', width: '100%' }}
+                    color='contrast' onClick={this.handleSubmit}>
                     Submit
                   </Button>
                 </div>
