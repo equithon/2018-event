@@ -22,7 +22,7 @@ class Text extends Component {
     super(props);
   };
 
-  determineSize(type) {
+  modifyStyling(type) {
     switch (type) {
       //case 'display4':
       //case 'display3':
@@ -57,7 +57,7 @@ class Text extends Component {
               return(
               <Typography
                 className={this.props.className}
-                style={Object.assign(this.determineSize(this.props.type), this.props.style)}
+                style={Object.assign(this.modifyStyling(this.props.type), this.props.style)}
                 color={this.props.color}
                 type={this.props.type}
                 align={this.props.align}

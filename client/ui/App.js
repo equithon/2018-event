@@ -6,7 +6,7 @@ import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import {MuiThemeProvider, createMuiTheme} from 'material-ui/styles';
 import purple from 'material-ui/colors/purple';
 import indigo from 'material-ui/colors/indigo';
-import {Card, CardMedia, Paper} from "material-ui";
+import {Card, CardMedia, List, ListItem, Paper} from "material-ui";
 import Button from 'material-ui/Button';
 
 import HomeAppBar from '/client/ui/components/HomeAppBar.js';
@@ -121,48 +121,87 @@ export default class App extends Component {
                 <div id="app">
                     <HomeAppBar/>
 
-<<<<<<< HEAD
-                    <Route exact path="/" render={() => this.renderAppBody()} />
-                    <Route path="/login" component={Login} />
-                    <Route path="/signup" component={Signup} />
-=======
                     <div id="app-body">
                         {/* SubText */}
-                        <SubTextBox />
+                        <MediaQuery maxDeviceWidth={600}>
+                            { (matches) => {
+                                mobile = matches;
+                                if (matches) return (
+                                    <div style={{ gridArea: 'subtext-row', zIndex: 50 }}>
+                                        <Card elevation={ 7 } raised={ true } style={{ width: '100%', marginBottom: '-30px' }}>
+                                            <div className="subtext-grid" style={{ width: '100%'}}>
+                                                <div style={{ gridArea: 'left', margin: '5px', marginLeft: '10px' }}>
+                                                    <Text type="body1" text="WHEN"/>
+                                                    <Text type="body1" text="May 2018"/>
+                                                </div>
+                                                <div style={{ gridArea: 'right', margin: '5px', marginRight: '10px', marginLeft: '-10px'}}>
+                                                    <Text type="body1" align="right" text="WHERE"/>
+                                                    <Text type="body1" align="right" text="University of Waterloo"/>
+                                                </div>
+                                            </div>
+                                        </Card>
+                                    </div>);
+                                else return (
+                                    <div style={{ gridArea: 'subtext-row', justifySelf: 'end'}}>
+                                        <SubText />
+                                    </div>
+                                );
+                            }}
+                        </MediaQuery>
 
-                        {/* Title Row */}
+                        {/* Row 1 */}
                         <div id="title-row" className="split-column-row" style={{ gridArea: 'title-row', gridColumnGap: '20px', alignItems: 'center' }}>
                             <div style={{gridArea: 'left'}}>
                                 <MediaQuery maxDeviceWidth={600}>
                                     { (matches) => {
-                                        let id = "title-row-image";
-                                        let titleRowImage = "/images/code.jpg";
-                                        return (matches) ? <ImageCard id={id} image={titleRowImage} style={{ marginTop: '-20px'}} /> :
-                                                           <ImageCard id={id} image={titleRowImage} />;
+                                        if (matches) {
+                                            return (
+                                                <Card elevation={ imageElevation } className="image-card" style={{ marginTop: '-20px'}}>
+                                                    <CardMedia id={"title-row-image"}
+                                                               image="/images/placeholder.jpg"/>
+                                                </Card>
+                                            );
+
+                                        } else {
+                                            return (
+                                                <Card className="image-card" elevation={ imageElevation }>
+                                                    <CardMedia id={"title-row-image"}
+                                                               image="/images/placeholder.jpg"/>
+                                                </Card>
+                                            )
+                                        }
                                     }}
+
                                 </MediaQuery>
                             </div>
 
                             <div style={mainTextBoxStyle}>
                                 <MediaQuery maxDeviceWidth={600}>
                                     { (matches) => {
-                                        if (matches) return(
+                                        if (matches) {
+                                            return (
                                                 <Card style={{ padding: '20px 15px 20px 15px', marginTop: '-20px'}}>
-                                                    <TitleRowText align="center" />
+                                                    <Text color="primary" type="display2" align="center"
+                                                          text="Waterloo's biggest social innovation hackathon is coming back in May 2018."
+                                                    />
                                                 </Card>
-                                        );
-                                        else return <TitleRowText align="left" />;
+                                            )
+                                        } else {
+                                            return (
+                                                <Text color="primary" type="display2" align="left"
+                                                      text="Waterloo's biggest social innovation hackathon is coming back in May 2018."
+                                                />
+                                            )
+                                        }
                                     }}
                                 </MediaQuery>
-
-                                <br/>
                                 <div className='social-media-buttons'>
                                     <div style={{gridArea: 'email', padding: '10px', width: 'auto', textAlign: 'center'}}>
-                                        <Button raised color="primary" onClick={this.handleOpen}>Stay Posted</Button>
-
+                                        <Button raised color="primary" onClick={this.handleOpen}>
+                                            Stay Posted
+                                        </Button>
                                         <SubscriptionModal open={this.state.subModalOpen} onClose={this.handleClose} />
                                     </div>
-
                                     <div style={{gridArea: 'social', display: 'inline', width: 'auto', textAlign: 'center'}}>
                                         {Facebook()}
                                         {Twitter()}
@@ -172,42 +211,71 @@ export default class App extends Component {
                             </div>
                         </div>
 
-                        {/* Info Row */}
+                        {/* Row 2*/}
                         <div className="split-column-row" style={{gridArea: 'info-row', gridColumnGap: '20px', alignItems: 'center'}}>
                             <div className="centered-mobile" style={{gridArea: 'left'}}>
-                                <MediaQuery maxDeviceWidth={600}>
-                                    { (matches) => (matches) ? <InfoRowText align="center" /> :
-                                                               <InfoRowText style={{ paddingLeft: '10%', paddingRight: '10%' }} align="left" /> }
-                                </MediaQuery>
-                            </div>
 
+                                <MediaQuery maxDeviceWidth={600}>
+                                    { (matches) => {
+                                        if (matches) {
+                                            return (
+                                                <div>
+                                                    <Text color="primary" type="display2" align="center" text="What is Equithon?" />
+                                                    <Text color="secondary" type="body1" align="center"
+                                                          text="Equithon is a hackathon for students to create technical projects that solve an equity issue or promote equity. We strive to provide an inclusive environment at our event where hackers can get support from industry mentors to develop their ideas and projects."
+                                                    />
+                                                </div>
+                                            )
+                                        } else {
+                                            return (
+                                                <div>
+                                                    <Text color="primary" type="display2" text="What is Equithon?" />
+                                                    <Text color="secondary" type="body1" align="left"
+                                                          text="Equithon is a hackathon for students to create technical projects that solve an equity issue or promote equity. We strive to provide an inclusive environment at our event where hackers can get support from industry mentors to develop their ideas and projects."
+                                                    />
+                                                </div>
+                                            )
+                                        }
+                                    }}
+                                </MediaQuery>
+
+                            </div>
                             <div style={{gridArea: 'right'}}>
-                                <ImageCard id="info-row-image" image="/images/code.jpg" style={{ marginLeft: '-10px', marginRight: '-10px'}} />
+                                <Card className="image-card" elevation={ imageElevation } style={{ marginLeft: '-10px', marginRight: '-10px'}}>
+                                    <CardMedia id={"info-row-image"}
+                                               image="/images/placeholder.jpg"/>
+                                </Card>
                             </div>
                         </div>
 
-                        {/* Quote Row */}
+                        {/* Row 3 */}
                         <div style={{gridArea: 'quote-row', justifySelf: 'center'}}>
                             <MediaQuery maxDeviceWidth={600}>
                                 { (matches) => {
-                                    if (matches) return(
-                                        <Card style={{ padding: '20px 15px 20px 15px', marginTop: '-30px'}}>
-                                            <QuoteRowText type="headline" />
-                                        </Card>
-                                    );
-                                    else return <QuoteRowText type="display1" />;
+                                    if (matches) {
+                                        return (
+                                            <Text color="primary" type="headline" align="left"
+                                                  text="&quotEquity isn't a women's issue,<br/>    Equity is an everyone issue.&quot" />
+                                        )
+                                    } else {
+                                        return (
+                                            <Text color="primary" type="display1" align="left"
+                                                  text="&quotEquity isn't a women's issue,<br/>    Equity is an everyone issue.&quot" />
+                                        )
+                                    }
                                 }}
                             </MediaQuery>
+                            <br/>
+                            <Text color="primary" type="subheading" align="right" text="Feridun Hamdullahpur,<br/> President and Vice-Chancellor" />
                         </div>
 
-                        {/* FAQ Row */}
+                        {/* Row 4*/}
                         <div style={{gridArea: 'faq-row', justifySelf: 'center'}}>
                             <Text color="primary" type="display2" align="center" text="Frequently Asked Questions" />
                             <br/>
                             <FAQ />
                         </div>
                     </div>
->>>>>>> Added FaqCards
                 </div>
               </Router>
             </MuiThemeProvider>
@@ -215,132 +283,7 @@ export default class App extends Component {
     }
 }
 
-/*************** Stateless Components ***************/
-
 /*
- * Text to be displayed in the title row.
- * Props:
- * - align - Alignment applied to the text.
- */
-const TitleRowText = ({ align }) => (
-    <Text color="primary" type="display2" align={align}
-          text="Waterloo's biggest social innovation hackathon is coming back in May 2018."
-    />
-);
-
-/*
- * Text to be displayed in the info row.
- * Props:
- * - align - Alignment applied to the text.
- */
-const InfoRowText = ({ align, style }) => (
-    <div style={style}>
-        <Text color="primary" type="display2" align={align} text="What is Equithon?" />
-        <Text color="secondary" type="body1" align={align}
-              text="Equithon is a hackathon for students to create technical projects that solve an equity issue or promote equity. We strive to provide an inclusive environment at our event where hackers can get support from industry mentors to develop their ideas and projects."
-        />
-    </div>
-);
-
-/*
- * Text to be displayed in the quote row.
- */
-const QuoteRowText = ({ type }) => (
-    <div>
-        <i><Text color="primary" type={type} align="left"
-                 text="&quotEquity isn't a women's issue,<br/>Equity is an everyone issue.&quot"
-        /></i>
-        <br/>
-        <Text color="primary" type="subheading" align="right" text="Feridun Hamdullahpur,<br/> President and Vice-Chancellor" />
-    </div>
-);
-
-/*
- * Card containing an image.
- * Props:
- * - id    - Id for specific reference.
- * - image - Path to image that card will contain.
- * - style - Styling applied to card.
- */
-const ImageCard = ({ id, image, style }) => (
-    <Card elevation={ imageElevation } className="image-card" style={style}>
-        <CardMedia id={id} image={image}/>
-    </Card>
-);
-
-/*
- * Subtext box containing subtext information on when and where.
- */
-const SubTextBox = () => (
-  <MediaQuery maxDeviceWidth={600}>
-      { (matches) => {
-          mobile = matches;
-          if (matches) return (
-              <div style={{ gridArea: 'subtext-row', zIndex: 50 }}>
-                  <Card elevation={ 7 } raised={ true } style={{ width: '100%', marginBottom: '-30px' }}>
-                      <div className="subtext-grid" style={{ width: '100%'}}>
-                          <div style={{ gridArea: 'left', margin: '5px', marginLeft: '10px' }}>
-                              <Text type="body1" text="WHEN"/>
-                              <Text type="body2" color="secondary" text="May 2018"/>
-                          </div>
-                          <div style={{ gridArea: 'right', margin: '5px', marginRight: '10px', marginLeft: '-10px' }}>
-                              <Text type="body1" align="left" text="WHERE"/>
-                              <Text type="body2" color="secondary" align="left" text="University of Waterloo"/>
-                          </div>
-                      </div>
-                  </Card>
-              </div>);
-          else return (
-              <div style={{ gridArea: 'subtext-row', justifySelf: 'end'}}>
-                  <SubText />
-              </div>
-          );
-      }}
-  </MediaQuery>
-);
-
-/*
-<<<<<<< HEAD
- * Main Home Components
- */
-// Subtext
-const HomeSubText = () => (
-  <MediaQuery maxWidth='600px'>
-    { (matches) => {
-      if (matches) return(
-        <div style={{ gridArea: 'subtext-row'}}>
-          <SubText />
-        </div>
-      );
-      else return(
-        <div style={{ gridArea: 'subtext-row', justifySelf: 'end'}}>
-          <SubText />
-        </div>
-      );
-    }}
-  </MediaQuery>
-);
-
-// Social Media Component
-const SocialMedia = ({ open, onClick, onClose }) => (
-  <div className='social-media-buttons'>
-    <div style={{gridArea: 'email', padding: '10px', width: 'auto', textAlign: 'center'}}>
-      <Button raised color="primary" onClick={onClick}>
-        Stay Posted
-      </Button>
-      <SubscriptionModal open={open} onClose={onClose} />
-    </div>
-    <SocialButtons />
-  </div>
-);
-
-// Extra Social Media Buttons
-const SocialButtons = () => (
-  <div style={{gridArea: 'social', display: 'inline', width: 'auto', textAlign: 'center'}}>
-    {Facebook()}
-    {Twitter()}
-    {Instagram()}
-=======
  * FAQs to be displayed as a series of collapsable cards.
  */
 const FAQ = () => (
@@ -387,7 +330,6 @@ const FAQ = () => (
       number="7."
       answer='Send us an email at <a href="mailto:hello@equithon.org">hello@equithon.org</a>.' // Iffy syntax but necessary to make link
     />
->>>>>>> Added FaqCards
   </div>
 =======
     <div>

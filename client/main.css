@@ -45,6 +45,16 @@ html, body {
     height: 300px;
 }
 
+#main-textbox {
+    gridArea: right;
+
+    display: grid;
+    grid-template-rows: auto auto;
+    grid-row-gap: 5px;
+    padding-left: 10%;
+    padding-right: 10%;
+}
+
 .image-card {
     margin-left: inherit;
     margin-right: inherit;
@@ -103,6 +113,10 @@ html, body {
 
     #title-row {
         margin-top: -60px;
+    }
+
+    #main-textbox {
+        padding: 5px;
     }
 
     .centered-mobile {
