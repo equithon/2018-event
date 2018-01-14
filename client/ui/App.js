@@ -10,7 +10,6 @@ import {Card, CardMedia, List, ListItem, Paper} from "material-ui";
 import Button from 'material-ui/Button';
 
 import HomeAppBar from '/client/ui/components/HomeAppBar.js';
-import SubText from '/client/ui/components/SubText.js';
 import Text from '/client/ui/components/Text.js';
 import {StayPosted, Facebook, Twitter, Instagram} from '/client/ui/buttons/SocialMedia.js';
 import SubscriptionModal from '/client/ui/components/SubscriptionModal.js';
@@ -114,7 +113,6 @@ export default class App extends Component {
     }
 
     render() {
-        let mobile = false;
         return (
             <MuiThemeProvider theme={theme}>
               <Router>
@@ -283,55 +281,109 @@ export default class App extends Component {
     }
 }
 
+/*************** Stateless Components ***************/
+
+/*
+ * Text to be displayed in the title row.
+ * Props:
+ * - align - Alignment applied to the text.
+ */
+const TitleRowText = ({ align }) => (
+    <Text color="primary" type="display2" align={align}
+          text="Waterloo's biggest social innovation hackathon is coming back in May 2018."
+    />
+);
+
+/*
+ * Text to be displayed in the info row.
+ * Props:
+ * - align - Alignment applied to the text.
+ */
+const InfoRowText = ({ align, style }) => (
+    <div style={style}>
+        <Text color="primary" type="display2" align={align} text="What is Equithon?" />
+        <Text color="secondary" type="body1" align={align}
+              text="Equithon is a hackathon for students to create technical projects that solve an equity issue or promote equity. We strive to provide an inclusive environment at our event where hackers can get support from industry mentors to develop their ideas and projects."
+        />
+    </div>
+);
+
+/*
+ * Text to be displayed in the quote row.
+ */
+const QuoteRowText = ({ type }) => (
+    <div>
+        <i><Text color="primary" type={type} align="left"
+                 text="&quotEquity isn't a women's issue,<br/>Equity is an everyone issue.&quot"
+        /></i>
+        <br/>
+        <Text color="primary" type="subheading" align="right" text="Feridun Hamdullahpur,<br/> President and Vice-Chancellor" />
+    </div>
+);
+
+/*
+ * Card containing an image.
+ * Props:
+ * - id    - Id for specific reference.
+ * - image - Path to image that card will contain.
+ * - style - Styling applied to card.
+ */
+const ImageCard = ({ id, image, style }) => (
+    <Card elevation={ imageElevation } className="image-card" style={style}>
+        <CardMedia id={id} image={image}/>
+    </Card>
+);
+
+/*
+ * Subtext box containing subtext information on when and where.
+ */
+const SubTextBox = () => (
+    <MediaQuery maxDeviceWidth={600}>
+        { (matches) => {
+            let leftTitle  = 'WHEN';
+            let leftBody   = 'May 2018';
+            let rightTitle = 'WHERE';
+            let rightBody  = 'University of Waterloo';
+            if (matches) return (
+                <div style={{ gridArea: 'subtext-row', zIndex: 50 }}>
+                    <Card elevation={ 7 } raised={ true } style={{ width: '100%', marginBottom: '-30px' }}>
+                        <div className="subtext-grid" style={{ width: '100%'}}>
+                            <div style={{ gridArea: 'left', margin: '5px', marginLeft: '10px' }}>
+                                <Text type="body1"                   text={leftTitle} />
+                                <Text type="body2" color="secondary" text={leftBody} />
+                            </div>
+                            <div style={{ gridArea: 'right', margin: '5px', marginRight: '10px', marginLeft: '-10px' }}>
+                                <Text type="body1" align="left"                   text={rightTitle} />
+                                <Text type="body2" color="secondary" align="left" text={rightBody} />
+                            </div>
+                        </div>
+                    </Card>
+                </div>);
+            else return (
+                <div style={{ gridArea: 'subtext-row' }}>
+                    <div className="split-column-row">
+                        <div className="subtext-grid" style={{ gridArea: 'right', backgroundColor: theme.palette.primary[500] }}>
+                            <div style={{gridArea: 'left', padding: '5px', paddingLeft: '35%', backgroundColor: 'white' }}>
+                                <Text type="body1" align="left"                   text={leftTitle} />
+                                <Text type="body2" color="secondary" align="left" text={leftBody} />
+                            </div>
+
+                            <div style={{gridArea: 'right', padding: '5px', paddingLeft: '25%', backgroundColor: 'white'}}>
+                              <Text type="body1" align="left"                   text={rightTitle} />
+                              <Text type="body2" color="secondary" align="left" text={rightBody} />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        }}
+  </MediaQuery>
+);
+
 /*
  * FAQs to be displayed as a series of collapsable cards.
  */
 const FAQ = () => (
-<<<<<<< HEAD
-  <div>
-    <FaqCard
-      question="What is a hackathon?"
-      answer="A hackathon is an event where the participants, either individually or in teams, build projects from scratch over a short period of time (in this case, three days) and present to a team of judges. Hackathons are a place to be creative, learn new skills, and make new friends!"
-      number="1."
-    />
-    <br/>
-    <FaqCard
-      question="Can I attend if I have never coded and/or been to a hackathon before?"
-      answer="Definitely! Equithon is open to all students who are interested in supporting equity. Experience in coding is an asset, but is not required. There will be many workshops tailored to a range of skill levels to help you with your hack."
-      number="2."
-    />
-    <br/>
-    <FaqCard
-      question="What can I make?"
-      answer="You can make anything that raises awareness of or addresses an issue related to equity - whether it be gender, racial, etc. We will be providing resources leading up to and during Equithon to help you brainstorm."
-      number="3."
-    />
-    <br/>
-    <FaqCard
-      question="Can I work on a project at Equithon that I’ve already started?"
-      answer="No. To ensure fairness, hackers must submit projects started at Equithon."
-      number="4."
-    />
-    <br/>
-    <FaqCard
-      question="Why is Equithon not an overnight event?"
-      answer="We decided that Equithon should not be an overnight event because we want to be as inclusive as possible. Hackathons that span a whole weekend can be intimidating - we want people who would not normally be comfortable attending hackathons to join us too."
-      number="5."
-    />
-    <br/>
-    <FaqCard
-      question="When are applications open?"
-      answer="Applications for hackers will open in Winter 2018."
-      number="6."
-    />
-    <br/>
-    <FaqCard
-      question="Have more questions?"
-      number="7."
-      answer='Send us an email at <a href="mailto:hello@equithon.org">hello@equithon.org</a>.' // Iffy syntax but necessary to make link
-    />
-  </div>
-=======
     <div>
         <FaqCard
             question="What is a hackathon?"
@@ -375,5 +427,4 @@ const FAQ = () => (
             answer='Send us an email at <a href="mailto:hello@equithon.org">hello@equithon.org</a>.' // Iffy syntax but necessary to make link
         />
     </div>
->>>>>>> Put everything into cards to approximate the design
 );

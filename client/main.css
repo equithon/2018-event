@@ -68,7 +68,7 @@ html, body {
 
 .subtext-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 2fr 3fr;
     grid-template-areas: "left right";
     grid-column-gap: 2px;
 }
@@ -76,13 +76,13 @@ html, body {
 .social-media-buttons {
     display: grid;
     max-width: 400px;
-    grid-template-columns: 40% 60%;
+    grid-template-columns: 1fr 1fr;
     grid-template-areas: "email social";
 }
 
 .faq-card {
     margin: auto;
-    width: 400px;
+    width: 600px;
 }
 
 @media screen and (max-width: 600px) {
@@ -109,6 +109,10 @@ html, body {
         grid-template-areas:
             "email"
             "social";
+    }
+
+    .subtext-grid {
+      grid-template-columns: 1fr 1fr;
     }
 
     #title-row {
