@@ -10,7 +10,7 @@ import IconButton from 'material-ui/IconButton';
  */
 export function Facebook() {
     return(
-        <IconButton color="primary">
+        <IconButton href="https://www.facebook.com/UWEquithon/" target="_blank" color="primary">
             <i className="fab fa-facebook-f fa-lg"></i>
         </IconButton>
     );
@@ -18,7 +18,7 @@ export function Facebook() {
 
 export function Twitter() {
     return(
-        <IconButton color="primary">
+        <IconButton href="https://twitter.com/UWEquithon/" target="_blank" color="primary">
             <i className="fab fa-twitter fa-lg"></i>
         </IconButton>
     );
@@ -26,7 +26,7 @@ export function Twitter() {
 
 export function Instagram() {
     return(
-        <IconButton color="primary">
+        <IconButton href="https://www.instagram.com/equithon/" target="_blank" color="primary">
             <i className="fab fa-instagram fa-lg"></i>
         </IconButton>
     );
