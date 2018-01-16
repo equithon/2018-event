@@ -149,6 +149,7 @@ export default class App extends Component {
 
                         {/* Row 1 */}
                         <div id="title-row" className="split-column-row" style={{ gridArea: 'title-row', gridColumnGap: '20px', alignItems: 'center' }}>
+<<<<<<< HEAD
                             <div style={{gridArea: 'left'}}>
                                 <MediaQuery maxDeviceWidth={600}>
                                     { (matches) => {
@@ -168,6 +169,16 @@ export default class App extends Component {
                                                 </Card>
                                             )
                                         }
+=======
+                            <div style={{ gridArea: 'left' }}>
+                                {/*  */}
+                                <MediaQuery maxDeviceWidth={600}>
+                                    { (matches) => {
+                                        let id = "title-row-image";
+                                        let titleRowImage = "/images/code-illustration.png";
+                                        return (matches) ? <ImageCard id={id} image={titleRowImage} style={{ marginTop: '-20px'}} /> :
+                                                           <img style={{ width: '100%' }} src="/images/code-illustration.png" />
+>>>>>>> Removed cards from desktop site images and included new photo
                                     }}
 
                                 </MediaQuery>
@@ -239,10 +250,21 @@ export default class App extends Component {
 
                             </div>
                             <div style={{gridArea: 'right'}}>
+<<<<<<< HEAD
                                 <Card className="image-card" elevation={ imageElevation } style={{ marginLeft: '-10px', marginRight: '-10px'}}>
                                     <CardMedia id={"info-row-image"}
                                                image="/images/placeholder.jpg"/>
                                 </Card>
+=======
+                                <MediaQuery maxDeviceWidth={600}>
+                                    { (matches) => (matches) ?
+                                        <ImageCard id="info-row-image" image="/images/code.jpg"
+                                            style={{ marginLeft: '-10px', marginRight: '-10px'}}
+                                        /> :
+                                        <img src="/images/code.jpg" style={{ width: '100%' }} />
+                                    }
+                                </MediaQuery>
+>>>>>>> Removed cards from desktop site images and included new photo
                             </div>
                         </div>
 

@@ -85,7 +85,13 @@ html, body {
     width: 600px;
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (min-width: 1440px) { /* Larger screens */
+    #app-body {
+        grid-template-columns: 20% 60% 20%;
+    }
+}
+
+@media screen and (max-width: 600px) { /* Mobile screens */
     #appbar {
         height: 60px;
     }
@@ -136,7 +142,7 @@ html, body {
 
     #app-body {
         display: grid;
-        grid-row-gap: 50px;
+        grid-row-gap: 20px;
 
         grid-template-columns: 100%;
         grid-template-rows: auto;
@@ -148,16 +154,11 @@ html, body {
             "faq-row"
             "footer"; /* For extra spacing */
 
-        padding-top: 110px
+        padding-top: 60px;
     }
 
     .faq-card {
         min-width: 200px;
         width: 100%;
-    }
-
-    #app-body {
-        grid-row-gap: 20px;
-        padding-top: 70px;
     }
 }
