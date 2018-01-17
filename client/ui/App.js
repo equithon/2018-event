@@ -175,8 +175,7 @@ export default class App extends Component {
                                 <MediaQuery maxDeviceWidth={600}>
                                     { (matches) => {
                                         let id = "title-row-image";
-                                        let titleRowImage = "/images/code-illustration.png";
-                                        return (matches) ? <ImageCard id={id} image={titleRowImage} style={{ marginTop: '-20px'}} /> :
+                                        return (matches) ? <ImageCard id={id} image="/images/code-illustration.png" style={{ marginTop: '-20px'}} /> :
                                                            <img style={{ width: '100%' }} src="/images/code-illustration.png" />
 >>>>>>> Removed cards from desktop site images and included new photo
                                     }}
@@ -258,10 +257,10 @@ export default class App extends Component {
 =======
                                 <MediaQuery maxDeviceWidth={600}>
                                     { (matches) => (matches) ?
-                                        <ImageCard id="info-row-image" image="/images/code.jpg"
+                                        <ImageCard id="info-row-image" image="/images/group-computing.jpg"
                                             style={{ marginLeft: '-10px', marginRight: '-10px'}}
                                         /> :
-                                        <img src="/images/code.jpg" style={{ width: '100%' }} />
+                                        <img src="/images/group-computing.jpg" style={{ width: '100%' }} />
                                     }
                                 </MediaQuery>
 >>>>>>> Removed cards from desktop site images and included new photo
