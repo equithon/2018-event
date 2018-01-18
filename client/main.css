@@ -82,7 +82,16 @@ html, body {
 
 .faq-card {
     margin: auto;
-    width: 600px;
+    max-width: 600px;
+    width: 100%;
+}
+
+.footer {
+    grid-area: footer;
+    justify-self: center;
+    max-width: 600px;
+    width: 100%;
+    padding-bottom: 20px;
 }
 
 @media screen and (min-width: 1440px) { /* Larger screens */
@@ -159,6 +168,9 @@ html, body {
 
     .faq-card {
         min-width: 200px;
+    }
+
+    .footer {
         width: 100%;
     }
 }
