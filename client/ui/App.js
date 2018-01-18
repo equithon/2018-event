@@ -266,6 +266,17 @@ export default class App extends Component {
                             <br/>
                             <FAQ />
                         </div>
+
+                        {/* Footer */}
+                        <div className="footer split-column-row">
+                            <div style={{ textAlign: 'center' }}>
+                                <img src="/logos/logo_200x153.png" style={{ width: '100px' }} />
+                            </div>
+                            <div style={{ margin: 'auto', textAlign: 'center' }}>
+                                <Text color="secondary" type="body2" text="Contact us: hello@equithon.org" />
+                                <Text color="secondary" type="body2" text="University of Waterloo" />
+                            </div>
+                        </div>
                     </div>
                 </div>
               </Router>
@@ -310,7 +321,7 @@ const QuoteRowText = ({ type }) => (
                  text="&quotEquity isn't a women's issue,<br/>Equity is an everyone issue.&quot"
         /></i>
         <br/>
-        <Text color="primary" type="subheading" align="right" text="Feridun Hamdullahpur,<br/> President and Vice-Chancellor" />
+        <Text color="primary" type="subheading" align="right" text="Feridun Hamdullahpur<br/> President and Vice-Chancellor,<br/>University of Waterloo" />
     </div>
 );
 
