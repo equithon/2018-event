@@ -2,6 +2,8 @@ branch-defaults:
   default:
     environment: equithon-website-staging
     group_suffix: null
+  master:
+    environment: equithon-website-production
 global:
   application_name: equithon-website
   branch: null
