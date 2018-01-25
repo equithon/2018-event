@@ -111,7 +111,8 @@ export default class App extends Component {
                         <div className="centered-mobile" style={{gridArea: 'left'}}>
                             <MediaQuery maxDeviceWidth={600}>
                                 { (matches) => (matches) ? <InfoRowText align="center" /> :
-                                                           <InfoRowText style={{ paddingLeft: '10%', paddingRight: '10%' }} align="left" /> }
+                                    <InfoRowText style={{ paddingLeft: '10%', paddingRight: '10%' }} align="left" />
+                                }
                             </MediaQuery>
                         </div>
 
