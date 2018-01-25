@@ -19,6 +19,17 @@ html, body {
     height: auto;
 }
 
+#appbar {
+    height: 100px;
+}
+
+#app-bar-grid {
+    display: grid;
+    grid-template-columns: 20% 20% 20% 20% 20%;
+    grid-template-areas: ". . logo . login";
+    width: 100%;
+}
+
 #app-body {
     display: grid;
     grid-row-gap: 50px;
