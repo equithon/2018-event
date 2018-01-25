@@ -37,13 +37,4 @@ export const theme = createMuiTheme({
             'contrastDefaultColor': 'light',
         },
     },
-
-    overrides: { // We provide a standard button style for all buttons in our website.
-        MuiButton: {
-            root: {
-                background: '#5a82ed',
-                borderRadius: '25px',
-            },
-        },
-    },
 });
