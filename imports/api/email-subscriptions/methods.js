@@ -8,7 +8,7 @@ import { ValidatedMethod } from 'meteor/mdg:validated-method';
  * Note: SimpleSchema only validates objects so we need to pass email around in an object.
  */
 export const insertEmailSubscription = new ValidatedMethod({
-    name: 'email_subscriptions.insert',
+    name: 'email_subscriptions.insert', // Needed for Meteor.call which hides implementation from the user.
 
     validate: new SimpleSchema({
         email: { type: String, regEx: SimpleSchema.RegEx.Email },
@@ -22,4 +22,19 @@ export const insertEmailSubscription = new ValidatedMethod({
             EmailSubscriptions.insert(emailObj);
         }
     },
+});
+
+export const removeEmailSubscription = new ValidatedMethod({
+    name: 'email_subscriptions.remove',
+
+    validate: new SimpleSchema({
+        email: { type: String, regEx: SimpleSchema.RegEx.Email },
+    }).validator(),
+
+    run(emailObj) {
+        let count = EmailSubscriptions.remove(emailObj);
+        if (count == 0) {
+            throw new Meteor.Error('email_subscriptions.remove.email_not_found', 'We could not find your email address');
+        }
+    }
 });
