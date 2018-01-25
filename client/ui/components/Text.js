@@ -18,7 +18,6 @@ import { withTheme } from 'material-ui/styles';
  * - text
  * - style
  * - className
- * - children
  */
 class Text extends Component {
   constructor(props) {
@@ -65,8 +64,7 @@ class Text extends Component {
                   type={this.props.type}
                   align={this.props.align}
                 >
-                  {/* Only include text prop if children was not given */}
-                  { (this.props.children && !this.props.text) ?  this.props.children : this.props.text }
+                  {this.props.text}
                 </Typography>
               );
             } else {
@@ -78,8 +76,7 @@ class Text extends Component {
                   type={this.props.type}
                   align={this.props.align}
                 >
-                  {/* Only include text prop if children was not given */}
-                  { (this.props.children && !this.props.text) ?  this.props.children : this.props.text }
+                  {this.props.text}
                 </Typography>
               );
             }
