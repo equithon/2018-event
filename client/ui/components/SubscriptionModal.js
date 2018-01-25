@@ -7,7 +7,6 @@ import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
 
 import Text from '/client/ui/components/Text.js';
-import { EmailSubscriptions } from '/imports/api/email-subscriptions.js';
 import FlatColoredButton from '/client/ui/buttons/FlatColoredButton.js';
 
 
@@ -24,7 +23,8 @@ class SubscriptionModal extends Component {
     this.state = {
       value: '',
       success: false,
-      messageVisible: 'hidden'
+      messageVisible: 'hidden',
+      failedMessage: '',
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -38,12 +38,13 @@ class SubscriptionModal extends Component {
   handleSubmit(event) {
     event.preventDefault();
 
-    Meteor.call('email_subscriptions.insert', this.state.value,
+    Meteor.call('email_subscriptions.insert', { email: this.state.value },
       (err, res) => {
         if (err) {
           this.setState({
             success: false,
-            messageVisible: 'visible'
+            messageVisible: 'visible',
+            failedMessage: err.reason,
           });
         } else {
           this.setState({
@@ -101,8 +102,7 @@ class SubscriptionModal extends Component {
 
             <div style={{ visibility: this.state.messageVisible }} ref="success">
               <Text type='body1' color={ this.state.success ? 'primary' : 'error' }
-                text={ this.state.success ? 'Your email was successfully submitted.' :
-                    'The email address you entered is invalid.' }
+                text={ this.state.success ? 'Your email was successfully submitted.' : this.state.failedMessage }
               />
             </div>
           </Paper>
