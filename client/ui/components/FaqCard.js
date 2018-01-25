@@ -43,7 +43,10 @@ const styles = theme => ({
 /*
  * Props:
  * - question: Question to be placed as title of the card.
- * - answer: Answer to be placed as body of the card.
+ * - answer: Answer to be placed as body of the card in the form of plain text.
+ *   Mutually exclusive with prop answerChild.
+ * - answerChild: Answer to be placed as body of the card in the form of a child node.
+ *   Mutually exclusive with prop answer.
  * - number: Question number to be placed to the left of the question.
  */
 class FaqCard extends Component {
@@ -105,7 +108,10 @@ class FaqCard extends Component {
 
           <Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
             <CardContent>
-                <Text color="secondary" type="body2" text={this.props.answer} />
+              { (this.props.answerChild) ? 
+                  <Text color="secondary" type="body2" children={this.props.answerChild} /> :
+                  <Text color="secondary" type="body2" text={this.props.answer} />
+              }
             </CardContent>
           </Collapse>
         </Card>

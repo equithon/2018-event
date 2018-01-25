@@ -30,7 +30,7 @@ export default class Login extends Component {
     };
 
     this.handleUserLogin = this.handleUserLogin.bind(this);
-		this.handleStaffLogin = this.handleStaffLogin.bind(this);
+    this.handleStaffLogin = this.handleStaffLogin.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
 
@@ -111,7 +111,6 @@ const LoginForm = ({ title, desc, username, password, handleLogin, handleChange 
       <div>
         <TextField
           label="Username"
-          margin="normal"
           value={username}
           onChange={handleChange('username')}
           required
@@ -132,20 +131,17 @@ const LoginForm = ({ title, desc, username, password, handleLogin, handleChange 
           Login
         </Button>
       </div>
-    </form>
-
-    {/* Link to staff or user login depending on where we are */}
-    <div style={{ textAlign: 'right' }}>
+      {/* Link to staff or user login depending on where we are */}
       <Route exact path="/login/" render={() => (
-        <Link to="/login/staff">
-          <Text type="body1" color="secondary" text="Staff Login" />
-        </Link>
+        <Text type="body1" color="secondary" align="right"
+          children={ <Link to="/login/staff" replace>Staff Login</Link> }
+        />
       )}/>
       <Route path="/login/staff" render={() => (
-        <Link to="/login">
-          <Text type="body1" color="secondary" text="User Login" />
-        </Link>
+        <Text type="body1" color="secondary" align="right"
+          children={ <Link to="/login" replace>User Login</Link> }
+        />
       )}/>
-    </div>
+    </form>
   </div>
 );

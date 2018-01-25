@@ -16,6 +16,9 @@ import { withTheme } from 'material-ui/styles';
  * - type
  * - align
  * - text
+ * - style
+ * - className
+ * - children
  */
 class Text extends Component {
   constructor(props) {
@@ -55,27 +58,29 @@ class Text extends Component {
           { (matches) => {
             if (matches) {
               return(
-              <Typography
-                className={this.props.className}
-                style={Object.assign(this.modifyStyling(this.props.type), this.props.style)}
-                color={this.props.color}
-                type={this.props.type}
-                align={this.props.align}
-                // We want to be able to insert HTML into this modified typography. Dangerous?
-                dangerouslySetInnerHTML={{__html: this.props.text}}
-              />
+                <Typography
+                  className={this.props.className}
+                  style={Object.assign(this.modifyStyling(this.props.type), this.props.style)}
+                  color={this.props.color}
+                  type={this.props.type}
+                  align={this.props.align}
+                >
+                  {/* Only include text prop if children was not given */}
+                  { (this.props.children && !this.props.text) ?  this.props.children : this.props.text }
+                </Typography>
               );
             } else {
               return(
-              <Typography
-                className={this.props.className}
-                style={this.props.style}
-                color={this.props.color}
-                type={this.props.type}
-                align={this.props.align}
-                // We want to be able to insert HTML into this modified typography. Dangerous?
-                dangerouslySetInnerHTML={{__html: this.props.text}}
-              />
+                <Typography
+                  className={this.props.className}
+                  style={this.props.style}
+                  color={this.props.color}
+                  type={this.props.type}
+                  align={this.props.align}
+                >
+                  {/* Only include text prop if children was not given */}
+                  { (this.props.children && !this.props.text) ?  this.props.children : this.props.text }
+                </Typography>
               );
             }
           }}
