@@ -223,15 +223,11 @@ const InfoRowText = ({ align, style }) => (
 const QuoteRowText = ({ type }) => (
     <div>
         <Text color="primary" type="headline" align="left"
-            children={
-                <i><div>"Equity isn't a women's issue,<br/>Equity is an everyone issue."</div></i>
-            }
+            text={ <i><div>"Equity isn't a women's issue,<br/>Equity is an everyone issue."</div></i> }
         />
         <br/>
         <Text color="primary" type="subheading" align="right"
-            children={
-                <div>Feridun Hamdullahpur<br/>President and Vice-Chancellor,<br/>University of Waterloo</div>
-            }
+            text={ <div>Feridun Hamdullahpur<br/>President and Vice-Chancellor,<br/>University of Waterloo</div> }
         />
     </div>
 );
@@ -339,7 +335,7 @@ const FAQ = () => (
         <FaqCard
             question="Have more questions?"
             number="7."
-            answerChild={ <p>Send us an email at <a href="mailto:hello@equithon.org">hello@equithon.org</a>.</p> }
+            answer={ <p>Send us an email at <a href="mailto:hello@equithon.org">hello@equithon.org</a>.</p> }
         />
     </div>
 );
