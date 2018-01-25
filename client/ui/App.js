@@ -13,6 +13,9 @@ import HomeAppBar from '/client/ui/components/HomeAppBar.js';
 import Text from '/client/ui/components/Text.js';
 import {StayPosted, Facebook, Twitter, Instagram} from '/client/ui/buttons/SocialMedia.js';
 import SubscriptionModal from '/client/ui/components/SubscriptionModal.js';
+import UnsubscribeModal from '/client/ui/components/UnsubscribeModal.js';
+import Login from '/client/ui/components/Login.js';
+import Signup from '/client/ui/components/Signup.js';
 import FaqCard from '/client/ui/components/FaqCard.js';
 import FlatColoredButton from '/client/ui/buttons/FlatColoredButton.js';
 
@@ -40,19 +43,29 @@ export default class App extends Component {
         super(props);
 
         this.state = {
-            subModalOpen: false
+            subModalOpen: false,
+            unsubModalOpen: false,
         };
     };
 
-    handleOpen = () => {
+    handleSubModalOpen = () => {
         this.setState({
-            subModalOpen: true
+            subModalOpen: true,
+            unsubModalOpen: false,
+        });
+    };
+
+    handleUnsubModalOpen = () => {
+        this.setState({
+            subModalOpen: false,
+            unsubModalOpen: true,
         });
     };
 
     handleClose = () => {
         this.setState({
-            subModalOpen: false
+            subModalOpen: false,
+            unsubModalOpen: false,
         });
     };
 
@@ -93,7 +106,7 @@ export default class App extends Component {
                             <br/>
                             <div className='social-media-buttons'>
                                 <div style={{gridArea: 'email', padding: '10px', width: 'auto', textAlign: 'center'}}>
-                                    <FlatColoredButton onClick={this.handleOpen} content="Stay Posted" />
+                                    <FlatColoredButton onClick={this.handleSubModalOpen} content="Stay Posted" />
                                     <SubscriptionModal open={this.state.subModalOpen} onClose={this.handleClose} />
                                 </div>
 
@@ -168,6 +181,10 @@ export default class App extends Component {
                         <div style={{ margin: 'auto', textAlign: 'center' }}>
                             <Text color="secondary" type="body2" text="Contact us: hello@equithon.org" />
                             <Text color="secondary" type="body2" text="University of Waterloo" />
+                            <Text color="secondary" type="body2"
+                                text={ <a href="#" onClick={this.handleUnsubModalOpen}><u>Unsubscribe</u></a> }
+                            />
+                            <UnsubscribeModal open={this.state.unsubModalOpen} onClose={this.handleClose} />
                         </div>
                     </div>
                 </div>
