@@ -90,7 +90,7 @@ class SubscriptionModal extends Component {
                   />
                 </div>
                 <div style={{ gridArea: 'right', padding: '20px' }}>
-                  <Button style={{ background: theme.palette.primary[500], borderRadius: '25px', width: '100%' }}
+                  <Button style={{ width: '100%' }}
                     color='contrast' onClick={this.handleSubmit}>
                     Submit
                   </Button>
