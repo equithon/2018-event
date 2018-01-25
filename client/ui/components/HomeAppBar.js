@@ -14,7 +14,10 @@ export default class HomeAppBar extends Component {
         return (
             <AppBar id="appbar" position="fixed" color="inherit">
                 <Toolbar>
-                    <img className="equithon-logo" src="/logos/logo-bulb_417x417.png" />
+                    <div id="app-bar-grid">
+                        <img style={{ gridArea: 'logo' }} className="equithon-logo" src="/logos/logo-bulb_417x417.png" />
+                        <Link style={{ gridArea: 'login' }} to="/login">Login</Link>
+                    </div>
                 </Toolbar>
             </AppBar>
         );
