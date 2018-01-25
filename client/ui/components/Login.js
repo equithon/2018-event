@@ -133,12 +133,12 @@ const LoginForm = ({ title, desc, username, password, handleLogin, handleChange 
       {/* Link to staff or user login depending on where we are */}
       <Route exact path="/login/" render={() => (
         <Text type="body1" color="secondary" align="right"
-          children={ <Link to="/login/staff" replace>Staff Login</Link> }
+          text={ <Link to="/login/staff" replace>Staff Login</Link> }
         />
       )}/>
       <Route path="/login/staff" render={() => (
         <Text type="body1" color="secondary" align="right"
-          children={ <Link to="/login" replace>User Login</Link> }
+          text={ <Link to="/login" replace>User Login</Link> }
         />
       )}/>
     </form>
