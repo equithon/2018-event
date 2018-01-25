@@ -7,8 +7,8 @@ import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
 
 import Text from '/client/ui/components/Text.js';
-import { theme } from '/client/ui/CustomTheme.js';
 import { EmailSubscriptions } from '/imports/api/email-subscriptions.js';
+import FlatColoredButton from '/client/ui/buttons/FlatColoredButton.js';
 
 
 /* Popup modal for user to input email to subscribe to email notifications.
@@ -90,10 +90,11 @@ class SubscriptionModal extends Component {
                   />
                 </div>
                 <div style={{ gridArea: 'right', padding: '20px' }}>
-                  <Button style={{ width: '100%' }}
-                    color='contrast' onClick={this.handleSubmit}>
-                    Submit
-                  </Button>
+                  <FlatColoredButton
+                    style={{ width: '100%' }}
+                    onClick={this.handleSubmit}
+                    content="Submit"
+                  />
                 </div>
               </div>
             </form>

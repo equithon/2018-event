@@ -6,6 +6,7 @@ import Button from 'material-ui/Button';
 import Paper from 'material-ui/Paper';
 
 import Text from '/client/ui/components/Text.js';
+import FlatColoredButton from '/client/ui/buttons/FlatColoredButton.js';
 
 
 const loginStyle = {
@@ -127,9 +128,7 @@ const LoginForm = ({ title, desc, username, password, handleLogin, handleChange 
         />
       </div>
       <div style={{ paddingTop: '20px' }}>
-        <Button raised color="primary" onClick={handleLogin}>
-          Login
-        </Button>
+        <FlatColoredButton onClick={handleLogin} content="Login" />
       </div>
       {/* Link to staff or user login depending on where we are */}
       <Route exact path="/login/" render={() => (

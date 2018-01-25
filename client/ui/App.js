@@ -14,6 +14,7 @@ import Text from '/client/ui/components/Text.js';
 import {StayPosted, Facebook, Twitter, Instagram} from '/client/ui/buttons/SocialMedia.js';
 import SubscriptionModal from '/client/ui/components/SubscriptionModal.js';
 import FaqCard from '/client/ui/components/FaqCard.js';
+import FlatColoredButton from '/client/ui/buttons/FlatColoredButton.js';
 
 const theme = createMuiTheme({
     palette: {
@@ -92,7 +93,7 @@ export default class App extends Component {
                             <br/>
                             <div className='social-media-buttons'>
                                 <div style={{gridArea: 'email', padding: '10px', width: 'auto', textAlign: 'center'}}>
-                                    <Button color="contrast" onClick={this.handleOpen}>Stay Posted</Button>
+                                    <FlatColoredButton onClick={this.handleOpen} content="Stay Posted" />
                                     <SubscriptionModal open={this.state.subModalOpen} onClose={this.handleClose} />
                                 </div>
 
