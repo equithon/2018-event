@@ -184,9 +184,7 @@ export default class App extends Component {
                                 </MediaQuery>
                                 <div className='social-media-buttons'>
                                     <div style={{gridArea: 'email', padding: '10px', width: 'auto', textAlign: 'center'}}>
-                                        <Button raised color="primary" onClick={this.handleOpen}>
-                                            Stay Posted
-                                        </Button>
+                                        <Button color="contrast" onClick={this.handleOpen}>Stay Posted</Button>
                                         <SubscriptionModal open={this.state.subModalOpen} onClose={this.handleClose} />
                                     </div>
                                     <div style={{gridArea: 'social', display: 'inline', width: 'auto', textAlign: 'center'}}>
