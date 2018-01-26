@@ -18,16 +18,19 @@ export default class HomeAppBar extends Component {
             <AppBar id="appbar" position="fixed" color="inherit">
                 <Toolbar>
                     <div id="app-bar-grid">
-                        <img style={{ gridArea: 'logo' }} className="equithon-logo" src="/logos/logo-bulb_417x417.png" />
+                        {/* Logo */}
+                        <Link style={{gridArea: 'logo', margin: '0 auto' }} to="/">
+                            <img className="equithon-logo" src="/logos/logo-bulb_417x417.png" />
+                        </Link>
+
+                        {/* Signup */}
+                        <div style={{ gridArea: 'signup', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                            <AppbarButton link="/signup" text="Signup" iconClass="fas fa-user-plus" />
+                        </div>
+
+                        {/* Login */}
                         <div style={{ gridArea: 'login', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                            <Link to="/login" replace>
-                                <MediaQuery maxDeviceWidth={600}>
-                                    { (matches) => (matches) ?
-                                        <IconButton color="primary"><i className="fas fa-sign-in-alt"></i></IconButton> :
-                                        <Button color="inherit">Login</Button>
-                                    }
-                                </MediaQuery>
-                            </Link>
+                            <AppbarButton link="/login" text="Login" iconClass="fas fa-sign-in-alt" />
                         </div>
                     </div>
                 </Toolbar>
@@ -35,3 +38,14 @@ export default class HomeAppBar extends Component {
         );
     }
 }
+
+const AppbarButton = ({ link, text, iconClass }) => (
+    <Link to={link}>
+        <MediaQuery maxDeviceWidth={600}>
+            { (matches) => (matches) ?
+                <IconButton color="primary"><i className={iconClass}></i></IconButton> :
+                <Button style={{ lineHeight: '80px' }} color="primary">{text}</Button>
+            }
+        </MediaQuery>
+    </Link>
+);
