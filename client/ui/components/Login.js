@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route, Link } from 'react-router-dom';
+import { Route, Link, Redirect } from 'react-router-dom';
 
 import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
@@ -28,6 +28,9 @@ export default class Login extends Component {
     this.state = {
       username: '',
       password: '',
+
+      success: false,
+      errorMessage: '',
     };
 
     this.handleUserLogin = this.handleUserLogin.bind(this);
@@ -37,7 +40,16 @@ export default class Login extends Component {
 
   handleUserLogin(event) {
     event.preventDefault();
-    console.log('HANDLEUSERLOGIN: ' + this.state.username + ' ' + this.state.password);
+
+    Meteor.loginWithPassword({ username: this.state.username }, this.state.password, (err) => {
+      if (err) this.setState({
+        errorMessage: err.reason,
+      });
+      else this.setState({
+        success: true,
+        errorMessage: '',
+      });
+    });
   }
 
   handleStaffLogin(event) {
@@ -75,6 +87,11 @@ export default class Login extends Component {
 							handleChange={this.handleChange}
 						/>
 					)} />
+
+          {/* Redirect user if login was successful */}
+          { (this.state.success) ? <Redirect to="/" /> :
+              <Text type="body1" color="error" text={this.state.errorMessage} />
+          }
         </Paper>
       </div>
     );
@@ -109,6 +126,7 @@ const LoginForm = ({ title, desc, username, password, handleLogin, handleChange 
     <Text style={{ textAlign: 'center' }} color="primary" type="display1" text={title} />
     <Text color="secondary" type="body2" text={desc} />
     <form onSubmit={handleLogin}>
+      {/* Username */}
       <div>
         <TextField
           label="Username"
@@ -117,6 +135,8 @@ const LoginForm = ({ title, desc, username, password, handleLogin, handleChange 
           required
         />
       </div>
+
+      {/* Password */}
       <div>
         <TextField
           label="Password"
@@ -127,9 +147,12 @@ const LoginForm = ({ title, desc, username, password, handleLogin, handleChange 
           required
         />
       </div>
+
+      {/* Login Button */}
       <div style={{ paddingTop: '20px' }}>
         <FlatColoredButton onClick={handleLogin} content="Login" />
       </div>
+
       {/* Link to staff or user login depending on where we are */}
       <Route exact path="/login/" render={() => (
         <Text type="body1" color="secondary" align="right"

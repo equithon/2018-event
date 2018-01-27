@@ -21,6 +21,7 @@ import Signup from '/client/ui/components/Signup.js';
 import FaqCard from '/client/ui/components/FaqCard.js';
 import FlatColoredButton from '/client/ui/buttons/FlatColoredButton.js';
 import EmailVerification from '/client/ui/components/EmailVerification.js';
+import Home from '/client/ui/Home.js';
 
 const theme = createMuiTheme({
     palette: {
@@ -48,8 +49,28 @@ export default class App extends Component {
         this.state = {
             subModalOpen: false,
             unsubModalOpen: false,
+
+            userId: '',
         };
+
+        this.userIdComputation = undefined;
     };
+
+    componentDidMount() {
+        this.userIdComputation = Tracker.autorun(() => {
+            let userId = Meteor.userId();
+            if (userId) this.setState({
+                userId: userId,
+            });
+            else this.setState({
+                userId: '',
+            });
+        });
+    }
+
+    componentWillUnmount() {
+        this.userIdComputation.stop();
+    }
 
     handleSubModalOpen = () => {
         this.setState({
@@ -200,9 +221,18 @@ export default class App extends Component {
                   <div>
                       <HomeAppBar />
 
-                      <Route exact path="/" render={() => this.renderAppBody()} />
+                      { (this.state.userId) ?
+                              <Route exact path="/" component={Home} /> :
+                              <Route exact path="/" render={ () => this.renderAppBody() } />
+                      }
                       <Route path="/login" component={Login} />
                       <Route path="/signup" component={Signup} />
+
+                      {/* Go back to home page on logout */}
+                      <Route path="/logout" render={() => {
+                          Meteor.logout();
+                          return <Redirect to="/" />;
+                      }} />
 
                       {/* This is hooked into Accounts.onEmailVericationLink */}
                       <EmailVerification />

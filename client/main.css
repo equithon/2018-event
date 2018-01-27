@@ -25,7 +25,7 @@ html, body {
 #app-bar-grid {
     display: grid;
     grid-template-columns: 20% 20% 20% 20% 20%;
-    grid-template-areas: ". . logo signup login";
+    grid-template-areas: ". . logo signup login-logout";
     width: 100%;
 }
 
