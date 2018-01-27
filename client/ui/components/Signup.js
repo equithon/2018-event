@@ -53,17 +53,8 @@ export default class Signup extends Component {
       } else {
         this.setState({
           errorMessage: '',
-          successMessage: 'Success! Please verify your email address via the link sent to ' + user.email + '.',
+          successMessage: 'Success! Please verify your email address via the link we sent to ' + user.email + '.',
         });
-
-        // Send verification email.
-          Meteor.call('sendVerificationEmail', { email: user.email }, (err, res) => {
-              if (err) {
-                  this.setState({
-                      errorMessage: err.reason
-                  });
-              }
-          });
       }
     });
   }

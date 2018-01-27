@@ -4,40 +4,26 @@ import { ValidatedMethod } from 'meteor/mdg:validated-method';
 
 
 /*
- * Send a verification email.
+ * Customize verification email.
  */
-export const sendVerificationEmail = new ValidatedMethod({
-    name: 'sendVerificationEmail',
-
-    validate: new SimpleSchema({
-        email: { type: String, regEx: SimpleSchema.RegEx.Email },
-    }).validator(),
-
-    run(emailObj) {
-        let user = Meteor.user();
-
-        /* Customize email */
-        Accounts.emailTemplates.siteName = 'Equithon';
-        Accounts.emailTemplates.from = 'Equithon Hello <hello@equithon.org>';
-
-        Accounts.emailTemplates.verifyEmail = {
-            subject() {
-                return "Equithon - Confirm your email address";
-            },
-            text(user, url) {
-                return `Congratulations ${user.username}!
-
-You are one step closer to applying to Equithon 2018. To finish creating your Equithon account, please click the link below to verify your email address.
+Accounts.emailTemplates.siteName = "Meteor Guide Todos Example";
+Accounts.emailTemplates.from = "Meteor Todos Accounts <accounts@example.com>";
+Accounts.emailTemplates.verifyEmail = {
+    subject(user) {
+        return "Equithon - Confirm your email address";
+    },
+    
+    text(user, url) {
+        return `
+Congratulations ${user.username}! You are one step closer to Equithon 2018.
+To finish creating your Equithon account, please click the link below to verify your email address.
 
 ${url}
 
+If you didn't request this email, please ignore it.
 Thanks,
-Equithon Team
-`;
-            },
-        };
-
-        if (user) Accounts.sendVerificationEmail(user.username);
-        else throw new Meteor.error('sendVerificationEmail.user_not_found', 'Could not find user with that email address');
+The Equithon Team.
+`
     },
-});
+};
+
