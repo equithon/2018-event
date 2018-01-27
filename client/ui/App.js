@@ -1,7 +1,9 @@
-import React, {Component} from 'react';
-import MediaQuery from 'react-responsive';
+import React, { Component } from 'react';
+import { Session } from 'meteor/session';
+import { Tracker } from 'meteor/tracker';
 
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import MediaQuery from 'react-responsive';
+import { BrowserRouter as Router, Route, Link, Redirect } from 'react-router-dom';
 
 import {MuiThemeProvider, createMuiTheme} from 'material-ui/styles';
 import purple from 'material-ui/colors/purple';
@@ -18,6 +20,7 @@ import Login from '/client/ui/components/Login.js';
 import Signup from '/client/ui/components/Signup.js';
 import FaqCard from '/client/ui/components/FaqCard.js';
 import FlatColoredButton from '/client/ui/buttons/FlatColoredButton.js';
+import EmailVerification from '/client/ui/components/EmailVerification.js';
 
 const theme = createMuiTheme({
     palette: {
@@ -200,6 +203,9 @@ export default class App extends Component {
                       <Route exact path="/" render={() => this.renderAppBody()} />
                       <Route path="/login" component={Login} />
                       <Route path="/signup" component={Signup} />
+
+                      {/* This is hooked into Accounts.onEmailVericationLink */}
+                      <EmailVerification />
                    </div>
               </Router>
             </MuiThemeProvider>
