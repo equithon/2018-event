@@ -3,10 +3,9 @@ import { BrowserRouter as Router, Route, Redirect, Link } from 'react-router-dom
 
 import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField';
-import Button from 'material-ui/Button';
 
 import Text from '/client/ui/components/Text.js';
-import { isEmailValid } from '/imports/api/EmailValidation.js';
+import FlatColoredButton from '/client/ui/buttons/FlatColoredButton.js';
 
 const signupStyle = {
   position: 'absolute',
@@ -29,7 +28,7 @@ export default class Signup extends Component {
       password: '',
 
       errorMessage: '',
-      redirect: '',
+      successMessage: '',
     };
 
     this.handleSignup = this.handleSignup.bind(this);
@@ -38,13 +37,6 @@ export default class Signup extends Component {
 
   handleSignup(event) {
     event.preventDefault();
-
-    if (!isEmailValid(this.state.email)) {
-      this.setState({
-        errorMessage: "We've encountered an error: Email address incorrectly formatted"
-      });
-      return;
-    }
 
     let user = {
       username: this.state.username,
@@ -55,23 +47,24 @@ export default class Signup extends Component {
     Accounts.createUser(user, (err) => {
       if (err) {
         this.setState({
-          errorMessage: "We've encountered an error: " + err.reason
+          errorMessage: err.reason,
+          successMessage: '',
         });
       } else {
         this.setState({
-          errorMessage: ''
+          errorMessage: '',
+          successMessage: 'Success! Please verify your email address via the link sent to ' + user.email + '.',
         });
-        Meteor.call('sendVerificationEmail', (err, res) => {
-          if (err) {
-            // Inform user of error in some way.
-          }
-        });
-      }
-    });
 
-    // Tell user we sent them a verification email.
-    this.setState({
-      redirect: <Redirect to={"/signup/verification/" + user.email} />
+        // Send verification email.
+          Meteor.call('sendVerificationEmail', { email: user.email }, (err, res) => {
+              if (err) {
+                  this.setState({
+                      errorMessage: err.reason
+                  });
+              }
+          });
+      }
     });
   }
 
@@ -85,78 +78,56 @@ export default class Signup extends Component {
     return(
       <div style={signupStyle}>
         <Paper style={{ padding: '50px' }}>
-          <Route exact path="/signup" render={() => (
-            <div>
-              <SignupForm
-                username={this.state.username}
-                email={this.state.email}
-                password={this.state.password}
-                handleSignup={this.handleSignup}
-                handleChange={this.handleChange}
-              />
-              <Text color="error" type="body2" text={this.state.errorMessage} />
+          <div style={{ paddingBottom: '10px' }}>
+            <Text style={{ textAlign: 'center' }} color="primary" type="display1" text="Sign up" />
+            <Text color="secondary" type="body2" text="Please submit your information below to sign up." />
+            <form onSubmit={this.handleSignup}>
+              {/* Username */}
+              <div>
+                <TextField
+                  style={{ width: '100%' }}
+                  label="Username"
+                  value={this.state.username}
+                  onChange={this.handleChange('username')}
+                  required
+                />
+              </div>
 
-              {/* Redirect for verification email once signup is complete */}
-              {this.state.redirect}
-            </div>
-          )} />
+              {/* Email */}
+              <div>
+                <TextField
+                  style={{ width: '100%' }}
+                  label="Email"
+                  value={this.state.email}
+                  onChange={this.handleChange('email')}
+                  required
+                />
+              </div>
 
-          {/* Verification */}
-          <Route path="/signup/verification/:email" component={Verification} />
+              {/* Password */}
+              <div>
+                <TextField
+                  style={{ width: '100%' }}
+                  label="Password"
+                  type="password"
+                  autoComplete="current-password"
+                  value={this.state.password}
+                  onChange={this.handleChange('password')}
+                  required
+                />
+              </div>
+
+              {/* Signup Button */}
+              <div style={{ paddingTop: '20px' }}>
+                  <FlatColoredButton onClick={this.handleSignup} content="Sign Up" />
+              </div>
+            </form>
+          </div>
+
+          { (this.state.successMessage) ? <Text color="primary" type="body2" text={this.state.successMessage} /> :
+                                          <Text color="error" type="body2" text={this.state.errorMessage} /> }
         </Paper>
       </div>
     );
   }
 }
-
-const SignupForm = ({ username, email, password, handleSignup, handleChange }) => (
-  <div>
-    <Text style={{ textAlign: 'center' }} color="primary" type="display1" text="Sign up" />
-    <Text color="secondary" type="body2" text="Please submit your information below to sign up." />
-    <form onSubmit={handleSignup}>
-      <div>
-        <TextField
-          style={{ width: '100%' }}
-          label="Username"
-          value={username}
-          onChange={handleChange('username')}
-          required
-        />
-      </div>
-      <div>
-        <TextField
-          style={{ width: '100%' }}
-          label="Email"
-          value={email}
-          onChange={handleChange('email')}
-          required
-        />
-      </div>
-      <div>
-        <TextField
-          style={{ width: '100%' }}
-          label="Password"
-          type="password"
-          autoComplete="current-password"
-          value={password}
-          onChange={handleChange('password')}
-          required
-        />
-      </div>
-      <div style={{ paddingTop: '20px' }}>
-        <Button raised color="primary" onClick={handleSignup}>
-          Login
-        </Button>
-      </div>
-    </form>
-  </div>
-);
-
-const Verification = ({ match }) => (
-  <div>
-    <Text type="headline" color="primary" text="We sent a verification email!" />
-    <Text type="body2" color="accent"
-      text={"Please verify your account through our email sent to " + match.params.email + "."}
-    />
-  </div>
-);

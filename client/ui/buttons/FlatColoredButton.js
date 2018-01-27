@@ -2,6 +2,12 @@ import React, { Component } from 'react';
 import Button from 'material-ui/Button';
 import { theme } from '/client/ui/CustomTheme.js';
 
+/*
+ * Standardized flat button we use for most things.
+ * Props:
+ * - onClick
+ * - content
+ */
 export default function FlatColoredButton(props) {
     return(
         <Button
