@@ -96,6 +96,7 @@ export default class App extends Component {
     renderAppBody() {
         return(
             <div id="app">
+                <HomeAppBar />
                 <div id="app-body">
                     {/* SubText */}
                     <SubTextBox />
@@ -219,8 +220,6 @@ export default class App extends Component {
             <MuiThemeProvider theme={theme}>
               <Router>
                   <div>
-                      <HomeAppBar />
-
                       { (this.state.userId) ?
                               <Route exact path="/" component={Home} /> :
                               <Route exact path="/" render={ () => this.renderAppBody() } />
