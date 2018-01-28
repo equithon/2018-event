@@ -19,11 +19,9 @@ import Signup from '/client/ui/components/Signup.js';
 const styles = theme => ({
     /* TextField */
     textFieldFormLabel: {
-        //fontSize: 18,
         color: theme.palette.common.white,
     },
     textFieldInput: {
-        //fontSize: 20,
         padding: '10px 12px',
         color: theme.palette.common.white,
     },
@@ -35,9 +33,6 @@ const styles = theme => ({
         height: '50px',
         width: '50%',
     },
-    buttonLabel: {
-        //fontSize: 16,
-    },
 
     /* Option Button */
     optionButtonRoot: {
@@ -45,9 +40,6 @@ const styles = theme => ({
         borderRadius: '25px',
         width: 'auto',
         textTransform: 'capitalize',
-    },
-    optionButtonLabel: {
-        //fontSize: 16,
     },
 
     /* Error Chip */
@@ -89,6 +81,27 @@ class Accounts extends Component {
     }
 }
 export default withStyles(styles)(Accounts);
+
+/* Useful error message chip to render for forms */
+export const ErrorMessageChip = ({ classes, errorMessage }) => {
+    if (!errorMessage) return false;
+
+    return(
+        <Chip
+            classes={{
+                root: classes.chipRoot,
+                label: classes.chipLabel,
+            }}
+            avatar={
+                <Avatar
+                    className={ classes.chipAvatarRoot }
+                    children={ <i className="fas fa-exclamation"></i> }
+                ></Avatar>
+            }
+            label={ <Text style={{ color: 'white' }} type="body2" text={ errorMessage} />}
+        />
+    );
+};
 
 /* Maybe useful? */
 const StaffOption = ({ classes }) => (
