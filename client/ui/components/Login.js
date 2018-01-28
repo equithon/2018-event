@@ -4,13 +4,13 @@ import { Route, Link, Redirect } from 'react-router-dom';
 import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
 import Paper from 'material-ui/Paper';
-import { withStyles } from 'material-ui/styles';
 import Chip from 'material-ui/Chip';
 import Avatar from 'material-ui/Avatar';
 
 import Text from '/client/ui/components/Text.js';
 import FlatColoredButton from '/client/ui/buttons/FlatColoredButton.js';
 import ForgotPasswordModal from '/client/ui/components/ForgotPasswordModal.js';
+import { ErrorMessageChip } from '/client/ui/components/Accounts.js';
 
 
 export default class Login extends Component {
@@ -75,6 +75,7 @@ export default class Login extends Component {
         });
     };
 
+    /***** Rendering *****/
     /*
      * Main login form that handles actual logins.
      */
@@ -133,11 +134,7 @@ export default class Login extends Component {
 
                         {/* Forgot Password Optional Button */}
                         <div className="accounts-align-right" style={{ padding: '5px' }}>
-                            <Button
-                                classes={{
-                                    root: classes.optionButtonRoot,
-                                    label: classes.optionButtonLabel,
-                                }}
+                            <Button classes={{ root: classes.optionButtonRoot }}
                                 onClick={this.handleForgotPasswordModalOpen}
                             >
                                 <strong><em>I forgot my password</em></strong>
@@ -146,11 +143,7 @@ export default class Login extends Component {
 
                         {/* Login Main Button */}
                         <div style={{ textAlign: 'center', padding: '5px' }}>
-                            <FlatColoredButton
-                                classes={{
-                                    root: classes.buttonRoot,
-                                    label: classes.buttonLabel,
-                                }}
+                            <FlatColoredButton classes={{ root: classes.buttonRoot }}
                                 onClick={this.handleUserLogin} content="Login"
                             />
                         </div>
@@ -158,12 +151,7 @@ export default class Login extends Component {
                         {/* Home Main Button */}
                         <div style={{ textAlign: 'center', padding: '5px' }}>
                             <Link to="/">
-                                <Button
-                                    classes={{
-                                        root: classes.buttonRoot,
-                                        label: classes.buttonLabel
-                                    }}
-                                >
+                                <Button classes={{ root: classes.buttonRoot }}>
                                     HOME
                                 </Button>
                             </Link>
@@ -173,7 +161,7 @@ export default class Login extends Component {
                     {/* Conditionally render error message */}
                     { (this.state.success) ?
                             <Redirect to="/" /> :
-                            this.renderErrorMessage()
+                            <ErrorMessageChip classes={classes} errorMessage={this.state.errorMessage} />
                     }
 
                     {/* Forgot password modal */}
@@ -184,32 +172,6 @@ export default class Login extends Component {
                 {/* Footer */}
                 <AccountsLoginFooter classes={classes} />
             </div>
-        );
-    }
-
-    /*
-     * Error message displayed as a chip in the bottom left.
-     */
-    renderErrorMessage() {
-        const { classes } = this.props;
-
-        let errorMessage = this.state.errorMessage;
-        if (!errorMessage) return false;
-
-        return(
-            <Chip
-                classes={{
-                    root: classes.chipRoot,
-                    label: classes.chipLabel,
-                }}
-                avatar={
-                    <Avatar
-                        className={ classes.chipAvatarRoot }
-                        children={ <i className="fas fa-exclamation"></i> }
-                    ></Avatar>
-                }
-                label={ <Text style={{ color: 'white' }} type="body2" text={ errorMessage} />}
-            />
         );
     }
 }

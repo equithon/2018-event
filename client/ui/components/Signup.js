@@ -1,124 +1,211 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Redirect, Link } from 'react-router-dom';
+import { Route, Link, Redirect } from 'react-router-dom';
 
-import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField';
+import Button from 'material-ui/Button';
+import Paper from 'material-ui/Paper';
+import Chip from 'material-ui/Chip';
+import Avatar from 'material-ui/Avatar';
 
 import Text from '/client/ui/components/Text.js';
 import FlatColoredButton from '/client/ui/buttons/FlatColoredButton.js';
+import ForgotPasswordModal from '/client/ui/components/ForgotPasswordModal.js';
+import { ErrorMessageChip } from '/client/ui/components/Accounts.js';
 
 const signupStyle = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  marginRight: '-50%',
-  transform: 'translate(-50%, -50%)',
-  maxWidth: '500px',
-  padding: '10px',
-  paddingTop: '110px',
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    marginRight: '-50%',
+    transform: 'translate(-50%, -50%)',
+    maxWidth: '500px',
+    padding: '10px',
+    paddingTop: '110px',
 };
 
 export default class Signup extends Component {
-  constructor(props) {
-    super(props);
+    constructor(props) {
+        super(props);
 
-    this.state = {
-      username: '',
-      email: '',
-      password: '',
+        this.state = {
+            firstName: '',
+            lastName: '',
+            email: '',
+            password: '',
+            confirmPassword: '',
 
-      errorMessage: '',
-      successMessage: '',
+            success: false,
+            errorMessage: '',
+        };
+
+        this.handleSignup = this.handleSignup.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+    }
+
+    /***** Event Handling *****/
+    /* User Signup */
+    handleSignup(event) {
+        event.preventDefault();
+
+        if (this.state.password !== this.state.confirmPassword) {
+            this.setState({
+                success: false,
+                errorMessage: "Your confirmation password does not match your actual password."
+            });
+        } else {
+            let user = {
+                firstName: this.state.firstName,
+                lastName: this.state.lastName,
+                email: this.state.email,
+                password: this.state.password,
+            };
+
+            Accounts.createUser(user, (err) => {
+                if (err) {
+                    this.setState({
+                        success: false,
+                        errorMessage: err.reason,
+                    });
+                } else {
+                    this.setState({
+                        success: true,
+                        errorMessage: '',
+                    });
+                }
+            });
+        }
+    }
+
+    /* Change in any of the text fields */
+    handleChange = name => event => {
+        this.setState({
+            [name]: event.target.value
+        });
     };
 
-    this.handleSignup = this.handleSignup.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-  }
+    /***** Rendering *****/
+    /*
+     * Main signup form
+     */
+    render() {
+        const { classes } = this.props;
 
-  handleSignup(event) {
-    event.preventDefault();
+        return(
+            <div className="accounts-grid">
+                <div style={{ gridArea: 'body', textAlign: 'center' }}>
+                    {/* Logo */}
+                    <img className="accounts-logo" src="/logos/logo-bulb_256x256.png" />
 
-    let user = {
-      username: this.state.username,
-      email: this.state.email,
-      password: this.state.password,
-    };
+                    {/* Words */}
+                    <Text className="accounts-login-title" style={{ color: 'white' }} align="center" type="display3"
+                        text="Create an Account" />
 
-    Accounts.createUser(user, (err) => {
-      if (err) {
-        this.setState({
-          errorMessage: err.reason,
-          successMessage: '',
-        });
-      } else {
-        this.setState({
-          errorMessage: '',
-          successMessage: 'Success! Please verify your email address via the link we sent to ' + user.email + '.',
-        });
-      }
-    });
-  }
+                    {/* Form */}
+                    <form onSubmit={this.handleUserLogin}>
+                        {/* First Name Field */}
+                        <TextInputField classes={classes} label="First Name" value={this.state.firstName}
+                            onChange={this.handleChange} stateName="firstName" />
 
-  handleChange = name => event => {
-    this.setState({
-      [name]: event.target.value
-    });
-  };
+                        {/* Last Name Field */}
+                        <TextInputField classes={classes} label="Last Name" value={this.state.lastName}
+                            onChange={this.handleChange} stateName="lastName" />
 
-  render() {
-    return(
-      <div style={signupStyle}>
-        <Paper style={{ padding: '50px' }}>
-          <div style={{ paddingBottom: '10px' }}>
-            <Text style={{ textAlign: 'center' }} color="primary" type="display1" text="Sign up" />
-            <Text color="secondary" type="body2" text="Please submit your information below to sign up." />
-            <form onSubmit={this.handleSignup}>
-              {/* Username */}
-              <div>
-                <TextField
-                  style={{ width: '100%' }}
-                  label="Username"
-                  value={this.state.username}
-                  onChange={this.handleChange('username')}
-                  required
-                />
-              </div>
+                        {/* Email Field */}
+                        <TextInputField classes={classes} label="Email" value={this.state.email}
+                            onChange={this.handleChange} stateName="email" />
 
-              {/* Email */}
-              <div>
-                <TextField
-                  style={{ width: '100%' }}
-                  label="Email"
-                  value={this.state.email}
-                  onChange={this.handleChange('email')}
-                  required
-                />
-              </div>
+                        {/* Password Field */}
+                        <PasswordInputField classes={classes} label="Password" value={this.state.password}
+                            onChange={this.handleChange} stateName="password" />
 
-              {/* Password */}
-              <div>
-                <TextField
-                  style={{ width: '100%' }}
-                  label="Password"
-                  type="password"
-                  autoComplete="current-password"
-                  value={this.state.password}
-                  onChange={this.handleChange('password')}
-                  required
-                />
-              </div>
+                        {/* Confirm Password Field */}
+                        <PasswordInputField classes={classes} label="Confirm Password" value={this.state.confirmPassword}
+                            onChange={this.handleChange} stateName="confirmPassword" />
 
-              {/* Signup Button */}
-              <div style={{ paddingTop: '20px' }}>
-                  <FlatColoredButton onClick={this.handleSignup} content="Sign Up" />
-              </div>
-            </form>
-          </div>
+                        {/* Signup Main Button */}
+                        <div style={{ textAlign: 'center', padding: '5px' }}>
+                            <FlatColoredButton classes={{ root: classes.buttonRoot }}
+                                onClick={this.handleSignup} content="Signup"
+                            />
+                        </div>
 
-          { (this.state.successMessage) ? <Text color="primary" type="body2" text={this.state.successMessage} /> :
-                                          <Text color="error" type="body2" text={this.state.errorMessage} /> }
-        </Paper>
-      </div>
-    );
-  }
+                        {/* Home Main Button */}
+                        <div style={{ textAlign: 'center', padding: '5px' }}>
+                            <Link to="/">
+                                <Button classes={{ root: classes.buttonRoot }}>
+                                    HOME
+                                </Button>
+                            </Link>
+                        </div>
+
+                        {/* Conditionally render error message */}
+                        { (this.state.success) ?
+                                <Redirect to="/verify-your-email" /> :
+                                <ErrorMessageChip classes={classes} errorMessage={this.state.errorMessage} />
+                        }
+                    </form>
+                </div>
+
+                {/* Footer */}
+                <AccountsSignupFooter classes={classes} />
+            </div>
+        );
+    }
 }
+
+
+const PasswordInputField = ({ classes, label, value, onChange, stateName }) => (
+    <TextField
+        style={{ align: 'center' }}
+        InputProps={{ classes: {
+            root: classes.textFieldRoot,
+            input: classes.textFieldInput,
+        }}}
+        InputLabelProps={{ className: classes.textFieldFormLabel }}
+        fullWidth
+        margin="normal"
+
+        type="password"
+        autoComplete="current-password"
+        label={label}
+        value={value}
+        onChange={onChange(stateName)}
+        required
+    />
+);
+
+const TextInputField = ({ classes, label, value, onChange, stateName }) => (
+    <TextField
+        style={{ align: 'center' }}
+        InputProps={{ classes: {
+            root: classes.textFieldRoot,
+            input: classes.textFieldInput,
+        }}}
+        InputLabelProps={{ className: classes.textFieldFormLabel }}
+        fullWidth
+        margin="normal"
+
+        label={label}
+        value={value}
+        onChange={onChange(stateName)}
+        required
+    />
+);
+
+
+/*
+ * Footer for Login Accounts page.
+ */
+const AccountsSignupFooter = ({ classes }) => (
+    <div style={{ gridArea: 'footer' }}>
+        <Text style={{ paddingTop: '30px', color: 'white' }} align="center" type="subheading"
+            text={
+                <div>Already have an account? <Link to="/accounts/login">
+                    <Button classes={{ root: classes.optionButtonRoot, label: classes.optionButtonLabel }}>
+                        <strong>SIGN IN</strong>
+                    </Button>
+                </Link></div>
+            }
+        />
+    </div>
+);
