@@ -58,7 +58,7 @@ export default class SubscriptionModal extends Component {
   }
 
   render() {
-    style = {
+    const style = {
       // Center in screen
       position: 'absolute',
       top: '50%',
