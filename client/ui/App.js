@@ -22,6 +22,7 @@ import FaqCard from '/client/ui/components/FaqCard.js';
 import FlatColoredButton from '/client/ui/buttons/FlatColoredButton.js';
 import EmailVerification from '/client/ui/components/EmailVerification.js';
 import Home from '/client/ui/Home.js';
+import Accounts from '/client/ui/components/Accounts.js';
 
 const theme = createMuiTheme({
     palette: {
@@ -220,12 +221,14 @@ export default class App extends Component {
             <MuiThemeProvider theme={theme}>
               <Router>
                   <div style={{ width: 'inherit', height: 'inherit' }}>
+                      {/* Render user home page if logged in */}
                       { (this.state.userId) ?
                               <Route exact path="/" component={Home} /> :
                               <Route exact path="/" render={ () => this.renderAppBody() } />
                       }
-                      <Route path="/login" component={Login} />
-                      <Route path="/signup" component={Signup} />
+
+                      {/* Render accounts */}
+                      <Route path="/accounts" component={Accounts} />
 
                       {/* Go back to home page on logout */}
                       <Route path="/logout" render={() => {
@@ -233,7 +236,7 @@ export default class App extends Component {
                           return <Redirect to="/" />;
                       }} />
 
-                      {/* This is hooked into Accounts.onEmailVericationLink */}
+                      {/* TODO: fix this This is hooked into Accounts.onEmailVericationLink */}
                       <EmailVerification />
                    </div>
               </Router>
