@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import { Route, Link, Redirect } from 'react-router-dom';
 
 import TextField from 'material-ui/TextField';
-import { FormControl } from 'material-ui/Form';
-import Input, { InputLabel } from 'material-ui/Input';
 import Button from 'material-ui/Button';
 import Paper from 'material-ui/Paper';
 import { withStyles } from 'material-ui/styles';
@@ -15,59 +13,7 @@ import FlatColoredButton from '/client/ui/buttons/FlatColoredButton.js';
 import ForgotPasswordModal from '/client/ui/components/ForgotPasswordModal.js';
 
 
-/* Styles for various components */
-const styles = theme => ({
-    /* TextField */
-    textFieldFormLabel: {
-        //fontSize: 18,
-        color: theme.palette.common.white,
-    },
-    textFieldInput: {
-        //fontSize: 20,
-        padding: '10px 12px',
-        color: theme.palette.common.white,
-    },
-
-    /* Main Button */
-    buttonRoot: {
-        color: theme.palette.common.white,
-        borderRadius: '25px',
-        height: '50px',
-        width: '50%',
-    },
-    buttonLabel: {
-        //fontSize: 16,
-    },
-
-    /* Option Button */
-    optionButtonRoot: {
-        color: theme.palette.common.white,
-        borderRadius: '25px',
-        width: 'auto',
-        textTransform: 'capitalize',
-    },
-    optionButtonLabel: {
-        //fontSize: 16,
-    },
-
-    /* Error Chip */
-    chipRoot: {
-        backgroundColor: 'rgba(127, 10, 10, 0.76)',
-        paddingTop: '3px',
-    },
-    chipLabel: {
-        paddingLeft: '0px',
-    },
-    chipAvatarRoot: {
-        margin: 5,
-        textAlign: 'center',
-        color: theme.palette.common.white,
-        backgroundColor: 'transparent',
-    },
-});
-
-
-class Login extends Component {
+export default class Login extends Component {
     constructor(props) {
         super(props);
 
@@ -87,7 +33,6 @@ class Login extends Component {
         this.handleForgotPasswordModalOpen  = this.handleForgotPasswordModalOpen.bind(this);
         this.handleForgotPasswordModalClose = this.handleForgotPasswordModalClose.bind(this);
     }
-
 
     /***** Event Handling *****/
     /* User Login */
@@ -130,127 +75,114 @@ class Login extends Component {
         });
     };
 
-
-    /***** Rendering *****/
-    /* Rendering entry point */
-    render() {
-        return(
-            <div className="accounts-background">   {/* Cool background image */}
-                <div className="accounts-background-color">   {/* Purple gradient overlay */}
-                    <div className="accounts-grid">
-                        {/* Body */}
-                        {this.renderUserLogin()};
-
-                        {/* Forgot password modal */}
-                        <ForgotPasswordModal open={this.state.forgotPasswordModalOpen} onClose={this.handleForgotPasswordModalClose} />
-
-                        {/* Footer */}
-                        <AccountsLoginFooter classes={this.props.classes} />
-                    </div>
-                </div>
-            </div>
-        );
-    }
-
     /*
      * Main login form that handles actual logins.
      */
-    renderUserLogin() {
+    render() {
         const { classes } = this.props;
 
         return(
-            <div style={{ gridArea: 'body', textAlign: 'center' }}>
-                {/* Logo */}
-                <img className="accounts-logo" src="/logos/logo-bulb_256x256.png" />
+            <div className="accounts-grid">
+                <div style={{ gridArea: 'body', textAlign: 'center' }}>
+                    {/* Logo */}
+                    <img className="accounts-logo" src="/logos/logo-bulb_256x256.png" />
 
-                {/* Words */}
-                <Text className="accounts-login-title" style={{ color: 'white' }} align="center" type="display3"
-                    text="Welcome Back!" />
-                <Text className="accounts-login-desc" style={{ color: 'white' }} align="center" type="display1"
-                    text="Let's get to work." />
+                    {/* Words */}
+                    <Text className="accounts-login-title" style={{ color: 'white' }} align="center" type="display3"
+                        text="Welcome Back!" />
+                    <Text className="accounts-login-desc" style={{ color: 'white' }} align="center" type="display1"
+                        text="Let's get to work." />
 
-                {/* Form */}
-                <form onSubmit={this.handleUserLogin}>
-                    {/* Email Field */}
-                    <TextField
-                        style={{ align: 'center' }}
-                        InputProps={{ classes: {
-                            root: classes.textFieldRoot,
-                            input: classes.textFieldInput,
-                        }}}
-                        InputLabelProps={{ className: classes.textFieldFormLabel }}
-                        fullWidth
-                        margin="normal"
+                    {/* Form */}
+                    <form onSubmit={this.handleUserLogin}>
+                        {/* Email Field */}
+                        <TextField
+                            style={{ align: 'center' }}
+                            InputProps={{ classes: {
+                                root: classes.textFieldRoot,
+                                input: classes.textFieldInput,
+                            }}}
+                            InputLabelProps={{ className: classes.textFieldFormLabel }}
+                            fullWidth
+                            margin="normal"
 
-                        label="Email"
-                        value={this.state.email}
-                        onChange={this.handleChange('email')}
-                        required
-                    />
-
-                    {/* Password Field */}
-                    <TextField
-                        style={{ align: 'center' }}
-                        InputProps={{ classes: {
-                            root: classes.textFieldRoot,
-                            input: classes.textFieldInput,
-                        }}}
-                        InputLabelProps={{ className: classes.textFieldFormLabel }}
-                        fullWidth
-                        margin="normal"
-
-                        label="Password"
-                        type="password"
-                        autoComplete="current-password"
-                        value={this.state.password}
-                        onChange={this.handleChange('password')}
-                        required
-                    />
-
-                    {/* Forgot Password Optional Button */}
-                    <div className="accounts-align-right" style={{ padding: '5px' }}>
-                        <Button
-                            classes={{
-                                root: classes.optionButtonRoot,
-                                label: classes.optionButtonLabel,
-                            }}
-                            onClick={this.handleForgotPasswordModalOpen}
-                        >
-                            <strong><em>I forgot my password</em></strong>
-                        </Button>
-                    </div>
-
-                    {/* Login Main Button */}
-                    <div style={{ textAlign: 'center', padding: '5px' }}>
-                        <FlatColoredButton
-                            classes={{
-                                root: classes.buttonRoot,
-                                label: classes.buttonLabel,
-                            }}
-                            onClick={this.handleUserLogin} content="Login"
+                            label="Email"
+                            value={this.state.email}
+                            onChange={this.handleChange('email')}
+                            required
                         />
-                    </div>
 
-                    {/* Home Main Button */}
-                    <div style={{ textAlign: 'center', padding: '5px' }}>
-                        <Link to="/">
+                        {/* Password Field */}
+                        <TextField
+                            style={{ align: 'center' }}
+                            InputProps={{ classes: {
+                                root: classes.textFieldRoot,
+                                input: classes.textFieldInput,
+                            }}}
+                            InputLabelProps={{ className: classes.textFieldFormLabel }}
+                            fullWidth
+                            margin="normal"
+
+                            label="Password"
+                            type="password"
+                            autoComplete="current-password"
+                            value={this.state.password}
+                            onChange={this.handleChange('password')}
+                            required
+                        />
+
+                        {/* Forgot Password Optional Button */}
+                        <div className="accounts-align-right" style={{ padding: '5px' }}>
                             <Button
                                 classes={{
-                                    root: classes.buttonRoot,
-                                    label: classes.buttonLabel
+                                    root: classes.optionButtonRoot,
+                                    label: classes.optionButtonLabel,
                                 }}
+                                onClick={this.handleForgotPasswordModalOpen}
                             >
-                                HOME
+                                <strong><em>I forgot my password</em></strong>
                             </Button>
-                        </Link>
-                    </div>
-                </form>
+                        </div>
 
-                {/* Conditionally render error message */}
-                { (this.state.success) ?
-                        <Redirect to="/" /> :
-                        this.renderErrorMessage()
-                }
+                        {/* Login Main Button */}
+                        <div style={{ textAlign: 'center', padding: '5px' }}>
+                            <FlatColoredButton
+                                classes={{
+                                    root: classes.buttonRoot,
+                                    label: classes.buttonLabel,
+                                }}
+                                onClick={this.handleUserLogin} content="Login"
+                            />
+                        </div>
+
+                        {/* Home Main Button */}
+                        <div style={{ textAlign: 'center', padding: '5px' }}>
+                            <Link to="/">
+                                <Button
+                                    classes={{
+                                        root: classes.buttonRoot,
+                                        label: classes.buttonLabel
+                                    }}
+                                >
+                                    HOME
+                                </Button>
+                            </Link>
+                        </div>
+                    </form>
+
+                    {/* Conditionally render error message */}
+                    { (this.state.success) ?
+                            <Redirect to="/" /> :
+                            this.renderErrorMessage()
+                    }
+
+                    {/* Forgot password modal */}
+                    <ForgotPasswordModal open={this.state.forgotPasswordModalOpen} onClose={this.handleForgotPasswordModalClose} />
+
+                </div>
+
+                {/* Footer */}
+                <AccountsLoginFooter classes={classes} />
             </div>
         );
     }
@@ -283,42 +215,19 @@ class Login extends Component {
 }
 
 
-export default withStyles(styles)(Login);
-
 /*
  * Footer for Login Accounts page.
  */
 const AccountsLoginFooter = ({ classes }) => (
-    <div style={{ gridArea: 'footer', overflow: 'hidden', width: '100%', height: '100%' }}>
+    <div style={{ gridArea: 'footer' }}>
         <Text style={{ paddingTop: '30px', color: 'white' }} align="center" type="subheading"
             text={
-                <div>New User? <Link to="/signup">
+                <div>New User? <Link to="/accounts/signup">
                     <Button classes={{ root: classes.optionButtonRoot, label: classes.optionButtonLabel }}>
                         <strong>CREATE AN ACCOUNT</strong>
                     </Button>
                 </Link></div>
             }
         />
-    </div>
-);
-
-
-/* Maybe useful? */
-const StaffOption = ({ classes }) => (
-    <div style={{ textAlign: 'right' }}>
-        <Route exact path="/login" render={() => (
-            <Link to="/login/staff" replace>
-                <Button classes={{ root: classes.optionButtonRoot, label: classes.optionButtonLabel, }}>
-                    <strong><em>Staff Login</em></strong>
-                </Button>
-            </Link>
-        )} />
-        <Route exact path="/login/staff" render={() => (
-            <Link to="/login" replace>
-                <Button classes={{ root: classes.optionButtonRoot, label: classes.optionButtonLabel, }}>
-                    <strong><em>User Login</em></strong>
-                </Button>
-            </Link>
-        )} />
     </div>
 );

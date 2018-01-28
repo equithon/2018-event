@@ -48,7 +48,6 @@ export default class ForgotPasswordModal extends Component {
                 aria-describedby="Enter your email so that we can send you a password recovery link."
                 open={this.props.open}
                 onClose={this.props.onClose}
-                fullWidth
             >
                 <div className="center-screen-modal">
                     <Paper style={{ padding: '50px' }} elevation={5}>
