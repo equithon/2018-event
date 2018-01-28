@@ -5,11 +5,8 @@ import { Tracker } from 'meteor/tracker';
 import MediaQuery from 'react-responsive';
 import { BrowserRouter as Router, Route, Link, Redirect } from 'react-router-dom';
 
-import {MuiThemeProvider, createMuiTheme} from 'material-ui/styles';
-import purple from 'material-ui/colors/purple';
-import indigo from 'material-ui/colors/indigo';
-import {Card, CardMedia, List, ListItem, Paper} from "material-ui";
-import Button from 'material-ui/Button';
+import {MuiThemeProvider} from 'material-ui/styles';
+import {Card, CardContent, CardMedia} from "material-ui";
 
 import HomeAppBar from '/client/ui/components/HomeAppBar.js';
 import Text from '/client/ui/components/Text.js';
@@ -18,6 +15,7 @@ import SubscriptionModal from '/client/ui/components/SubscriptionModal.js';
 import UnsubscribeModal from '/client/ui/components/UnsubscribeModal.js';
 import Login from '/client/ui/components/Login.js';
 import Signup from '/client/ui/components/Signup.js';
+import Apply from '/client/ui/components/Apply.js';
 import FaqCard from '/client/ui/components/FaqCard.js';
 import FlatColoredButton from '/client/ui/buttons/FlatColoredButton.js';
 import EmailVerification from '/client/ui/components/EmailVerification.js';
@@ -33,12 +31,6 @@ const theme = createMuiTheme({
 
 const mainTextBoxStyle = {
     gridArea: 'right',
-
-    display: 'grid',
-    gridTemplateRows: 'auto auto',
-    gridRowGap: '5px',
-    padding: '5px'
-};
 
 const imageElevation = 7;
 
@@ -220,24 +212,11 @@ export default class App extends Component {
         return (
             <MuiThemeProvider theme={theme}>
               <Router>
-                  <div style={{ width: 'inherit', height: 'inherit' }}>
-                      {/* Render user home page if logged in */}
-                      { (this.state.userId) ?
-                              <Route exact path="/" component={Home} /> :
-                              <Route exact path="/" render={ () => this.renderAppBody() } />
-                      }
-
-                      {/* Render accounts */}
-                      <Route path="/accounts" component={Accounts} />
-
-                      {/* Go back to home page on logout */}
-                      <Route path="/logout" render={() => {
-                          Meteor.logout();
-                          return <Redirect to="/" />;
-                      }} />
-
-                      {/* TODO: fix this This is hooked into Accounts.onEmailVericationLink */}
-                      <EmailVerification />
+                  <div>
+                      <Route exact path="/" render={() => this.renderAppBody()} />
+                      <Route path="/login" component={Login} />
+                      <Route path="/signup" component={Signup} />
+                      <Route path="/apply" component={Apply} />
                    </div>
               </Router>
             </MuiThemeProvider>
