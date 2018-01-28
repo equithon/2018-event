@@ -58,14 +58,6 @@ export default class SubscriptionModal extends Component {
   }
 
   render() {
-    const style = {
-      // Center in screen
-      position: 'absolute',
-      top: '50%',
-      left: '50%',
-      transform: 'translate(-50%, -50%)',
-    };
-
     return(
       <Modal
         aria-labelledby="Email Subscription"
@@ -73,7 +65,7 @@ export default class SubscriptionModal extends Component {
         open={this.props.open}
         onClose={this.props.onClose}
       >
-        <div style={style}>
+        <div className="center-screen-modal">
           <Paper style={{ padding: '50px' }} elevation={5}>
             <Text color='primary' type='display1' text='Email Subscription' />
             <br/>

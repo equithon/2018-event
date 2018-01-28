@@ -136,15 +136,17 @@ class Login extends Component {
     render() {
         return(
             <div className="accounts-background">   {/* Cool background image */}
-                <div className="accounts-background-color accounts-grid">   {/* Purple gradient overlay */}
-                    {/* Body */}
-                    {this.renderUserLogin()};
+                <div className="accounts-background-color">   {/* Purple gradient overlay */}
+                    <div className="accounts-grid">
+                        {/* Body */}
+                        {this.renderUserLogin()};
 
-                    {/* Forgot password modal */}
-                    <ForgotPasswordModal open={this.state.forgotPasswordModalOpen} onClose={this.handleForgotPasswordModalClose} />
+                        {/* Forgot password modal */}
+                        <ForgotPasswordModal open={this.state.forgotPasswordModalOpen} onClose={this.handleForgotPasswordModalClose} />
 
-                    {/* Footer */}
-                    <AccountsLoginFooter classes={this.props.classes} />
+                        {/* Footer */}
+                        <AccountsLoginFooter classes={this.props.classes} />
+                    </div>
                 </div>
             </div>
         );
@@ -162,8 +164,10 @@ class Login extends Component {
                 <img className="accounts-logo" src="/logos/logo-bulb_256x256.png" />
 
                 {/* Words */}
-                <Text style={{ color: 'white', paddingBottom: '10px' }} align="center" type="display3" text="Welcome Back!" />
-                <Text style={{ color: 'white', paddingBottom: '30px' }} align="center" type="display1" text="Let's get to work." />
+                <Text className="accounts-login-title" style={{ color: 'white' }} align="center" type="display3"
+                    text="Welcome Back!" />
+                <Text className="accounts-login-desc" style={{ color: 'white' }} align="center" type="display1"
+                    text="Let's get to work." />
 
                 {/* Form */}
                 <form onSubmit={this.handleUserLogin}>
@@ -175,8 +179,8 @@ class Login extends Component {
                             input: classes.textFieldInput,
                         }}}
                         InputLabelProps={{ className: classes.textFieldFormLabel }}
-                        margin="normal"
                         fullWidth
+                        margin="normal"
 
                         label="Email"
                         value={this.state.email}
@@ -192,8 +196,8 @@ class Login extends Component {
                             input: classes.textFieldInput,
                         }}}
                         InputLabelProps={{ className: classes.textFieldFormLabel }}
-                        margin="normal"
                         fullWidth
+                        margin="normal"
 
                         label="Password"
                         type="password"
@@ -204,7 +208,7 @@ class Login extends Component {
                     />
 
                     {/* Forgot Password Optional Button */}
-                    <div className="accounts-align-right">
+                    <div className="accounts-align-right" style={{ padding: '5px' }}>
                         <Button
                             classes={{
                                 root: classes.optionButtonRoot,
@@ -217,7 +221,7 @@ class Login extends Component {
                     </div>
 
                     {/* Login Main Button */}
-                    <div style={{ textAlign: 'center' }}>
+                    <div style={{ textAlign: 'center', padding: '5px' }}>
                         <FlatColoredButton
                             classes={{
                                 root: classes.buttonRoot,
@@ -228,7 +232,7 @@ class Login extends Component {
                     </div>
 
                     {/* Home Main Button */}
-                    <div style={{ paddingTop: '10px', textAlign: 'center' }}>
+                    <div style={{ textAlign: 'center', padding: '5px' }}>
                         <Link to="/">
                             <Button
                                 classes={{

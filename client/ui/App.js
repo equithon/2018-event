@@ -219,7 +219,7 @@ export default class App extends Component {
         return (
             <MuiThemeProvider theme={theme}>
               <Router>
-                  <div>
+                  <div style={{ width: 'inherit', height: 'inherit' }}>
                       { (this.state.userId) ?
                               <Route exact path="/" component={Home} /> :
                               <Route exact path="/" render={ () => this.renderAppBody() } />
