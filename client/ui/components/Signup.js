@@ -10,7 +10,7 @@ import Avatar from 'material-ui/Avatar';
 import Text from '/client/ui/components/Text.js';
 import FlatColoredButton from '/client/ui/buttons/FlatColoredButton.js';
 import ForgotPasswordModal from '/client/ui/components/ForgotPasswordModal.js';
-import { ErrorMessageChip } from '/client/ui/components/Accounts.js';
+import { ErrorMessageChip, AccountsFooter } from '/client/ui/components/Accounts.js';
 
 const signupStyle = {
     position: 'absolute',
@@ -147,7 +147,7 @@ export default class Signup extends Component {
                 </div>
 
                 {/* Footer */}
-                <AccountsSignupFooter classes={classes} />
+                <AccountsFooter classes={classes} link="/accounts/login" text="SIGN IN" />
             </div>
         );
     }
@@ -190,22 +190,4 @@ const TextInputField = ({ classes, label, value, onChange, stateName }) => (
         onChange={onChange(stateName)}
         required
     />
-);
-
-
-/*
- * Footer for Login Accounts page.
- */
-const AccountsSignupFooter = ({ classes }) => (
-    <div style={{ gridArea: 'footer' }}>
-        <Text style={{ paddingTop: '30px', color: 'white' }} align="center" type="subheading"
-            text={
-                <div>Already have an account? <Link to="/accounts/login">
-                    <Button classes={{ root: classes.optionButtonRoot, label: classes.optionButtonLabel }}>
-                        <strong>SIGN IN</strong>
-                    </Button>
-                </Link></div>
-            }
-        />
-    </div>
 );

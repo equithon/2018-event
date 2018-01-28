@@ -103,6 +103,23 @@ export const ErrorMessageChip = ({ classes, errorMessage }) => {
     );
 };
 
+/*
+ * Footer for Signup page.
+ */
+export const AccountsFooter = ({ classes, link, text }) => (
+    <div style={{ gridArea: 'footer' }}>
+        <Text style={{ paddingTop: '30px', color: 'white' }} align="center" type="subheading"
+            text={
+                <div>Already have an account? <Link to={link}>
+                    <Button classes={{ root: classes.optionButtonRoot, label: classes.optionButtonLabel }}>
+                        <strong>{text}</strong>
+                    </Button>
+                </Link></div>
+            }
+        />
+    </div>
+);
+
 /* Maybe useful? */
 const StaffOption = ({ classes }) => (
     <div style={{ textAlign: 'right' }}>
