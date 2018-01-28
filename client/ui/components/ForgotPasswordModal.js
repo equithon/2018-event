@@ -42,21 +42,15 @@ export default class ForgotPasswordModal extends Component {
     }
 
     render() {
-        const centerInScreen = {
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-        };
-
         return(
             <Modal
                 aria-labelledby="Forgot Password"
                 aria-describedby="Enter your email so that we can send you a password recovery link."
                 open={this.props.open}
                 onClose={this.props.onClose}
+                fullWidth
             >
-                <div style={centerInScreen}>
+                <div className="center-screen-modal">
                     <Paper style={{ padding: '50px' }} elevation={5}>
                         <Text color="primary" type="headline" align="center" text="Forget your password?" />
                         <Text color="secondary" type="body2" align="center"
@@ -76,7 +70,7 @@ export default class ForgotPasswordModal extends Component {
                                 />
 
                                 {/* Submit */}
-                                <FlatColoredButton onClick={this.handleSubmit} content="Submit" />
+                                <FlatColoredButton style={{ fontSize: 24, width: '50%' }} onClick={this.handleSubmit} content="〉"/>
                             </div>
                         </form>
                     </Paper>
