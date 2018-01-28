@@ -12,6 +12,7 @@ import Avatar from 'material-ui/Avatar';
 
 import Text from '/client/ui/components/Text.js';
 import FlatColoredButton from '/client/ui/buttons/FlatColoredButton.js';
+import ForgotPasswordModal from '/client/ui/components/ForgotPasswordModal.js';
 
 
 /* Styles for various components */
@@ -76,14 +77,20 @@ class Login extends Component {
 
             success: false,
             errorMessage: '',
+
+            // Forgot Password Modal
+            forgotPasswordModalOpen: false,
         };
 
-        this.handleUserLogin = this.handleUserLogin.bind(this);
-        this.handleChange = this.handleChange.bind(this);
+        this.handleUserLogin                = this.handleUserLogin.bind(this);
+        this.handleChange                   = this.handleChange.bind(this);
+        this.handleForgotPasswordModalOpen  = this.handleForgotPasswordModalOpen.bind(this);
+        this.handleForgotPasswordModalClose = this.handleForgotPasswordModalClose.bind(this);
     }
 
 
     /***** Event Handling *****/
+    /* User Login */
     handleUserLogin(event) {
         event.preventDefault();
 
@@ -97,6 +104,26 @@ class Login extends Component {
             });
         });
     }
+
+    /* Open ForgotPasswordModal */
+    handleForgotPasswordModalOpen(event) {
+        event.preventDefault();
+
+        this.setState({
+            forgotPasswordModalOpen: true,
+        });
+    }
+
+    /* Close ForgotPasswordModal */
+    handleForgotPasswordModalClose(event) {
+        event.preventDefault();
+
+        this.setState({
+            forgotPasswordModalOpen: false,
+        });
+    }
+
+    /* Change in any of the text fields */
     handleChange = name => event => {
         this.setState({
             [name]: event.target.value
@@ -112,6 +139,9 @@ class Login extends Component {
                 <div className="accounts-background-color accounts-grid">   {/* Purple gradient overlay */}
                     {/* Body */}
                     {this.renderUserLogin()};
+
+                    {/* Forgot password modal */}
+                    <ForgotPasswordModal open={this.state.forgotPasswordModalOpen} onClose={this.handleForgotPasswordModalClose} />
 
                     {/* Footer */}
                     <AccountsLoginFooter classes={this.props.classes} />
@@ -175,16 +205,15 @@ class Login extends Component {
 
                     {/* Forgot Password Optional Button */}
                     <div className="accounts-align-right">
-                        <Link to="/login/forgot-password">
-                            <Button
-                                classes={{
-                                    root: classes.optionButtonRoot,
-                                    label: classes.optionButtonLabel,
-                                }}
-                            >
-                                <strong><em>I forgot my password</em></strong>
-                            </Button>
-                        </Link>
+                        <Button
+                            classes={{
+                                root: classes.optionButtonRoot,
+                                label: classes.optionButtonLabel,
+                            }}
+                            onClick={this.handleForgotPasswordModalOpen}
+                        >
+                            <strong><em>I forgot my password</em></strong>
+                        </Button>
                     </div>
 
                     {/* Login Main Button */}
@@ -256,10 +285,10 @@ export default withStyles(styles)(Login);
  * Footer for Login Accounts page.
  */
 const AccountsLoginFooter = ({ classes }) => (
-    <div style={{ gridArea: 'footer', width: '100%', height: '100%' }}>
-        <Text style={{ paddingTop: '30px', color: 'white' }} align="center" type="title"
+    <div style={{ gridArea: 'footer', overflow: 'hidden', width: '100%', height: '100%' }}>
+        <Text style={{ paddingTop: '30px', color: 'white' }} align="center" type="subheading"
             text={
-                <div>New User?<Link to="/signup">
+                <div>New User? <Link to="/signup">
                     <Button classes={{ root: classes.optionButtonRoot, label: classes.optionButtonLabel }}>
                         <strong>CREATE AN ACCOUNT</strong>
                     </Button>

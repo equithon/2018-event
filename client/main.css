@@ -1,8 +1,14 @@
 /* CSS declarations go here */
 
-html, body {
+html {
     height: 100%;
 }
+body {
+    min-height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
 #main {
     height: 100%;
 }
