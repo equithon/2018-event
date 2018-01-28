@@ -2,168 +2,290 @@ import React, { Component } from 'react';
 import { Route, Link, Redirect } from 'react-router-dom';
 
 import TextField from 'material-ui/TextField';
+import { FormControl } from 'material-ui/Form';
+import Input, { InputLabel } from 'material-ui/Input';
 import Button from 'material-ui/Button';
 import Paper from 'material-ui/Paper';
+import { withStyles } from 'material-ui/styles';
+import Chip from 'material-ui/Chip';
+import Avatar from 'material-ui/Avatar';
 
 import Text from '/client/ui/components/Text.js';
 import FlatColoredButton from '/client/ui/buttons/FlatColoredButton.js';
 
 
-const loginStyle = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  marginRight: '-50%',
-  transform: 'translate(-50%, -50%)',
-  maxWidth: '500px',
-  padding: '10px',
-  paddingTop: '110px',
-};
+/* Styles for various components */
+const styles = theme => ({
+    /* TextField */
+    textFieldFormLabel: {
+        //fontSize: 18,
+        color: theme.palette.common.white,
+    },
+    textFieldInput: {
+        //fontSize: 20,
+        padding: '10px 12px',
+        color: theme.palette.common.white,
+    },
+
+    /* Main Button */
+    buttonRoot: {
+        color: theme.palette.common.white,
+        borderRadius: '25px',
+        height: '50px',
+        width: '50%',
+    },
+    buttonLabel: {
+        //fontSize: 16,
+    },
+
+    /* Option Button */
+    optionButtonRoot: {
+        color: theme.palette.common.white,
+        borderRadius: '25px',
+        width: 'auto',
+        textTransform: 'capitalize',
+    },
+    optionButtonLabel: {
+        //fontSize: 16,
+    },
+
+    /* Error Chip */
+    chipRoot: {
+        backgroundColor: 'rgba(127, 10, 10, 0.76)',
+        paddingTop: '3px',
+    },
+    chipLabel: {
+        paddingLeft: '0px',
+    },
+    chipAvatarRoot: {
+        margin: 5,
+        textAlign: 'center',
+        color: theme.palette.common.white,
+        backgroundColor: 'transparent',
+    },
+});
 
 
-export default class Login extends Component {
-  constructor(props) {
-    super(props);
+class Login extends Component {
+    constructor(props) {
+        super(props);
 
-    this.state = {
-      username: '',
-      password: '',
+        this.state = {
+            email: '',
+            password: '',
 
-      success: false,
-      errorMessage: '',
+            success: false,
+            errorMessage: '',
+        };
+
+        this.handleUserLogin = this.handleUserLogin.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+    }
+
+
+    /***** Event Handling *****/
+    handleUserLogin(event) {
+        event.preventDefault();
+
+        Meteor.loginWithPassword({ email: this.state.email }, this.state.password, (err) => {
+            if (err) this.setState({
+                errorMessage: err.reason,
+            });
+            else this.setState({
+                success: true,
+                errorMessage: '',
+            });
+        });
+    }
+    handleChange = name => event => {
+        this.setState({
+            [name]: event.target.value
+        });
     };
 
-    this.handleUserLogin = this.handleUserLogin.bind(this);
-    this.handleStaffLogin = this.handleStaffLogin.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-  }
 
-  handleUserLogin(event) {
-    event.preventDefault();
+    /***** Rendering *****/
+    /* Rendering entry point */
+    render() {
+        return(
+            <div className="accounts-background">   {/* Cool background image */}
+                <div className="accounts-background-color accounts-grid">   {/* Purple gradient overlay */}
+                    {/* Body */}
+                    {this.renderUserLogin()};
 
-    Meteor.loginWithPassword({ username: this.state.username }, this.state.password, (err) => {
-      if (err) this.setState({
-        errorMessage: err.reason,
-      });
-      else this.setState({
-        success: true,
-        errorMessage: '',
-      });
-    });
-  }
+                    {/* Footer */}
+                    <AccountsLoginFooter classes={this.props.classes} />
+                </div>
+            </div>
+        );
+    }
 
-  handleStaffLogin(event) {
-    event.preventDefault();
-    console.log('HANDLESTAFFLOGIN: ' + this.state.username + ' ' + this.state.password);
-  }
+    /*
+     * Main login form that handles actual logins.
+     */
+    renderUserLogin() {
+        const { classes } = this.props;
 
-  handleChange = name => event => {
-    this.setState({
-      [name]: event.target.value
-    });
-  };
+        return(
+            <div style={{ gridArea: 'body', textAlign: 'center' }}>
+                {/* Logo */}
+                <img className="accounts-logo" src="/logos/logo-bulb_256x256.png" />
 
-  render() {
-    return(
-      <div style={loginStyle}>
-        <Paper id="login" style={{ padding: '50px' }}>
+                {/* Words */}
+                <Text style={{ color: 'white', paddingBottom: '10px' }} align="center" type="display3" text="Welcome Back!" />
+                <Text style={{ color: 'white', paddingBottom: '30px' }} align="center" type="display1" text="Let's get to work." />
 
-					{/* User Login */}
-          <Route exact path="/login" render={() => (
-						<UserLogin
-							username={this.state.username}
-							password={this.state.password}
-							handleLogin={this.handleUserLogin}
-							handleChange={this.handleChange}
-						/>
-					)} />
+                {/* Form */}
+                <form onSubmit={this.handleUserLogin}>
+                    {/* Email Field */}
+                    <TextField
+                        style={{ align: 'center' }}
+                        InputProps={{ classes: {
+                            root: classes.textFieldRoot,
+                            input: classes.textFieldInput,
+                        }}}
+                        InputLabelProps={{ className: classes.textFieldFormLabel }}
+                        margin="normal"
+                        fullWidth
 
-					{/* Staff Login */}
-          <Route path="/login/staff" render={() => (
-						<StaffLogin
-							username={this.state.username}
-							password={this.state.password}
-							handleLogin={this.handleUserLogin}
-							handleChange={this.handleChange}
-						/>
-					)} />
+                        label="Email"
+                        value={this.state.email}
+                        onChange={this.handleChange('email')}
+                        required
+                    />
 
-          {/* Redirect user if login was successful */}
-          { (this.state.success) ? <Redirect to="/" /> :
-              <Text type="body1" color="error" text={this.state.errorMessage} />
-          }
-        </Paper>
-      </div>
-    );
-  }
+                    {/* Password Field */}
+                    <TextField
+                        style={{ align: 'center' }}
+                        InputProps={{ classes: {
+                            root: classes.textFieldRoot,
+                            input: classes.textFieldInput,
+                        }}}
+                        InputLabelProps={{ className: classes.textFieldFormLabel }}
+                        margin="normal"
+                        fullWidth
+
+                        label="Password"
+                        type="password"
+                        autoComplete="current-password"
+                        value={this.state.password}
+                        onChange={this.handleChange('password')}
+                        required
+                    />
+
+                    {/* Forgot Password Optional Button */}
+                    <div className="accounts-align-right">
+                        <Link to="/login/forgot-password">
+                            <Button
+                                classes={{
+                                    root: classes.optionButtonRoot,
+                                    label: classes.optionButtonLabel,
+                                }}
+                            >
+                                <strong><em>I forgot my password</em></strong>
+                            </Button>
+                        </Link>
+                    </div>
+
+                    {/* Login Main Button */}
+                    <div style={{ textAlign: 'center' }}>
+                        <FlatColoredButton
+                            classes={{
+                                root: classes.buttonRoot,
+                                label: classes.buttonLabel,
+                            }}
+                            onClick={this.handleUserLogin} content="Login"
+                        />
+                    </div>
+
+                    {/* Home Main Button */}
+                    <div style={{ paddingTop: '10px', textAlign: 'center' }}>
+                        <Link to="/">
+                            <Button
+                                classes={{
+                                    root: classes.buttonRoot,
+                                    label: classes.buttonLabel
+                                }}
+                            >
+                                HOME
+                            </Button>
+                        </Link>
+                    </div>
+                </form>
+
+                {/* Conditionally render error message */}
+                { (this.state.success) ?
+                        <Redirect to="/" /> :
+                        this.renderErrorMessage()
+                }
+            </div>
+        );
+    }
+
+    /*
+     * Error message displayed as a chip in the bottom left.
+     */
+    renderErrorMessage() {
+        const { classes } = this.props;
+
+        let errorMessage = this.state.errorMessage;
+        if (!errorMessage) return false;
+
+        return(
+            <Chip
+                classes={{
+                    root: classes.chipRoot,
+                    label: classes.chipLabel,
+                }}
+                avatar={
+                    <Avatar
+                        className={ classes.chipAvatarRoot }
+                        children={ <i className="fas fa-exclamation"></i> }
+                    ></Avatar>
+                }
+                label={ <Text style={{ color: 'white' }} type="body2" text={ errorMessage} />}
+            />
+        );
+    }
 }
 
 
-const UserLogin = ({ username, password, handleLogin, handleChange }) => (
-  <LoginForm
-    title="User Login"
-    desc="Please enter your username and password."
-    username={username}
-    password={password}
-    handleLogin={handleLogin}
-    handleChange={handleChange}
-  />
+export default withStyles(styles)(Login);
+
+/*
+ * Footer for Login Accounts page.
+ */
+const AccountsLoginFooter = ({ classes }) => (
+    <div style={{ gridArea: 'footer', width: '100%', height: '100%' }}>
+        <Text style={{ paddingTop: '30px', color: 'white' }} align="center" type="title"
+            text={
+                <div>New User?<Link to="/signup">
+                    <Button classes={{ root: classes.optionButtonRoot, label: classes.optionButtonLabel }}>
+                        <strong>CREATE AN ACCOUNT</strong>
+                    </Button>
+                </Link></div>
+            }
+        />
+    </div>
 );
 
-const StaffLogin = ({ username, password, handleLogin, handleChange }) => (
-	<LoginForm
-		title="Staff Login"
-		desc="Please enter your staff username and password."
-		username={username}
-		password={password}
-		handleLogin={handleLogin}
-		handleChange={handleChange}
-	/>
-);
 
-const LoginForm = ({ title, desc, username, password, handleLogin, handleChange }) => (
-  <div>
-    <Text style={{ textAlign: 'center' }} color="primary" type="display1" text={title} />
-    <Text color="secondary" type="body2" text={desc} />
-    <form onSubmit={handleLogin}>
-      {/* Username */}
-      <div>
-        <TextField
-          label="Username"
-          value={username}
-          onChange={handleChange('username')}
-          required
-        />
-      </div>
-
-      {/* Password */}
-      <div>
-        <TextField
-          label="Password"
-          type="password"
-          autoComplete="current-password"
-          value={password}
-          onChange={handleChange('password')}
-          required
-        />
-      </div>
-
-      {/* Login Button */}
-      <div style={{ paddingTop: '20px' }}>
-        <FlatColoredButton onClick={handleLogin} content="Login" />
-      </div>
-
-      {/* Link to staff or user login depending on where we are */}
-      <Route exact path="/login/" render={() => (
-        <Text type="body1" color="secondary" align="right"
-          text={ <Link to="/login/staff" replace>Staff Login</Link> }
-        />
-      )}/>
-      <Route path="/login/staff" render={() => (
-        <Text type="body1" color="secondary" align="right"
-          text={ <Link to="/login" replace>User Login</Link> }
-        />
-      )}/>
-    </form>
-  </div>
+/* Maybe useful? */
+const StaffOption = ({ classes }) => (
+    <div style={{ textAlign: 'right' }}>
+        <Route exact path="/login" render={() => (
+            <Link to="/login/staff" replace>
+                <Button classes={{ root: classes.optionButtonRoot, label: classes.optionButtonLabel, }}>
+                    <strong><em>Staff Login</em></strong>
+                </Button>
+            </Link>
+        )} />
+        <Route exact path="/login/staff" render={() => (
+            <Link to="/login" replace>
+                <Button classes={{ root: classes.optionButtonRoot, label: classes.optionButtonLabel, }}>
+                    <strong><em>User Login</em></strong>
+                </Button>
+            </Link>
+        )} />
+    </div>
 );

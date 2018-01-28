@@ -27,7 +27,8 @@ class Text extends Component {
   modifyStyling(type) {
     switch (type) {
       //case 'display4':
-      //case 'display3':
+      case 'display3':
+        return { fontSize: '11vw' };
       case 'display2':
         return { fontSize: '10vw' };
       case 'display1':
