@@ -180,6 +180,9 @@ body {
     left: 50%;
     transform: translate(-50%, -50%);
 }
+.modal-paper {
+    padding: 50px;
+}
 
 /*
  * For accounts background, we need to make sure we switch to
@@ -251,6 +254,10 @@ body {
 
     .centered-mobile {
         align-content: center;
+    }
+
+    .modal-paper {
+        padding: 20px;
     }
 
     #app-body {

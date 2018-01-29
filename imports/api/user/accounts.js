@@ -21,7 +21,7 @@ Accounts.validateNewUser((user) => {
         lastName:            { type: String },
         emails:              { type: Array },
         'emails.$':          { type: Object },
-        'emails.$.address':  { type: String },
+        'emails.$.address':  { type: String, regEx: SimpleSchema.RegEx.Email },
         'emails.$.verified': { type: Boolean },
         createdAt:           { type: Date },
         services:            { type: Object, blackbox: true },
