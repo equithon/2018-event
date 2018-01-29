@@ -1,6 +1,4 @@
 import { Meteor } from 'meteor/meteor';
-import { SimpleSchema } from 'meteor/aldeed:simple-schema';
-import { ValidatedMethod } from 'meteor/mdg:validated-method';
 
 
 /*
@@ -14,6 +12,8 @@ Accounts.emailTemplates.verifyEmail = {
     },
     
     text(user, url) {
+        url = url.replace('#/', 'accounts/');
+
         return `
 Congratulations ${user.username}! You are one step closer to Equithon 2018.
 To finish creating your Equithon account, please click the link below to verify your email address.

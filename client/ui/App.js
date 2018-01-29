@@ -18,19 +18,8 @@ import Signup from '/client/ui/components/Signup.js';
 import Apply from '/client/ui/components/Apply.js';
 import FaqCard from '/client/ui/components/FaqCard.js';
 import FlatColoredButton from '/client/ui/buttons/FlatColoredButton.js';
-import EmailVerification from '/client/ui/components/EmailVerification.js';
 import Home from '/client/ui/Home.js';
 import Accounts from '/client/ui/components/Accounts.js';
-
-const theme = createMuiTheme({
-    palette: {
-        primary: indigo,  // Placeholders until we get actual
-        secondary: purple // color palettes.
-    }
-});
-
-const mainTextBoxStyle = {
-    gridArea: 'right',
 
 const imageElevation = 7;
 
@@ -212,11 +201,15 @@ export default class App extends Component {
         return (
             <MuiThemeProvider theme={theme}>
               <Router>
-                  <div>
-                      <Route exact path="/" render={() => this.renderAppBody()} />
-                      <Route path="/login" component={Login} />
-                      <Route path="/signup" component={Signup} />
-                      <Route path="/apply" component={Apply} />
+                  <div style={{ width: 'inherit', height: 'inherit' }}>
+                      {/* Render user home page if logged in */}
+                      { (this.state.userId) ?
+                              <Route exact path="/" component={Home} /> :
+                              <Route exact path="/" render={ () => this.renderAppBody() } />
+                      }
+
+                      {/* Render accounts */}
+                      <Route path="/accounts" component={Accounts} />
                    </div>
               </Router>
             </MuiThemeProvider>

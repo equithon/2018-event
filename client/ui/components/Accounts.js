@@ -13,6 +13,7 @@ import FlatColoredButton from '/client/ui/buttons/FlatColoredButton.js';
 import ForgotPasswordModal from '/client/ui/components/ForgotPasswordModal.js';
 import Login from '/client/ui/components/Login.js';
 import Signup from '/client/ui/components/Signup.js';
+import VerifyEmail, { VerifyEmailWithToken } from '/client/ui/components/VerifyEmail.js';
 
 
 /* Styles for various components */
@@ -69,12 +70,23 @@ class Accounts extends Component {
     render() {
         const { classes } = this.props;
 
+        let token = "actualtoken";
+
         return(
             <div className="accounts-background">               {/* Cool background image */}
                 <div className="accounts-background-color">     {/* Purple gradient overlay */}
                     {/* Body */}
                     <Route path="/accounts/login" render={() => <Login classes={classes} />} />
                     <Route path="/accounts/signup" render={() => <Signup classes={classes} />} />
+                    <Route exact path="/accounts/verify-email" render={() => <VerifyEmail classes={classes} />} />
+                    <Route path="/accounts/verify-email/:token"
+                        render={(prop) => <VerifyEmailWithToken classes={classes} match={prop.match} />} />
+
+                    {/* Go back to home page on logout */}
+                    <Route path="/accounts/logout" render={() => {
+                      Meteor.logout();
+                      return <Redirect to="/" />;
+                    }} />
                 </div>
             </div>
         );
