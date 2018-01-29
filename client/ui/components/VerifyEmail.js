@@ -28,8 +28,7 @@ export default class VerifyEmail extends Component {
     /****** Event Handling *****/
     handleResend(event) {
         event.preventDefault();
-
-        console.log("RESEND EMAIL VERIFICATION LINK HERE");
+        Meteor.call('user.sendVerificationLink');
     }
 
     render() {
@@ -55,8 +54,8 @@ export default class VerifyEmail extends Component {
                         </div>
                         <div style={{ gridArea: 'right', textAlign: 'center', padding: '10px' }}>
                             <Link to="/accounts/login">
-                                <FlatColoredButton style={{ gridArea: 'right' }} classes={{ root: classes.buttonRoot }}
-                                    content="Login" />
+                                <FlatColoredButton classes={{ root: classes.buttonRoot }}
+                                    content="Home" />
                             </Link>
                         </div>
                     </div>
