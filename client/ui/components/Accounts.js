@@ -47,9 +47,11 @@ const styles = theme => ({
     chipRoot: {
         backgroundColor: 'rgba(127, 10, 10, 0.76)',
         paddingTop: '3px',
+        height: 'auto',
     },
     chipLabel: {
         paddingLeft: '0px',
+        whiteSpace: 'normal',
     },
     chipAvatarRoot: {
         margin: 5,
@@ -110,7 +112,7 @@ export const ErrorMessageChip = ({ classes, errorMessage }) => {
                     children={ <i className="fas fa-exclamation"></i> }
                 ></Avatar>
             }
-            label={ <Text style={{ color: 'white' }} type="body2" text={ errorMessage} />}
+            label={ <Text style={{ color: 'white' }} type="body2" text={errorMessage} />}
         />
     );
 };
