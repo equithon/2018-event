@@ -1,4 +1,5 @@
 import Meteor from 'meteor/meteor';
+import { check, Match } from 'meteor/check';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 
 
@@ -16,7 +17,8 @@ Accounts.config({
 Accounts.validateNewUser((user) => {
     new SimpleSchema({
         _id:                 { type: String },
-        username:            { type: String },
+        firstName:           { type: String },
+        lastName:            { type: String },
         emails:              { type: Array },
         'emails.$':          { type: Object },
         'emails.$.address':  { type: String },
@@ -26,4 +28,23 @@ Accounts.validateNewUser((user) => {
     }).validate(user);
 
     return true;
+});
+
+
+/*
+ * Add more fields to the user
+ */
+Accounts.onCreateUser((options, user) => {
+    check(options, {
+        firstName: String,
+        lastName: String,
+        email: String,
+        password: Match.OneOf(String, { digest: String, algorithm: String })
+    });
+
+    /* Add extra non-Meteor fields and let Meteor add the rest */
+    user.firstName = options.firstName;
+    user.lastName  = options.lastName;
+
+    return user;
 });

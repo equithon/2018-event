@@ -147,12 +147,6 @@ body {
 .accounts-logo {
     height: 180px;
 }
-.accounts-login-title {
-    padding-bottom: 10px;
-}
-.accounts-login-desc {
-    padding-bottom: 30px;
-}
 .accounts-align-right {
     text-align: right;
 }
@@ -164,6 +158,8 @@ body {
         ". . ."
         ". body ."
         ". footer .";
+
+    position: relative;
 }
 
 .center-screen-modal {
@@ -273,12 +269,6 @@ body {
 
     .accounts-logo {
         height: 80px;
-    }
-    .accounts-login-title {
-        padding-bottom: 0;
-    }
-    .accounts-login-desc {
-        padding-bottom: 0;
     }
     .accounts-align-right {
         text-align: center;

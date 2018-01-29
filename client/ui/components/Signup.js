@@ -50,14 +50,14 @@ export default class Signup extends Component {
         if (this.state.password !== this.state.confirmPassword) {
             this.setState({
                 success: false,
-                errorMessage: "Your confirmation password does not match your actual password."
+                errorMessage: "Your confirmation password does not match your actual password"
             });
         } else {
             let user = {
                 firstName: this.state.firstName,
-                lastName: this.state.lastName,
-                email: this.state.email,
-                password: this.state.password,
+                lastName:  this.state.lastName,
+                email:     this.state.email,
+                password:  this.state.password,
             };
 
             Accounts.createUser(user, (err) => {
@@ -97,7 +97,7 @@ export default class Signup extends Component {
                     <img className="accounts-logo" src="/logos/logo-bulb_256x256.png" />
 
                     {/* Words */}
-                    <Text className="accounts-login-title" style={{ color: 'white' }} align="center" type="display3"
+                    <Text style={{ color: 'white' }} align="center" type="display3"
                         text="Create an Account" />
 
                     {/* Form */}
@@ -140,7 +140,7 @@ export default class Signup extends Component {
 
                         {/* Conditionally render error message */}
                         { (this.state.success) ?
-                                <Redirect to="/verify-your-email" /> :
+                                <Redirect to="/accounts/verify-email" /> :
                                 <ErrorMessageChip classes={classes} errorMessage={this.state.errorMessage} />
                         }
                     </form>

@@ -89,9 +89,9 @@ export default class Login extends Component {
                     <img className="accounts-logo" src="/logos/logo-bulb_256x256.png" />
 
                     {/* Words */}
-                    <Text className="accounts-login-title" style={{ color: 'white' }} align="center" type="display3"
+                    <Text style={{ color: 'white' }} align="center" type="display3"
                         text="Welcome Back!" />
-                    <Text className="accounts-login-desc" style={{ color: 'white' }} align="center" type="display1"
+                    <Text style={{ color: 'white' }} align="center" type="display1"
                         text="Let's get to work." />
 
                     {/* Form */}
