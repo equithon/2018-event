@@ -274,7 +274,7 @@ class Apply extends Component {
                         text={ <div>Application > <em>{ this.getApplicationStatus() }</em></div> } />
 
                     {/* Informative chips */}
-                    <div style={{ display: 'grid', gridRowGap: '10px', padding: '10px' }}>
+                    <div style={{ display: 'grid', gridRowGap: '10px', padding: '10px', justifyContent: 'center' }}>
                         {/* User not verified */}
                         { (!this.state.verified) ?
                                 <ErrorMessageChip classes={classes} errorMessage={unverifiedMessage} /> : false
