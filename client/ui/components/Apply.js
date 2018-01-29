@@ -13,7 +13,7 @@ import { withStyles } from 'material-ui/styles';
 
 import Text from "/client/ui/components/Text.js";
 import FlatColoredButton from '/client/ui/buttons/FlatColoredButton.js';
-import { ErrorMessageChip } from '/client/ui/components/Accounts.js'; // This needs to better modularized
+import { SuccessMessageChip, ErrorMessageChip } from '/client/ui/components/Accounts.js'; // This needs to better modularized
 import HomeAppBar from '/client/ui/components/HomeAppBar.js';
 import ConfirmationModal from '/client/ui/components/ConfirmationModal.js';
 
@@ -418,3 +418,4 @@ class Apply extends Component {
         );
     }
 }
+export default withStyles(styles)(Apply);

@@ -66,7 +66,7 @@ export default class SubscriptionModal extends Component {
         onClose={this.props.onClose}
       >
         <div className="center-screen-modal">
-          <Paper style={{ padding: '50px' }} elevation={5}>
+          <Paper className="modal-paper" elevation={5}>
             <Text color='primary' type='display1' text='Email Subscription' />
             <br/>
             <Text type='body1' text='Submit your email below to subscribe to the latest Equithon news.' />

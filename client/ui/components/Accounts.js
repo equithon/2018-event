@@ -14,6 +14,7 @@ import ForgotPasswordModal from '/client/ui/components/ForgotPasswordModal.js';
 import Login from '/client/ui/components/Login.js';
 import Signup from '/client/ui/components/Signup.js';
 import VerifyEmail, { VerifyEmailWithToken } from '/client/ui/components/VerifyEmail.js';
+import ResetPassword from '/client/ui/components/ResetPassword.js';
 
 
 /* Styles for various components */
@@ -59,6 +60,16 @@ const styles = theme => ({
         color: theme.palette.common.white,
         backgroundColor: 'transparent',
     },
+
+    /* Success Chip */
+    chipSuccessRoot: {
+        backgroundColor: 'green',
+        paddingTop: '3px',
+        height: 'auto',
+    },
+    chipSuccessLabel: {
+        whiteSpace: 'normal',
+    },
 });
 
 class Accounts extends Component {
@@ -78,11 +89,20 @@ class Accounts extends Component {
             <div className="accounts-background">               {/* Cool background image */}
                 <div className="accounts-background-color">     {/* Purple gradient overlay */}
                     {/* Body */}
+                    {/* Login */}
                     <Route path="/accounts/login" render={() => <Login classes={classes} />} />
+
+                    {/* Signup */}
                     <Route path="/accounts/signup" render={() => <Signup classes={classes} />} />
+
+                    {/* Verify Email */}
                     <Route exact path="/accounts/verify-email" render={() => <VerifyEmail classes={classes} />} />
                     <Route path="/accounts/verify-email/:token"
                         render={(prop) => <VerifyEmailWithToken classes={classes} match={prop.match} />} />
+
+                    {/* Reset Password */}
+                    <Route path="/accounts/reset-password/:token"
+                        render={(prop) => <ResetPassword classes={classes} match={prop.match} />} />
 
                     {/* Go back to home page on logout */}
                     <Route path="/accounts/logout" render={() => {
@@ -113,6 +133,26 @@ export const ErrorMessageChip = ({ classes, errorMessage }) => {
                 ></Avatar>
             }
             label={ <Text style={{ color: 'white' }} type="body2" text={errorMessage} />}
+        />
+    );
+};
+
+/* Useful success message chip to render for forms */
+export const SuccessMessageChip = ({ classes, successMessage }) => {
+    if (!successMessage) return false;
+    return(
+        <Chip
+            classes={{
+                root: classes.chipSuccessRoot,
+                label: classes.chipLabel,
+            }}
+            avatar={
+                <Avatar
+                    className={ classes.chipAvatarRoot }
+                    children={ <i className="fas fa-check"></i> }
+                ></Avatar>
+            }
+            label={ <Text style={{ color: 'white' }} type="body2" text={successMessage} />}
         />
     );
 };

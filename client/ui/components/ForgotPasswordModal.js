@@ -22,6 +22,7 @@ export default class ForgotPasswordModal extends Component {
             email: '',
 
             success: false,
+            messageVisible: false,
             errorMessage: '',
         }
 
@@ -36,9 +37,23 @@ export default class ForgotPasswordModal extends Component {
     handleSubmit(event) {
         event.preventDefault();
 
-        console.log("SEND PASSWORD RECOVERY EMAIL HERE");
-
-        this.setState({ success: true });
+        if (this.state.email) {
+            Accounts.forgotPassword({ email: this.state.email }, (err) => {
+                if (err) {
+                    this.setState({
+                        success: false,
+                        messageVisible: true,
+                        errorMessage: err.reason,
+                    });
+                } else {
+                    this.setState({
+                        success: true,
+                        messageVisible: true,
+                        errorMessage: '',
+                    });
+                }
+            });
+        }
     }
 
     render() {
@@ -50,13 +65,13 @@ export default class ForgotPasswordModal extends Component {
                 onClose={this.props.onClose}
             >
                 <div className="center-screen-modal">
-                    <Paper style={{ padding: '50px' }} elevation={5}>
+                    <Paper className="modal-paper" elevation={5}>
                         <Text color="primary" type="headline" align="center" text="Forget your password?" />
                         <Text color="secondary" type="body2" align="center"
                             text="Reset your password by entering your email address below." />
 
                         <form onSubmit={this.handleSubmit}>
-                            <div style={{ textAlign: 'center' }}>
+                            <div style={{ textAlign: 'center', paddingBottom: '10px' }}>
                                 {/* Email Field */}
                                 <TextField
                                     fullWidth
@@ -72,6 +87,11 @@ export default class ForgotPasswordModal extends Component {
                                 <FlatColoredButton style={{ fontSize: 24, width: '50%' }} onClick={this.handleSubmit} content="〉"/>
                             </div>
                         </form>
+
+                        <div style={{ visibility: (this.state.messageVisible) ? 'visible' : 'hidden' }}>
+                            <Text type="body1" color={ (this.state.success) ? 'primary' : 'error' }
+                                text={ (this.state.success) ? 'We sent you a password recovery link.' : this.state.errorMessage } />
+                        </div>
                     </Paper>
                 </div>
             </Modal>
