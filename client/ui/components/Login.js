@@ -151,9 +151,7 @@ export default class Login extends Component {
                         {/* Home Main Button */}
                         <div style={{ textAlign: 'center', padding: '5px' }}>
                             <Link to="/">
-                                <Button classes={{ root: classes.buttonRoot }}>
-                                    HOME
-                                </Button>
+                                <Button classes={{ root: classes.buttonRoot }}>HOME</Button>
                             </Link>
                         </div>
                     </form>
