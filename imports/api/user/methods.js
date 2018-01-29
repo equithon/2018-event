@@ -1,4 +1,6 @@
 import { Meteor } from 'meteor/meteor';
+import SimpleSchema from 'simpl-schema';
+import { ValidatedMethod } from 'meteor/mdg:validated-method';
 
 
 /*
@@ -14,7 +16,21 @@ Meteor.publish('userData', function () {
   }
 });
 
+/*
+ * Accounts.onCreateUser automatically sends a verification link,
+ * but we might potentially send another so let's make a method
+ * for this.
+ */
+Meteor.methods({
+    'user.sendVerificationLink'() {
+        if (this.userId) {
+            return Accounts.sendVerificationEmail(this.userId);
+        }
+    }
+});
 
+
+/***** Email Customization *****/
 /*
  * Customize password recovery email.
  */

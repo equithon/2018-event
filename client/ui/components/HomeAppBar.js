@@ -24,9 +24,11 @@ export default class HomeAppBar extends Component {
                         </Link>
 
                         {/* Signup */}
-                        <div style={{ gridArea: 'signup', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                            <AppbarButton link="/accounts/signup" text="Signup" iconClass="fas fa-user-plus" />
-                        </div>
+                        { (Meteor.userId()) ? false :
+                            <div style={{ gridArea: 'signup', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                                <AppbarButton link="/accounts/signup" text="Signup" iconClass="fas fa-user-plus" />
+                            </div>
+                        }
 
                         {/* Login/Logout */}
                         <div style={{ gridArea: 'login-logout', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
