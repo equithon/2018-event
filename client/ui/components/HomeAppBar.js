@@ -18,6 +18,11 @@ export default class HomeAppBar extends Component {
             <AppBar id="appbar" position="fixed" color="inherit">
                 <Toolbar>
                     <div id="app-bar-grid">
+                        {/* Application */}
+                        <div style={{ gridArea: 'application', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                            <AppbarButton link="/apply" text="Apply to Equithon" iconClass="fas fa-file" />
+                        </div>
+
                         {/* Logo */}
                         <Link style={{gridArea: 'logo', margin: '0 auto' }} to="/">
                             <img className="equithon-logo" src="/logos/logo-bulb_417x417.png" />
@@ -45,7 +50,7 @@ export default class HomeAppBar extends Component {
 }
 
 const AppbarButton = ({ link, text, iconClass }) => (
-    <Link to={link}>
+    <Link className="button-link" to={link}>
         <MediaQuery maxDeviceWidth={600}>
             { (matches) => (matches) ?
                 <IconButton color="primary"><i className={iconClass}></i></IconButton> :
