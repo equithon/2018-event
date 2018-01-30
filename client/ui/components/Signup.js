@@ -53,12 +53,11 @@ export default class Signup extends Component {
                 errorMessage: "Your confirmation password does not match your actual password"
             });
         } else {
-            let user = {
-                firstName: this.state.firstName,
-                lastName:  this.state.lastName,
-                email:     this.state.email,
-                password:  this.state.password,
-            };
+            let user = {};
+            if (this.state.firstName) user.firstName = this.state.firstName;
+            if (this.state.lastName) user.lastName   = this.state.lastName;
+            if (this.state.email) user.email         = this.state.email;
+            if (this.state.password) user.password   = this.state.password;
 
             Accounts.createUser(user, (err) => {
                 if (err) {
