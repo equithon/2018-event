@@ -73,7 +73,7 @@ export default class ResetPassword extends Component {
 
                         {/* Words */}
                         <Text style={{ color: 'white' }} align="center" type="display3"
-                            text="Enter your email below to reset your password:" />
+                            text="To reset your password, enter a new one below:" />
 
                         {/* Reset Password Input */}
                         <TextField
