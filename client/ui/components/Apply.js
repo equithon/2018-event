@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import {Button, TextField} from "material-ui";
-import Text from "./Text";
-import Schema from "../../../common/Schema"
+
+import { Redirect } from 'react-router';
 import SimpleSchema from 'simpl-schema';
 
 import TextField from 'material-ui/TextField';
@@ -258,6 +257,10 @@ class Apply extends Component {
 
 
     render() {
+        const { classes } = this.props;
+
+        if (!Meteor.userId()) return <Redirect to="/accounts/login" />;
+
         return(
             <div id="application-form-wrapper">
                 <HomeAppBar />

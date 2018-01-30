@@ -205,11 +205,8 @@ export default class App extends Component {
                       {/* Home page */}
                       <Route exact path="/" render={ () => this.renderAppBody() } />
 
-                      {/* Route to application if logged in and to login if not */}
-                      { (this.state.userId) ?
-                              <Route path="/apply" component={Apply} /> :
-                              <Route path="/apply" render={ () => <Redirect to="/accounts/login" from="/apply" /> } />
-                      }
+                      {/* Route to application */}
+                      <Route path="/apply" component={Apply} />
 
                       {/* Render accounts */}
                       <Route path="/accounts" component={Accounts} />
