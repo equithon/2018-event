@@ -101,7 +101,7 @@ export default class ResetPassword extends Component {
 
                         {/* Back to Login */}
                         <div style={{ textAlign: 'center', padding: '5px' }}>
-                            <Link to="/">
+                            <Link className="button-link" to="/">
                                 <Button classes={{ root: classes.buttonRoot }}>HOME</Button>
                             </Link>
                         </div>

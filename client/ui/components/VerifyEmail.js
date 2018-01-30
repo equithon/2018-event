@@ -53,7 +53,7 @@ export default class VerifyEmail extends Component {
                                 onClick={this.handleResend} content="Resend" />
                         </div>
                         <div style={{ gridArea: 'right', textAlign: 'center', padding: '10px' }}>
-                            <Link to="/">
+                            <Link className="button-link" to="/">
                                 <FlatColoredButton classes={{ root: classes.buttonRoot }}
                                     content="Home" />
                             </Link>
@@ -127,7 +127,7 @@ const EmailVerified = ({ classes }) => (
 
         {/* Go to home page */}
         <div style={{ textAlign: 'center', padding: '20px' }}>
-            <Link to="/" replace>
+            <Link className="button-link" to="/" replace>
                 <MediaQuery maxDeviceWidth={600}>
                     { (matches) => {
                         if (matches) {
@@ -165,7 +165,7 @@ const EmailNotVerified = ({ classes, errorMessage }) => (
 
         {/* Options */}
         <div style={{ textAlign: 'center', padding: '10px' }}>
-            <Link to="/">
+            <Link className="button-link" to="/">
                 <FlatColoredButton classes={{ root: classes.buttonRoot }} content="Home" />
             </Link>
         </div>
