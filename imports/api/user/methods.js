@@ -71,7 +71,7 @@ Accounts.emailTemplates.verifyEmail = {
         url = url.replace('#/', 'accounts/'); // This is important as it allows us to route the link ourselves.
 
         return `
-Congratulations ${user.username}! You are one step closer to Equithon 2018.
+Congratulations ${user.firstName} ${user.lastName}! You are one step closer to Equithon 2018.
 To finish creating your Equithon account, please click the link below to verify your email address.
 
 ${url}

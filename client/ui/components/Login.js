@@ -150,7 +150,7 @@ export default class Login extends Component {
 
                         {/* Home Main Button */}
                         <div style={{ textAlign: 'center', padding: '5px' }}>
-                            <Link to="/">
+                            <Link className="button-link" to="/">
                                 <Button classes={{ root: classes.buttonRoot }}>HOME</Button>
                             </Link>
                         </div>
@@ -158,7 +158,7 @@ export default class Login extends Component {
 
                     {/* Conditionally render error message */}
                     { (this.state.success) ?
-                            <Redirect to="/" /> :
+                            <Redirect to="/apply" /> :
                             <ErrorMessageChip classes={classes} errorMessage={this.state.errorMessage} />
                     }
 
@@ -168,7 +168,7 @@ export default class Login extends Component {
                 </div>
 
                 {/* Footer */}
-                <AccountsFooter classes={classes} link="/accounts/signup" text="CREATE AN ACCOUNT" />
+                <AccountsFooter classes={classes} link="/accounts/signup" text="New User?" buttonText="CREATE AN ACCOUNT" />
             </div>
         );
     }

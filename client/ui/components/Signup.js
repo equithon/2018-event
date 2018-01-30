@@ -130,7 +130,7 @@ export default class Signup extends Component {
 
                         {/* Home Main Button */}
                         <div style={{ textAlign: 'center', padding: '5px' }}>
-                            <Link to="/">
+                            <Link className="button-link" to="/">
                                 <Button classes={{ root: classes.buttonRoot }}>
                                     HOME
                                 </Button>
@@ -146,7 +146,7 @@ export default class Signup extends Component {
                 </div>
 
                 {/* Footer */}
-                <AccountsFooter classes={classes} link="/accounts/login" text="SIGN IN" />
+                <AccountsFooter classes={classes} link="/accounts/login" text="Already have an account?" buttonText="SIGN IN" />
             </div>
         );
     }

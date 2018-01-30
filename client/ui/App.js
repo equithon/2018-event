@@ -3,7 +3,7 @@ import { Session } from 'meteor/session';
 import { Tracker } from 'meteor/tracker';
 
 import MediaQuery from 'react-responsive';
-import { BrowserRouter as Router, Route, Link, Redirect } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 
 import {MuiThemeProvider} from 'material-ui/styles';
 import {Card, CardContent, CardMedia} from "material-ui";
@@ -202,10 +202,13 @@ export default class App extends Component {
             <MuiThemeProvider theme={theme}>
               <Router>
                   <div style={{ width: 'inherit', height: 'inherit' }}>
-                      {/* Render user home page if logged in */}
+                      {/* Home page */}
+                      <Route exact path="/" render={ () => this.renderAppBody() } />
+
+                      {/* Route to application if logged in and to login if not */}
                       { (this.state.userId) ?
-                              <Route exact path="/" component={Home} /> :
-                              <Route exact path="/" render={ () => this.renderAppBody() } />
+                              <Route path="/apply" component={Apply} /> :
+                              <Route path="/apply" render={ () => <Redirect to="/accounts/login" from="/apply" /> } />
                       }
 
                       {/* Render accounts */}

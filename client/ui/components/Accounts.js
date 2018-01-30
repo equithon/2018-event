@@ -160,13 +160,13 @@ export const SuccessMessageChip = ({ classes, successMessage }) => {
 /*
  * Footer for Signup page.
  */
-export const AccountsFooter = ({ classes, link, text }) => (
+export const AccountsFooter = ({ classes, link, text, buttonText }) => (
     <div style={{ gridArea: 'footer' }}>
         <Text style={{ paddingTop: '30px', color: 'white' }} align="center" type="subheading"
             text={
-                <div>Already have an account? <Link to={link}>
+                <div>{text} <Link className="button-link" to={link}>
                     <Button classes={{ root: classes.optionButtonRoot, label: classes.optionButtonLabel }}>
-                        <strong>{text}</strong>
+                        <strong>{buttonText}</strong>
                     </Button>
                 </Link></div>
             }
@@ -178,14 +178,14 @@ export const AccountsFooter = ({ classes, link, text }) => (
 const StaffOption = ({ classes }) => (
     <div style={{ textAlign: 'right' }}>
         <Route exact path="/login" render={() => (
-            <Link to="/login/staff" replace>
+            <Link className="button-link" to="/login/staff" replace>
                 <Button classes={{ root: classes.optionButtonRoot, label: classes.optionButtonLabel, }}>
                     <strong><em>Staff Login</em></strong>
                 </Button>
             </Link>
         )} />
         <Route exact path="/login/staff" render={() => (
-            <Link to="/login" replace>
+            <Link className="button-link" to="/login" replace>
                 <Button classes={{ root: classes.optionButtonRoot, label: classes.optionButtonLabel, }}>
                     <strong><em>User Login</em></strong>
                 </Button>
