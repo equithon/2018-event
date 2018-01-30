@@ -53,7 +53,7 @@ export default class VerifyEmail extends Component {
                                 onClick={this.handleResend} content="Resend" />
                         </div>
                         <div style={{ gridArea: 'right', textAlign: 'center', padding: '10px' }}>
-                            <Link to="/accounts/login">
+                            <Link to="/">
                                 <FlatColoredButton classes={{ root: classes.buttonRoot }}
                                     content="Home" />
                             </Link>
