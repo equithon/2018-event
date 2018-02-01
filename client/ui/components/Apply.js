@@ -8,6 +8,9 @@ import Button from 'material-ui/Button';
 import Chip from 'material-ui/Chip';
 import Avatar from 'material-ui/Avatar';
 import Paper from 'material-ui/Paper';
+import Select from 'material-ui/Select';
+import { FormControl, FormHelperText } from 'material-ui/Form';
+import Input, { InputLabel } from 'material-ui/Input';
 import { withStyles } from 'material-ui/styles';
 
 import Text from "/client/ui/components/Text.js";
@@ -21,9 +24,33 @@ import { clientSubmitSchema } from '/imports/api/Schema.js';
 
 const Applications = new Mongo.Collection('applications');
 
+
+/*
+ * Words for the application from
+ */
+/* Education Level drop down menu options stored as arrays */
+const eduLevelSelect = {
+    values: [
+        '',
+        'highschool',
+        'undergrad',
+        'grad',
+        'college',
+    ],
+    messages: [
+        '',
+        'High School',
+        'University Undergraduate',
+        'University Graduate',
+        'college',
+    ],
+};
+
 const longAnswerText = "What is an equity issue you are passionate about and want to take action to solve? Why is tackling this issue important to you? (Try to keep your response to 400 words or less)";
 
 const unverifiedMessage = "Your account is not verified! Please verify your email address in order to submit your application.";
+
+
 const styles = theme => ({
     /* Text Fields */
     textFieldInput: {
@@ -79,6 +106,7 @@ class Apply extends Component {
             institution: '',
             travellingFrom: '',
             cityOfInstitution: '',
+            eduLevel: '',
 
 
             /* Form field errors */
@@ -88,6 +116,7 @@ class Apply extends Component {
             institutionError: '',
             travellingFromError: '',
             cityOfInstitutionError: '',
+            eduLevelError: '',
 
             success: false,
             successMessage: '',
@@ -133,6 +162,7 @@ class Apply extends Component {
                     institution: (app.institution) ? app.institution : '',
                     cityOfInstitution: (app.cityOfInstitution) ? app.cityOfInstitution : '',
                     travellingFrom: (app.travellingFrom) ? app.travellingFrom : '',
+                    eduLevel: (app.eduLevel) ? app.eduLevel : '',
                     submitted: app.submitted,
                 });
             }
@@ -159,19 +189,32 @@ class Apply extends Component {
         let project = this.state.project;
 
         let submission = {};
-        if (this.state.program) submission.program   = this.state.program;
-        if (this.state.yog) submission.yog         = Number(this.state.yog);
-        if (this.state.longAnswer) submission.longAnswer = this.state.longAnswer;
-        if (this.state.institution) submission.institution = this.state.institution;
+        if (this.state.program) submission.program                     = this.state.program;
+        if (this.state.yog) submission.yog                             = Number(this.state.yog);
+        if (this.state.longAnswer) submission.longAnswer               = this.state.longAnswer;
+        if (this.state.institution) submission.institution             = this.state.institution;
         if (this.state.cityOfInstitution) submission.cityOfInstitution = this.state.cityOfInstitution;
-        if (this.state.travellingFrom) submission.travellingFrom = this.state.travellingFrom;
+        if (this.state.travellingFrom) submission.travellingFrom       = this.state.travellingFrom;
+        if (this.state.eduLevel) submission.eduLevel                   = this.state.eduLevel;
         submission.submitted = false;
 
-        if(Schema.context.validate(submission, Schema.application)) {
-            Meteor.call('submitApplication', submission);
-        } else {
-            console.log("Error in submission");
-        }
+        /* Validate the submission on submit which will reactively display errors to the user */
+        if(this.appValidationContext.validate(submission, clientSubmitSchema.application)) {
+            Meteor.call('applications.submit', submission, (err, res) => {
+                if (err && err.error == 'validation-error') {
+                    this.processValidationError(err.details);
+                } else if (err) this.setState({
+                    success: false,
+                    successMessage: '',
+                    errorMessage: err.reason,
+                });
+                else this.setState({
+                    success: true,
+                    successMessage: 'Your application was successfully submitted',
+                    errorMessage: '',
+                });
+            });
+        } else this.setState({ success: false });   // Remove any success messages validation fails
     }
 
     /* Save application */
@@ -185,6 +228,7 @@ class Apply extends Component {
         if (this.state.institution) application.institution = this.state.institution;
         if (this.state.cityOfInstitution) application.cityOfInstitution = this.state.cityOfInstitution;
         if (this.state.travellingFrom) application.travellingFrom = this.state.travellingFrom;
+        if (this.state.eduLevel) application.eduLevel = this.state.eduLevel;
         application.submitted = false;
 
         /*
@@ -201,6 +245,7 @@ class Apply extends Component {
                 this.setState({
                     success: false,
                     errorMessage: err.reason,
+                    successMessage: '',
                 });
             } else {
                 this.setState({
@@ -214,9 +259,11 @@ class Apply extends Component {
 
 
     handleFieldUpdate = name => event => {
-        this.setState({
-            [name]: event.target.value,
-        });
+        if (!this.state.submitted) {
+            this.setState({
+                [name]: event.target.value,
+            });
+        }
     };
 
     handleConfirmationModalOpen = () => {
@@ -263,6 +310,26 @@ class Apply extends Component {
         return (this.state.submitted) ? 'Submitted' : 'Incomplete';
     }
 
+    /************** Rendering **************/
+    /* Render the EduLevel Select dropdown */
+    renderEduLevelHelper(classes) {
+        var options = [];
+        for (var i = 0; i < eduLevelSelect.values.length; ++i) {
+            options.push(
+                <option key={i} value={eduLevelSelect.values[i]}>{eduLevelSelect.messages[i]}</option>
+            );
+        }
+
+        return(
+            <SelectField
+                label="Which level of education are you currently attending?"
+                value={this.state.eduLevel}
+                onChange={this.handleFieldUpdate('eduLevel')}
+                error={this.state.eduLevelError}
+                options={options}
+            />
+        );
+    }
 
     render() {
         const { classes } = this.props;
@@ -311,8 +378,9 @@ class Apply extends Component {
 
                         {/*// TODO DROPDOWN GENDER*/}
 
-                        {/*// TODO DROPDOWN LEVEL OF EDUCATION*/}
+                        {this.renderEduLevelHelper(classes)}
 
+                        {/* Test select field */}
 
                         {/* Program of Study Field */}
                         <TextInputField classes={classes} label="What program of study are you currently enrolled in?" fullWidth value={this.state.program}
@@ -350,9 +418,8 @@ class Apply extends Component {
                     <div style={{gridArea: 'long-answer-row'}}>
                         <Text align="left" color="primary" type="headline" text="Long Answer" />
 
-{/*
-                            <LongInputField classes={classes} label={longAnswerText} value={this.state.longAnswer}
-                            onChange={this.handleChange} stateName="longAnswer" />*/}
+                        <LongInputField classes={classes} label={longAnswerText} value={this.state.longAnswer}
+                        onChange={this.handleFieldUpdate('longAnswer')} error={this.state.longAnswerError} />
 
                     </div>
 
@@ -386,7 +453,7 @@ class Apply extends Component {
 }
 export default withStyles(styles)(Apply);
 
-const TextInputField = ({ classes, label, type, fullWidth, value, onChange, stateName, error }) => (
+const TextInputField = ({ classes, label, type, fullWidth, value, onChange, error }) => (
     <TextField
         label={label}
         margin="normal"
@@ -403,15 +470,30 @@ const TextInputField = ({ classes, label, type, fullWidth, value, onChange, stat
     />
 );
 
+const SelectField = ({ label, name, value, onChange, error, options }) => (
+    <FormControl error={ !!error } fullWidth>
+        <InputLabel htmlFor={name}>{label}</InputLabel>
+        <Select
+            native
+            input={<Input id={name} />}
+            onChange={onChange}
 
-const LongInputField = ({ classes, label, value, onChange, stateName }) => (
+            value={value}
+        >
+            {options}
+        </Select>
+        { (error) ? <FormHelperText>{error}</FormHelperText> : false }
+    </FormControl>
+);
+
+const LongInputField = ({ classes, label, value, onChange, error}) => (
     <TextField
         name="longAnswer"
-        value={ (this.state.longAnswer) ? this.state.longAnswer: '' }
-        onChange={this.handleFieldUpdate('longAnswer')}
-        multiline={true}
+        value={value}
+        onChange={onChange}
+        multiline
+        fullWidth
         rows="15"
-        fullWidth={true}
         InputProps={{
             disableUnderline: true,
             classes: {
@@ -424,8 +506,8 @@ const LongInputField = ({ classes, label, value, onChange, stateName }) => (
             fontSize: '8vw',
         }}
 
-        error={ !!this.state.longAnswerError }
-        helperText={this.state.longAnswerError}
+        error={ !!error }
+        helperText={error}
         placeholder="What is an equity issue you are passionate about and want to take action to solve\? Why is tackling this issue important to you\? (Try to keep your response to 400 words or less)"
     />
 );

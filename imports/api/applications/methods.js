@@ -13,13 +13,14 @@ Meteor.publish('applicationData', function() {
     if (this.userId) {
         return Applications.find({ userId: this.userId }, {
             fields: {
-                program:            1,
-                travellingFrom:     1,
-                institution:        1,
-                cityOfInstitution:  1,
-                yog:                1,
-                longAnswer:         1,
-                submitted:          1,
+                program:           1,
+                travellingFrom:    1,
+                institution:       1,
+                cityOfInstitution: 1,
+                yog:               1,
+                longAnswer:        1,
+                eduLevel:          1,
+                submitted:         1,
             }
         });
     } else {
@@ -75,6 +76,7 @@ export const submitApplication = new ValidatedMethod({
                 yog:                    application.yog,
                 travellingFrom:         application.travellingFrom,
                 longAnswer:             application.longAnswer,
+                eduLevel:               application.eduLevel,
                 submitted: true,
             }
         });
@@ -121,6 +123,7 @@ export const saveApplication = new ValidatedMethod({
                 yog:                    application.yog,
                 travellingFrom:         application.travellingFrom,
                 longAnswer:             application.longAnswer,
+                eduLevel:               application.eduLevel,
                 submitted: false,
             }
         }, (err, res) => {
