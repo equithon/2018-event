@@ -13,18 +13,10 @@ Schema = {};
 
 /* Application submission schema */
 Schema.applicationSubmit = new SimpleSchema({
-    program: {
-        type: String,
-    },
-    travellingFrom: {
-        type: String,
-    },
-    cityOfInstitution: {
-        type: String,
-    },
-    institution: {
-        type: String,
-    },
+    program: { type: String, },
+    travellingFrom: { type: String, },
+    cityOfInstitution: { type: String, },
+    institution: { type: String, },
     yog: {
         type: Number,
         min: 1901,
@@ -34,36 +26,19 @@ Schema.applicationSubmit = new SimpleSchema({
         type: String,
         max: 2000,
     },
-    eduLevel: {
-        type: String,
-    },
+    eduLevel: { type: String, },
+    gender: { type: String, },
 
-    userId: {
-        type: String,
-    },
-    submitted: {
-        type: Boolean,
-    },
+    userId: { type: String, },
+    submitted: { type: Boolean, },
 }, { tracker: Tracker }); // hook
 
 /* Application save schema (keys become optional) */
 Schema.applicationSave = new SimpleSchema({
-    program: {
-        type: String,
-        optional: true,
-    },
-    travellingFrom: {
-        type: String,
-        optional: true,
-    },
-    cityOfInstitution: {
-        type: String,
-        optional: true,
-    },
-    institution: {
-        type: String,
-        optional: true,
-    },
+    program: { type: String, optional: true, },
+    travellingFrom: { type: String, optional: true, },
+    cityOfInstitution: { type: String, optional: true, },
+    institution: { type: String, optional: true, },
     yog: {
         type: Number,
         min: 1901,
@@ -75,10 +50,8 @@ Schema.applicationSave = new SimpleSchema({
         max: 2000,
         optional: true,
     },
-    eduLevel: {
-        type: String,
-        optional: true,
-    },
+    eduLevel: { type: String, optional: true, },
+    gender: { type: String, optional: true, },
 
     userId: {
         type: String,
