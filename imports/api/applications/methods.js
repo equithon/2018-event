@@ -20,6 +20,7 @@ Meteor.publish('applicationData', function() {
                 yog:               1,
                 longAnswer:        1,
                 eduLevel:          1,
+                gender:            1,
                 submitted:         1,
             }
         });
@@ -77,6 +78,7 @@ export const submitApplication = new ValidatedMethod({
                 travellingFrom:         application.travellingFrom,
                 longAnswer:             application.longAnswer,
                 eduLevel:               application.eduLevel,
+                gender:                 application.gender,
                 submitted: true,
             }
         });
@@ -116,7 +118,7 @@ export const saveApplication = new ValidatedMethod({
         /* Save the application */
         Applications.upsert({ userId: this.userId }, {
             $set: {
-                userId:    this.userId,
+                userId:                 this.userId,
                 program:                application.program,
                 institution:            application.institution,
                 cityOfInstitution:      application.cityOfInstitution,
@@ -124,6 +126,7 @@ export const saveApplication = new ValidatedMethod({
                 travellingFrom:         application.travellingFrom,
                 longAnswer:             application.longAnswer,
                 eduLevel:               application.eduLevel,
+                gender:                 application.gender,
                 submitted: false,
             }
         }, (err, res) => {

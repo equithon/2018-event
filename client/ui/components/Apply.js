@@ -30,22 +30,12 @@ const Applications = new Mongo.Collection('applications');
  */
 /* Education Level drop down menu options stored as arrays */
 const eduLevelValuesAndMessages = {
-    values: [
-        '',
-        'highschool',
-        'undergrad',
-        'grad',
-        'college',
-        'other',    // Can be used by onChange callback to render a new TextField
-    ],
-    messages: [
-        '',
-        'High School',
-        'University Undergraduate',
-        'University Graduate',
-        'College',
-        'Other',
-    ],
+    values: [ '', 'highschool', 'undergrad', 'grad', 'college', 'other', ],
+    messages: [ '', 'High School', 'University Undergraduate', 'University Graduate', 'College', 'Other', ],
+};
+const genderValuesAndMessages = {
+    values: [ '', 'female', 'male', 'nonbinary', 'no', 'other', ],
+    messages: [ '', 'Female', 'Male', 'Non-binary', 'Prefer not to specify', 'Other', ],
 };
 
 const longAnswerText = "What is an equity issue you are passionate about and want to take action to solve? Why is tackling this issue important to you? (Try to keep your response to 400 words or less)";
@@ -109,6 +99,7 @@ class Apply extends Component {
             travellingFrom: '',
             cityOfInstitution: '',
             eduLevel: '',
+            gender: '',
 
             /* Form field errors */
             programError: '',
@@ -118,9 +109,11 @@ class Apply extends Component {
             travellingFromError: '',
             cityOfInstitutionError: '',
             eduLevelError: '',
+            genderError: '',
 
             /* Other field produced after choosing the 'other' option in a Select */
             eduLevelText: '',
+            genderText: '',
 
             /* Success flags */
             success: false,
@@ -171,11 +164,13 @@ class Apply extends Component {
                     institution: (app.institution) ? app.institution : '',
                     cityOfInstitution: (app.cityOfInstitution) ? app.cityOfInstitution : '',
                     travellingFrom: (app.travellingFrom) ? app.travellingFrom : '',
+                    gender: (app.gender) ? app.gender : '',
                     submitted: app.submitted,
                 });
 
                 /* Handle additional select outcomes */
                 this.initSelectState(eduLevelValuesAndMessages, app.eduLevel, 'eduLevel');
+                this.initSelectState(genderValuesAndMessages, app.gender, 'gender');
             }
 
             // Update state with any validation errors we see.
@@ -291,8 +286,13 @@ class Apply extends Component {
         if (this.state.institution) application.institution             = this.state.institution;
         if (this.state.cityOfInstitution) application.cityOfInstitution = this.state.cityOfInstitution;
         if (this.state.travellingFrom) application.travellingFrom       = this.state.travellingFrom;
+
+        /* Selects are a little more involved because of their 'other' option */
         if (this.state.eduLevel === 'other') application.eduLevel = (this.state.eduLevelText) ? this.state.eduLevelText : '';
-        else if (this.state.eduLevel) application.eduLevel              = this.state.eduLevel;
+        else if (this.state.eduLevel) application.eduLevel = this.state.eduLevel;
+        if (this.state.gender === 'other') application.gender = (this.state.genderText) ? this.state.genderText : '';
+        else if (this.state.gender) application.gender = this.state.gender;
+
 
         application.submitted = false;
 
@@ -314,6 +314,7 @@ class Apply extends Component {
             institutionError: '',
             travellingFromError: '',
             eduLevelError: '',
+            genderError: '',
         });
     }
 
@@ -383,7 +384,15 @@ class Apply extends Component {
                     <div style={{display: 'grid', gridRowGap: '10px', gridTemplateRows: 'auto', gridArea: 'personal-info-row'}}>
                         <Text align="left" color="primary" type="headline" text="Personal Info" />
 
-                        {/*// TODO DROPDOWN GENDER*/}
+                        {/* Institution Field */}
+                        <Text type="body2" text="What institution do you attend?" />
+                        <TextInputField classes={classes} fullWidth value={this.state.institution}
+                            onChange={this.handleFieldUpdate('institution')} error={this.state.institutionError} /><br/>
+
+                        {/* Program of Study Field */}
+                        <Text type="body2" text="What program of study are you currently enrolled in?" />
+                        <TextInputField classes={classes} fullWidth value={this.state.program}
+                            onChange={this.handleFieldUpdate('program')} error={this.state.programError} /><br/>
 
                         {/* Education Level Select Field */}
                         <Text type="body2" text="Which level of education are you currently attending?" />
@@ -398,22 +407,10 @@ class Apply extends Component {
                             }
                         </div>
 
-                        {/* Test select field */}
-
-                        {/* Program of Study Field */}
-                        <Text type="body2" text="What program of study are you currently enrolled in?" />
-                        <TextInputField classes={classes} fullWidth value={this.state.program}
-                            onChange={this.handleFieldUpdate('program')} error={this.state.programError} /><br/>
-
                         {/* Graduation Field */}
                         <Text type="body2" text="On what year do you graduate?" />
                         <TextInputField classes={classes} type="number" value={this.state.yog}
                             onChange={this.handleFieldUpdate('yog')} error={this.state.yogError} /><br/>
-
-                        {/* Institution Field */}
-                        <Text type="body2" text="What institution do you attend?" />
-                        <TextInputField classes={classes} fullWidth value={this.state.institution}
-                            onChange={this.handleFieldUpdate('institution')} error={this.state.institutionError} /><br/>
 
                         {/* City Institution Field */}
                         <Text type="body2" text="Where is your institution located? (City, Country)" />
@@ -424,6 +421,19 @@ class Apply extends Component {
                         <Text type="body2" text="Where would you be travelling from to attend Equithon on May 4-6, 2018? (City, Country)" />
                         <TextInputField classes={classes} fullWidth value={this.state.travellingFrom}
                             onChange={this.handleFieldUpdate('travellingFrom')} error={this.state.travellingFromError} /><br/>
+
+                        {/* Gender Field */}
+                        <Text type="body2" text="What gender do you identify as?" />
+                        <div style={{ display: 'flex', justifyContent: 'left' }}>
+                            { this.renderSelect(genderValuesAndMessages, 'gender', this.state.genderError) }
+                            { (this.state.gender === 'other') ?
+                                    <TextInputField
+                                        style={{ paddingLeft: '10px', paddingTop: '7px' }}
+                                        classes={classes} value={this.state.genderText}
+                                        onChange={this.handleFieldUpdate('genderText')} error={this.state.genderError}
+                                    /> : false
+                            }
+                        </div>
 
                         {/*// TODO RADIO BUTTON CODING EXPERIENCE*/}
 
