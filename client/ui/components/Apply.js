@@ -36,13 +36,15 @@ const eduLevelSelect = {
         'undergrad',
         'grad',
         'college',
+        'other',    // Can be used by onChange callback to render a new TextField
     ],
     messages: [
         '',
         'High School',
         'University Undergraduate',
         'University Graduate',
-        'college',
+        'College',
+        'Other',
     ],
 };
 
@@ -117,6 +119,10 @@ class Apply extends Component {
             travellingFromError: '',
             cityOfInstitutionError: '',
             eduLevelError: '',
+
+            /* Other field produced after choosing the option in a Select */
+            eduLevelOther: false,
+            eduLevelOtherText: '',
 
             success: false,
             successMessage: '',
@@ -324,7 +330,18 @@ class Apply extends Component {
         return(
             <SelectField
                 value={this.state.eduLevel}
-                onChange={this.handleFieldUpdate('eduLevel')}
+                onChange={ (event) => { // Override handleFieldUpdate
+                    if (!this.state.submitted) {
+                        if (event.target.value === 'other') {
+                            this.setState({ // Render the 'other' TextField and let eduLevel control it.
+                                eduLevelOther: true,
+                                eduLevel: 'other',
+                            });
+                        } else {
+                            this.setState({ eduLevel: event.target.value });
+                        }
+                    }
+                }}
                 error={this.state.eduLevelError}
                 options={options}
             />
@@ -378,35 +395,41 @@ class Apply extends Component {
 
                         {/*// TODO DROPDOWN GENDER*/}
 
+                        {/* Education Level Select Field */}
                         <Text type="body2" text="Which level of education are you currently attending?" />
                         {this.renderEduLevelHelper(classes)}
+                        { (this.state.eduLevelOther) ?
+                            <TextInputField classes={classes} fullWidth value={this.state.eduLevelOtherText}
+                                onChange={this.handleFieldUpdate('eduLevel')} error={this.state.eduLevelError}
+                            /> : false
+                        }
 
                         {/* Test select field */}
 
                         {/* Program of Study Field */}
                         <Text type="body2" text="What program of study are you currently enrolled in?" />
-                        <TextInputField classes={classes}  fullWidth value={this.state.program}
-                            onChange={this.handleFieldUpdate('program')} stateName="program" error={this.state.programError} /><br/>
+                        <TextInputField classes={classes} fullWidth value={this.state.program}
+                            onChange={this.handleFieldUpdate('program')} error={this.state.programError} /><br/>
 
                         {/* Graduation Field */}
                         <Text type="body2" text="On what year do you graduate?" />
                         <TextInputField classes={classes} type="number" value={this.state.yog}
-                            onChange={this.handleFieldUpdate('yog')} stateName="yog" error={this.state.yogError} /><br/>
+                            onChange={this.handleFieldUpdate('yog')} error={this.state.yogError} /><br/>
 
                         {/* Institution Field */}
                         <Text type="body2" text="What institution do you attend?" />
                         <TextInputField classes={classes} fullWidth value={this.state.institution}
-                            onChange={this.handleFieldUpdate('institution')} stateName="institution" error={this.state.institutionError} /><br/>
+                            onChange={this.handleFieldUpdate('institution')} error={this.state.institutionError} /><br/>
 
                         {/* City Institution Field */}
                         <Text type="body2" text="Where is your institution located? (City, Country)" />
                         <TextInputField classes={classes} fullWidth value={this.state.cityOfInstitution}
-                            onChange={this.handleFieldUpdate('cityOfInstitution')} stateName="cityOfInstitution" error={this.state.cityOfInstitutionError} /><br/>
+                            onChange={this.handleFieldUpdate('cityOfInstitution')} error={this.state.cityOfInstitutionError} /><br/>
 
                         {/* Travelling From Field */}
                         <Text type="body2" text="Where would you be travelling from to attend Equithon on May 4-6, 2018? (City, Country)" />
                         <TextInputField classes={classes} fullWidth value={this.state.travellingFrom}
-                            onChange={this.handleFieldUpdate('travellingFrom')} stateName="travellingFrom" error={this.state.travellingFromError} /><br/>
+                            onChange={this.handleFieldUpdate('travellingFrom')} error={this.state.travellingFromError} /><br/>
 
                         {/*// TODO RADIO BUTTON CODING EXPERIENCE*/}
 
