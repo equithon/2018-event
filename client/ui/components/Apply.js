@@ -29,7 +29,7 @@ const Applications = new Mongo.Collection('applications');
  * Words for the application from
  */
 /* Education Level drop down menu options stored as arrays */
-const eduLevelSelect = {
+const eduLevelValuesAndMessages = {
     values: [
         '',
         'highschool',
@@ -110,7 +110,6 @@ class Apply extends Component {
             cityOfInstitution: '',
             eduLevel: '',
 
-
             /* Form field errors */
             programError: '',
             yogError: '',
@@ -120,22 +119,24 @@ class Apply extends Component {
             cityOfInstitutionError: '',
             eduLevelError: '',
 
-            /* Other field produced after choosing the option in a Select */
-            eduLevelOther: false,
-            eduLevelOtherText: '',
+            /* Other field produced after choosing the 'other' option in a Select */
+            eduLevelText: '',
 
+            /* Success flags */
             success: false,
             successMessage: '',
             errorMessage: '',
 
-            verified: true,
+            verified: true, // Default verification status so we don't unnecessarily warn the user
             submitted: false,
 
             confirmationModalOpen: false,
         };
 
+        /* Initialize a new validation context to react to */
         this.appValidationContext = clientSubmitSchema.newContext();
 
+        /* Bindings */
         this.handleFieldUpdate            = this.handleFieldUpdate.bind(this);
         this.submitApplication            = this.submitApplication.bind(this);
         this.saveApplication              = this.saveApplication.bind(this);
@@ -145,6 +146,7 @@ class Apply extends Component {
 
     /* Meteor.user is an asynchronous call so we need to hook into it and react to it */
     componentDidMount() {
+        /* User computations - we keep track of Meteor's user here and hook it into our component */
         this.userC = Tracker.autorun(() => {
             let user = Meteor.user();
             this.setState({
@@ -156,6 +158,7 @@ class Apply extends Component {
             });
         });
 
+        /* Application computations - we keep track of the fields published by the server and hook into them */
         this.appC = Tracker.autorun(() => {
             Meteor.subscribe('applicationData');
 
@@ -168,14 +171,15 @@ class Apply extends Component {
                     institution: (app.institution) ? app.institution : '',
                     cityOfInstitution: (app.cityOfInstitution) ? app.cityOfInstitution : '',
                     travellingFrom: (app.travellingFrom) ? app.travellingFrom : '',
-                    eduLevel: (app.eduLevel) ? app.eduLevel : '',
                     submitted: app.submitted,
                 });
+
+                /* Handle additional select outcomes */
+                this.initSelectState(eduLevelValuesAndMessages, app.eduLevel, 'eduLevel');
             }
 
             // Update state with any validation errors we see.
             if (!this.appValidationContext.isValid()) {
-                console.log(this.appValidationContext.validationErrors());
                 this.processValidationErrors(this.appValidationContext.validationErrors());
             }
         });
@@ -187,22 +191,14 @@ class Apply extends Component {
         this.appC.stop();
     }
 
-    /* Submit Application */
+    /* Handle Submit Application event*/
     submitApplication() {
         let fullName = this.state.fullName;
         let university = this.state.university;
         let yearOfGraduation = Number(this.state.yog);
         let project = this.state.project;
 
-        let submission = {};
-        if (this.state.program) submission.program                     = this.state.program;
-        if (this.state.yog) submission.yog                             = Number(this.state.yog);
-        if (this.state.longAnswer) submission.longAnswer               = this.state.longAnswer;
-        if (this.state.institution) submission.institution             = this.state.institution;
-        if (this.state.cityOfInstitution) submission.cityOfInstitution = this.state.cityOfInstitution;
-        if (this.state.travellingFrom) submission.travellingFrom       = this.state.travellingFrom;
-        if (this.state.eduLevel) submission.eduLevel                   = this.state.eduLevel;
-        submission.submitted = false;
+        let submission = this.getClientApplication();
 
         /* Validate the submission on submit which will reactively display errors to the user */
         if(this.appValidationContext.validate(submission, clientSubmitSchema.application)) {
@@ -223,19 +219,11 @@ class Apply extends Component {
         } else this.setState({ success: false });   // Remove any success messages validation fails
     }
 
-    /* Save application */
+    /* Handle Save application evnet */
     saveApplication() {
         this.clearErrorMessages();
 
-        let application = {};
-        if (this.state.program) application.program   = this.state.program;
-        if (this.state.yog) application.yog         = Number(this.state.yog);
-        if (this.state.longAnswer) application.longAnswer = this.state.longAnswer;
-        if (this.state.institution) application.institution = this.state.institution;
-        if (this.state.cityOfInstitution) application.cityOfInstitution = this.state.cityOfInstitution;
-        if (this.state.travellingFrom) application.travellingFrom = this.state.travellingFrom;
-        if (this.state.eduLevel) application.eduLevel = this.state.eduLevel;
-        application.submitted = false;
+        let application = this.getClientApplication();
 
         /*
          * Don't bother validating the schema on save, the server will validate it
@@ -263,7 +251,7 @@ class Apply extends Component {
         });
     }
 
-
+    /* General purpose onChange handler */
     handleFieldUpdate = name => event => {
         if (!this.state.submitted) {
             this.setState({
@@ -272,17 +260,12 @@ class Apply extends Component {
         }
     };
 
-    handleConfirmationModalOpen = () => {
-        this.setState({
-            confirmationModalOpen: true,
-        });
-    };
-    handleConfirmationModalClose = () => {
-        this.setState({
-            confirmationModalOpen: false,
-        });
-    };
+    /* ConfirmationModal event handlers */
+    handleConfirmationModalOpen  = () => this.setState({ confirmationModalOpen: true, });
+    handleConfirmationModalClose = () => this.setState({ confirmationModalOpen: false, });
 
+    /***** Helpers *****/
+    /* Process any validation errors given by setting the corresponding state, rerendering the components */
     processValidationErrors(validationErrors) {
         if (validationErrors) {
             validationErrors.forEach((validationError) => {
@@ -298,8 +281,28 @@ class Apply extends Component {
         }
     }
 
-    getUserField(field) {
-        return (this.state.currentUser && this.state.currentUser[field]);
+    /* Returns the application in its current state on the client */
+    getClientApplication() {
+        var application = {};
+
+        if (this.state.program) application.program                     = this.state.program;
+        if (this.state.yog) application.yog                             = Number(this.state.yog);
+        if (this.state.longAnswer) application.longAnswer               = this.state.longAnswer;
+        if (this.state.institution) application.institution             = this.state.institution;
+        if (this.state.cityOfInstitution) application.cityOfInstitution = this.state.cityOfInstitution;
+        if (this.state.travellingFrom) application.travellingFrom       = this.state.travellingFrom;
+        if (this.state.eduLevel === 'other') application.eduLevel = (this.state.eduLevelText) ? this.state.eduLevelText : '';
+        else if (this.state.eduLevel) application.eduLevel              = this.state.eduLevel;
+
+        application.submitted = false;
+
+        return application;
+    }
+
+    /* Initialize Select form values on page load */
+    initSelectState(valuesAndMessages, appValue, name) {
+        if (valuesAndMessages.values.find((val) => val === appValue)) this.setState({ [name]: appValue });
+        else if (appValue) this.setState({ [name]: 'other', [name+'Text']: appValue });   // Handle 'other' option case
     }
 
     clearErrorMessages() {
@@ -310,44 +313,31 @@ class Apply extends Component {
             cityOfInstitutionError: '',
             institutionError: '',
             travellingFromError: '',
+            eduLevelError: '',
         });
     }
 
-    getApplicationStatus() {
-        return (this.state.submitted) ? 'Submitted' : 'Incomplete';
+    getUserField(field) {
+        return (this.state.currentUser && this.state.currentUser[field]) || '';
     }
 
     /************** Rendering **************/
-    /* Render the EduLevel Select dropdown */
-    renderEduLevelHelper(classes) {
+    /*
+     * Render a Select with the options defined by options.values and options.messages
+     * hooking into the state name and error state error.
+     */
+    renderSelect(valuesAndMessages, name, error) {
         var options = [];
-        for (var i = 0; i < eduLevelSelect.values.length; ++i) {
+        for (var i = 0; i < valuesAndMessages.values.length; ++i) {
             options.push(
-                <option key={i} value={eduLevelSelect.values[i]}>{eduLevelSelect.messages[i]}</option>
+                <option key={i} value={valuesAndMessages.values[i]}>{valuesAndMessages.messages[i]}</option>
             );
         }
 
-        return(
-            <SelectField
-                value={this.state.eduLevel}
-                onChange={ (event) => { // Override handleFieldUpdate
-                    if (!this.state.submitted) {
-                        if (event.target.value === 'other') {
-                            this.setState({ // Render the 'other' TextField and let eduLevel control it.
-                                eduLevelOther: true,
-                                eduLevel: 'other',
-                            });
-                        } else {
-                            this.setState({ eduLevel: event.target.value });
-                        }
-                    }
-                }}
-                error={this.state.eduLevelError}
-                options={options}
-            />
-        );
+        return <SelectInput value={this.state[name]} onChange={this.handleFieldUpdate(name)} error={error} options={options} />;
     }
 
+    /* Main render entry point */
     render() {
         const { classes } = this.props;
 
@@ -360,13 +350,13 @@ class Apply extends Component {
                 {/* Welcome the name of the user */}
                 <div style={{gridArea: 'title-row'}}>
                     <Text style={{ textAlign: 'center' }} color="primary" type="display2"
-                        text={ 'Welcome, ' + this.getUserField('firstName') + ' ' + this.getUserField('lastName') } />
+                        text={ 'Welcome ' + this.getUserField('firstName') + ' ' + this.getUserField('lastName') + '!' } />
                 </div>
 
                 {/* Display application submission status and any errors that occur */}
                 <div style={{ gridArea: 'application-label-row', paddingTop: '30px' }}>
                     <Text align="left" color="primary" type="title"
-                        text={ <div>Application > <em>{ this.getApplicationStatus() }</em></div> } />
+                        text={ <div>Application > <em>{ (this.state.submitted) ? 'Submitted' : 'Incomplete' }</em></div> } />
 
                     {/* Informative chips */}
                     <div style={{ display: 'grid', gridRowGap: '10px', padding: '10px', justifyContent: 'center' }}>
@@ -397,12 +387,16 @@ class Apply extends Component {
 
                         {/* Education Level Select Field */}
                         <Text type="body2" text="Which level of education are you currently attending?" />
-                        {this.renderEduLevelHelper(classes)}
-                        { (this.state.eduLevelOther) ?
-                            <TextInputField classes={classes} fullWidth value={this.state.eduLevelOtherText}
-                                onChange={this.handleFieldUpdate('eduLevel')} error={this.state.eduLevelError}
-                            /> : false
-                        }
+                        <div style={{ display: 'flex', justifyContent: 'left' }}>
+                            { this.renderSelect(eduLevelValuesAndMessages, 'eduLevel', this.state.eduLevelError) }
+                            { (this.state.eduLevel === 'other') ?
+                                    <TextInputField
+                                        style={{ paddingLeft: '10px', paddingTop: '7px' }}
+                                        classes={classes} value={this.state.eduLevelText}
+                                        onChange={this.handleFieldUpdate('eduLevelText')} error={this.state.eduLevelError}
+                                    /> : false
+                            }
+                        </div>
 
                         {/* Test select field */}
 
@@ -497,8 +491,9 @@ class Apply extends Component {
 }
 export default withStyles(styles)(Apply);
 
-const TextInputField = ({ classes, label, type, fullWidth, value, onChange, error }) => (
+const TextInputField = ({ style, classes, label, type, fullWidth, value, onChange, error }) => (
     <TextField
+        style={style}
         type={type}
         fullWidth={fullWidth}
         InputProps={{ classes: {
@@ -512,8 +507,8 @@ const TextInputField = ({ classes, label, type, fullWidth, value, onChange, erro
     />
 );
 
-const SelectField = ({ label, value, onChange, error, options }) => (
-    <FormControl error={ !!error } fullWidth>
+const SelectInput = ({ label, value, onChange, error, options }) => (
+    <FormControl error={ !!error }>
         <Select
             native
             input={<Input />}
