@@ -25,17 +25,28 @@ import { clientSubmitSchema } from '/imports/api/Schema.js';
 const Applications = new Mongo.Collection('applications');
 
 
+/* Application form field names */
+const textFieldNames = [ 'program', 'longAnswer', 'institution', 'travellingFrom',
+                     'cityOfInstitution' ];
+const numberFieldNames = [ 'yog' ];
+const selectFieldNames = [ 'eduLevel', 'gender' ];  // Handling this is different.
+
 /*
  * Words for the application from
+ *
+ * Note that the names of these objects are heavily relied on by the code (the 'ValuesAndMessages' suffix).
+ * Be careful changing them.
  */
-/* Education Level drop down menu options stored as arrays */
-const eduLevelValuesAndMessages = {
-    values: [ '', 'highschool', 'undergrad', 'grad', 'college', 'other', ],
-    messages: [ '', 'High School', 'University Undergraduate', 'University Graduate', 'College', 'Other', ],
-};
-const genderValuesAndMessages = {
-    values: [ '', 'female', 'male', 'nonbinary', 'no', 'other', ],
-    messages: [ '', 'Female', 'Male', 'Non-binary', 'Prefer not to specify', 'Other', ],
+/* Drop down menu options stored as arrays */
+const valuesAndMessages = {
+    eduLevel: {
+        values: [ '', 'highschool', 'undergrad', 'grad', 'college', 'other', ],
+        messages: [ '', 'High School', 'University Undergraduate', 'University Graduate', 'College', 'Other', ],
+    },
+    gender: {
+        values: [ '', 'female', 'male', 'nonbinary', 'no', 'other', ],
+        messages: [ '', 'Female', 'Male', 'Non-binary', 'Prefer not to specify', 'Other', ],
+    },
 };
 
 const longAnswerText = "What is an equity issue you are passionate about and want to take action to solve? Why is tackling this issue important to you? (Try to keep your response to 400 words or less)";
@@ -90,7 +101,7 @@ class Apply extends Component {
     constructor(props) {
         super(props);
 
-        this.state = {
+        this.state = {  // Can we turn this into a loop?
             /* Form fields */
             program: '',
             yog: 2018,
@@ -157,20 +168,16 @@ class Apply extends Component {
 
             let app = Applications.find().fetch()[0];
             if (app) {
-                this.setState({
-                    program:  (app.program) ? app.program : '',
-                    yog:     (app.yog) ? app.yog : '',
-                    longAnswer: (app.longAnswer) ? app.longAnswer : '',
-                    institution: (app.institution) ? app.institution : '',
-                    cityOfInstitution: (app.cityOfInstitution) ? app.cityOfInstitution : '',
-                    travellingFrom: (app.travellingFrom) ? app.travellingFrom : '',
-                    gender: (app.gender) ? app.gender : '',
-                    submitted: app.submitted,
-                });
+                console.log('textFieldNames:');
+                console.log(textFieldNames);
+                console.log('app:');
+                console.log(app);
+                textFieldNames.forEach((name) => this.setState({ [name]: (app[name]) ? app[name] : '' }));
+                numberFieldNames.forEach((name) => this.setState({ [name]: (app[name]) ? app[name] : '' }));
+                this.setState({ submitted: app.submitted, });
 
                 /* Handle additional select outcomes */
-                this.initSelectState(eduLevelValuesAndMessages, app.eduLevel, 'eduLevel');
-                this.initSelectState(genderValuesAndMessages, app.gender, 'gender');
+                selectFieldNames.forEach((name) => this.initSelectState(valuesAndMessages[name], app[name], name));
             }
 
             // Update state with any validation errors we see.
@@ -280,19 +287,18 @@ class Apply extends Component {
     getClientApplication() {
         var application = {};
 
-        if (this.state.program) application.program                     = this.state.program;
-        if (this.state.yog) application.yog                             = Number(this.state.yog);
-        if (this.state.longAnswer) application.longAnswer               = this.state.longAnswer;
-        if (this.state.institution) application.institution             = this.state.institution;
-        if (this.state.cityOfInstitution) application.cityOfInstitution = this.state.cityOfInstitution;
-        if (this.state.travellingFrom) application.travellingFrom       = this.state.travellingFrom;
+        textFieldNames.forEach((name) => {
+            if (this.state[name]) application[name] = this.state[name];
+        });
+        numberFieldNames.forEach((name) => {
+            if (this.state[name]) application[name] = Number(this.state[name]);
+        });
 
         /* Selects are a little more involved because of their 'other' option */
-        if (this.state.eduLevel === 'other') application.eduLevel = (this.state.eduLevelText) ? this.state.eduLevelText : '';
-        else if (this.state.eduLevel) application.eduLevel = this.state.eduLevel;
-        if (this.state.gender === 'other') application.gender = (this.state.genderText) ? this.state.genderText : '';
-        else if (this.state.gender) application.gender = this.state.gender;
-
+        selectFieldNames.forEach((name) => {
+            if (this.state[name] === 'other') application[name] = (this.state[name]) ? this.state[name + 'Text'] : '';
+            else if (this.state[name]) application[name] = this.state[name];
+        });
 
         application.submitted = false;
 
@@ -306,16 +312,9 @@ class Apply extends Component {
     }
 
     clearErrorMessages() {
-        this.setState({
-            programError: '',
-            yogError: '',
-            longAnswerError: '',
-            cityOfInstitutionError: '',
-            institutionError: '',
-            travellingFromError: '',
-            eduLevelError: '',
-            genderError: '',
-        });
+        textFieldNames.forEach((name) => this.setState({ [name + 'Error']: '' }));
+        numberFieldNames.forEach((name) => this.setState({ [name + 'Error']: '' }));
+        selectFieldNames.forEach((name) => this.setState({ [name + 'Error']: '' }));
     }
 
     getUserField(field) {
@@ -330,9 +329,7 @@ class Apply extends Component {
     renderSelect(valuesAndMessages, name, error) {
         var options = [];
         for (var i = 0; i < valuesAndMessages.values.length; ++i) {
-            options.push(
-                <option key={i} value={valuesAndMessages.values[i]}>{valuesAndMessages.messages[i]}</option>
-            );
+            options.push(<option key={i} value={valuesAndMessages.values[i]}>{valuesAndMessages.messages[i]}</option>);
         }
 
         return <SelectInput value={this.state[name]} onChange={this.handleFieldUpdate(name)} error={error} options={options} />;
@@ -397,7 +394,7 @@ class Apply extends Component {
                         {/* Education Level Select Field */}
                         <Text type="body2" text="Which level of education are you currently attending?" />
                         <div style={{ display: 'flex', justifyContent: 'left' }}>
-                            { this.renderSelect(eduLevelValuesAndMessages, 'eduLevel', this.state.eduLevelError) }
+                            { this.renderSelect(valuesAndMessages.eduLevel, 'eduLevel', this.state.eduLevelError) }
                             { (this.state.eduLevel === 'other') ?
                                     <TextInputField
                                         style={{ paddingLeft: '10px', paddingTop: '7px' }}
@@ -426,7 +423,7 @@ class Apply extends Component {
                         {/* Gender Field */}
                         <Text type="body2" text="What gender do you identify as?" />
                         <div style={{ display: 'flex', justifyContent: 'left' }}>
-                            { this.renderSelect(genderValuesAndMessages, 'gender', this.state.genderError) }
+                            { this.renderSelect(valuesAndMessages.gender, 'gender', this.state.genderError) }
                             { (this.state.gender === 'other') ?
                                     <TextInputField
                                         style={{ paddingLeft: '10px', paddingTop: '7px' }}
