@@ -21,6 +21,8 @@ import { clientSubmitSchema } from '/imports/api/Schema.js';
 
 const Applications = new Mongo.Collection('applications');
 
+const longAnswerText = "What is an equity issue you are passionate about and want to take action to solve? Why is tackling this issue important to you? (Try to keep your response to 400 words or less)";
+
 const unverifiedMessage = "Your account is not verified! Please verify your email address in order to submit your application.";
 const styles = theme => ({
     /* Text Fields */
@@ -70,17 +72,22 @@ class Apply extends Component {
         super(props);
 
         this.state = {
-            fullName: '',
-            university: '',
-            yog: 2017,
-            project: '',
+            /* Form fields */
+            program: '',
+            yog: 2018,
+            longAnswer: '',
+            institution: '',
+            travellingFrom: '',
+            cityOfInstitution: '',
+
 
             /* Form field errors */
-            ghURLError: '',
-            liURLError: '',
-            schoolError: '',
+            programError: '',
             yogError: '',
-            projectError: '',
+            longAnswerError: '',
+            institutionError: '',
+            travellingFromError: '',
+            cityOfInstitutionError: '',
 
             success: false,
             successMessage: '',
@@ -117,14 +124,15 @@ class Apply extends Component {
         this.appC = Tracker.autorun(() => {
             Meteor.subscribe('applicationData');
 
-            let app = Applications.find().fetch()[0]
+            let app = Applications.find().fetch()[0];
             if (app) {
                 this.setState({
-                    ghURL:   (app.ghURL) ? app.ghURL : '',
-                    liURL:   (app.liURL) ? app.liURL : '',
-                    school:  (app.school) ? app.school : '',
+                    program:  (app.program) ? app.program : '',
                     yog:     (app.yog) ? app.yog : '',
-                    project: (app.project) ? app.project : '',
+                    longAnswer: (app.longAnswer) ? app.longAnswer : '',
+                    institution: (app.institution) ? app.institution : '',
+                    cityOfInstitution: (app.cityOfInstitution) ? app.cityOfInstitution : '',
+                    travellingFrom: (app.travellingFrom) ? app.travellingFrom : '',
                     submitted: app.submitted,
                 });
             }
@@ -151,11 +159,12 @@ class Apply extends Component {
         let project = this.state.project;
 
         let submission = {};
-        if (this.state.ghURL) submission.ghURL     = this.state.ghURL;
-        if (this.state.liURL) submission.liURL     = this.state.liURL;
-        if (this.state.school) submission.school   = this.state.school;
+        if (this.state.program) submission.program   = this.state.program;
         if (this.state.yog) submission.yog         = Number(this.state.yog);
-        if (this.state.project) submission.project = this.state.project;
+        if (this.state.longAnswer) submission.longAnswer = this.state.longAnswer;
+        if (this.state.institution) submission.institution = this.state.institution;
+        if (this.state.cityOfInstitution) submission.cityOfInstitution = this.state.cityOfInstitution;
+        if (this.state.travellingFrom) submission.travellingFrom = this.state.travellingFrom;
         submission.submitted = false;
 
         if(Schema.context.validate(submission, Schema.application)) {
@@ -170,11 +179,12 @@ class Apply extends Component {
         this.clearErrorMessages();
 
         let application = {};
-        if (this.state.ghURL) application.ghURL     = this.state.ghURL;
-        if (this.state.liURL) application.liURL     = this.state.liURL;
-        if (this.state.school) application.school   = this.state.school;
+        if (this.state.program) application.program   = this.state.program;
         if (this.state.yog) application.yog         = Number(this.state.yog);
-        if (this.state.project) application.project = this.state.project;
+        if (this.state.longAnswer) application.longAnswer = this.state.longAnswer;
+        if (this.state.institution) application.institution = this.state.institution;
+        if (this.state.cityOfInstitution) application.cityOfInstitution = this.state.cityOfInstitution;
+        if (this.state.travellingFrom) application.travellingFrom = this.state.travellingFrom;
         application.submitted = false;
 
         /*
@@ -222,9 +232,7 @@ class Apply extends Component {
 
     processValidationErrors(validationErrors) {
         if (validationErrors) {
-            console.log(validationErrors);
             validationErrors.forEach((validationError) => {
-                console.log(validationError);
                 if (validationError.name) {
                     if (validationError.message) {
                         this.setState((state) => state[validationError.name + 'Error'] = validationError.message);
@@ -242,17 +250,17 @@ class Apply extends Component {
 
     clearErrorMessages() {
         this.setState({
-            ghURLError: '',
-            liURLError: '',
-            schoolError: '',
+            programError: '',
             yogError: '',
-            projectError: '',
+            longAnswerError: '',
+            cityOfInstitutionError: '',
+            institutionError: '',
+            travellingFromError: '',
         });
     }
 
     getApplicationStatus() {
-        if (this.state.submitted) return 'Submitted';
-        return 'Incomplete';
+        return (this.state.submitted) ? 'Submitted' : 'Incomplete';
     }
 
 
@@ -301,96 +309,51 @@ class Apply extends Component {
                     <div style={{gridArea: 'personal-info-row'}}>
                         <Text align="left" color="primary" type="headline" text="Personal Info" />
 
-                        {/* Github Field */}
-                        <TextField
-                            name="ghURL"
-                            label="Github URL"
-                            margin="normal"
-                            fullWidth
-                            InputProps={{ classes: {
-                                input: classes.textFieldInput,
-                            }}}
-                            onChange={this.handleFieldUpdate('ghURL')}
+                        {/*// TODO DROPDOWN GENDER*/}
 
-                            error={ !!this.state.ghURLError }
-                            helperText={this.state.ghURLError}
-                            value={this.state.ghURL}
-                        /><br/>
+                        {/*// TODO DROPDOWN LEVEL OF EDUCATION*/}
 
-                        {/* Linkedin Field */}
-                        <TextField
-                            name="liURL"
-                            label="LinkedIn URL"
-                            margin="normal"
-                            fullWidth
-                            InputProps={{ classes: {
-                                input: classes.textFieldInput,
-                            }}}
-                            onChange={this.handleFieldUpdate('liURL')}
 
-                            error={ !!this.state.liURLError }
-                            helperText={this.state.liURLError}
-                            value={this.state.liURL}
-                        /><br/>
-
-                        {/* School Field */}
-                        <TextField
-                            name="school"
-                            label="Your University"
-                            margin="normal"
-                            fullWidth
-                            InputProps={{ classes: {
-                                input: classes.textFieldInput,
-                            }}}
-                            onChange={this.handleFieldUpdate('school')}
-
-                            error={ !!this.state.schoolError }
-                            helperText={this.state.schoolError}
-                            value={this.state.school}
-                        /><br/>
+                        {/* Program of Study Field */}
+                        <TextInputField classes={classes} label="What program of study are you currently enrolled in?" fullWidth value={this.state.program}
+                            onChange={this.handleFieldUpdate('program')} stateName="program" error={this.state.programError} /><br/>
 
                         {/* Graduation Field */}
-                        <TextField
-                            name="yog"
-                            label="Year of Graduation"
-                            margin="normal"
-                            type="number"
-                            InputProps={{ classes: {
-                                input: classes.textFieldInput,
-                            }}}
-                            onChange={this.handleFieldUpdate('yog')}
+                        <TextInputField classes={classes} label="Graduation year" type="number" value={this.state.yog}
+                            onChange={this.handleFieldUpdate('yog')} stateName="yog" error={this.state.yogError} /><br/>
 
-                            error={ !!this.state.yogError }
-                            helperText={this.state.yogError}
-                            value={''+this.state.yog}
-                        /><br/>
+                        {/* Institution Field */}
+                        <TextInputField classes={classes} label="What institution do you attend?" fullWidth value={this.state.institution}
+                            onChange={this.handleFieldUpdate('institution')} stateName="institution" error={this.state.institutionError} /><br/>
+
+                        {/* City Institution Field */}
+                        <TextInputField classes={classes} label="Where is your institution located? (City, Country)" fullWidth value={this.state.cityOfInstitution}
+                            onChange={this.handleFieldUpdate('cityOfInstitution')} stateName="cityOfInstitution" error={this.state.cityOfInstitutionError} /><br/>
+
+                        {/* Travelling From Field */}
+                        <TextInputField classes={classes} label="Where would you be travelling from to attend Equithon on May 4-6, 2018? (City, Country)" fullWidth value={this.state.travellingFrom}
+                            onChange={this.handleFieldUpdate('travellingFrom')} stateName="travellingFrom" error={this.state.travellingFromError} /><br/>
+
+                        {/*// TODO RADIO BUTTON CODING EXPERIENCE*/}
+
+                        {/*// TODO RADIO BUTTON ATTENDED HACKATHON*/}
+
+                        {/*// TODO CHECKBOX GOALS FOR E2018*/}
+
+                        {/*// TODO CHECKBOX INTERESTED CATEGORIES*/}
+
+                        {/*// TODO CHECKBOX WORKSHOPS*/}
+
+                        {/*// TODO RADIO BUTTON HEAR ABOUT EQUITHON*/}
                     </div>
 
                     <div style={{gridArea: 'long-answer-row'}}>
                         <Text align="left" color="primary" type="headline" text="Long Answer" />
-                        <TextField
-                            name="project"
-                            value={ (this.state.project) ? this.state.project: '' }
-                            onChange={this.handleFieldUpdate('project')}
-                            multiline={true}
-                            rows="10"
-                            fullWidth={true}
-                            InputProps={{
-                                disableUnderline: true,
-                                classes: {
-                                    root: classes.longTextFieldRoot,
-                                    input: classes.longTextFieldInput,
-                                }
-                            }}
-                            InputLabelProps={{
-                                shrink: true,
-                                fontSize: '8vw',
-                            }}
 
-                            error={ !!this.state.projectError }
-                            helperText={this.state.projectError}
-                            placeholder="Tell us about a project that you think is cool that you've worked on in the last year"
-                        /><br/><br/>
+{/*
+                            <LongInputField classes={classes} label={longAnswerText} value={this.state.longAnswer}
+                            onChange={this.handleChange} stateName="longAnswer" />*/}
+
                     </div>
 
                     <div className="split-column-row" style={{ gridArea: 'submit-row', gridRowGap: '10px' }}>
@@ -411,7 +374,7 @@ class Apply extends Component {
                                 open={this.state.confirmationModalOpen}
                                 onClose={this.handleConfirmationModalClose}
                                 onYes={this.submitApplication}
-                                message="Are you sure you would like to submit your application?"
+                                message="Are you sure you would like to submit your application? You cannot edit after submitting."
                             />
                         </div>
                     </div>
@@ -422,3 +385,47 @@ class Apply extends Component {
     }
 }
 export default withStyles(styles)(Apply);
+
+const TextInputField = ({ classes, label, type, fullWidth, value, onChange, stateName, error }) => (
+    <TextField
+        label={label}
+        margin="normal"
+        type={type}
+        fullWidth={fullWidth}
+        InputProps={{ classes: {
+            input: classes.textFieldInput,
+        }}}
+        onChange={onChange}
+
+        error={ !!error }
+        helperText={error}
+        value={value}
+    />
+);
+
+
+const LongInputField = ({ classes, label, value, onChange, stateName }) => (
+    <TextField
+        name="longAnswer"
+        value={ (this.state.longAnswer) ? this.state.longAnswer: '' }
+        onChange={this.handleFieldUpdate('longAnswer')}
+        multiline={true}
+        rows="15"
+        fullWidth={true}
+        InputProps={{
+            disableUnderline: true,
+            classes: {
+            root: classes.longTextFieldRoot,
+            input: classes.longTextFieldInput,
+            }
+        }}
+        InputLabelProps={{
+            shrink: true,
+            fontSize: '8vw',
+        }}
+
+        error={ !!this.state.longAnswerError }
+        helperText={this.state.longAnswerError}
+        placeholder="What is an equity issue you are passionate about and want to take action to solve\? Why is tackling this issue important to you\? (Try to keep your response to 400 words or less)"
+    />
+);
