@@ -54,7 +54,7 @@ const unverifiedMessage = "Your account is not verified! Please verify your emai
 const styles = theme => ({
     /* Text Fields */
     textFieldInput: {
-        padding: '10px 12px',
+        padding: '3px 12px',
     },
     longTextFieldRoot: {
         padding: 0,
@@ -288,6 +288,7 @@ class Apply extends Component {
                     }
                 }
             }, this);
+            this.setState({ errorMessage: "Some fields require your attention" });
         }
     }
 
@@ -322,7 +323,6 @@ class Apply extends Component {
 
         return(
             <SelectField
-                label="Which level of education are you currently attending?"
                 value={this.state.eduLevel}
                 onChange={this.handleFieldUpdate('eduLevel')}
                 error={this.state.eduLevelError}
@@ -373,33 +373,39 @@ class Apply extends Component {
                 {/* Actual application */}
                 <Paper id="application-form">
                     {/* Personal info form fields */}
-                    <div style={{gridArea: 'personal-info-row'}}>
+                    <div style={{display: 'grid', gridRowGap: '10px', gridTemplateRows: 'auto', gridArea: 'personal-info-row'}}>
                         <Text align="left" color="primary" type="headline" text="Personal Info" />
 
                         {/*// TODO DROPDOWN GENDER*/}
 
+                        <Text type="body2" text="Which level of education are you currently attending?" />
                         {this.renderEduLevelHelper(classes)}
 
                         {/* Test select field */}
 
                         {/* Program of Study Field */}
-                        <TextInputField classes={classes} label="What program of study are you currently enrolled in?" fullWidth value={this.state.program}
+                        <Text type="body2" text="What program of study are you currently enrolled in?" />
+                        <TextInputField classes={classes}  fullWidth value={this.state.program}
                             onChange={this.handleFieldUpdate('program')} stateName="program" error={this.state.programError} /><br/>
 
                         {/* Graduation Field */}
-                        <TextInputField classes={classes} label="Graduation year" type="number" value={this.state.yog}
+                        <Text type="body2" text="On what year do you graduate?" />
+                        <TextInputField classes={classes} type="number" value={this.state.yog}
                             onChange={this.handleFieldUpdate('yog')} stateName="yog" error={this.state.yogError} /><br/>
 
                         {/* Institution Field */}
-                        <TextInputField classes={classes} label="What institution do you attend?" fullWidth value={this.state.institution}
+                        <Text type="body2" text="What institution do you attend?" />
+                        <TextInputField classes={classes} fullWidth value={this.state.institution}
                             onChange={this.handleFieldUpdate('institution')} stateName="institution" error={this.state.institutionError} /><br/>
 
                         {/* City Institution Field */}
-                        <TextInputField classes={classes} label="Where is your institution located? (City, Country)" fullWidth value={this.state.cityOfInstitution}
+                        <Text type="body2" text="Where is your institution located? (City, Country)" />
+                        <TextInputField classes={classes} fullWidth value={this.state.cityOfInstitution}
                             onChange={this.handleFieldUpdate('cityOfInstitution')} stateName="cityOfInstitution" error={this.state.cityOfInstitutionError} /><br/>
 
                         {/* Travelling From Field */}
-                        <TextInputField classes={classes} label="Where would you be travelling from to attend Equithon on May 4-6, 2018? (City, Country)" fullWidth value={this.state.travellingFrom}
+                        <Text type="body2" text="Where would you be travelling from to attend Equithon on May 4-6, 2018? (City, Country)" />
+                        <TextInputField classes={classes} fullWidth value={this.state.travellingFrom}
                             onChange={this.handleFieldUpdate('travellingFrom')} stateName="travellingFrom" error={this.state.travellingFromError} /><br/>
 
                         {/*// TODO RADIO BUTTON CODING EXPERIENCE*/}
@@ -418,31 +424,46 @@ class Apply extends Component {
                     <div style={{gridArea: 'long-answer-row'}}>
                         <Text align="left" color="primary" type="headline" text="Long Answer" />
 
-                        <LongInputField classes={classes} label={longAnswerText} value={this.state.longAnswer}
+                        <Text type="body2" text={longAnswerText} />
+                        <LongInputField classes={classes} value={this.state.longAnswer}
                         onChange={this.handleFieldUpdate('longAnswer')} error={this.state.longAnswerError} />
-
                     </div>
 
-                    <div className="split-column-row" style={{ gridArea: 'submit-row', gridRowGap: '10px' }}>
-                        <div style={{ gridArea: 'left', textAlign: 'center' }}>
-                            <FlatColoredButton
-                                disabled={ this.state.submitted }
-                                onClick={this.saveApplication}
-                                content="Save"
-                            />
+                    <div style={{ gridArea: 'submit-row' }}>
+                        {/* Informative chips */}
+                        <div style={{ display: 'grid', gridRowGap: '10px', padding: '10px', justifyContent: 'center' }}>
+                            {/* Submission server error */}
+                            { (this.state.errorMessage) ?
+                                    <ErrorMessageChip classes={classes} errorMessage={this.state.errorMessage} /> : false
+                            }
+
+                            {/* Successful operation */}
+                            { (this.state.success) ?
+                                    <SuccessMessageChip classes={classes} successMessage={this.state.successMessage} /> : false
+                            }
                         </div>
-                        <div style={{ gridArea: 'right', textAlign: 'center' }}>
-                            <FlatColoredButton
-                                disabled={ this.state.submitted }
-                                onClick={this.handleConfirmationModalOpen}
-                                content="Submit"
-                            />
-                            <ConfirmationModal
-                                open={this.state.confirmationModalOpen}
-                                onClose={this.handleConfirmationModalClose}
-                                onYes={this.submitApplication}
-                                message="Are you sure you would like to submit your application? You cannot edit after submitting."
-                            />
+
+                        <div className="split-column-row" style={{ gridRowGap: '10px' }}>
+                            <div style={{ gridArea: 'left', textAlign: 'center' }}>
+                                <FlatColoredButton
+                                    disabled={ this.state.submitted }
+                                    onClick={this.saveApplication}
+                                    content="Save"
+                                />
+                            </div>
+                            <div style={{ gridArea: 'right', textAlign: 'center' }}>
+                                <FlatColoredButton
+                                    disabled={ this.state.submitted }
+                                    onClick={this.handleConfirmationModalOpen}
+                                    content="Submit"
+                                />
+                                <ConfirmationModal
+                                    open={this.state.confirmationModalOpen}
+                                    onClose={this.handleConfirmationModalClose}
+                                    onYes={this.submitApplication}
+                                    message="Are you sure you would like to submit your application? You cannot edit after submitting."
+                                />
+                            </div>
                         </div>
                     </div>
                 </Paper>
@@ -455,8 +476,6 @@ export default withStyles(styles)(Apply);
 
 const TextInputField = ({ classes, label, type, fullWidth, value, onChange, error }) => (
     <TextField
-        label={label}
-        margin="normal"
         type={type}
         fullWidth={fullWidth}
         InputProps={{ classes: {
@@ -470,12 +489,11 @@ const TextInputField = ({ classes, label, type, fullWidth, value, onChange, erro
     />
 );
 
-const SelectField = ({ label, name, value, onChange, error, options }) => (
+const SelectField = ({ label, value, onChange, error, options }) => (
     <FormControl error={ !!error } fullWidth>
-        <InputLabel htmlFor={name}>{label}</InputLabel>
         <Select
             native
-            input={<Input id={name} />}
+            input={<Input />}
             onChange={onChange}
 
             value={value}
@@ -488,7 +506,6 @@ const SelectField = ({ label, name, value, onChange, error, options }) => (
 
 const LongInputField = ({ classes, label, value, onChange, error}) => (
     <TextField
-        name="longAnswer"
         value={value}
         onChange={onChange}
         multiline
@@ -508,6 +525,5 @@ const LongInputField = ({ classes, label, value, onChange, error}) => (
 
         error={ !!error }
         helperText={error}
-        placeholder="What is an equity issue you are passionate about and want to take action to solve\? Why is tackling this issue important to you\? (Try to keep your response to 400 words or less)"
     />
 );
