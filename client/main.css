@@ -74,7 +74,7 @@ body {
     grid-template-rows: auto;
     grid-template-areas:
         "personal-info-row"
-        "short-answer-row"
+        "activities-row"
         "long-answer-row"
         "submit-row";
 

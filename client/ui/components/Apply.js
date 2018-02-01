@@ -418,7 +418,8 @@ class Apply extends Component {
                             onChange={this.handleFieldUpdate('cityOfInstitution')} error={this.state.cityOfInstitutionError} /><br/>
 
                         {/* Travelling From Field */}
-                        <Text type="body2" text="Where would you be travelling from to attend Equithon on May 4-6, 2018? (City, Country)" />
+                        <Text type="body2"
+                            text="Where would you be travelling from to attend Equithon on May 4-6, 2018? (City, Country)" />
                         <TextInputField classes={classes} fullWidth value={this.state.travellingFrom}
                             onChange={this.handleFieldUpdate('travellingFrom')} error={this.state.travellingFromError} /><br/>
 
@@ -434,6 +435,11 @@ class Apply extends Component {
                                     /> : false
                             }
                         </div>
+                    </div>
+
+                    {/* Activities */}
+                    <div style={{ gridArea: 'activities-row' }}>
+                        <Text align="left" color="primary" type="headline" text="Activities and Interests" />
 
                         {/*// TODO RADIO BUTTON CODING EXPERIENCE*/}
 
