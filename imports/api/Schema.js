@@ -34,6 +34,10 @@ Schema.applicationSubmit = new SimpleSchema({
         type: String,
         max: 2000,
     },
+    eduLevel: {
+        type: String,
+    },
+
     userId: {
         type: String,
     },
@@ -69,8 +73,13 @@ Schema.applicationSave = new SimpleSchema({
     longAnswer: {
         type: String,
         max: 2000,
-         optional: true,
-   },
+        optional: true,
+    },
+    eduLevel: {
+        type: String,
+        optional: true,
+    },
+
     userId: {
         type: String,
     },
