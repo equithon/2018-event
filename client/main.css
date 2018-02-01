@@ -69,7 +69,7 @@ body {
     grid-area: application-form-row;
 
     display: grid;
-    grid-row-gap: 30px;
+    grid-row-gap: 20px;
     grid-template-columns: 1fr;
     grid-template-rows: auto;
     grid-template-areas:
