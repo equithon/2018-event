@@ -13,13 +13,16 @@ Schema = {};
 
 /* Application submission schema */
 Schema.applicationSubmit = new SimpleSchema({
-    ghURL: {
+    program: {
         type: String,
     },
-    liURL: {
+    travellingFrom: {
         type: String,
     },
-    school: {
+    cityOfInstitution: {
+        type: String,
+    },
+    institution: {
         type: String,
     },
     yog: {
@@ -27,7 +30,7 @@ Schema.applicationSubmit = new SimpleSchema({
         min: 1901,
         max: 2030,
     },
-    project: {
+    longAnswer: {
         type: String,
         max: 2000,
     },
@@ -41,29 +44,33 @@ Schema.applicationSubmit = new SimpleSchema({
 
 /* Application save schema (keys become optional) */
 Schema.applicationSave = new SimpleSchema({
-    ghURL: {
+    program: {
         type: String,
         optional: true,
     },
-    liURL: {
+    travellingFrom: {
         type: String,
         optional: true,
     },
-    school: {
+    cityOfInstitution: {
+        type: String,
+        optional: true,
+    },
+    institution: {
         type: String,
         optional: true,
     },
     yog: {
         type: Number,
-        optional: true,
         min: 1901,
         max: 2030,
-    },
-    project: {
-        type: String,
         optional: true,
-        max: 2000,
     },
+    longAnswer: {
+        type: String,
+        max: 2000,
+         optional: true,
+   },
     userId: {
         type: String,
     },
