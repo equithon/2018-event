@@ -21,8 +21,6 @@ body {
 }
 
 #app {
-    width: auto;
-    height: auto;
 }
 
 #appbar {
@@ -31,8 +29,8 @@ body {
 
 #app-bar-grid {
     display: grid;
-    grid-template-columns: 20% 20% 20% 20% 20%;
-    grid-template-areas: "application . logo signup login-logout";
+    grid-template-columns: 40% 20% 20% 20%;
+    grid-template-areas: "application logo signup login-logout";
     width: 100%;
 }
 
@@ -51,7 +49,7 @@ body {
         ". faq-row ."
         ". footer ."; /* For extra spacing */
 
-    padding-top: 110px
+    padding-top: 110px;
 }
 
 #application-form-wrapper {
@@ -129,7 +127,7 @@ body {
 .faq-card {
     margin: auto;
     max-width: 600px;
-    width: 100%;
+    width: 95%;
 }
 
 .footer {

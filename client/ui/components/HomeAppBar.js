@@ -24,9 +24,11 @@ export default class HomeAppBar extends Component {
                         </div>
 
                         {/* Logo */}
-                        <Link style={{gridArea: 'logo', margin: '0 auto' }} to="/">
-                            <img className="equithon-logo" src="/logos/logo-bulb_417x417.png" />
-                        </Link>
+                        <div style={{ gridArea: 'logo', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                            <Link className="button-link" to="/">
+                                <img className="equithon-logo" src="/logos/logo-bulb_417x417.png" />
+                            </Link>
+                        </div>
 
                         {/* Signup */}
                         { (Meteor.userId()) ? false :
