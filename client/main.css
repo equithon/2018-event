@@ -202,7 +202,7 @@ body {
         grid-template-columns: 20% 60% 20%;
     }
     #application-form-wrapper {
-        grid-template-columns: 35% 30% 35%;
+        grid-template-columns: 20% 60% 20%;
     }
     .accounts-grid {
         grid-template-columns: 35% 30% 35%;
