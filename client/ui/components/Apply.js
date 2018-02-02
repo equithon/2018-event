@@ -30,12 +30,12 @@ const Applications = new Mongo.Collection('applications');
 const textFieldNames = [ 'program', 'longAnswer', 'institution', 'travellingFrom',
     'cityOfInstitution' ];
 const numberFieldNames = [ 'yog' ];
-<<<<<<< HEAD
-const selectFieldNames = [ 'eduLevel', 'gender', 'experience', 'hackathon', 'hearAbout' ];  // Handling this is different.
-=======
 const selectFieldNames = [ 'eduLevel', 'gender' ];
 const checkboxFieldNames = [ 'goals' ];
->>>>>>> Add checkbox field
+=======
+const selectFieldNames = [ 'eduLevel', 'gender', 'experience', 'hackathon', 'hearAbout' ];
+const checkboxFieldNames = [ 'goals', 'categories', 'workshops' ];
+>>>>>>> Added rest of questions
 
 /*
  * Words for the application from
@@ -53,19 +53,10 @@ const valuesAndMessages = {
         values: [ '', 'female', 'male', 'nonbinary', 'no', 'other', ],
         messages: [ '', 'Female', 'Male', 'Non-binary', 'Prefer not to specify', 'Other', ],
     },
-<<<<<<< HEAD
-    experience: {
-        values: [ '', 'none', 'little', 'moderate', 'advanced' ],
-        messages: [ '', 'I have never coded before', 'I have a little coding experience', 'I have moderate coding experience', 'I have advanced coding experience' ],
-    },
-    hackathon: {
-        values: [ '', 'no', 'few', 'many' ],
-        messages: [ '', 'No', 'Yes, I have attended a few hackathons (3 or fewer)', 'Yes, I have attended many hackathons (more than 3)' ],
-    },
-    hearAbout: {
-        values: [ '', 'school', 'social', 'poster', 'friends', 'other' ],
-        messages: [ '', 'School/club emails', 'Social media', 'Posters', 'Friends/classmates', 'Other' ],
 =======
+    },
+
+    /* Checkbox texts */
     goals: {    // Values correspond to messages below in order
         values: [ 'a', 'b', 'c', 'd', 'e', 'f', 'g' ],
         messages: [
@@ -79,10 +70,40 @@ const valuesAndMessages = {
         ],
 >>>>>>> Add checkbox field
     },
+    categories: {
+        values: [ 'a', 'b', 'c', 'd', 'e' ],
+        messages: [
+            'Access to Education',
+            'LGBTQ+ Rights',
+            'Mental Health',
+            'Physical Disabilities',
+            'Women Empowerment',
+        ],
+    },
+    workshops: {
+        values: [ 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm' ],
+        messages: [
+            'Programming Basics Workshop',
+            'Game Development Workshop',
+            'Web Development Workshop',
+            'Android Development Workshop',
+            'iOS Development Workshop',
+            'Raspberry Pi Workshop',
+            'UX/UI Design Workshop',
+            'Idea Development Workshop',
+            'Pitching Workshop',
+            'Mental Health Workshop',
+            'Virtual/Augmented Reality Workshop',
+            'Computer Vision Workshop',
+            'Machine Learning Workshop',
+        ],
+    }
 };
 
 /* Questions */
-const goalsQuestion = "What do you want to do at Equithon 2018? Choose as many as you like."
+const goalsQuestion = "What do you want to do at Equithon 2018? Choose as many as you like.";
+const categoriesQuestion = "The categories for Equithon 2018 are listed below. Choose all the categories you would be interested in creating a hack for.";
+const workshopsQuestion = "What kinds of workshops would you be likely to attend at Equithon 2018? Choose as many as you like."
 const longAnswerQuestion = "What is an equity issue you are passionate about and want to take action to solve? Why is tackling this issue important to you? (Try to keep your response to 400 words or less)";
 
 const unverifiedMessage = "Your account is not verified! Please verify your email address in order to submit your application.";
@@ -145,13 +166,13 @@ class Apply extends Component {
             cityOfInstitution: '',
             eduLevel: '',
             gender: '',
-<<<<<<< HEAD
-            experience: '',
-            hackathon: '',
-            hearAbout: '',
-=======
             goals: { a: false, b: false, c: false, d: false, e: false, f: false, g: false },
->>>>>>> Add checkbox field
+<<<<<<< HEAD
+=======
+            categories: { a: false, b: false, c: false, d: false, e: false },
+            workshops: { a: false, b: false, c: false, d: false, e: false, f: false,
+                         g: false, h: false, i: false, j: false, k: false, l: false, m: false },
+>>>>>>> Added rest of questions
 
             /* Form field errors */
             programError: '',
@@ -162,13 +183,12 @@ class Apply extends Component {
             cityOfInstitutionError: '',
             eduLevelError: '',
             genderError: '',
-<<<<<<< HEAD
-            experienceError: '',
-            hackathonError: '',
-            hearAboutError: '',
-=======
             goalsError: '',
->>>>>>> Add checkbox field
+<<<<<<< HEAD
+=======
+            categoriesError: '',
+            workshopsError: '',
+>>>>>>> Added rest of questions
 
             /* Other field produced after choosing the 'other' option in a Select */
             eduLevelText: '',
@@ -500,8 +520,8 @@ class Apply extends Component {
                                         classes={classes} value={this.state.eduLevelText}
                                         onChange={this.handleFieldUpdate('eduLevelText')} error={this.state.eduLevelError}
                                     /> : false
-                            } <br/>
-                        </div>
+                            }
+                        </div><br/>
 
                         {/* Graduation Field */}
                         <Text type="body2" text="What year do you graduate?" />
@@ -529,8 +549,8 @@ class Apply extends Component {
                                         classes={classes} value={this.state.genderText}
                                         onChange={this.handleFieldUpdate('genderText')} error={this.state.genderError}
                                     /> : false
-                            }<br/>
-                        </div>
+                            }
+                        </div><br/>
                     </div>
 
                     {/* Activities */}
@@ -547,23 +567,26 @@ class Apply extends Component {
                                         classes={classes} value={this.state.experienceText}
                                         onChange={this.handleFieldUpdate('experienceText')} error={this.state.experienceError}
                                     /> : false
-                            }<br/>
-                        </div>
+                            }
+                        </div><br/>
 
                         {/* Hackathon Field */}
                         <Text type="body2" text="Have you attended a hackathon before?" />
                         <div style={{ display: 'flex', justifyContent: 'left' }}>
                             { this.renderSelect(valuesAndMessages.hackathon, 'hackathon', this.state.hackathonError) }
-                            <br/>
-                        </div>
+                        </div><br/>
 
-                        {/*// TODO CHECKBOX GOALS FOR E2018*/}
+                        {/* Goals for Eequithon 2018 */}
                         <Text type="body2" text={goalsQuestion} />
                         { this.renderCheckbox(valuesAndMessages.goals, 'goals') }
 
-                        {/*// TODO CHECKBOX INTERESTED CATEGORIES*/}
+                        {/* Interested Equithon categories */}
+                        <Text type="body2" text={categoriesQuestion} />
+                        { this.renderCheckbox(valuesAndMessages.categories, 'categories') }
 
-                        {/*// TODO CHECKBOX WORKSHOPS*/}
+                        {/* Workshops */}
+                        <Text type="body2" text={workshopsQuestion} />
+                        { this.renderCheckbox(valuesAndMessages.workshops, 'workshops') }
 
                         {/* Hear About Us Field */}
                         <Text type="body2" text="How did you hear about Equithon?" />
@@ -575,19 +598,14 @@ class Apply extends Component {
                                         classes={classes} value={this.state.hearAboutText}
                                         onChange={this.handleFieldUpdate('hearAboutText')} error={this.state.hearAboutError}
                                     /> : false
-                            }<br/>
-                        </div>
+                            }
+                        </div><br/>
                     </div>
 
                     <div style={{gridArea: 'long-answer-row'}}>
                         <Text align="left" color="primary" type="headline" text="Long Answer" />
-<<<<<<< HEAD
 
-                        <Text type="body2" text={longAnswerText} />
-=======
-                        
                         <Text type="body2" text={longAnswerQuestion} />
->>>>>>> Add checkbox field
                         <LongInputField classes={classes} value={this.state.longAnswer}
                         onChange={this.handleFieldUpdate('longAnswer')} error={this.state.longAnswerError} />
                     </div>
