@@ -168,10 +168,6 @@ class Apply extends Component {
 
             let app = Applications.find().fetch()[0];
             if (app) {
-                console.log('textFieldNames:');
-                console.log(textFieldNames);
-                console.log('app:');
-                console.log(app);
                 textFieldNames.forEach((name) => this.setState({ [name]: (app[name]) ? app[name] : '' }));
                 numberFieldNames.forEach((name) => this.setState({ [name]: (app[name]) ? app[name] : '' }));
                 this.setState({ submitted: app.submitted, });
@@ -199,6 +195,8 @@ class Apply extends Component {
         let university = this.state.university;
         let yearOfGraduation = Number(this.state.yog);
         let project = this.state.project;
+
+        this.saveApplication();
 
         let submission = this.getClientApplication();
 
