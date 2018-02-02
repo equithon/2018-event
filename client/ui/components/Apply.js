@@ -9,7 +9,8 @@ import Chip from 'material-ui/Chip';
 import Avatar from 'material-ui/Avatar';
 import Paper from 'material-ui/Paper';
 import Select from 'material-ui/Select';
-import { FormControl, FormHelperText } from 'material-ui/Form';
+import Checkbox from 'material-ui/Checkbox';
+import { FormGroup, FormControlLabel, FormLabel, FormControl, FormHelperText } from 'material-ui/Form';
 import Input, { InputLabel } from 'material-ui/Input';
 import { withStyles } from 'material-ui/styles';
 
@@ -27,9 +28,14 @@ const Applications = new Mongo.Collection('applications');
 
 /* Application form field names */
 const textFieldNames = [ 'program', 'longAnswer', 'institution', 'travellingFrom',
-                     'cityOfInstitution' ];
+    'cityOfInstitution' ];
 const numberFieldNames = [ 'yog' ];
+<<<<<<< HEAD
 const selectFieldNames = [ 'eduLevel', 'gender', 'experience', 'hackathon', 'hearAbout' ];  // Handling this is different.
+=======
+const selectFieldNames = [ 'eduLevel', 'gender' ];
+const checkboxFieldNames = [ 'goals' ];
+>>>>>>> Add checkbox field
 
 /*
  * Words for the application from
@@ -47,6 +53,7 @@ const valuesAndMessages = {
         values: [ '', 'female', 'male', 'nonbinary', 'no', 'other', ],
         messages: [ '', 'Female', 'Male', 'Non-binary', 'Prefer not to specify', 'Other', ],
     },
+<<<<<<< HEAD
     experience: {
         values: [ '', 'none', 'little', 'moderate', 'advanced' ],
         messages: [ '', 'I have never coded before', 'I have a little coding experience', 'I have moderate coding experience', 'I have advanced coding experience' ],
@@ -58,10 +65,25 @@ const valuesAndMessages = {
     hearAbout: {
         values: [ '', 'school', 'social', 'poster', 'friends', 'other' ],
         messages: [ '', 'School/club emails', 'Social media', 'Posters', 'Friends/classmates', 'Other' ],
+=======
+    goals: {    // Values correspond to messages below in order
+        values: [ 'a', 'b', 'c', 'd', 'e', 'f', 'g' ],
+        messages: [
+            'I want to learn to code',
+            'I want to learn new technologies',
+            'I want to improve my design skills',
+            'I want to learn about equity issues',
+            'I want a comfortable introduction to hackathons',
+            'I want to meet new people',
+            'I want to talk to recruiters',
+        ],
+>>>>>>> Add checkbox field
     },
 };
 
-const longAnswerText = "What is an equity issue you are passionate about and want to take action to solve? Why is tackling this issue important to you? (Try to keep your response to 400 words or less)";
+/* Questions */
+const goalsQuestion = "What do you want to do at Equithon 2018? Choose as many as you like."
+const longAnswerQuestion = "What is an equity issue you are passionate about and want to take action to solve? Why is tackling this issue important to you? (Try to keep your response to 400 words or less)";
 
 const unverifiedMessage = "Your account is not verified! Please verify your email address in order to submit your application.";
 
@@ -123,9 +145,13 @@ class Apply extends Component {
             cityOfInstitution: '',
             eduLevel: '',
             gender: '',
+<<<<<<< HEAD
             experience: '',
             hackathon: '',
             hearAbout: '',
+=======
+            goals: { a: false, b: false, c: false, d: false, e: false, f: false, g: false },
+>>>>>>> Add checkbox field
 
             /* Form field errors */
             programError: '',
@@ -136,9 +162,13 @@ class Apply extends Component {
             cityOfInstitutionError: '',
             eduLevelError: '',
             genderError: '',
+<<<<<<< HEAD
             experienceError: '',
             hackathonError: '',
             hearAboutError: '',
+=======
+            goalsError: '',
+>>>>>>> Add checkbox field
 
             /* Other field produced after choosing the 'other' option in a Select */
             eduLevelText: '',
@@ -189,10 +219,16 @@ class Apply extends Component {
             if (app) {
                 textFieldNames.forEach((name) => this.setState({ [name]: (app[name]) ? app[name] : '' }));
                 numberFieldNames.forEach((name) => this.setState({ [name]: (app[name]) ? app[name] : '' }));
-                this.setState({ submitted: app.submitted, });
+                checkboxFieldNames.forEach((name) => {
+                    for (var checkProp in app[name]) {
+                        this.setState({ [name]: { ...this.state[name], [checkProp]: app[name][checkProp] }});
+                    }
+                });
 
                 /* Handle additional select outcomes */
                 selectFieldNames.forEach((name) => this.initSelectState(valuesAndMessages[name], app[name], name));
+
+                this.setState({ submitted: app.submitted, });
             }
 
             // Update state with any validation errors we see.
@@ -208,6 +244,7 @@ class Apply extends Component {
         this.appC.stop();
     }
 
+    /***** Event Handlers *****/
     /* Handle Submit Application event*/
     submitApplication() {
         let fullName = this.state.fullName;
@@ -279,9 +316,21 @@ class Apply extends Component {
         }
     };
 
+    /* onChange handler for Checkboxes */
+    handleCheckedUpdate = name => (event, checked) => {
+        if (!this.state.submitted) {
+            this.setState({
+                [name]: {   // MERGE [event.target.value into this.state[name] rather than replace
+                    ...this.state[name], [event.target.value]: checked
+                }
+            });
+        }
+    };
+
     /* ConfirmationModal event handlers */
     handleConfirmationModalOpen  = () => this.setState({ confirmationModalOpen: true, });
     handleConfirmationModalClose = () => this.setState({ confirmationModalOpen: false, });
+
 
     /***** Helpers *****/
     /* Process any validation errors given by setting the corresponding state, rerendering the components */
@@ -310,6 +359,14 @@ class Apply extends Component {
         numberFieldNames.forEach((name) => {
             if (this.state[name]) application[name] = Number(this.state[name]);
         });
+        checkboxFieldNames.forEach((name) => {
+            application[name] = {};
+            if (this.state[name]) {
+                for (var checkProp in this.state[name]) {
+                    application[name][checkProp] = this.state[name][checkProp];
+                }
+            }
+        });
 
         /* Selects are a little more involved because of their 'other' option */
         selectFieldNames.forEach((name) => {
@@ -332,11 +389,13 @@ class Apply extends Component {
         textFieldNames.forEach((name) => this.setState({ [name + 'Error']: '' }));
         numberFieldNames.forEach((name) => this.setState({ [name + 'Error']: '' }));
         selectFieldNames.forEach((name) => this.setState({ [name + 'Error']: '' }));
+        checkboxFieldNames.forEach((name) => this.setState({ [name + 'Error']: '' }));
     }
 
     getUserField(field) {
         return (this.state.currentUser && this.state.currentUser[field]) || '';
     }
+
 
     /************** Rendering **************/
     /*
@@ -350,6 +409,29 @@ class Apply extends Component {
         }
 
         return <SelectInput value={this.state[name]} onChange={this.handleFieldUpdate(name)} error={error} options={options} />;
+    }
+
+    /* Render a checkbox with options specified by valuesAndMessages using name and error states */
+    renderCheckbox(valuesAndMessages, name, label) {
+        var options = [];
+
+        for (var i = 0; i < valuesAndMessages.values.length; ++i) {
+            // Make variables accessible inside onChange
+            this.i = i; this.name = name; this.valuesAndMessages = valuesAndMessages;
+            options.push(
+                <FormControlLabel key={i} label={valuesAndMessages.messages[i]}
+                    control={
+                        <Checkbox
+                            checked={this.state[name][valuesAndMessages.values[i]]}
+                            onChange={ this.handleCheckedUpdate(name) }
+                            value={valuesAndMessages.values[i]}
+                        />
+                    }
+                />
+            );
+        }
+
+        return <CheckboxInput options={options} />;
     }
 
     /* Main render entry point */
@@ -476,6 +558,8 @@ class Apply extends Component {
                         </div>
 
                         {/*// TODO CHECKBOX GOALS FOR E2018*/}
+                        <Text type="body2" text={goalsQuestion} />
+                        { this.renderCheckbox(valuesAndMessages.goals, 'goals') }
 
                         {/*// TODO CHECKBOX INTERESTED CATEGORIES*/}
 
@@ -497,8 +581,13 @@ class Apply extends Component {
 
                     <div style={{gridArea: 'long-answer-row'}}>
                         <Text align="left" color="primary" type="headline" text="Long Answer" />
+<<<<<<< HEAD
 
                         <Text type="body2" text={longAnswerText} />
+=======
+                        
+                        <Text type="body2" text={longAnswerQuestion} />
+>>>>>>> Add checkbox field
                         <LongInputField classes={classes} value={this.state.longAnswer}
                         onChange={this.handleFieldUpdate('longAnswer')} error={this.state.longAnswerError} />
                     </div>
@@ -576,6 +665,14 @@ const SelectInput = ({ label, value, onChange, error, options }) => (
             {options}
         </Select>
         { (error) ? <FormHelperText>{error}</FormHelperText> : false }
+    </FormControl>
+);
+
+const CheckboxInput = ({ options }) => (
+    <FormControl>
+        <FormGroup>
+            {options}
+        </FormGroup>
     </FormControl>
 );
 
