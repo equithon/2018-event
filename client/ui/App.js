@@ -184,7 +184,7 @@ export default class App extends Component {
                             <img src="/logos/logo_200x153.png" style={{ width: '100px' }} />
                         </div>
                         <div style={{ margin: 'auto', textAlign: 'center' }}>
-                            <Text color="secondary" type="body2" text="Contact us: hello@equithon.org" />
+                            <Text color="secondary" type="body2" text={ <p>Contact us: <a href="mailto:hello@equithon.org">hello@equithon.org</a> </p> } />
                             <Text color="secondary" type="body2" text="University of Waterloo" />
                             <Text color="secondary" type="body2"
                                 text={ <a href="#" onClick={this.handleUnsubModalOpen}><u>Unsubscribe</u></a> }
@@ -226,7 +226,7 @@ export default class App extends Component {
  */
 const TitleRowText = ({ align }) => (
     <Text color="primary" type="display2" align={align}
-          text="Waterloo's biggest social innovation hackathon is coming back in May 2018."
+          text="Applications for Equithon 2018 are open now!"
     />
 );
 
@@ -279,7 +279,7 @@ const SubTextBox = () => (
     <MediaQuery maxDeviceWidth={600}>
         { (matches) => {
             let leftTitle  = 'WHEN';
-            let leftBody   = 'May 2018';
+            let leftBody   = 'May 4-6, 2018';
             let rightTitle = 'WHERE';
             let rightBody  = 'University of Waterloo';
             if (matches) return (
@@ -337,7 +337,7 @@ const FAQ = () => (
         <br/>
         <FaqCard
             question="What can I make?"
-            answer="You can make anything that raises awareness of or addresses an issue related to equity - whether it be gender, racial, etc. We will be providing resources leading up to and during Equithon to help you brainstorm."
+            answer="You can make anything that raises awareness of or addresses an issue related to equity in one of five categories. The categories for Equithon 2018 are: Access to Education, LGBTQ+ Rights, Mental Health, Physical Disabilities, and Women Empowerment. We will be providing resources leading up to and during Equithon to help you develop your ideas into a great hack."
             number="3."
         />
         <br/>
@@ -355,13 +355,19 @@ const FAQ = () => (
         <br/>
         <FaqCard
             question="When are applications open?"
-            answer="Applications for hackers will open in Winter 2018."
+            answer="Applications for hackers are open now!"
             number="6."
         />
         <br/>
         <FaqCard
-            question="Have more questions?"
+            question="How can I help with the event?"
+            answer={ <p>Registration for volunteers will open closer to the event, so sign up for our mailing list using the Stay Posted button above and follow us on social media to be notified when it opens! If you are interested in being a mentor, please send us an email at <a href="mailto:hello@equithon.org">hello@equithon.org</a>.</p>}
             number="7."
+        />
+        <br/>
+        <FaqCard
+            question="Have more questions?"
+            number="8."
             answer={ <p>Send us an email at <a href="mailto:hello@equithon.org">hello@equithon.org</a>.</p> }
         />
     </div>
