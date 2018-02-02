@@ -22,6 +22,8 @@ Meteor.publish('applicationData', function() {
                 eduLevel:          1,
                 gender:            1,
                 goals:             1,
+                categories:        1,
+                workshops:         1,
                 submitted:         1,
             }
         });
@@ -81,6 +83,8 @@ export const submitApplication = new ValidatedMethod({
                 eduLevel:               application.eduLevel,
                 gender:                 application.gender,
                 goals:                  application.goals,
+                categories:             application.categories,
+                workshops:              application.workshops,
                 submitted: true,
             }
         });
@@ -130,6 +134,8 @@ export const saveApplication = new ValidatedMethod({
                 eduLevel:               application.eduLevel,
                 gender:                 application.gender,
                 goals:                  application.goals,
+                categories:             application.categories,
+                workshops:              application.workshops,
                 submitted: false,
             }
         }, (err, res) => {
