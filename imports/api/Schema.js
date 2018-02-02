@@ -28,6 +28,9 @@ Schema.applicationSubmit = new SimpleSchema({
     },
     eduLevel: { type: String, },
     gender: { type: String, },
+    experience: { type: String, },
+    hackathon: { type: String, },
+    hearAbout: { type: String, },
 
     userId: { type: String, },
     submitted: { type: Boolean, },
@@ -52,6 +55,9 @@ Schema.applicationSave = new SimpleSchema({
     },
     eduLevel: { type: String, optional: true, },
     gender: { type: String, optional: true, },
+    experience: {type: String, optional: true, },
+    hackathon: {type: String, optional: true, },
+    hearAbout: { type: String, optional: true, },
 
     userId: {
         type: String,
