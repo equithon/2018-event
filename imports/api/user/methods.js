@@ -43,6 +43,7 @@ Accounts.emailTemplates.resetPassword = {
 
     text(user, url) {
         url = url.replace('#/', 'accounts/'); // This is important as it allows us to route the link ourselves.
+        url = url.replace('equithon-website-production.us-east-2.elasticbeanstalk.com/', 'equithon.org/');
 
         return `
 You are receiving this email because you requested a password reset.
@@ -69,6 +70,7 @@ Accounts.emailTemplates.verifyEmail = {
 
     text(user, url) {
         url = url.replace('#/', 'accounts/'); // This is important as it allows us to route the link ourselves.
+        url = url.replace('equithon-website-production.us-east-2.elasticbeanstalk.com/', 'equithon.org/');
 
         return `
 Congratulations ${user.firstName} ${user.lastName}! You are one step closer to Equithon 2018.
