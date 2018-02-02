@@ -418,11 +418,11 @@ class Apply extends Component {
                                         classes={classes} value={this.state.eduLevelText}
                                         onChange={this.handleFieldUpdate('eduLevelText')} error={this.state.eduLevelError}
                                     /> : false
-                            }
+                            } <br/>
                         </div>
 
                         {/* Graduation Field */}
-                        <Text type="body2" text="On what year do you graduate?" />
+                        <Text type="body2" text="What year do you graduate?" />
                         <TextInputField classes={classes} type="number" value={this.state.yog}
                             onChange={this.handleFieldUpdate('yog')} error={this.state.yogError} /><br/>
 
@@ -447,12 +447,12 @@ class Apply extends Component {
                                         classes={classes} value={this.state.genderText}
                                         onChange={this.handleFieldUpdate('genderText')} error={this.state.genderError}
                                     /> : false
-                            }
+                            }<br/>
                         </div>
                     </div>
 
                     {/* Activities */}
-                    <div style={{ gridArea: 'activities-row' }}>
+                    <div style={{display: 'grid', gridRowGap: '10px', gridTemplateRows: 'auto', gridArea: 'activities-row' }}>
                         <Text align="left" color="primary" type="headline" text="Experience and Interests" />
 
                         {/* Coding Experience Field */}
@@ -465,13 +465,14 @@ class Apply extends Component {
                                         classes={classes} value={this.state.experienceText}
                                         onChange={this.handleFieldUpdate('experienceText')} error={this.state.experienceError}
                                     /> : false
-                            }
+                            }<br/>
                         </div>
 
                         {/* Hackathon Field */}
                         <Text type="body2" text="Have you attended a hackathon before?" />
                         <div style={{ display: 'flex', justifyContent: 'left' }}>
                             { this.renderSelect(valuesAndMessages.hackathon, 'hackathon', this.state.hackathonError) }
+                            <br/>
                         </div>
 
                         {/*// TODO CHECKBOX GOALS FOR E2018*/}
@@ -490,7 +491,7 @@ class Apply extends Component {
                                         classes={classes} value={this.state.hearAboutText}
                                         onChange={this.handleFieldUpdate('hearAboutText')} error={this.state.hearAboutError}
                                     /> : false
-                            }
+                            }<br/>
                         </div>
                     </div>
 
