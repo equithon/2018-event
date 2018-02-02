@@ -251,11 +251,6 @@ class Apply extends Component {
 
                 this.setState({ submitted: app.submitted, });
             }
-
-            // Update state with any validation errors we see.
-            if (!this.appValidationContext.isValid()) {
-                this.processValidationErrors(this.appValidationContext.validationErrors());
-            }
         });
     }
 
@@ -281,7 +276,7 @@ class Apply extends Component {
         /* Validate the submission on submit which will reactively display errors to the user */
         if(this.appValidationContext.validate(submission, clientSubmitSchema.application)) {
             Meteor.call('applications.submit', submission, (err, res) => {
-                if (err && err.error == 'validation-error') {
+                if (err && err.error == 'validation-error') { // Unlike saving, we care about validation.
                     this.processValidationError(err.details);
                 } else if (err) this.setState({
                     success: false,
@@ -294,7 +289,9 @@ class Apply extends Component {
                     errorMessage: '',
                 });
             });
-        } else this.setState({ success: false });   // Remove any success messages validation fails
+        } else {   // Remove any success messages validation fails - Unlike saving, we care about validation.
+          this.processValidationErrors(this.appValidationContext.validationErrors());
+        }
     }
 
     /* Handle Save application evnet */
@@ -304,16 +301,19 @@ class Apply extends Component {
         let application = this.getClientApplication();
 
         /*
-         * Don't bother validating the schema on save, the server will validate it
+         * Don't bother validating the schema here on save, the server will validate it
          * and we don't have any need to tell the user of errors since they are
          * still working on it.
          */
         Meteor.call('applications.save', application, (err, res) => {
-            // Simpl-schema server validation errors are thrown as meteor errors
-            // with the actual errors in err.details
-            if (err && err.error == "validation-error") {
-                this.processValidationErrors(err.details);
-            } else if (err) { // Non-validation Meteor error
+            /*
+             * Simpl-schema server validation errors are thrown as meteor errors
+             * with the actual errors in err.details.
+             *
+             * When saving, we don't want to produce any validation-errors, that's the role of
+             * submitApplication not us.
+             */
+            if (err && err.error != 'validation-error') { // Non-validation Meteor error
                 this.setState({
                     success: false,
                     errorMessage: err.reason,
@@ -367,7 +367,12 @@ class Apply extends Component {
                     }
                 }
             }, this);
-            this.setState({ errorMessage: "Some fields require your attention" });
+
+            this.setState({
+              success: false,
+              errorMessage: 'Some fields require your attention',
+              successMessage: '',
+            });
         }
     }
 
