@@ -101,6 +101,7 @@ const valuesAndMessages = {
 };
 
 /* Questions */
+const genderQuestion = "What gender do you identify as? (This will not be taken into account when reviewing the application)";
 const goalsQuestion = "What do you want to do at Equithon 2018? Choose as many as you like.";
 const categoriesQuestion = "The categories for Equithon 2018 are listed below. Choose all the categories you would be interested in creating a hack for.";
 const workshopsQuestion = "What kinds of workshops would you be likely to attend at Equithon 2018? Choose as many as you like."
@@ -272,9 +273,10 @@ class Apply extends Component {
         let yearOfGraduation = Number(this.state.yog);
         let project = this.state.project;
 
-        this.saveApplication();
-
         let submission = this.getClientApplication();
+
+        // We don't care about errors since we're going to validate on submission anyway
+        Meteor.call('applications.save', submission);
 
         /* Validate the submission on submit which will reactively display errors to the user */
         if(this.appValidationContext.validate(submission, clientSubmitSchema.application)) {
@@ -540,7 +542,7 @@ class Apply extends Component {
                             onChange={this.handleFieldUpdate('travellingFrom')} error={this.state.travellingFromError} /><br/>
 
                         {/* Gender Field */}
-                        <Text type="body2" text="What gender do you identify as?" />
+                        <Text type="body2" text={genderQuestion} />
                         <div style={{ display: 'flex', justifyContent: 'left' }}>
                             { this.renderSelect(valuesAndMessages.gender, 'gender', this.state.genderError) }
                             { (this.state.gender === 'other') ?
