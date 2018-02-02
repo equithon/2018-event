@@ -52,6 +52,11 @@ export default class Signup extends Component {
                 success: false,
                 errorMessage: "Your confirmation password does not match your actual password"
             });
+        } else if (this.state.password === '') {
+            this.setState({
+                success: false,
+                errorMessage: "Please enter a password"
+            });
         } else {
             let user = {};
             if (this.state.firstName) user.firstName = this.state.firstName;
