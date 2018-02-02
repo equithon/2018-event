@@ -29,7 +29,7 @@ const Applications = new Mongo.Collection('applications');
 const textFieldNames = [ 'program', 'longAnswer', 'institution', 'travellingFrom',
                      'cityOfInstitution' ];
 const numberFieldNames = [ 'yog' ];
-const selectFieldNames = [ 'eduLevel', 'gender' ];  // Handling this is different.
+const selectFieldNames = [ 'eduLevel', 'gender', 'experience', 'hackathon', 'hearAbout' ];  // Handling this is different.
 
 /*
  * Words for the application from
@@ -46,6 +46,18 @@ const valuesAndMessages = {
     gender: {
         values: [ '', 'female', 'male', 'nonbinary', 'no', 'other', ],
         messages: [ '', 'Female', 'Male', 'Non-binary', 'Prefer not to specify', 'Other', ],
+    },
+    experience: {
+        values: [ '', 'none', 'little', 'moderate', 'advanced' ],
+        messages: [ '', 'I have never coded before', 'I have a little coding experience', 'I have moderate coding experience', 'I have advanced coding experience' ],
+    },
+    hackathon: {
+        values: [ '', 'no', 'few', 'many' ],
+        messages: [ '', 'No', 'Yes, I have attended a few hackathons (3 or fewer)', 'Yes, I have attended many hackathons (more than 3)' ],
+    },
+    hearAbout: {
+        values: [ '', 'school', 'social', 'poster', 'friends', 'other' ],
+        messages: [ '', 'School/club emails', 'Social media', 'Posters', 'Friends/classmates', 'Other' ],
     },
 };
 
@@ -111,6 +123,9 @@ class Apply extends Component {
             cityOfInstitution: '',
             eduLevel: '',
             gender: '',
+            experience: '',
+            hackathon: '',
+            hearAbout: '',
 
             /* Form field errors */
             programError: '',
@@ -121,10 +136,14 @@ class Apply extends Component {
             cityOfInstitutionError: '',
             eduLevelError: '',
             genderError: '',
+            experienceError: '',
+            hackathonError: '',
+            hearAboutError: '',
 
             /* Other field produced after choosing the 'other' option in a Select */
             eduLevelText: '',
             genderText: '',
+            hearAboutText: '',
 
             /* Success flags */
             success: false,
@@ -434,11 +453,26 @@ class Apply extends Component {
 
                     {/* Activities */}
                     <div style={{ gridArea: 'activities-row' }}>
-                        <Text align="left" color="primary" type="headline" text="Activities and Interests" />
+                        <Text align="left" color="primary" type="headline" text="Experience and Interests" />
 
-                        {/*// TODO RADIO BUTTON CODING EXPERIENCE*/}
+                        {/* Coding Experience Field */}
+                        <Text type="body2" text="How would you describe your coding experience?" />
+                        <div style={{ display: 'flex', justifyContent: 'left' }}>
+                            { this.renderSelect(valuesAndMessages.experience, 'experience', this.state.experienceError) }
+                            { (this.state.experience === 'other') ?
+                                    <TextInputField
+                                        style={{ paddingLeft: '10px', paddingTop: '7px' }}
+                                        classes={classes} value={this.state.experienceText}
+                                        onChange={this.handleFieldUpdate('experienceText')} error={this.state.experienceError}
+                                    /> : false
+                            }
+                        </div>
 
-                        {/*// TODO RADIO BUTTON ATTENDED HACKATHON*/}
+                        {/* Hackathon Field */}
+                        <Text type="body2" text="Have you attended a hackathon before?" />
+                        <div style={{ display: 'flex', justifyContent: 'left' }}>
+                            { this.renderSelect(valuesAndMessages.hackathon, 'hackathon', this.state.hackathonError) }
+                        </div>
 
                         {/*// TODO CHECKBOX GOALS FOR E2018*/}
 
@@ -446,7 +480,18 @@ class Apply extends Component {
 
                         {/*// TODO CHECKBOX WORKSHOPS*/}
 
-                        {/*// TODO RADIO BUTTON HEAR ABOUT EQUITHON*/}
+                        {/* Hear About Us Field */}
+                        <Text type="body2" text="How did you hear about Equithon?" />
+                        <div style={{ display: 'flex', justifyContent: 'left' }}>
+                            { this.renderSelect(valuesAndMessages.hearAbout, 'hearAbout', this.state.hearAboutError) }
+                            { (this.state.hearAbout === 'other') ?
+                                    <TextInputField
+                                        style={{ paddingLeft: '10px', paddingTop: '7px' }}
+                                        classes={classes} value={this.state.hearAboutText}
+                                        onChange={this.handleFieldUpdate('hearAboutText')} error={this.state.hearAboutError}
+                                    /> : false
+                            }
+                        </div>
                     </div>
 
                     <div style={{gridArea: 'long-answer-row'}}>
