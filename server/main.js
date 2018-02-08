@@ -12,7 +12,7 @@ Meteor.startup(() => {
     let smtppassword = encodeURIComponent("Aurq/HxciqOHxj4XOkxVQbSoNOK1vH5/1oVGcbziwBZb");
     let smtphostname = encodeURIComponent("email-smtp.us-east-1.amazonaws.com");
 
-    process.env.MAIL_URL = "smtp://" + smtpusername + ":" + smtppassword + "@" + smtphostname + ":587";
+    //    process.env.MAIL_URL = "smtp://" + smtpusername + ":" + smtppassword + "@" + smtphostname + ":587";
 
     // Deny all client-side updates on our collections.
     EmailSubscriptions.deny({

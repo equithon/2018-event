@@ -1,4 +1,6 @@
 import { Meteor } from 'meteor/meteor';
+
+import { HTTP } from 'meteor/http';
 import SimpleSchema from 'simpl-schema';
 import { ValidatedMethod } from 'meteor/mdg:validated-method';
 
@@ -16,15 +18,56 @@ Meteor.publish('userData', function () {
   }
 });
 
+
+/*
+ * Verify captcha given valid captcha token.
+ */
+Meteor.methods({
+    'user.verifyCaptcha'(captchaToken) {
+        let result = HTTP.call('POST', 'https://www.google.com/recaptcha/api/siteverify',
+            params: {
+                secret: process.env.CAPTCHA_SECRET,
+                response: captchaToken,
+            },
+        );
+
+        if (result.data !== null && result.data['error-codes'] === undefined) {
+            return result.data.success;
+        } else {
+            let err = '';
+            result['error-codes'].forEach((val) => {
+                err = err + ' ' + val;
+            });
+            throw Meteor.Error('user.verifyCaptcha.failure',
+                'Failed to verify captcha:' + err);
+        }
+    }
+});
+
 /*
  * Accounts.onCreateUser automatically sends a verification link,
  * but we might potentially send another so let's make a method
  * for this.
  */
-Meteor.methods({
-    'user.sendVerificationLink'() {
-        if (this.userId) {
-            return Accounts.sendVerificationEmail(this.userId);
+export const sendVerificationLink = new ValidatedMethod({
+    name: 'user.sendVerificationLink',
+
+    validate: new SimpleSchema({
+        captchaToken: { type: String },
+    }).validator(),
+
+    run({ captchaToken }) {
+        if (this.userId && Meteor.user.email.verificationTokens.length > 5) {  // Limit emails to 5 per user
+            throw Meteor.Error('user.sendVerificationLink.spam',
+                'You have reached email limit. Please contact hello@equithon.org for support.');
+        } else if (this.userId) {   // Verify captcha
+            Meteor.call('user.verifyCaptcha', captchaToken, (err, res) => {
+                if (err) throw err;
+                else if (res !== undefined && res) return Accounts.sendVerificationEmail(this.userId);
+            });
+        } else {
+            throw Meteor.Error('user.sendVerificationLink.unauthorized',
+                'You need to be logged in to send verification emails');
         }
     }
 });

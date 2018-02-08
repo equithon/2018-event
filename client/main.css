@@ -186,6 +186,10 @@ body {
     text-decoration: none;
 }
 
+.g-recaptcha {
+    width: auto;
+}
+
 /*
  * For accounts background, we need to make sure we switch to
  * scaling by height once we have a big enough height.
