@@ -89,7 +89,7 @@ export const sendVerificationLink = new ValidatedMethod({
             }
         } else {
             throw Meteor.Error('user.sendVerificationEmail.no_email',
-                    'You don't have an email to send a verification link to');
+                    'You don\'t have an email to send a verification link to');
         }
     }
 });
