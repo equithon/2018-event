@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import MediaQuery from 'react-responsive';
 import { Route, Link, Redirect } from 'react-router-dom';
+import ReCaptcha from 'react-recaptcha';
 
 import TextField from 'material-ui/TextField';
 
@@ -16,19 +17,49 @@ const bodyStyle = {
     paddingBottom: '20px',
 }
 
+
+var handleDone = function () {
+    console.log("DONE");
+}
+
 export default class VerifyEmail extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            success: false,
+            captchaToken: '',
+            errorMessage: '',
         };
+
+        this.handleResend = this.handleResend.bind(this);
+        this.handleCaptcha = this.handleCaptcha.bind(this);
     }
 
     /****** Event Handling *****/
     handleResend(event) {
         event.preventDefault();
-        Meteor.call('user.sendVerificationLink');
+        Meteor.call('user.sendVerificationLink', { captchaToken: this.state.captchaToken }, (err, res) => {
+            console.log(err);
+            console.log(res);
+            if (err) {
+                this.setState({
+                    errorMessage: err.reason,
+                });
+            } else {
+                this.setState({
+                    errorMessage: '',
+                });
+            }
+        });
+    }
+
+    handleCaptcha(responseToken) {
+        console.log(responseToken);
+        /*
+        this.setState({
+            captchaToken: responseToken,
+        });
+        */
     }
 
     render() {
@@ -48,10 +79,22 @@ export default class VerifyEmail extends Component {
 
                     {/* Options */}
                     <div className="split-column-row">
-                        <div style={{ gridArea: 'left', textAlign: 'center', padding: '10px' }}>
-                            <FlatColoredButton style={{ gridArea: 'left' }} classes={{ root: classes.buttonRoot }}
-                                onClick={this.handleResend} content="Resend" />
-                        </div>
+                        <form style={{ gridArea: 'left' }}>
+                            {/* Resend button */}
+                            <div style={{ textAlign: 'center', padding: '10px' }}>
+                                <FlatColoredButton classes={{ root: classes.buttonRoot }}
+                                    onClick={this.handleResend} content="Resend" />
+                            </div>
+
+                            {/* Google recaptcha */}
+                            <div style={{ width: '100%', textAlign: 'center' }}>
+                                <ReCaptcha
+                                    sitekey="6Le7Q0UUAAAAANyBTNvLsxFogP8m3IATJPNofL8n"
+                                    onChange={this.handleCaptcha}
+                                    size="compact"
+                                />
+                            </div>
+                        </form>
                         <div style={{ gridArea: 'right', textAlign: 'center', padding: '10px' }}>
                             <Link className="button-link" to="/">
                                 <FlatColoredButton classes={{ root: classes.buttonRoot }}
@@ -59,6 +102,12 @@ export default class VerifyEmail extends Component {
                             </Link>
                         </div>
                     </div>
+
+                    {/* Error Message */}
+                    { (this.state.errorMessage) ?
+                            <Text color="error" align="center" type="body2"
+                                text={this.state.errorMessage} /> : false
+                    }
                 </div>
                 <div style={{ gridArea: 'footer', minHeight: '100%' }}></div>
 
