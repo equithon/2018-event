@@ -24,18 +24,22 @@ Meteor.publish('userData', function () {
  */
 Meteor.methods({
     'user.verifyCaptcha'(captchaToken) {
-        let result = HTTP.call('POST', 'https://www.google.com/recaptcha/api/siteverify',
+        console.log('CAPTCHA: ' + captchaToken);
+
+        let result = HTTP.call('POST', 'https://www.google.com/recaptcha/api/siteverify', {
             params: {
-                secret: process.env.CAPTCHA_SECRET,
+                secret: "6Le7Q0UUAAAAANuMhnA7rX-NbXm1UhdaD_pw0g9-",
                 response: captchaToken,
-            },
-        );
+            }
+        });
+
+        console.log(result);
 
         if (result.data !== null && result.data['error-codes'] === undefined) {
             return result.data.success;
         } else {
             let err = '';
-            result['error-codes'].forEach((val) => {
+            result.data['error-codes'].forEach((val) => {
                 err = err + ' ' + val;
             });
             throw Meteor.Error('user.verifyCaptcha.failure',
@@ -57,17 +61,35 @@ export const sendVerificationLink = new ValidatedMethod({
     }).validator(),
 
     run({ captchaToken }) {
-        if (this.userId && Meteor.user.email.verificationTokens.length > 5) {  // Limit emails to 5 per user
-            throw Meteor.Error('user.sendVerificationLink.spam',
-                'You have reached email limit. Please contact hello@equithon.org for support.');
-        } else if (this.userId) {   // Verify captcha
-            Meteor.call('user.verifyCaptcha', captchaToken, (err, res) => {
-                if (err) throw err;
-                else if (res !== undefined && res) return Accounts.sendVerificationEmail(this.userId);
-            });
-        } else {
-            throw Meteor.Error('user.sendVerificationLink.unauthorized',
+        if (!this.userId) throw Meteor.Error('user.sendVerificationLink.unauthorized',
                 'You need to be logged in to send verification emails');
+        
+        // Get user and relevant attributes.
+        let user = Meteor.user();
+        let verificationTokens = user.services.email.verificationTokens;
+        let email = user.emails[0];
+
+        if (email !== undefined) {
+            let verified = email.verified;
+
+            if (verified) {
+                throw Meteor.Error('user.sendVerificationLink.already_verified',
+                    'Your email address is already verified');
+            } else if (verificationTokens.length > 5) {  // Limit emails to 5 per user
+                throw Meteor.Error('user.sendVerificationLink.spam',
+                    'You have reached email limit. Please contact hello@equithon.org for support');
+            } else {   // Verify captcha
+                Meteor.call('user.verifyCaptcha', captchaToken, (err, res) => {
+                    if (err) throw err;
+                    else if (res !== undefined && res) {
+                        console.log("SUCCESS");
+                        Accounts.sendVerificationEmail(this.userId);
+                    }
+                });
+            }
+        } else {
+            throw Meteor.Error('user.sendVerificationEmail.no_email',
+                    'You don't have an email to send a verification link to');
         }
     }
 });

@@ -54,12 +54,9 @@ export default class VerifyEmail extends Component {
     }
 
     handleCaptcha(responseToken) {
-        console.log(responseToken);
-        /*
         this.setState({
             captchaToken: responseToken,
         });
-        */
     }
 
     render() {
@@ -87,13 +84,12 @@ export default class VerifyEmail extends Component {
                             </div>
 
                             {/* Google recaptcha */}
-                            <div style={{ width: '100%', textAlign: 'center' }}>
-                                <ReCaptcha
-                                    sitekey="6Le7Q0UUAAAAANyBTNvLsxFogP8m3IATJPNofL8n"
-                                    onChange={this.handleCaptcha}
-                                    size="compact"
-                                />
-                            </div>
+                            <ReCaptcha
+                                sitekey="6Le7Q0UUAAAAANyBTNvLsxFogP8m3IATJPNofL8n"
+                                render="explicit"
+                                verifyCallback={this.handleCaptcha}
+                                size="compact"
+                            />
                         </form>
                         <div style={{ gridArea: 'right', textAlign: 'center', padding: '10px' }}>
                             <Link className="button-link" to="/">
