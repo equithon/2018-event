@@ -187,8 +187,12 @@ body {
     text-decoration: none;
 }
 
-.g-recaptcha {
-    width: auto;
+.recaptcha-div {
+    width: 165px;
+    padding: 5px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 /*
