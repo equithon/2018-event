@@ -170,6 +170,7 @@ body {
         ". footer .";
 
     position: relative;
+    justify-items: center;
 }
 
 .center-screen-modal {

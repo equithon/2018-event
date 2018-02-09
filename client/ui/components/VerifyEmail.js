@@ -4,8 +4,6 @@ import MediaQuery from 'react-responsive';
 import { Route, Link, Redirect } from 'react-router-dom';
 import ReCaptcha from 'react-recaptcha';
 
-import TextField from 'material-ui/TextField';
-
 import Text from '/client/ui/components/Text.js';
 import FlatColoredButton from '/client/ui/buttons/FlatColoredButton.js';
 

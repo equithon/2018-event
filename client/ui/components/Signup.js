@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Route, Link, Redirect } from 'react-router-dom';
+import ReCaptcha from 'react-recaptcha';
 
 import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
@@ -33,6 +34,7 @@ export default class Signup extends Component {
             email: '',
             password: '',
             confirmPassword: '',
+            captchaToken: '',
 
             success: false,
             errorMessage: '',
@@ -64,11 +66,13 @@ export default class Signup extends Component {
             if (this.state.email) user.email         = this.state.email;
             if (this.state.password) user.password   = this.state.password;
 
-            Accounts.createUser(user, (err) => {
-                if (err) {
+            Meteor.call('user.verifyCaptchaAndRegister', { user: user, captchaToken: this.state.captchaToken }, (error, result) => {
+                console.log('Client Error: ' + error);
+                console.log('Client response: ' + result);
+                if (error) {
                     this.setState({
                         success: false,
-                        errorMessage: err.reason,
+                        errorMessage: error.reason,
                     });
                 } else {
                     this.setState({
@@ -84,6 +88,14 @@ export default class Signup extends Component {
     handleChange = name => event => {
         this.setState({
             [name]: event.target.value
+        });
+    };
+
+
+
+    handleCaptcha(responseToken) {
+        this.setState({
+            captchaToken: responseToken,
         });
     };
 
@@ -127,9 +139,20 @@ export default class Signup extends Component {
                             onChange={this.handleChange} stateName="confirmPassword" />
 
                         {/* Signup Main Button */}
-                        <div style={{ textAlign: 'center', padding: '5px' }}>
+                        <div style={{ textAlign: 'center', padding: '5px', paddingBottom: '25px' }}>
                             <FlatColoredButton classes={{ root: classes.buttonRoot }}
                                 onClick={this.handleSignup} content="Signup"
+                            />
+                        </div>
+
+                        {/* Google recaptcha */}
+                        <div style={{ width: '165px', height: '175px', display: 'block', marginLeft: 'auto', marginRight: 'auto' }}>
+                            <ReCaptcha
+                                style={{height: '175px'}}
+                                sitekey="6Le7Q0UUAAAAANyBTNvLsxFogP8m3IATJPNofL8n"
+                                render="explicit"
+                                verifyCallback={this.handleCaptcha}
+                                size="compact"
                             />
                         </div>
 
