@@ -18,6 +18,9 @@ Meteor.publish('userData', function () {
   }
 });
 
+verifyCaptcha = function(captchaToken) {
+};
+
 
 /*
  * Verify captcha given valid captcha token.
@@ -45,8 +48,33 @@ Meteor.methods({
             throw Meteor.Error('user.verifyCaptcha.failure',
                 'Failed to verify captcha:' + err);
         }
+    },
+    'user.verifyCaptchaAndRegister'(user, captchaToken) {
+        console.log('CAPTCHA: ' + captchaToken);
+
+        let result = HTTP.call('POST', 'https://www.google.com/recaptcha/api/siteverify', {
+            params: {
+                secret: "6Le7Q0UUAAAAANuMhnA7rX-NbXm1UhdaD_pw0g9-",
+                response: captchaToken,
+            }
+        });
+
+        console.log(result);
+
+        if (result.data !== null && result.data['error-codes'] === undefined) {
+            Accounts.createUser(user, (err) => {
+                if (err) {
+                    throw Meteor.Error('user.registration.failure', err);
+                }
+            });
+        } else {
+            console.log("Throwing error from captcha");
+            throw Meteor.Error('user.verifyCaptcha.failure',
+                'Failed to verify captcha');
+        }
     }
 });
+
 
 /*
  * Accounts.onCreateUser automatically sends a verification link,
