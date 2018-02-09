@@ -16,10 +16,6 @@ const bodyStyle = {
 }
 
 
-var handleDone = function () {
-    console.log("DONE");
-}
-
 export default class VerifyEmail extends Component {
     constructor(props) {
         super(props);
@@ -29,6 +25,8 @@ export default class VerifyEmail extends Component {
             errorMessage: '',
         };
 
+        this.recaptchaInstance;
+
         this.handleResend = this.handleResend.bind(this);
         this.handleCaptcha = this.handleCaptcha.bind(this);
     }
@@ -37,8 +35,6 @@ export default class VerifyEmail extends Component {
     handleResend(event) {
         event.preventDefault();
         Meteor.call('user.sendVerificationLink', { captchaToken: this.state.captchaToken }, (err, res) => {
-            console.log(err);
-            console.log(res);
             if (err) {
                 this.setState({
                     errorMessage: err.reason,
@@ -48,6 +44,7 @@ export default class VerifyEmail extends Component {
                     errorMessage: '',
                 });
             }
+            this.recaptchaInstance.reset(); // Reset recaptcha on success as well so that user can resend again.
         });
     }
 
@@ -81,15 +78,17 @@ export default class VerifyEmail extends Component {
                                     onClick={this.handleResend} content="Resend" />
                             </div>
 
-                            {/* Google recaptcha - Probably unnecessary here. Can just verify that user is not verified and that they
-                                have less than 5 verificationTokens in play.
-                            <ReCaptcha
-                                sitekey="6Le7Q0UUAAAAANyBTNvLsxFogP8m3IATJPNofL8n"
-                                render="explicit"
-                                verifyCallback={this.handleCaptcha}
-                                size="compact"
-                            />
-                            */}
+                            {/* Google recaptcha */}
+                            <div className="recaptcha-div">
+                                <ReCaptcha
+                                    style={{height: '175px'}}
+                                    ref={ e => this.recaptchaInstance = e }
+                                    sitekey="6Le7Q0UUAAAAANyBTNvLsxFogP8m3IATJPNofL8n"
+                                    render="explicit"
+                                    verifyCallback={this.handleCaptcha}
+                                    size="compact"
+                                />
+                            </div>
                         </form>
                         <div style={{ gridArea: 'right', textAlign: 'center', padding: '10px' }}>
                             <Link className="button-link" to="/">

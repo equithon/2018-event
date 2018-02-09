@@ -18,28 +18,21 @@ Meteor.publish('userData', function () {
   }
 });
 
-verifyCaptcha = function(captchaToken) {
-};
-
 
 /*
- * Verify captcha given valid captcha token.
+ * Verify captcha given valid Google ReCaptcha token.
+ * Let Google handle actually validating the captchaToken.
  */
 Meteor.methods({
-    /* Excessive? */
     'user.verifyCaptcha'(captchaToken) {
-        console.log('CAPTCHA: ' + captchaToken);
-
         let result = HTTP.call('POST', 'https://www.google.com/recaptcha/api/siteverify', {
             params: {
-                secret: "6Le7Q0UUAAAAANuMhnA7rX-NbXm1UhdaD_pw0g9-",
+                secret: "6Le7Q0UUAAAAANuMhnA7rX-NbXm1UhdaD_pw0g9-", // TODO: Store as environment variable.
                 response: captchaToken,
             }
         });
 
-        console.log(result);
-
-        if (result.data !== null && result.data['error-codes'] === undefined) {
+        if (result.data !== null && result.data['error-codes'] === undefined && result.data.success) {
             return result.data.success;
         } else {
             let err = '';
@@ -50,37 +43,6 @@ Meteor.methods({
                 'Failed to verify captcha:' + err);
         }
     },
-
-/*
- * TODO: Put this in a validatedMethod instead of a method
- * Verify captcha and register user if it is correct.
- */
-    'user.verifyCaptchaAndRegister'(user, captchaToken) {
-        console.log('CAPTCHA: ' + captchaToken);
-
-        let result = HTTP.call('POST', 'https://www.google.com/recaptcha/api/siteverify', {
-            params: {
-                secret: "6Le7Q0UUAAAAANuMhnA7rX-NbXm1UhdaD_pw0g9-",
-                response: captchaToken,
-            }
-        });
-
-        console.log(result);
-
-        if (result.data !== null && result.data.success && result.data['error-codes'] === undefined) {
-            Accounts.createUser(user, (err) => {
-                console.log("in createUser");
-                console.log(err);
-                if (err) {
-                    throw new Meteor.Error('user.registration.failure', err);
-                }
-            });
-        } else {
-            console.log("Throwing error from captcha");
-            throw new Meteor.Error('user.verifyCaptcha.failure',
-                'Failed to verify captcha');
-        }
-    }
 });
 
 
@@ -106,22 +68,16 @@ export const sendVerificationLink = new ValidatedMethod({
         let email = user.emails[0];
 
         if (email !== undefined) {
-            let verified = email.verified;
-
-            if (verified) {
+            if (email.verified) {                                                   // Don't send another email if user is verified
                 throw new Meteor.Error('user.sendVerificationLink.already_verified',
                     'Your email address is already verified');
-            } else if (verificationTokens.length > 5) {  // Limit emails to 5 per user
+            } else if (verificationTokens.length > 3) {                             // Limit emails to 3 per user
                 throw new Meteor.Error('user.sendVerificationLink.spam',
-                    'You have reached email limit. Please contact hello@equithon.org for support');
-            } else {   // Verify captcha
-                Meteor.call('user.verifyCaptcha', captchaToken, (err, res) => {
-                    if (err) throw err;
-                    else if (res !== undefined && res) {
-                        console.log("SUCCESS");
-                        Accounts.sendVerificationEmail(this.userId);
-                    }
-                });
+                    'You have reached your email limit. Please contact hello@equithon.org for support');
+            } else {                                                                // Verify captcha
+                if (Meteor.call('user.verifyCaptcha', captchaToken)) {
+                    Accounts.sendVerificationEmail(this.userId);
+                }
             }
         } else {
             throw new Meteor.Error('user.sendVerificationEmail.no_email',

@@ -4,13 +4,9 @@ import ReCaptcha from 'react-recaptcha';
 
 import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
-import Paper from 'material-ui/Paper';
-import Chip from 'material-ui/Chip';
-import Avatar from 'material-ui/Avatar';
 
 import Text from '/client/ui/components/Text.js';
 import FlatColoredButton from '/client/ui/buttons/FlatColoredButton.js';
-import ForgotPasswordModal from '/client/ui/components/ForgotPasswordModal.js';
 import { ErrorMessageChip, AccountsFooter } from '/client/ui/components/Accounts.js';
 
 const signupStyle = {
@@ -40,6 +36,8 @@ export default class Signup extends Component {
             errorMessage: '',
         };
 
+        this.recaptchaInstance; // Store a ref to the recaptcha so we can explicitly reset it.
+
         this.handleSignup = this.handleSignup.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleCaptcha = this.handleCaptcha.bind(this);
@@ -62,23 +60,19 @@ export default class Signup extends Component {
             });
         } else {
             let user = {};
-            if (this.state.firstName) user.firstName = this.state.firstName;
-            if (this.state.lastName) user.lastName   = this.state.lastName;
-            if (this.state.email) user.email         = this.state.email;
-            if (this.state.password) user.password   = this.state.password;
+            if (this.state.firstName) user.firstName      = this.state.firstName;
+            if (this.state.lastName) user.lastName        = this.state.lastName;
+            if (this.state.email) user.email              = this.state.email;
+            if (this.state.password) user.password        = this.state.password;
+            if (this.state.captchaToken) user.captchaToken = this.state.captchaToken;
 
-            console.log("captcha: " + this.state.captchaToken);
-
-            Meteor.call('user.verifyCaptchaAndRegister', { user: user, captchaToken: this.state.captchaToken }, (error, result) => {
-                console.log('Client Error: ');
-                console.log(error);
-                console.log('Client response: ' + result);
+            Accounts.createUser(user, (error, result) => {
                 if (error) {
                     this.setState({
                         success: false,
                         errorMessage: error.reason,
                     });
-                    console.log(this.state);
+                    this.recaptchaInstance.reset();  // Explicitly reset captcha so user doesn't need to manually.
                 } else {
                     this.setState({
                         success: true,
@@ -156,10 +150,11 @@ export default class Signup extends Component {
                                 <ErrorMessageChip classes={classes} errorMessage={this.state.errorMessage} />
                         }
 
-                        {/* Google recaptcha */}
-                        <div style={{ width: '165px', padding: '5px', display: 'block', marginLeft: 'auto', marginRight: 'auto' }}>
+                        {/* Google recaptcha - TODO: Move sitekey to environment variable */}
+                        <div className="recaptcha-div">
                             <ReCaptcha
                                 style={{height: '175px'}}
+                                ref={ e => this.recaptchaInstance = e }
                                 sitekey="6Le7Q0UUAAAAANyBTNvLsxFogP8m3IATJPNofL8n"
                                 render="explicit"
                                 verifyCallback={this.handleCaptcha}
