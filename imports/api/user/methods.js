@@ -85,3 +85,27 @@ export const sendVerificationLink = new ValidatedMethod({
         }
     }
 });
+
+/*
+ * Reset password after first verifying the given captcha.
+ */
+export const verifyCaptchaAndResetPassword = new ValidatedMethod({
+    name: 'user.verifyCaptchaAndResetPassword',
+
+    validate: new SimpleSchema({
+        email: {
+            type: String,
+            regEx: SimpleSchema.RegEx.Email,
+        },
+        captchaToken: String,
+    }).validator(),
+
+    run({ email, captchaToken }) {
+        if (Meteor.call('user.verifyCaptcha', captchaToken)) {
+            Accounts.forgotPassword({ email: email }, (err) => {
+                if (err) throw new Meteor.Error(err);
+                else return true;
+            });
+        }
+    }
+});
