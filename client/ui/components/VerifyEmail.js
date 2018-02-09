@@ -81,13 +81,15 @@ export default class VerifyEmail extends Component {
                                     onClick={this.handleResend} content="Resend" />
                             </div>
 
-                            {/* Google recaptcha */}
+                            {/* Google recaptcha - Probably unnecessary here. Can just verify that user is not verified and that they
+                                have less than 5 verificationTokens in play.
                             <ReCaptcha
                                 sitekey="6Le7Q0UUAAAAANyBTNvLsxFogP8m3IATJPNofL8n"
                                 render="explicit"
                                 verifyCallback={this.handleCaptcha}
                                 size="compact"
                             />
+                            */}
                         </form>
                         <div style={{ gridArea: 'right', textAlign: 'center', padding: '10px' }}>
                             <Link className="button-link" to="/">

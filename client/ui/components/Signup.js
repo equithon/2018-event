@@ -42,6 +42,7 @@ export default class Signup extends Component {
 
         this.handleSignup = this.handleSignup.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.handleCaptcha = this.handleCaptcha.bind(this);
     }
 
     /***** Event Handling *****/
@@ -66,14 +67,18 @@ export default class Signup extends Component {
             if (this.state.email) user.email         = this.state.email;
             if (this.state.password) user.password   = this.state.password;
 
+            console.log("captcha: " + this.state.captchaToken);
+
             Meteor.call('user.verifyCaptchaAndRegister', { user: user, captchaToken: this.state.captchaToken }, (error, result) => {
-                console.log('Client Error: ' + error);
+                console.log('Client Error: ');
+                console.log(error);
                 console.log('Client response: ' + result);
                 if (error) {
                     this.setState({
                         success: false,
                         errorMessage: error.reason,
                     });
+                    console.log(this.state);
                 } else {
                     this.setState({
                         success: true,
@@ -139,14 +144,20 @@ export default class Signup extends Component {
                             onChange={this.handleChange} stateName="confirmPassword" />
 
                         {/* Signup Main Button */}
-                        <div style={{ textAlign: 'center', padding: '5px', paddingBottom: '25px' }}>
+                        <div style={{ textAlign: 'center', padding: '5px' }}>
                             <FlatColoredButton classes={{ root: classes.buttonRoot }}
                                 onClick={this.handleSignup} content="Signup"
                             />
                         </div>
 
+                        {/* Conditionally render error message */}
+                        { (this.state.success) ?
+                                <Redirect to="/accounts/verify-email" /> :
+                                <ErrorMessageChip classes={classes} errorMessage={this.state.errorMessage} />
+                        }
+
                         {/* Google recaptcha */}
-                        <div style={{ width: '165px', height: '175px', display: 'block', marginLeft: 'auto', marginRight: 'auto' }}>
+                        <div style={{ width: '165px', padding: '5px', display: 'block', marginLeft: 'auto', marginRight: 'auto' }}>
                             <ReCaptcha
                                 style={{height: '175px'}}
                                 sitekey="6Le7Q0UUAAAAANyBTNvLsxFogP8m3IATJPNofL8n"
@@ -164,12 +175,6 @@ export default class Signup extends Component {
                                 </Button>
                             </Link>
                         </div>
-
-                        {/* Conditionally render error message */}
-                        { (this.state.success) ?
-                                <Redirect to="/accounts/verify-email" /> :
-                                <ErrorMessageChip classes={classes} errorMessage={this.state.errorMessage} />
-                        }
                     </form>
                 </div>
 
