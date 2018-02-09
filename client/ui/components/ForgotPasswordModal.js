@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import ReCaptcha from 'react-recaptcha';
+
 import Modal from 'material-ui/Modal';
 import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField';
@@ -24,10 +26,15 @@ export default class ForgotPasswordModal extends Component {
             success: false,
             messageVisible: false,
             errorMessage: '',
+
+            captchaToken: '',
         }
 
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
+        this.recaptchaInstance;
+
+        this.handleChange  = this.handleChange.bind(this);
+        this.handleSubmit  = this.handleSubmit.bind(this);
+        this.handleCaptcha = this.handleCaptcha.bind(this);
     }
 
     handleChange(event) {
@@ -37,24 +44,35 @@ export default class ForgotPasswordModal extends Component {
     handleSubmit(event) {
         event.preventDefault();
 
-        if (this.state.email) {
-            Accounts.forgotPassword({ email: this.state.email }, (err) => {
-                if (err) {
-                    this.setState({
-                        success: false,
-                        messageVisible: true,
-                        errorMessage: err.reason,
-                    });
-                } else {
-                    this.setState({
-                        success: true,
-                        messageVisible: true,
-                        errorMessage: '',
-                    });
+        if (this.state.email && this.state.captchaToken) {
+            Meteor.call('user.verifyCaptchaAndResetPassword',
+                { email: this.state.email, captchaToken: this.state.captchaToken },
+                (err, res) => {
+                    if (err) {
+                        this.setState({
+                            success: false,
+                            messageVisible: true,
+                            errorMessage: err.reason,
+                        });
+                        this.recaptchaInstance.reset();
+                    } else {
+                        this.setState({
+                            success: true,
+                            messageVisible: true,
+                            errorMessage: '',
+                        });
+                    }
                 }
-            });
+            );
         }
     }
+
+    /* Update the captcha with a new response token */
+    handleCaptcha(responseToken) {
+        this.setState({
+            captchaToken: responseToken,
+        });
+    };
 
     render() {
         return(
@@ -85,6 +103,18 @@ export default class ForgotPasswordModal extends Component {
 
                                 {/* Submit */}
                                 <FlatColoredButton style={{ fontSize: 24, width: '50%' }} onClick={this.handleSubmit} content="〉"/>
+
+                                {/* Google recaptcha */}
+                                <div className="recaptcha-div">
+                                    <ReCaptcha
+                                        style={{height: '175px'}}
+                                        ref={ e => this.recaptchaInstance = e }
+                                        sitekey="6Le7Q0UUAAAAANyBTNvLsxFogP8m3IATJPNofL8n"
+                                        render="explicit"
+                                        verifyCallback={this.handleCaptcha}
+                                        size="compact"
+                                    />
+                                </div>
                             </div>
                         </form>
 
