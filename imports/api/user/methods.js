@@ -26,6 +26,7 @@ verifyCaptcha = function(captchaToken) {
  * Verify captcha given valid captcha token.
  */
 Meteor.methods({
+    /* Excessive? */
     'user.verifyCaptcha'(captchaToken) {
         console.log('CAPTCHA: ' + captchaToken);
 
@@ -45,10 +46,15 @@ Meteor.methods({
             result.data['error-codes'].forEach((val) => {
                 err = err + ' ' + val;
             });
-            throw Meteor.Error('user.verifyCaptcha.failure',
+            throw new Meteor.Error('user.verifyCaptcha.failure',
                 'Failed to verify captcha:' + err);
         }
     },
+
+/*
+ * TODO: Put this in a validatedMethod instead of a method
+ * Verify captcha and register user if it is correct.
+ */
     'user.verifyCaptchaAndRegister'(user, captchaToken) {
         console.log('CAPTCHA: ' + captchaToken);
 
@@ -61,15 +67,17 @@ Meteor.methods({
 
         console.log(result);
 
-        if (result.data !== null && result.data['error-codes'] === undefined) {
+        if (result.data !== null && result.data.success && result.data['error-codes'] === undefined) {
             Accounts.createUser(user, (err) => {
+                console.log("in createUser");
+                console.log(err);
                 if (err) {
-                    throw Meteor.Error('user.registration.failure', err);
+                    throw new Meteor.Error('user.registration.failure', err);
                 }
             });
         } else {
             console.log("Throwing error from captcha");
-            throw Meteor.Error('user.verifyCaptcha.failure',
+            throw new Meteor.Error('user.verifyCaptcha.failure',
                 'Failed to verify captcha');
         }
     }
@@ -89,7 +97,7 @@ export const sendVerificationLink = new ValidatedMethod({
     }).validator(),
 
     run({ captchaToken }) {
-        if (!this.userId) throw Meteor.Error('user.sendVerificationLink.unauthorized',
+        if (!this.userId) throw new Meteor.Error('user.sendVerificationLink.unauthorized',
                 'You need to be logged in to send verification emails');
         
         // Get user and relevant attributes.
@@ -101,10 +109,10 @@ export const sendVerificationLink = new ValidatedMethod({
             let verified = email.verified;
 
             if (verified) {
-                throw Meteor.Error('user.sendVerificationLink.already_verified',
+                throw new Meteor.Error('user.sendVerificationLink.already_verified',
                     'Your email address is already verified');
             } else if (verificationTokens.length > 5) {  // Limit emails to 5 per user
-                throw Meteor.Error('user.sendVerificationLink.spam',
+                throw new Meteor.Error('user.sendVerificationLink.spam',
                     'You have reached email limit. Please contact hello@equithon.org for support');
             } else {   // Verify captcha
                 Meteor.call('user.verifyCaptcha', captchaToken, (err, res) => {
@@ -116,7 +124,7 @@ export const sendVerificationLink = new ValidatedMethod({
                 });
             }
         } else {
-            throw Meteor.Error('user.sendVerificationEmail.no_email',
+            throw new Meteor.Error('user.sendVerificationEmail.no_email',
                     'You don\'t have an email to send a verification link to');
         }
     }
