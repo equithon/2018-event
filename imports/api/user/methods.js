@@ -90,7 +90,7 @@ export const sendVerificationLink = new ValidatedMethod({
 if (Meteor.isServer) {
     rateLimit({
         methods: [
-            sendVerificationLink, verifyCaptchaAndResetPassword
+            sendVerificationLink
         ],
         limit: 1,
         timeRange: 3000,
