@@ -60,10 +60,10 @@ export default class Signup extends Component {
             });
         } else {
             let user = {};
-            if (this.state.firstName) user.firstName       = this.state.firstName;
-            if (this.state.lastName) user.lastName         = this.state.lastName;
-            if (this.state.email) user.email               = this.state.email;
-            if (this.state.password) user.password         = this.state.password;
+            if (this.state.firstName) user.firstName      = this.state.firstName;
+            if (this.state.lastName) user.lastName        = this.state.lastName;
+            if (this.state.email) user.email              = this.state.email;
+            if (this.state.password) user.password        = this.state.password;
             if (this.state.captchaToken) user.captchaToken = this.state.captchaToken;
 
             Accounts.createUser(user, (error, result) => {
@@ -90,7 +90,8 @@ export default class Signup extends Component {
         });
     };
 
-    /* Update the captcha with a new response token */
+
+
     handleCaptcha(responseToken) {
         this.setState({
             captchaToken: responseToken,
