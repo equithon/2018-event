@@ -3,6 +3,10 @@ import { EmailSubscriptions } from './email-subscriptions.js';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 import { ValidatedMethod } from 'meteor/mdg:validated-method';
 
+import { EmailSubscriptions } from './email-subscriptions.js';
+import { rateLimit } from '../RateLimiter.js';
+
+
 /*
  * Insert validated email provided it doesn't already exist.
  * Note: SimpleSchema only validates objects so we need to pass email around in an object.
@@ -38,3 +42,13 @@ export const removeEmailSubscription = new ValidatedMethod({
         }
     }
 });
+
+if (Meteor.isServer) {
+    rateLimit({
+        methods: [
+            insertEmailSubscription, removeEmailSubscription
+        ],
+        limit: 1,
+        timeRange: 3000,
+    });
+}

@@ -4,6 +4,7 @@ import { ValidatedMethod } from 'meteor/mdg:validated-method';
 
 import { clientSubmitSchema, clientSaveSchema } from '/imports/api/Schema.js';
 import Applications from './applications.js';
+import { rateLimit } from '../RateLimiter.js';
 
 
 /*
@@ -31,7 +32,6 @@ Meteor.publish('applicationData', function() {
         this.ready();
     }
 });
-
 
 /*
  * Submit the application provided the user hasn't already
@@ -143,3 +143,13 @@ export const saveApplication = new ValidatedMethod({
         });
     }
 });
+
+if (Meteor.isServer) {
+    rateLimit({
+        methods: [
+            submitApplication, saveApplication
+        ],
+        limit: 1,
+        timeRange: 3000,
+    });
+}
