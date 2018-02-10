@@ -28,7 +28,7 @@ Meteor.methods({
     'user.verifyCaptcha'(captchaToken) {
         let result = HTTP.call('POST', 'https://www.google.com/recaptcha/api/siteverify', {
             params: {
-                secret: "6Le7Q0UUAAAAANuMhnA7rX-NbXm1UhdaD_pw0g9-", // TODO: Store as environment variable.
+                secret: process.env.GRECAPTCHA_SECRET,
                 response: captchaToken,
             }
         });
