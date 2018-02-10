@@ -150,12 +150,12 @@ export default class Signup extends Component {
                                 <ErrorMessageChip classes={classes} errorMessage={this.state.errorMessage} />
                         }
 
-                        {/* Google recaptcha - TODO: Move sitekey to environment variable */}
+                        {/* Google recaptcha */}
                         <div className="recaptcha-div">
                             <ReCaptcha
                                 style={{height: '175px'}}
                                 ref={ e => this.recaptchaInstance = e }
-                                sitekey="6Le7Q0UUAAAAANyBTNvLsxFogP8m3IATJPNofL8n"
+                                sitekey={process.env.GRECAPTCHA_SITE_KEY}
                                 render="explicit"
                                 verifyCallback={this.handleCaptcha}
                                 size="compact"

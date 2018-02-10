@@ -83,7 +83,7 @@ export default class VerifyEmail extends Component {
                                 <ReCaptcha
                                     style={{height: '175px'}}
                                     ref={ e => this.recaptchaInstance = e }
-                                    sitekey="6Le7Q0UUAAAAANyBTNvLsxFogP8m3IATJPNofL8n"
+                                    sitekey={process.env.GRECAPTCHA_SITE_KEY}
                                     render="explicit"
                                     verifyCallback={this.handleCaptcha}
                                     size="compact"
