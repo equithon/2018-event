@@ -23,7 +23,13 @@ export default class VerifyEmail extends Component {
         this.state = {
             captchaToken: '',
             errorMessage: '',
+
+            siteKey: ''
         };
+
+        Meteor.call('captcha.getSiteKey', function(err, res) {
+            if (res !== undefined) this.setState({ siteKey: res });
+        }.bind(this));
 
         this.recaptchaInstance;
 
@@ -79,16 +85,18 @@ export default class VerifyEmail extends Component {
                             </div>
 
                             {/* Google recaptcha */}
-                            <div className="recaptcha-div">
-                                <ReCaptcha
-                                    style={{height: '175px'}}
-                                    ref={ e => this.recaptchaInstance = e }
-                                    sitekey={process.env.GRECAPTCHA_SITE_KEY}
-                                    render="explicit"
-                                    verifyCallback={this.handleCaptcha}
-                                    size="compact"
-                                />
-                            </div>
+                            { (this.state.siteKey) ?
+                                <div className="recaptcha-div">
+                                    <ReCaptcha
+                                        style={{height: '175px'}}
+                                        ref={ e => this.recaptchaInstance = e }
+                                        sitekey={this.state.siteKey}
+                                        render="explicit"
+                                        verifyCallback={this.handleCaptcha}
+                                        size="compact"
+                                    />
+                                </div> : false
+                            }
                         </form>
                         <div style={{ gridArea: 'right', textAlign: 'center', padding: '10px' }}>
                             <Link className="button-link" to="/">

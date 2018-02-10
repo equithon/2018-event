@@ -34,7 +34,14 @@ export default class Signup extends Component {
 
             success: false,
             errorMessage: '',
+
+            siteKey: '',
         };
+
+        /* Make sure we have the captcha site key */
+        Meteor.call('captcha.getSiteKey', function(err, res) {
+            if (res !== undefined) this.setState({ siteKey: res });
+        }.bind(this));
 
         this.recaptchaInstance; // Store a ref to the recaptcha so we can explicitly reset it.
 
@@ -151,16 +158,18 @@ export default class Signup extends Component {
                         }
 
                         {/* Google recaptcha */}
-                        <div className="recaptcha-div">
-                            <ReCaptcha
-                                style={{height: '175px'}}
-                                ref={ e => this.recaptchaInstance = e }
-                                sitekey={process.env.GRECAPTCHA_SITE_KEY}
-                                render="explicit"
-                                verifyCallback={this.handleCaptcha}
-                                size="compact"
-                            />
-                        </div>
+                        { (this.state.siteKey) ?
+                            <div className="recaptcha-div">
+                                <ReCaptcha
+                                    style={{height: '175px'}}
+                                    ref={ e => this.recaptchaInstance = e }
+                                    sitekey={this.state.siteKey}
+                                    render="explicit"
+                                    verifyCallback={this.handleCaptcha}
+                                    size="compact"
+                                />
+                            </div> : false
+                        }
 
                         {/* Home Main Button */}
                         <div style={{ textAlign: 'center', padding: '5px' }}>
