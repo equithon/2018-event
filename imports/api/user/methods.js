@@ -3,6 +3,7 @@ import { Meteor } from 'meteor/meteor';
 import { HTTP } from 'meteor/http';
 import SimpleSchema from 'simpl-schema';
 import { ValidatedMethod } from 'meteor/mdg:validated-method';
+import { rateLimit } from '../RateLimiter.js';
 
 
 /*
@@ -109,3 +110,14 @@ export const verifyCaptchaAndResetPassword = new ValidatedMethod({
         }
     }
 });
+
+
+if (Meteor.isServer) {
+    rateLimit({
+        methods: [
+            sendVerificationLink, verifyCaptchaAndResetPassword
+        ],
+        limit: 1,
+        timeRange: 3000,
+    });
+}

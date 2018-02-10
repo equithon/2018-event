@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Session } from 'meteor/session';
 import { Tracker } from 'meteor/tracker';
 
 import MediaQuery from 'react-responsive';
@@ -13,12 +12,9 @@ import Text from '/client/ui/components/Text.js';
 import {StayPosted, Facebook, Twitter, Instagram} from '/client/ui/buttons/SocialMedia.js';
 import SubscriptionModal from '/client/ui/components/SubscriptionModal.js';
 import UnsubscribeModal from '/client/ui/components/UnsubscribeModal.js';
-import Login from '/client/ui/components/Login.js';
-import Signup from '/client/ui/components/Signup.js';
 import Apply from '/client/ui/components/Apply.js';
 import FaqCard from '/client/ui/components/FaqCard.js';
 import FlatColoredButton from '/client/ui/buttons/FlatColoredButton.js';
-import Home from '/client/ui/Home.js';
 import Accounts from '/client/ui/components/Accounts.js';
 
 const imageElevation = 7;
