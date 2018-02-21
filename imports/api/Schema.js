@@ -79,7 +79,7 @@ Schema.applicationSave = new SimpleSchema({
     },
     longAnswer: {
         type: String,
-        max: 2000,
+        max: 4000,
         optional: true,
     },
     eduLevel: { type: String, optional: true, },
