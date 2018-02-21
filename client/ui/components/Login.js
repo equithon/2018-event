@@ -10,7 +10,8 @@ import Avatar from 'material-ui/Avatar';
 import Text from '/client/ui/components/Text.js';
 import FlatColoredButton from '/client/ui/buttons/FlatColoredButton.js';
 import ForgotPasswordModal from '/client/ui/components/ForgotPasswordModal.js';
-import { ErrorMessageChip, AccountsFooter } from '/client/ui/components/Accounts.js';
+import { AccountsFooter } from '/client/ui/components/Accounts.js';
+import ErrorMessageChip from '/client/ui/components/ErrorMessageChip.js';
 
 
 export default class Login extends Component {
@@ -159,7 +160,7 @@ export default class Login extends Component {
                     {/* Conditionally render error message */}
                     { (this.state.success) ?
                             <Redirect to="/apply" /> :
-                            <ErrorMessageChip classes={classes} errorMessage={this.state.errorMessage} />
+                            <ErrorMessageChip errorMessage={this.state.errorMessage} />
                     }
 
                     {/* Forgot password modal */}

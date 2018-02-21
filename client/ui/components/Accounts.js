@@ -44,32 +44,6 @@ const styles = theme => ({
         textTransform: 'capitalize',
     },
 
-    /* Error Chip */
-    chipRoot: {
-        backgroundColor: 'rgba(127, 10, 10, 0.76)',
-        paddingTop: '3px',
-        height: 'auto',
-    },
-    chipLabel: {
-        paddingLeft: '0px',
-        whiteSpace: 'normal',
-    },
-    chipAvatarRoot: {
-        margin: 5,
-        textAlign: 'center',
-        color: theme.palette.common.white,
-        backgroundColor: 'transparent',
-    },
-
-    /* Success Chip */
-    chipSuccessRoot: {
-        backgroundColor: 'green',
-        paddingTop: '3px',
-        height: 'auto',
-    },
-    chipSuccessLabel: {
-        whiteSpace: 'normal',
-    },
 });
 
 class Accounts extends Component {
@@ -116,46 +90,6 @@ class Accounts extends Component {
 }
 export default withStyles(styles)(Accounts);
 
-/* Useful error message chip to render for forms */
-export const ErrorMessageChip = ({ classes, errorMessage }) => {
-    if (!errorMessage) return false;
-
-    return(
-        <Chip
-            classes={{
-                root: classes.chipRoot,
-                label: classes.chipLabel,
-            }}
-            avatar={
-                <Avatar
-                    className={ classes.chipAvatarRoot }
-                    children={ <i className="fas fa-exclamation"></i> }
-                ></Avatar>
-            }
-            label={ <Text style={{ color: 'white' }} type="body2" text={errorMessage} />}
-        />
-    );
-};
-
-/* Useful success message chip to render for forms */
-export const SuccessMessageChip = ({ classes, successMessage }) => {
-    if (!successMessage) return false;
-    return(
-        <Chip
-            classes={{
-                root: classes.chipSuccessRoot,
-                label: classes.chipLabel,
-            }}
-            avatar={
-                <Avatar
-                    className={ classes.chipAvatarRoot }
-                    children={ <i className="fas fa-check"></i> }
-                ></Avatar>
-            }
-            label={ <Text style={{ color: 'white' }} type="body2" text={successMessage} />}
-        />
-    );
-};
 
 /*
  * Footer for Signup page.
