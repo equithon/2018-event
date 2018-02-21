@@ -8,7 +8,8 @@ import Button from 'material-ui/Button';
 
 import Text from '/client/ui/components/Text.js';
 import FlatColoredButton from '/client/ui/buttons/FlatColoredButton.js';
-import { SuccessMessageChip, ErrorMessageChip } from '/client/ui/components/Accounts.js';
+import SuccessMessageChip from '/client/ui/components/SuccessMessageChip.js';
+import ErrorMessageChip from '/client/ui/components/ErrorMessageChip.js';
 
 
 const bodyStyle = {
@@ -108,8 +109,8 @@ export default class ResetPassword extends Component {
 
                         {/* Error Message */}
                         { (this.state.success) ?
-                                <SuccessMessageChip classes={classes} successMessage="We've successfully reset your password." /> :
-                                <ErrorMessageChip classes={classes} errorMessage={this.state.errorMessage} />
+                                <SuccessMessageChip successMessage="We've successfully reset your password." /> :
+                                <ErrorMessageChip errorMessage={this.state.errorMessage} />
                         }
                     </div>
                 </div>

@@ -16,7 +16,8 @@ import { withStyles } from 'material-ui/styles';
 
 import Text from "/client/ui/components/Text.js";
 import FlatColoredButton from '/client/ui/buttons/FlatColoredButton.js';
-import { SuccessMessageChip, ErrorMessageChip } from '/client/ui/components/Accounts.js'; // This needs to better modularized
+import SuccessMessageChip from '/client/ui/components/SuccessMessageChip.js';
+import ErrorMessageChip from '/client/ui/components/ErrorMessageChip.js';
 import HomeAppBar from '/client/ui/components/HomeAppBar.js';
 import ConfirmationModal from '/client/ui/components/ConfirmationModal.js';
 
@@ -486,17 +487,17 @@ class Apply extends Component {
                     <div style={{ display: 'grid', gridRowGap: '10px', padding: '10px', justifyContent: 'center' }}>
                         {/* User not verified */}
                         { (!this.state.verified) ?
-                                <ErrorMessageChip classes={classes} errorMessage={unverifiedMessage} /> : false
+                                <ErrorMessageChip errorMessage={unverifiedMessage} /> : false
                         }
 
                         {/* Submission server error */}
                         { (this.state.errorMessage) ?
-                                <ErrorMessageChip classes={classes} errorMessage={this.state.errorMessage} /> : false
+                                <ErrorMessageChip errorMessage={this.state.errorMessage} /> : false
                         }
 
                         {/* Successful operation */}
                         { (this.state.success) ?
-                                <SuccessMessageChip classes={classes} successMessage={this.state.successMessage} /> : false
+                                <SuccessMessageChip successMessage={this.state.successMessage} /> : false
                         }
                     </div>
                 </div>
@@ -622,12 +623,12 @@ class Apply extends Component {
                         <div style={{ display: 'grid', gridRowGap: '10px', padding: '10px', justifyContent: 'center' }}>
                             {/* Submission server error */}
                             { (this.state.errorMessage) ?
-                                    <ErrorMessageChip classes={classes} errorMessage={this.state.errorMessage} /> : false
+                                    <ErrorMessageChip errorMessage={this.state.errorMessage} /> : false
                             }
 
                             {/* Successful operation */}
                             { (this.state.success) ?
-                                    <SuccessMessageChip classes={classes} successMessage={this.state.successMessage} /> : false
+                                    <SuccessMessageChip successMessage={this.state.successMessage} /> : false
                             }
                         </div>
 

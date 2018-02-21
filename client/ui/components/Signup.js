@@ -7,7 +7,8 @@ import Button from 'material-ui/Button';
 
 import Text from '/client/ui/components/Text.js';
 import FlatColoredButton from '/client/ui/buttons/FlatColoredButton.js';
-import { ErrorMessageChip, AccountsFooter } from '/client/ui/components/Accounts.js';
+import { AccountsFooter } from '/client/ui/components/Accounts.js';
+import ErrorMessageChip from '/client/ui/components/ErrorMessageChip.js';
 
 const signupStyle = {
     position: 'absolute',
@@ -154,7 +155,7 @@ export default class Signup extends Component {
                         {/* Conditionally render error message */}
                         { (this.state.success) ?
                                 <Redirect to="/accounts/verify-email" /> :
-                                <ErrorMessageChip classes={classes} errorMessage={this.state.errorMessage} />
+                                <ErrorMessageChip errorMessage={this.state.errorMessage} />
                         }
 
                         {/* Google recaptcha */}
