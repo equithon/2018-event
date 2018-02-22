@@ -5,7 +5,7 @@ import { Route, Link, Redirect } from 'react-router-dom';
 import ReCaptcha from 'react-recaptcha';
 
 import Text from '/client/ui/components/Text.js';
-import FlatColoredButton from '/client/ui/buttons/FlatColoredButton.js';
+import FlatColoredButton from '/client/ui/components/buttons/FlatColoredButton.js';
 
 
 const bodyStyle = {

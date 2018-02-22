@@ -9,12 +9,12 @@ import {Card, CardContent, CardMedia} from "material-ui";
 
 import HomeAppBar from '/client/ui/components/HomeAppBar.js';
 import Text from '/client/ui/components/Text.js';
-import {StayPosted, Facebook, Twitter, Instagram} from '/client/ui/buttons/SocialMedia.js';
+import {Facebook, Twitter, Instagram} from '/client/ui/components/buttons/SocialMedia.js';
 import SubscriptionModal from '/client/ui/components/SubscriptionModal.js';
 import UnsubscribeModal from '/client/ui/components/UnsubscribeModal.js';
 import Apply from '/client/ui/components/Apply.js';
 import FaqCard from '/client/ui/components/FaqCard.js';
-import FlatColoredButton from '/client/ui/buttons/FlatColoredButton.js';
+import FlatColoredButton from '/client/ui/components/buttons/FlatColoredButton.js';
 import Accounts from '/client/ui/components/Accounts.js';
 
 const imageElevation = 7;

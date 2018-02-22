@@ -7,7 +7,7 @@ import TextField from 'material-ui/TextField';
 import { FormLabel, FormControl, FormControlLabel, FormHelperText } from 'material-ui/Form';
 
 import Text from '/client/ui/components/Text.js';
-import FlatColoredButton from '/client/ui/buttons/FlatColoredButton.js';
+import FlatColoredButton from '/client/ui/components/buttons/FlatColoredButton.js';
 
 /*
  * Popup modal for user to confirm their actions.
