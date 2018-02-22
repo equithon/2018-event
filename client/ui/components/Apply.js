@@ -19,7 +19,7 @@ import FlatColoredButton from '/client/ui/components/buttons/FlatColoredButton.j
 import SuccessMessageChip from '/client/ui/components/SuccessMessageChip.js';
 import ErrorMessageChip from '/client/ui/components/ErrorMessageChip.js';
 import HomeAppBar from '/client/ui/components/HomeAppBar.js';
-import ConfirmationModal from '/client/ui/components/ConfirmationModal.js';
+import ConfirmationModal from '/client/ui/components/modals/ConfirmationModal.js';
 
 import { clientSubmitSchema } from '/imports/api/Schema.js';
 

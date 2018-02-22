@@ -9,7 +9,7 @@ import Avatar from 'material-ui/Avatar';
 
 import Text from '/client/ui/components/Text.js';
 import FlatColoredButton from '/client/ui/components/buttons/FlatColoredButton.js';
-import ForgotPasswordModal from '/client/ui/components/ForgotPasswordModal.js';
+import ForgotPasswordModal from '/client/ui/components/modals/ForgotPasswordModal.js';
 import { AccountsFooter } from '/client/ui/components/Accounts.js';
 import ErrorMessageChip from '/client/ui/components/ErrorMessageChip.js';
 
