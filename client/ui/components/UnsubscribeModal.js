@@ -6,7 +6,7 @@ import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
 
 import Text from '/client/ui/components/Text.js';
-import FlatColoredButton from '/client/ui/buttons/FlatColoredButton.js';
+import FlatColoredButton from '/client/ui/components/buttons/FlatColoredButton.js';
 
 
 /*

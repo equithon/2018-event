@@ -15,7 +15,7 @@ import Input, { InputLabel } from 'material-ui/Input';
 import { withStyles } from 'material-ui/styles';
 
 import Text from "/client/ui/components/Text.js";
-import FlatColoredButton from '/client/ui/buttons/FlatColoredButton.js';
+import FlatColoredButton from '/client/ui/components/buttons/FlatColoredButton.js';
 import SuccessMessageChip from '/client/ui/components/SuccessMessageChip.js';
 import ErrorMessageChip from '/client/ui/components/ErrorMessageChip.js';
 import HomeAppBar from '/client/ui/components/HomeAppBar.js';
