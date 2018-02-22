@@ -24,7 +24,7 @@ Schema.applicationSubmit = new SimpleSchema({
     },
     longAnswer: {
         type: String,
-        max: 2000,
+        max: 4000,
     },
     eduLevel: { type: String, },
     gender: { type: String, },
