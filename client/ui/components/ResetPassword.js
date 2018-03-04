@@ -8,8 +8,8 @@ import Button from 'material-ui/Button';
 
 import Text from '/client/ui/components/Text.js';
 import FlatColoredButton from '/client/ui/components/buttons/FlatColoredButton.js';
-import SuccessMessageChip from '/client/ui/components/SuccessMessageChip.js';
-import ErrorMessageChip from '/client/ui/components/ErrorMessageChip.js';
+import SuccessMessageChip from '/client/ui/components/notif-chips/SuccessMessageChip.js';
+import ErrorMessageChip from '/client/ui/components/notif-chips/ErrorMessageChip.js';
 
 
 const bodyStyle = {

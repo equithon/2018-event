@@ -8,7 +8,7 @@ import Button from 'material-ui/Button';
 import Text from '/client/ui/components/Text.js';
 import FlatColoredButton from '/client/ui/components/buttons/FlatColoredButton.js';
 import { AccountsFooter } from '/client/ui/components/Accounts.js';
-import ErrorMessageChip from '/client/ui/components/ErrorMessageChip.js';
+import ErrorMessageChip from '/client/ui/components/notif-chips/ErrorMessageChip.js';
 
 const signupStyle = {
     position: 'absolute',
