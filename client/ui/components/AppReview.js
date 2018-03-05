@@ -21,6 +21,7 @@ export default class AppReview extends Component {
 
         this.state = {
             success: false,
+            submitDisabled: false,
             errorMessage: '',
 
             app: {},
@@ -29,41 +30,15 @@ export default class AppReview extends Component {
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleNext   = this.handleNext.bind(this);
     }
 
     /*
      * Component reactivity
      */
     componentDidMount() {
-        this.appC = Tracker.autorun(() => {
-            Meteor.call('applications.getNextAppForReview', (err, res) => {
-                if (err) {
-                    this.setState({
-                        app: {},
-                        success: false,
-                        message: err.reason,
-                    });
-                } else if (res) {
-                    this.setState({
-                        app: res,
-                        success: false,
-                        message: '',
-                    });
-                } else {
-                    this.setState({
-                        app: {},
-                        success: false,
-                        message: 'There are no more applications to review',
-                    });
-                }
-            });
-        });
+        this.handleNext()
     }
-
-    componentWillUnmount() {
-        this.appC.stop();
-    }
-
 
     /*
      * Event Handling
@@ -79,12 +54,43 @@ export default class AppReview extends Component {
             if (err) {
                 this.setState({
                     success: false,
+                    submitDisabled: false,
                     message: err.reason,
                 });
             } else {
                 this.setState({
                     success: true,
+                    submitDisabled: true,
                     message: 'Ratings successfully submitted',
+                });
+            }
+        });
+    }
+
+    handleNext() {
+        Meteor.call('applications.getNextAppForReview', (err, res) => {
+            console.log(err);
+            console.log(res);
+            if (err) {
+                this.setState({
+                    app: {},
+                    success: false,
+                    submitDisabled: false,
+                    message: err.reason,
+                });
+            } else if (res) {
+                this.setState({
+                    app: res,
+                    success: false,
+                    submitDisabled: false,
+                    message: '',
+                });
+            } else {
+                this.setState({
+                    app: {},
+                    success: false,
+                    submitDisabled: true,
+                    message: 'There are no more applications to review',
                 });
             }
         });
@@ -158,8 +164,10 @@ export default class AppReview extends Component {
                     answer={ this.getAnswersForValue('workshops') } />
 
                 {/* Long Answer */}
-                <AppQA gridName="longAnswer" question={longAnswerQuestion}
-                    answer={ this.state.app.longAnswer } />
+                <div style={{ gridArea: 'longAnswer' }}>
+                    <Text type="body1" text={longAnswerQuestion} />
+                    <Text type="body1" text={this.state.app.longAnswer} />
+                </div>
 
                 {/* Ratings Header */}
                 <Header gridName="ratings-header" left="Criteria" right="Rating" />
@@ -169,8 +177,13 @@ export default class AppReview extends Component {
                     onChange={this.handleChange('passion')} />
 
                 {/* Submission Button */}
-                <div style={{ gridArea: 'submit', textAlign: 'right' }}>
-                    <FlatColoredButton onClick={this.handleSubmit} content="Submit" />
+                <div className="split-column-row" style={{ gridArea: 'submit', textAlign: 'center', width: '100%' }}>
+                    <div style={{ gridArea: 'left' }}>
+                        <FlatColoredButton onClick={this.handleNext} content="Next Application" />
+                    </div>
+                    <div style={{ gridArea: 'right' }}>
+                        <FlatColoredButton disabled={this.state.submitDisabled} onClick={this.handleSubmit} content="Submit" />
+                    </div>
                 </div>
 
                 {/* Message Footer */}
