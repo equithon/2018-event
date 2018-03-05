@@ -16,6 +16,7 @@ import Apply from '/client/ui/components/Apply.js';
 import FaqCard from '/client/ui/components/FaqCard.js';
 import FlatColoredButton from '/client/ui/components/buttons/FlatColoredButton.js';
 import Accounts from '/client/ui/components/Accounts.js';
+import TeamHome from '/client/ui/components/TeamHome.js';
 
 const imageElevation = 7;
 
@@ -206,7 +207,10 @@ export default class App extends Component {
 
                       {/* Render accounts */}
                       <Route path="/accounts" component={Accounts} />
-                   </div>
+
+                      {/* Team home page */}
+                      <Route path="/team" component={TeamHome} />
+                  </div>
               </Router>
             </MuiThemeProvider>
         );

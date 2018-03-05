@@ -144,6 +144,88 @@ export const saveApplication = new ValidatedMethod({
     }
 });
 
+/*
+ * Returns the next application needing review and undefined if there are no applications
+ * needing review.
+ */
+export const getNextAppForReview = new ValidatedMethod({
+    name: 'applications.getNextAppForReview',
+
+    validate: null,
+
+    run(application) {
+        /* Verify user is logged in */
+        if (!this.userId) throw new Meteor.Error('applications.getNextAppForReview.unauthorized',
+            'You need to be logged in to review applications');
+
+        /* Verify user is a team member */
+        var user = Meteor.user();
+        if (!user.isTeam) throw new Meteor.Error('applications.getNextAppForReview.unauthorizedUser',
+            'You must be a member of the Equithon team to review applications');
+
+        /* Find a submitted application that has less than 2 reviewers */
+        var appToReview = Applications.findOne({
+            submitted: true, $or: [ { ratings: { $exists: false } }, { 'ratings.2': { $exists: false } } ]
+        }, {
+            fields: {
+                experience: 1,
+                hackathon: 1,
+                hearAbout: 1,
+                goals: 1,
+                categories: 1,
+                workshops: 1,
+                longAnswer: 1,
+            }
+        });
+
+        return appToReview;
+    }
+});
+
+/*
+ * Submits the ratings made by logged in team member for a given application.
+ */
+export const submitRating = new ValidatedMethod({
+    name: 'applications.submitRating',
+
+    validate: new SimpleSchema({
+        appId: { type: String },
+        passion: { type: Number, min: 0, max: 5 },
+    }).validator(),
+
+    run(rating) {
+        /* Verify user is logged in */
+        if (!this.userId) throw new Meteor.Error('applications.submitRating.unauthorized',
+            'You need to be logged in to submit ratings');
+
+        /* Verify user is a team member */
+        var user = Meteor.user();
+        if (!user.isTeam) throw new Meteor.Error('applications.submitRating.unauthorizedUser',
+            'You must be a member of the Equithon team to submit ratings');
+
+        /* Verify application exists */
+        var app = Applications.findOne({ _id: rating.appId });
+        if (!app) throw new Meteor.Error('applications.submitRating.applicationNotFound',
+            'Application does not exist');
+
+        console.log(this.userId);
+        if (app.ratings && !app.ratings.find(function(rating) { return rating.reviewer === this.userId })) {
+            throw new Meteor.Error( 'applications.submitRating.alreadyReviewed', 'Application already reviewed');
+        }
+
+        /* Update the application corresponding to the given appId and a new rating and reviewer */
+        Applications.update({ _id: rating.appId} , {
+            $push: {
+                ratings: {
+                    reviewer: this.userId,
+                    passion: rating.passion,
+                }
+            }
+        });
+    }
+});
+
+
 if (Meteor.isServer) {
     rateLimit({
         methods: [
