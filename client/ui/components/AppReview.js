@@ -11,6 +11,7 @@ import { valuesAndMessages, experienceQuestion, hackathonQuestion, goalsQuestion
 import ErrorMessageChip from '/client/ui/components/notif-chips/ErrorMessageChip.js';
 import SuccessMessageChip from '/client/ui/components/notif-chips/SuccessMessageChip.js';
 import FlatColoredButton from '/client/ui/components/buttons/FlatColoredButton.js';
+import ConfirmationModal from '/client/ui/components/modals/ConfirmationModal.js';
 
 /*
  * Application review component
@@ -23,6 +24,7 @@ export default class AppReview extends Component {
             success: false,
             submitDisabled: false,
             errorMessage: '',
+            confirmationModalOpen: false,
 
             app: {},
             passion: 0,
@@ -50,7 +52,6 @@ export default class AppReview extends Component {
         };
 
         Meteor.call('applications.submitRating', rating, (err, res) => {
-            console.log(err);
             if (err) {
                 this.setState({
                     success: false,
@@ -69,8 +70,6 @@ export default class AppReview extends Component {
 
     handleNext() {
         Meteor.call('applications.getNextAppForReview', (err, res) => {
-            console.log(err);
-            console.log(res);
             if (err) {
                 this.setState({
                     app: {},
@@ -164,15 +163,9 @@ export default class AppReview extends Component {
                     answer={ this.getAnswersForValue('workshops') } />
 
                 {/* Long Answer */}
-                <div className="split-column-row" style={{ gridArea: 'longAnswer' }}>
-                    <Text style={{ gridArea: 'left' }} type="body1" text={<strong>{longAnswerQuestion}</strong>} />
-                    <TextField
-                        style={{ gridArea: 'right' }}
-                        value={this.state.app.longAnswer}
-                        multiline
-                        fullWidth
-                        rows="15"
-                    />
+                <div style={{ gridArea: 'longAnswer' }}>
+                    <Text type="body1" text={<strong>{longAnswerQuestion}</strong>} /><br/>
+                    <Text type="body1" text={this.state.app.longAnswer} />
                 </div>
 
                 {/* Ratings Header */}
@@ -188,7 +181,17 @@ export default class AppReview extends Component {
                         <FlatColoredButton onClick={this.handleNext} content="Next Application" />
                     </div>
                     <div style={{ gridArea: 'right' }}>
-                        <FlatColoredButton disabled={this.state.submitDisabled} onClick={this.handleSubmit} content="Submit" />
+                        <FlatColoredButton
+                            disabled={this.state.submitDisabled}
+                            onClick={ (() => this.setState({ confirmationModalOpen: true })).bind(this) }
+                            content="Submit" />
+
+                        <ConfirmationModal
+                            open={this.state.confirmationModalOpen}
+                            onClose={ (() => this.setState({ confirmationModalOpen: false })).bind(this) }
+                            onYes={this.handleSubmit}
+                            message="Are you sure?"
+                        />
                     </div>
                 </div>
 
