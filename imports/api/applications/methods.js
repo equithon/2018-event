@@ -165,7 +165,7 @@ export const getNextAppForReview = new ValidatedMethod({
 
         /* Find a submitted application that has less than 2 reviewers */
         var appToReview = Applications.findOne({
-            submitted: true, $or: [ { ratings: { $exists: false } }, { 'ratings.2': { $exists: false } } ]
+            submitted: true, $or: [ { ratings: { $exists: false } }, { 'ratings.1': { $exists: false } } ]
         }, {
             fields: {
                 experience: 1,
@@ -175,9 +175,18 @@ export const getNextAppForReview = new ValidatedMethod({
                 categories: 1,
                 workshops: 1,
                 longAnswer: 1,
+                ratings: 1,
             }
         });
 
+        /* Only return the application if we haven't reviewed it already */
+        if (!appToReview || (appToReview.ratings && appToReview.ratings.find(function(rating) {
+            return (rating.reviewer === this.userId) ? rating : undefined;
+        }.bind(this)))) {
+            return undefined;
+        }
+
+        delete appToReview.ratings;
         return appToReview;
     }
 });
@@ -208,9 +217,10 @@ export const submitRating = new ValidatedMethod({
         if (!app) throw new Meteor.Error('applications.submitRating.applicationNotFound',
             'Application does not exist');
 
-        console.log(this.userId);
-        if (app.ratings && !app.ratings.find(function(rating) { return rating.reviewer === this.userId })) {
-            throw new Meteor.Error( 'applications.submitRating.alreadyReviewed', 'Application already reviewed');
+        if (app.ratings && app.ratings.find(function(rating) {
+            return (rating.reviewer === this.userId) ? rating : undefined;
+        }.bind(this))) {
+            throw new Meteor.Error('applications.submitRating.alreadyReviewed', 'Application already reviewed');
         }
 
         /* Update the application corresponding to the given appId and a new rating and reviewer */
@@ -226,6 +236,9 @@ export const submitRating = new ValidatedMethod({
 });
 
 
+/*
+ * Stricter rate limiting
+ */
 if (Meteor.isServer) {
     rateLimit({
         methods: [
