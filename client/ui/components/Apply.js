@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import { Tracker } from 'meteor/tracker';
+
 import { Redirect } from 'react-router';
 import SimpleSchema from 'simpl-schema';
 
@@ -45,7 +47,7 @@ const checkboxFieldNames = [ 'goals', 'categories', 'workshops' ];
  * Be careful changing them.
  */
 /* Drop down menu options stored as arrays */
-const valuesAndMessages = {
+export const valuesAndMessages = {
     eduLevel: {
         values: [ '', 'highschool', 'undergrad', 'grad', 'college', 'other', ],
         messages: [ '', 'High School', 'University Undergraduate', 'University Graduate', 'College', 'Other', ],
@@ -103,10 +105,13 @@ const valuesAndMessages = {
 
 /* Questions */
 const genderQuestion = "What gender do you identify as? (This will not be taken into account when reviewing the application)";
-const goalsQuestion = "What do you want to do at Equithon 2018? Choose as many as you like.";
-const categoriesQuestion = "The categories for Equithon 2018 are listed below. Choose all the categories you would be interested in creating a hack for.";
-const workshopsQuestion = "What kinds of workshops would you be likely to attend at Equithon 2018? Choose as many as you like."
-const longAnswerQuestion = "What is an equity issue you are passionate about and want to take action to solve? Why is tackling this issue important to you? (Try to keep your response to 400 words or less)";
+export const experienceQuestion = "How would you describe your coding experience?";
+export const hackathonQuestion = "Have you attended a hackathon before?";
+export const hearAboutQuestion = "How did you hear about Equithon?";
+export const goalsQuestion = "What do you want to do at Equithon 2018? Choose as many as you like.";
+export const categoriesQuestion = "The categories for Equithon 2018 are listed below. Choose all the categories you would be interested in creating a hack for.";
+export const workshopsQuestion = "What kinds of workshops would you be likely to attend at Equithon 2018? Choose as many as you like."
+export const longAnswerQuestion = "What is an equity issue you are passionate about and want to take action to solve? Why is tackling this issue important to you? (Try to keep your response to 400 words or less)";
 
 const unverifiedMessage = "Your account is not verified! Please verify your email address in order to submit your application.";
 
@@ -467,6 +472,7 @@ class Apply extends Component {
         const { classes } = this.props;
 
         if (!Meteor.userId()) return <Redirect to="/accounts/login" />;
+        if (this.state.currentUser && this.state.currentUser.isTeam) return <Redirect to="/team" />;
 
         return(
             <div id="application-form-wrapper">
@@ -566,7 +572,7 @@ class Apply extends Component {
                         <Text align="left" color="primary" type="headline" text="Experience and Interests" />
 
                         {/* Coding Experience Field */}
-                        <Text type="body2" text="How would you describe your coding experience?" />
+                        <Text type="body2" text={experienceQuestion} />
                         <div style={{ display: 'flex', justifyContent: 'left' }}>
                             { this.renderSelect(valuesAndMessages.experience, 'experience', this.state.experienceError) }
                             { (this.state.experience === 'other') ?
@@ -579,7 +585,7 @@ class Apply extends Component {
                         </div><br/>
 
                         {/* Hackathon Field */}
-                        <Text type="body2" text="Have you attended a hackathon before?" />
+                        <Text type="body2" text={hackathonQuestion} />
                         <div style={{ display: 'flex', justifyContent: 'left' }}>
                             { this.renderSelect(valuesAndMessages.hackathon, 'hackathon', this.state.hackathonError) }
                         </div><br/>
@@ -597,7 +603,7 @@ class Apply extends Component {
                         { this.renderCheckbox(valuesAndMessages.workshops, 'workshops') }
 
                         {/* Hear About Us Field */}
-                        <Text type="body2" text="How did you hear about Equithon?" />
+                        <Text type="body2" text={hearAboutQuestion} />
                         <div style={{ display: 'flex', justifyContent: 'left' }}>
                             { this.renderSelect(valuesAndMessages.hearAbout, 'hearAbout', this.state.hearAboutError) }
                             { (this.state.hearAbout === 'other') ?

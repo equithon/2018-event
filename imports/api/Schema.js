@@ -63,6 +63,13 @@ Schema.applicationSubmit = new SimpleSchema({
 
     userId: { type: String, },
     submitted: { type: Boolean, },
+
+    /* Ratings */
+    ratings: { type: Array, optional: true },
+    'ratings.$': Object,
+    'ratings.$.reviewer': String,
+    'ratings.$.passion': String,
+
 }, { tracker: Tracker }); // hook
 
 /* Application save schema (keys become optional) */
@@ -119,6 +126,12 @@ Schema.applicationSave = new SimpleSchema({
     submitted: {
         type: Boolean,
     },
+
+    /* Ratings */
+    ratings: { type: Array, optional: true },
+    'ratings.$': Object,
+    'ratings.$.reviewer': String,
+    'ratings.$.passion': String,
 });
 
 /* Configure appplication schema */

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import MediaQuery from 'react-responsive';
 
+import { Tracker } from 'meteor/tracker';
+
+import MediaQuery from 'react-responsive';
 import { Link } from 'react-router-dom';
 
 import AppBar from 'material-ui/AppBar';
@@ -13,6 +15,34 @@ import IconButton from 'material-ui/IconButton';
  * We would add buttons etc. to this as we add new features.
  */
 export default class HomeAppBar extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            isTeam: false
+        };
+    }
+
+    componentDidMount() {
+        this.userC = Tracker.autorun(() => {
+            let user = Meteor.user();
+
+            if (user && user.isTeam !== undefined) {
+                this.setState({
+                    isTeam: user.isTeam
+                });
+            } else {
+                this.setState({
+                    isTeam: false,
+                });
+            }
+        });
+    }
+
+    componentWillUnmount() {
+        this.userC.stop();
+    }
+
     render() {
         return (
             <AppBar id="appbar" position="fixed" color="inherit">
@@ -20,7 +50,10 @@ export default class HomeAppBar extends Component {
                     <div id="app-bar-grid">
                         {/* Application */}
                         <div style={{ gridArea: 'application', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                            <AppbarButton link="/accounts/signup" text="Apply to Equithon" iconClass="fas fa-file" />
+                            { (this.state.isTeam) ?
+                                <AppbarButton link="/team" text="Team Home" iconClass="fas fa-home" /> :
+                                <AppbarButton link="/apply" text="Apply to Equithon" iconClass="fas fa-file" />
+                            }
                         </div>
 
                         {/* Logo */}
