@@ -164,9 +164,15 @@ export default class AppReview extends Component {
                     answer={ this.getAnswersForValue('workshops') } />
 
                 {/* Long Answer */}
-                <div style={{ gridArea: 'longAnswer' }}>
-                    <Text type="body1" text={longAnswerQuestion} />
-                    <Text type="body1" text={this.state.app.longAnswer} />
+                <div className="split-column-row" style={{ gridArea: 'longAnswer' }}>
+                    <Text style={{ gridArea: 'left' }} type="body1" text={<strong>{longAnswerQuestion}</strong>} />
+                    <TextField
+                        style={{ gridArea: 'right' }}
+                        value={this.state.app.longAnswer}
+                        multiline
+                        fullWidth
+                        rows="15"
+                    />
                 </div>
 
                 {/* Ratings Header */}
@@ -215,7 +221,7 @@ const Header = ({ gridName, left, right }) => (
 
 const AppQA = ({ gridName, question, answer }) => (
     <div className="split-column-row" style={{ gridArea: gridName, gridColumnGap: '20px' }}>
-        <Text style={{ gridArea: 'left' }} type="body1" text={question} />
+        <Text style={{ gridArea: 'left' }} type="body1" text={<strong>{question}</strong>} />
         <Text style={{ gridArea: 'right' }} type="body1"
             text={answer} />
     </div>
@@ -225,6 +231,7 @@ const Rating = ({ gridName, criteria, onChange, value }) => (
     <div className="split-column-row" style={{ gridArea: gridName }}>
         <Text style={{ gridArea: 'left' }} type="body1" text={criteria} />
         <TextField
+            style={{ width: '50px' }}
             type="number"
             onChange={onChange}
             value={value}
