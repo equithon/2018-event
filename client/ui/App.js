@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Tracker } from 'meteor/tracker';
 
 import MediaQuery from 'react-responsive';
-import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Redirect, Link } from 'react-router-dom';
 
 import {MuiThemeProvider} from 'material-ui/styles';
 import {Card, CardContent, CardMedia} from "material-ui";
@@ -108,6 +108,13 @@ export default class App extends Component {
                             <br/>
                             <div className='social-media-buttons'>
                                 <div style={{gridArea: 'email', padding: '10px', width: 'auto', textAlign: 'center'}}>
+                                    <Link className="button-link" to="/apply">
+                                        <FlatColoredButton content="Apply Now" />
+                                    </Link>
+
+                                    {/* Spacing */}
+                                    <div style={{ padding: '5px' }}></div>
+
                                     <FlatColoredButton onClick={this.handleSubModalOpen} content="Stay Posted" />
                                     <SubscriptionModal open={this.state.subModalOpen} onClose={this.handleClose} />
                                 </div>
@@ -226,7 +233,7 @@ export default class App extends Component {
  */
 const TitleRowText = ({ align }) => (
     <Text color="primary" type="display2" align={align}
-          text="Applications for Equithon 2018 are open now!"
+          text="Applications for Equithon 2018 close March 18!"
     />
 );
 
