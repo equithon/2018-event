@@ -113,7 +113,7 @@ export const categoriesQuestion = "The categories for Equithon 2018 are listed b
 export const workshopsQuestion = "What kinds of workshops would you be likely to attend at Equithon 2018? Choose as many as you like."
 export const longAnswerQuestion = "What is an equity issue you are passionate about and want to take action to solve? Why is tackling this issue important to you? (Try to keep your response to 400 words or less)";
 
-const unverifiedMessage = "Your account is not verified! Please verify your email address in order to submit your application.";
+const unverifiedMessage = <p>Please verify your email address in order to submit your application. Click <a style={{ color: 'white' }} href="/accounts/verify-email">here</a> to resend.</p>;
 
 
 const styles = theme => ({

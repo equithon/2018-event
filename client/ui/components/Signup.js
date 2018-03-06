@@ -29,6 +29,7 @@ export default class Signup extends Component {
             firstName: '',
             lastName: '',
             email: '',
+            confirmEmail: '',
             password: '',
             confirmPassword: '',
             captchaToken: '',
@@ -60,6 +61,16 @@ export default class Signup extends Component {
             this.setState({
                 success: false,
                 errorMessage: "Your confirmation password does not match your actual password"
+            });
+        } else if (this.state.email !== this.state.confirmEmail) {
+            this.setState({
+                success: false,
+                errorMessage: "Your confirmation email does not match your actual email"
+            });
+        } else if (this.state.email === '') {
+            this.setState({
+                success: false,
+                errorMessage: "Please enter an email account"
             });
         } else if (this.state.password === '') {
             this.setState({
@@ -136,6 +147,10 @@ export default class Signup extends Component {
                         {/* Email Field */}
                         <TextInputField classes={classes} label="Email" value={this.state.email}
                             onChange={this.handleChange} stateName="email" />
+
+                        {/* Confirm Email Field */}
+                        <TextInputField classes={classes} label="Confirm Email" value={this.state.confirmEmail}
+                            onChange={this.handleChange} stateName="confirmEmail" />
 
                         {/* Password Field */}
                         <PasswordInputField classes={classes} label="Password" value={this.state.password}
