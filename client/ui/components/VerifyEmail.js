@@ -24,6 +24,8 @@ export default class VerifyEmail extends Component {
             captchaToken: '',
             errorMessage: '',
 
+            user: undefined,
+
             siteKey: ''
         };
 
@@ -35,6 +37,19 @@ export default class VerifyEmail extends Component {
 
         this.handleResend = this.handleResend.bind(this);
         this.handleCaptcha = this.handleCaptcha.bind(this);
+    }
+
+    componentDidMount() {
+        this.userC = Tracker.autorun(() => {
+            var user = Meteor.user();
+            this.setState({
+                currentUser: user
+            });
+        });
+    }
+
+    componentWillUnmount() {
+        this.userC.stop();
     }
 
     /****** Event Handling *****/
@@ -71,6 +86,15 @@ export default class VerifyEmail extends Component {
                         text="Verify Your Email Address" />
                     <Text style={{ color: 'white' }} align="center" type="display1"
                         text="to start using your account!" />
+                    <Text style={{ color: 'white' }} align="center" type="headline"
+                        text={
+                           <p>Email Address: {
+                               (this.state.currentUser) ?
+                                   this.state.currentUser.emails[0].address : false
+                           }
+                           </p>
+                       }
+                    />
 
                     {/* Email Image */}
                     <img style={{ width: 'auto', height: 'auto' }} src="/images/mail.png" />
