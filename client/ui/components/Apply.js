@@ -273,11 +273,11 @@ class Apply extends Component {
         // We don't care about errors since we're going to validate on submission anyway
         Meteor.call('applications.save', submission);
 
-        /* Validate the submission on submit which will reactively display errors to the user */
+        /* Validate the submission client-side which will reactively display errors to the user */
         if(this.appValidationContext.validate(submission, clientSubmitSchema.application)) {
             Meteor.call('applications.submit', submission, (err, res) => {
-                if (err && err.error == 'validation-error') { // Unlike saving, we care about validation.
-                    this.processValidationError(err.details);
+                if (err && err.error == 'validation-error') {
+                    this.processValidationErrors(err.details);
                 } else if (err) this.setState({
                     success: false,
                     successMessage: '',
@@ -301,19 +301,15 @@ class Apply extends Component {
         let application = this.getClientApplication();
 
         /*
-         * Don't bother validating the schema here on save, the server will validate it
+         * Don't bother validating the schema client-side on save, the server will validate it
          * and we don't have any need to tell the user of errors since they are
          * still working on it.
+         * - We still want to process any validation errors the server ends up throwing at us.
          */
         Meteor.call('applications.save', application, (err, res) => {
-            /*
-             * Simpl-schema server validation errors are thrown as meteor errors
-             * with the actual errors in err.details.
-             *
-             * When saving, we don't want to produce any validation-errors, that's the role of
-             * submitApplication not us.
-             */
-            if (err && err.error != 'validation-error') { // Non-validation Meteor error
+            if (err && err.error == 'validation-error') {
+                this.processValidationErrors(err.details);
+            } else if (err) {
                 this.setState({
                     success: false,
                     errorMessage: err.reason,
