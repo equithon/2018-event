@@ -50,10 +50,7 @@ export default class HomeAppBar extends Component {
                     <div id="app-bar-grid">
                         {/* Application */}
                         <div style={{ gridArea: 'application', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                            { (this.state.isTeam) ?
-                                <AppbarButton link="/team" text="Team Home" iconClass="fas fa-home" /> :
-                                <AppbarButton link="/apply" text="Apply to Equithon" iconClass="fas fa-file" />
-                            }
+                            <AppbarButton link="/apply" text="Apply to Equithon" iconClass="fas fa-file" />
                         </div>
 
                         {/* Logo */}
