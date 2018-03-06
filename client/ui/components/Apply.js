@@ -174,12 +174,9 @@ class Apply extends Component {
             eduLevel: '',
             gender: '',
             goals: { a: false, b: false, c: false, d: false, e: false, f: false, g: false },
-<<<<<<< HEAD
-=======
             categories: { a: false, b: false, c: false, d: false, e: false },
             workshops: { a: false, b: false, c: false, d: false, e: false, f: false,
                          g: false, h: false, i: false, j: false, k: false, l: false, m: false },
->>>>>>> Added rest of questions
 
             /* Form field errors */
             programError: '',
@@ -191,11 +188,8 @@ class Apply extends Component {
             eduLevelError: '',
             genderError: '',
             goalsError: '',
-<<<<<<< HEAD
-=======
             categoriesError: '',
             workshopsError: '',
->>>>>>> Added rest of questions
 
             /* Other field produced after choosing the 'other' option in a Select */
             eduLevelText: '',
@@ -471,8 +465,7 @@ class Apply extends Component {
     render() {
         const { classes } = this.props;
 
-        if (!Meteor.userId()) return <Redirect to="/accounts/login" />;
-        if (this.state.currentUser && this.state.currentUser.isTeam) return <Redirect to="/team" />;
+        if (!Meteor.userId()) return <Redirect to="/accounts/signup" />;
 
         return(
             <div id="application-form-wrapper">
