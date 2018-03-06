@@ -8,12 +8,13 @@ import Text from '/client/ui/components/Text.js';
 
 /* Success Chip Styles */
 const styles = theme => ({
-    chipSuccessRoot: {
+    chipRoot: {
         backgroundColor: 'green',
         paddingTop: '3px',
         height: 'auto',
     },
-    chipSuccessLabel: {
+    chipLabel: {
+        paddingLeft: '0px',
         whiteSpace: 'normal',
     },
 
@@ -36,7 +37,7 @@ class SuccessMessageChip extends Component {
         return(
             <Chip
                 classes={{
-                    root: classes.chipSuccessRoot,
+                    root: classes.chipRoot,
                     label: classes.chipLabel,
                 }}
                 avatar={
