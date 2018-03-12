@@ -461,8 +461,8 @@ class Apply extends Component {
     render() {
         const { classes } = this.props;
 
-        if (!Meteor.userId()) return <Redirect to="/accounts/signup" />;
-
+        if (!Meteor.userId()) return <Redirect to="/accounts/login" />;
+        if (this.state.currentUser && this.state.currentUser.isTeam) return <Redirect to="/team" />;
         return(
             <div id="application-form-wrapper">
                 <HomeAppBar />

@@ -12,7 +12,7 @@ import { rateLimit } from '../RateLimiter.js';
 Meteor.publish('userData', function () {
   if (this.userId) {
     return Meteor.users.find({ _id: this.userId }, {
-      fields: { firstName: 1, lastName: 1, emails: 1 }
+      fields: { firstName: 1, lastName: 1, isTeam: 1 }
     });
   } else {
     this.ready();
