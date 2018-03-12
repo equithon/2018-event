@@ -17,7 +17,7 @@ export default function FlatColoredButton(props) {
             style={ Object.assign({background: theme.palette.primary[500], borderRadius: '25px' }, props.style) }
             disabled={ props.disabled }
             classes={ props.classes }
-            color="contrast"
+            color="secondary"
             onClick={props.onClick}
         >
             {props.content}

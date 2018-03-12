@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Tracker } from 'meteor/tracker';
 
 import MediaQuery from 'react-responsive';
-import { BrowserRouter as Router, Route, Redirect, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route} from 'react-router-dom';
 
 import {MuiThemeProvider} from 'material-ui/styles';
 import {Card, CardContent, CardMedia} from "material-ui";
@@ -188,9 +188,9 @@ export default class App extends Component {
                             <img src="/logos/logo_200x153.png" style={{ width: '100px' }} />
                         </div>
                         <div style={{ margin: 'auto', textAlign: 'center' }}>
-                            <Text color="secondary" type="body2" text={ <p>Contact us: <a href="mailto:hello@equithon.org">hello@equithon.org</a> </p> } />
-                            <Text color="secondary" type="body2" text="University of Waterloo" />
-                            <Text color="secondary" type="body2"
+                            <Text color="textSecondary" type="body2" text={ <span>Contact us: <a href="mailto:hello@equithon.org">hello@equithon.org</a> </span> } />
+                            <Text color="textSecondary" type="body2" text="University of Waterloo" />
+                            <Text color="textSecondary" type="body2"
                                 text={ <a href="#" onClick={this.handleUnsubModalOpen}><u>Unsubscribe</u></a> }
                             />
                             <UnsubscribeModal open={this.state.unsubModalOpen} onClose={this.handleClose} />
@@ -245,7 +245,7 @@ const TitleRowText = ({ align }) => (
 const InfoRowText = ({ align, style }) => (
     <div style={style}>
         <Text color="primary" type="display2" align={align} text="What is Equithon?" />
-        <Text color="secondary" type="body1" align={align}
+        <Text color="textSecondary" type="body1" align={align}
               text="Equithon is a hackathon for students to create technical projects that solve an equity issue or promote equity. We strive to provide an inclusive environment at our event where hackers can get support from industry mentors to develop their ideas and projects."
         />
     </div>
@@ -257,11 +257,11 @@ const InfoRowText = ({ align, style }) => (
 const QuoteRowText = ({ type }) => (
     <div>
         <Text color="primary" type="headline" align="left"
-            text={ <i><div>"Equity isn't a women's issue,<br/>Equity is an everyone issue."</div></i> }
+            text={ <i>"Equity isn't a women's issue,<br/>Equity is an everyone issue."</i> }
         />
         <br/>
         <Text color="primary" type="subheading" align="right"
-            text={ <div>Feridun Hamdullahpur<br/>President and Vice-Chancellor,<br/>University of Waterloo</div> }
+            text={ <span>Feridun Hamdullahpur<br/>President and Vice-Chancellor,<br/>University of Waterloo</span> }
         />
     </div>
 );
@@ -295,11 +295,11 @@ const SubTextBox = () => (
                         <div className="subtext-grid" style={{ width: '100%'}}>
                             <div style={{ gridArea: 'left', margin: '5px', marginLeft: '10px' }}>
                                 <Text type="body1"                   text={leftTitle} />
-                                <Text type="body2" color="secondary" text={leftBody} />
+                                <Text type="body2" color="textSecondary" text={leftBody} />
                             </div>
                             <div style={{ gridArea: 'right', margin: '5px', marginRight: '10px', marginLeft: '-10px' }}>
                                 <Text type="body1" align="left"                   text={rightTitle} />
-                                <Text type="body2" color="secondary" align="left" text={rightBody} />
+                                <Text type="body2" color="textSecondary" align="left" text={rightBody} />
                             </div>
                         </div>
                     </Card>
@@ -310,12 +310,12 @@ const SubTextBox = () => (
                         <div className="subtext-grid" style={{ gridArea: 'right', backgroundColor: theme.palette.primary[500] }}>
                             <div style={{gridArea: 'left', padding: '5px', paddingLeft: '35%', backgroundColor: 'white' }}>
                                 <Text type="body1" align="left"                   text={leftTitle} />
-                                <Text type="body2" color="secondary" align="left" text={leftBody} />
+                                <Text type="body2" color="textSecondary" align="left" text={leftBody} />
                             </div>
 
                             <div style={{gridArea: 'right', padding: '5px', paddingLeft: '25%', backgroundColor: 'white'}}>
                               <Text type="body1" align="left"                   text={rightTitle} />
-                              <Text type="body2" color="secondary" align="left" text={rightBody} />
+                              <Text type="body2" color="textSecondary" align="left" text={rightBody} />
                             </div>
                         </div>
                     </div>
@@ -368,14 +368,14 @@ const FAQ = () => (
         <br/>
         <FaqCard
             question="How can I help with the event?"
-            answer={ <p>Registration for volunteers will open closer to the event, so sign up for our mailing list using the Stay Posted button above and follow us on social media to be notified when it opens! If you are interested in being a mentor, please send us an email at <a href="mailto:hello@equithon.org">hello@equithon.org</a>.</p>}
+            answer={ <span>Registration for volunteers will open closer to the event, so sign up for our mailing list using the Stay Posted button above and follow us on social media to be notified when it opens! If you are interested in being a mentor, please send us an email at <a href="mailto:hello@equithon.org">hello@equithon.org</a>.</span>}
             number="7."
         />
         <br/>
         <FaqCard
             question="Have more questions?"
             number="8."
-            answer={ <p>Send us an email at <a href="mailto:hello@equithon.org">hello@equithon.org</a>.</p> }
+            answer={ <span>Send us an email at <a href="mailto:hello@equithon.org">hello@equithon.org</a>.</span> }
         />
     </div>
 );
