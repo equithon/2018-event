@@ -67,7 +67,7 @@ export default class ForgotPasswordModal extends Component {
                 <div className="center-screen-modal">
                     <Paper className="modal-paper" elevation={5}>
                         <Text color="primary" type="headline" align="center" text="Forget your password?" />
-                        <Text color="secondary" type="body2" align="center"
+                        <Text color="textSecondary" type="body2" align="center"
                             text="Reset your password by entering your email address below." />
 
                         <form onSubmit={this.handleSubmit}>

@@ -476,7 +476,7 @@ class Apply extends Component {
                 {/* Display application submission status and any errors that occur */}
                 <div style={{ gridArea: 'application-label-row', paddingTop: '30px' }}>
                     <Text align="left" color="primary" type="title"
-                        text={ <div>Application > <em>{ (this.state.submitted) ? 'Submitted' : 'Incomplete' }</em></div> } />
+                        text={ <p>Application > <em>{ (this.state.submitted) ? 'Submitted' : 'Incomplete' }</em></p> } />
 
                     {/* Informative chips */}
                     <div style={{ display: 'grid', gridRowGap: '10px', padding: '10px', justifyContent: 'center' }}>
