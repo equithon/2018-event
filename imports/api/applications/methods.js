@@ -165,7 +165,14 @@ export const getNextAppForReview = new ValidatedMethod({
 
         /* Find a submitted application that has less than 2 reviewers */
         var appToReview = Applications.findOne({
-            submitted: true, $or: [ { ratings: { $exists: false } }, { 'ratings.1': { $exists: false } } ]
+            submitted: true,
+            $or: [
+                { ratings: { $exists: false } },                    // No ratings OR
+                { $and: [                                           //
+                    { 'ratings.1': { $exists: false } },            // less than 2 ratings AND
+                    { 'ratings.0.reviewer': { $ne: this.userId } }  // we have not rated it yet
+                ]}
+            ]
         }, {
             fields: {
                 experience: 1,
@@ -179,14 +186,8 @@ export const getNextAppForReview = new ValidatedMethod({
             }
         });
 
-        /* Only return the application if we haven't reviewed it already */
-        if (!appToReview || (appToReview.ratings && appToReview.ratings.find(function(rating) {
-            return (rating.reviewer === this.userId) ? rating : undefined;
-        }.bind(this)))) {
-            return undefined;
-        }
 
-        delete appToReview.ratings;
+        if (appToReview) delete appToReview.ratings;
         return appToReview;
     }
 });
