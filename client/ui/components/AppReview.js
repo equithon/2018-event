@@ -128,7 +128,7 @@ export default class AppReview extends Component {
             }
         }
 
-        return (answers.length > 0) ? <u>{answers}</u> : 'No answers selected';
+        return (answers.length > 0) ? <span>{answers}</span> : 'No answers selected';
     }
 
 
