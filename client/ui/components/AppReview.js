@@ -4,6 +4,7 @@ import { Tracker } from 'meteor/tracker';
 
 import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField';
+import Checkbox from 'material-ui/Checkbox';
 
 import Text from '/client/ui/components/Text.js';
 import { valuesAndMessages, experienceQuestion, hackathonQuestion, goalsQuestion, categoriesQuestion,
@@ -28,6 +29,10 @@ export default class AppReview extends Component {
 
             app: {},
             passion: 0,
+
+            // Verifications
+            local: false,
+            grad: false,
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -49,6 +54,10 @@ export default class AppReview extends Component {
         var rating = {
             appId: this.state.app._id,
             passion: Number(this.state.passion),
+
+            // Verifications
+            local: this.state.local,
+            grad: this.state.grad,
         };
 
         Meteor.call('applications.submitRating', rating, (err, res) => {
@@ -138,42 +147,54 @@ export default class AppReview extends Component {
                 {/* Header */}
                 <Header gridName="qa-header" left="Question" right="Answer" />
 
-                {/* Experience Level */}
-                <AppQA gridName="experience" question={experienceQuestion}
-                    answer={ this.getAnswerForValue('experience') } />
+                <div style={{ gridArea: "qa-body" }}>
+                    {/* Graduation Date */}
+                    <AppQA question="Year of Graduation (should be greater than 2018):" answer={ this.state.app.yog } />
 
-                {/* Hackathon Experience */}
-                <AppQA gridName="hackathon" question={hackathonQuestion}
-                    answer={ this.getAnswerForValue('hackathon') } />
+                    {/* Location */}
+                    <AppQA question="Where are you travelling from?" answer={ this.state.app.travellingFrom } />
 
-                {/* Hear About */}
-                <AppQA gridName="hearAbout" question={hearAboutQuestion}
-                    answer={ this.getAnswerForValue('hearAbout') } />
+                    {/* Experience Level */}
+                    <AppQA question={experienceQuestion} answer={ this.getAnswerForValue('experience') } />
 
-                {/* Goals */}
-                <AppQA gridName="goals" question={goalsQuestion}
-                    answer={ this.getAnswersForValue('goals') } />
+                    {/* Hackathon Experience */}
+                    <AppQA question={hackathonQuestion} answer={ this.getAnswerForValue('hackathon') } />
 
-                {/* Categories of Interest */}
-                <AppQA gridName="categories" question={categoriesQuestion}
-                    answer={ this.getAnswersForValue('categories') } />
+                    {/* Hear About */}
+                    <AppQA question={hearAboutQuestion} answer={ this.getAnswerForValue('hearAbout') } />
 
-                {/* Workshops of Interest */}
-                <AppQA gridName="workshops" question={workshopsQuestion}
-                    answer={ this.getAnswersForValue('workshops') } />
+                    {/* Goals */}
+                    <AppQA question={goalsQuestion} answer={ this.getAnswersForValue('goals') } />
 
-                {/* Long Answer */}
-                <div style={{ gridArea: 'longAnswer' }}>
-                    <Text type="body1" text={<strong>{longAnswerQuestion}</strong>} /><br/>
-                    <Text type="body1" text={this.state.app.longAnswer} />
+                    {/* Categories of Interest */}
+                    <AppQA question={categoriesQuestion} answer={ this.getAnswersForValue('categories') } />
+
+                    {/* Workshops of Interest */}
+                    <AppQA question={workshopsQuestion} answer={ this.getAnswersForValue('workshops') } />
+
+                    {/* Long Answer */}
+                    <div style={{ paddingTop: '10px' }}>
+                        <Text type="body1" text={<strong>{longAnswerQuestion}</strong>} /><br/>
+                        <Text type="body1" text={this.state.app.longAnswer} />
+                    </div>
                 </div>
 
-                {/* Ratings Header */}
-                <Header gridName="ratings-header" left="Criteria" right="Rating" />
+                {/* Ratings */}
+                <Text style={{ gridArea: 'ratings-header' }} color="primary" type="headline" text="Ratings" />
+                <div style={{ gridArea: 'ratings-body' }}>
+                    {/* Passion Rating */}
+                    <Rating criteria="Passion:" type="number" value={this.state.passion}
+                        onChange={this.handleChange('passion')} />
 
-                {/* Passion Rating */}
-                <Rating gridName="passion-rating" criteria="Passion:" type="number" value={this.state.passion}
-                    onChange={this.handleChange('passion')} />
+                    {/* Manual Verifications */}
+                    {/* Local? */}
+                    <Verification criteria="Is this application from Waterloo?" value={this.state.local}
+                        onChange={ ((event) => this.setState({ local: event.target.checked })).bind(this) } />
+
+                    {/* Student? */}
+                    <Verification criteria="Is this application's graduation date after 2018?" value={this.state.grad}
+                        onChange={ ((event) => this.setState({ grad: event.target.checked })).bind(this) } />
+                </div>
 
                 {/* Submission Button */}
                 <div className="split-column-row" style={{ gridArea: 'submit', textAlign: 'center', width: '100%' }}>
@@ -222,22 +243,31 @@ const Header = ({ gridName, left, right }) => (
     </div>
 );
 
-const AppQA = ({ gridName, question, answer }) => (
-    <div className="split-column-row" style={{ gridArea: gridName, gridColumnGap: '20px' }}>
+const AppQA = ({ question, answer }) => (
+    <div className="split-column-row" style={{ gridColumnGap: '20px', paddingTop: '10px', paddingBottom: '10px' }}>
         <Text style={{ gridArea: 'left' }} type="body1" text={<strong>{question}</strong>} />
-        <Text style={{ gridArea: 'right' }} type="body1"
-            text={answer} />
+        <Text style={{ gridArea: 'right' }} type="body1" text={answer} />
     </div>
 );
 
-const Rating = ({ gridName, criteria, onChange, value }) => (
-    <div className="split-column-row" style={{ gridArea: gridName }}>
+const Rating = ({ criteria, onChange, value }) => (
+    <div>
         <Text style={{ gridArea: 'left' }} type="body1" text={criteria} />
         <TextField
-            style={{ width: '50px' }}
+            style={{ width: '50px', paddingBottom: '10px' }}
             type="number"
             onChange={onChange}
             value={value}
+        />
+    </div>
+);
+
+const Verification = ({ criteria, onChange, value }) => (
+    <div>
+        <Text style={{ gridArea: 'left' }} type="body1" text={criteria} />
+        <Checkbox style={{ gridArea: 'right' }}
+            checked={value}
+            onChange={onChange}
         />
     </div>
 );

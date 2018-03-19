@@ -68,8 +68,13 @@ Schema.applicationSubmit = new SimpleSchema({
     ratings: { type: Array, optional: true },
     'ratings.$': Object,
     'ratings.$.reviewer': String,
+
+    // Rating criteria and values
     'ratings.$.passion': String,
 
+    // Manual verifications
+    local: { type: Boolean, optional: true },
+    grad: { type: Boolean, optional: true },
 }, { tracker: Tracker }); // hook
 
 /* Application save schema (keys become optional) */
@@ -131,7 +136,13 @@ Schema.applicationSave = new SimpleSchema({
     ratings: { type: Array, optional: true },
     'ratings.$': Object,
     'ratings.$.reviewer': String,
+    //
+    // Rating criteria and values
     'ratings.$.passion': String,
+
+    // Manual verifications
+    local: { type: Boolean, optional: true },
+    grad: { type: Boolean, optional: true },
 });
 
 /* Configure appplication schema */
