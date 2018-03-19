@@ -209,15 +209,9 @@ body {
     grid-template-rows: auto;
     grid-template-areas:
         "qa-header"
-        "experience"
-        "hackathon"
-        "hearAbout"
-        "goals"
-        "categories"
-        "workshops"
-        "longAnswer"
+        "qa-body"
         "ratings-header"
-        "passion-rating"
+        "ratings-body"
         "submit"
         "footer";
 

@@ -175,6 +175,8 @@ export const getNextAppForReview = new ValidatedMethod({
             ]
         }, {
             fields: {
+                yog: 1,
+                travellingFrom: 1,
                 experience: 1,
                 hackathon: 1,
                 hearAbout: 1,
@@ -185,7 +187,6 @@ export const getNextAppForReview = new ValidatedMethod({
                 ratings: 1,
             }
         });
-
 
         if (appToReview) delete appToReview.ratings;
         return appToReview;
@@ -201,6 +202,10 @@ export const submitRating = new ValidatedMethod({
     validate: new SimpleSchema({
         appId: { type: String },
         passion: { type: Number, min: 0, max: 5 },
+
+        // Verifications
+        local: { type: Boolean },
+        grad: { type: Boolean },
     }).validator(),
 
     run(rating) {
@@ -225,12 +230,20 @@ export const submitRating = new ValidatedMethod({
         }
 
         /* Update the application corresponding to the given appId and a new rating and reviewer */
-        Applications.update({ _id: rating.appId} , {
+        Applications.update({ _id: rating.appId } , {
             $push: {
                 ratings: {
                     reviewer: this.userId,
+
+                    // Rating criteria and values
                     passion: rating.passion,
-                }
+                },
+            },
+
+            // Verifications
+            $set: {
+                local: rating.local,
+                grad: rating.grad
             }
         });
     }
