@@ -28,7 +28,13 @@ export default class AppReview extends Component {
             confirmationModalOpen: false,
 
             app: {},
-            passion: 0,
+
+            // Ratings
+            goalsRating: 0,
+            categoriesRating: 0,
+            longAnswerRating1: 0,
+            longAnswerRating2: 0,
+            longAnswerRating3: 0,
 
             // Verifications
             local: false,
@@ -53,7 +59,13 @@ export default class AppReview extends Component {
     handleSubmit() {
         var rating = {
             appId: this.state.app._id,
-            passion: Number(this.state.passion),
+
+            // Ratings
+            goalsRating: Number(this.state.goalsRating),
+            categoriesRating: Number(this.state.categoriesRating),
+            longAnswerRating1: Number(this.state.longAnswerRating1),
+            longAnswerRating2: Number(this.state.longAnswerRating2),
+            longAnswerRating3: Number(this.state.longAnswerRating3),
 
             // Verifications
             local: this.state.local,
@@ -182,10 +194,24 @@ export default class AppReview extends Component {
                 {/* Ratings */}
                 <Text style={{ gridArea: 'ratings-header' }} color="primary" type="headline" text="Ratings" />
                 <div style={{ gridArea: 'ratings-body' }}>
-                    {/* Passion Rating */}
-                    <Rating criteria="Passion:" type="number" value={this.state.passion}
-                        onChange={this.handleChange('passion')} />
+                    <Text style={{ gridArea: 'ratings-header' }} color="primary" type="subheading" text="Selection Ratings" />
+                    {/* Goals Rating */}
+                    <Rating criteria="Goals:" type="number" value={this.state.goalsRating}
+                        onChange={ this.handleChange('goalsRating') } />
+                    {/* Categories Rating */}
+                    <Rating criteria="Categories:" type="number" value={this.state.categoriesRating}
+                        onChange={ this.handleChange('categoriesRating') } />
 
+                    {/* Long Answer Ratings - See application rubric for more details */}
+                    <Text style={{ gridArea: 'ratings-header' }} color="primary" type="subheading" text="Long Answer Ratings" />
+                    <Rating criteria="Specific Issue:" type="number" value={this.state.longAnswerRating1}
+                        onChange={ this.handleChange('longAnswerRating1') } />
+                    <Rating criteria="Specific Issue:" type="number" value={this.state.longAnswerRating2}
+                        onChange={ this.handleChange('longAnswerRating2') } />
+                    <Rating criteria="Specific Issue:" type="number" value={this.state.longAnswerRating3}
+                        onChange={ this.handleChange('longAnswerRating3') } />
+
+                    <Text style={{ gridArea: 'ratings-header' }} color="primary" type="subheading" text="Manual Verifications" />
                     {/* Manual Verifications */}
                     {/* Local? */}
                     <Verification criteria="Is this application from Waterloo?" value={this.state.local}
