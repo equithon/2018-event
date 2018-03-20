@@ -70,7 +70,11 @@ Schema.applicationSubmit = new SimpleSchema({
     'ratings.$.reviewer': String,
 
     // Rating criteria and values
-    'ratings.$.passion': String,
+    'ratings.$.goalsRating': Number,
+    'ratings.$.categoriesRating': Number,
+    'ratings.$.longAnswerRating1': Number,
+    'ratings.$.longAnswerRating2': Number,
+    'ratings.$.longAnswerRating3': Number,
 
     // Manual verifications
     local: { type: Boolean, optional: true },
@@ -136,9 +140,13 @@ Schema.applicationSave = new SimpleSchema({
     ratings: { type: Array, optional: true },
     'ratings.$': Object,
     'ratings.$.reviewer': String,
-    //
+
     // Rating criteria and values
-    'ratings.$.passion': String,
+    'ratings.$.goalsRating': Number,
+    'ratings.$.categoriesRating': Number,
+    'ratings.$.longAnswerRating1': Number,
+    'ratings.$.longAnswerRating2': Number,
+    'ratings.$.longAnswerRating3': Number,
 
     // Manual verifications
     local: { type: Boolean, optional: true },

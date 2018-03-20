@@ -201,7 +201,13 @@ export const submitRating = new ValidatedMethod({
 
     validate: new SimpleSchema({
         appId: { type: String },
-        passion: { type: Number, min: 0, max: 5 },
+
+        // Ratings
+        goalsRating:       { type: Number, min: 0, max: 1 },
+        categoriesRating:  { type: Number, min: 0, max: 1 },
+        longAnswerRating1: { type: Number, min: 0, max: 2 },
+        longAnswerRating2: { type: Number, min: 0, max: 3 },
+        longAnswerRating3: { type: Number, min: 0, max: 3 },
 
         // Verifications
         local: { type: Boolean },
@@ -235,8 +241,12 @@ export const submitRating = new ValidatedMethod({
                 ratings: {
                     reviewer: this.userId,
 
-                    // Rating criteria and values
-                    passion: rating.passion,
+                    // Ratings
+                    goalsRating: rating.goalsRating,
+                    categoriesRating: rating.categoriesRating,
+                    longAnswerRating1: rating.longAnswerRating1,
+                    longAnswerRating2: rating.longAnswerRating2,
+                    longAnswerRating3: rating.longAnswerRating3,
                 },
             },
 
