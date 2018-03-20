@@ -194,7 +194,9 @@ export default class AppReview extends Component {
                 {/* Ratings */}
                 <Text style={{ gridArea: 'ratings-header' }} color="primary" type="headline" text="Ratings" />
                 <div style={{ gridArea: 'ratings-body' }}>
-                    <Text style={{ gridArea: 'ratings-header' }} color="primary" type="subheading" text="Selection Ratings" />
+                    <Text color="primary" type="subheading"
+                        text={ <a href="https://docs.google.com/document/d/1HU4dUOhbEezH64oPvRjaYigrj47tSMoyVsAqGbfyW1c/edit?pli=1">Rubric</a> } />
+                    <Text color="primary" type="subheading" text="Selection Ratings" />
                     {/* Goals Rating */}
                     <Rating criteria="Goals:" type="number" value={this.state.goalsRating}
                         onChange={ this.handleChange('goalsRating') } />
@@ -203,7 +205,7 @@ export default class AppReview extends Component {
                         onChange={ this.handleChange('categoriesRating') } />
 
                     {/* Long Answer Ratings - See application rubric for more details */}
-                    <Text style={{ gridArea: 'ratings-header' }} color="primary" type="subheading" text="Long Answer Ratings" />
+                    <Text color="primary" type="subheading" text="Long Answer Ratings" />
                     <Rating criteria="Specific Issue:" type="number" value={this.state.longAnswerRating1}
                         onChange={ this.handleChange('longAnswerRating1') } />
                     <Rating criteria="Specific Issue:" type="number" value={this.state.longAnswerRating2}
@@ -211,7 +213,7 @@ export default class AppReview extends Component {
                     <Rating criteria="Specific Issue:" type="number" value={this.state.longAnswerRating3}
                         onChange={ this.handleChange('longAnswerRating3') } />
 
-                    <Text style={{ gridArea: 'ratings-header' }} color="primary" type="subheading" text="Manual Verifications" />
+                    <Text color="primary" type="subheading" text="Manual Verifications" />
                     {/* Manual Verifications */}
                     {/* Local? */}
                     <Verification criteria="Is this application from Waterloo?" value={this.state.local}
