@@ -5,9 +5,11 @@ import ReCaptcha from 'react-recaptcha';
 import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
 
+import checkAppCloseDate from '/imports/api/AppCloseDate.js';
+
 import Text from '/client/ui/components/Text.js';
 import FlatColoredButton from '/client/ui/components/buttons/FlatColoredButton.js';
-import { AccountsFooter } from '/client/ui/components/Accounts.js';
+import { AccountsFooter, AppClosedMessage } from '/client/ui/components/Accounts.js';
 import ErrorMessageChip from '/client/ui/components/notif-chips/ErrorMessageChip.js';
 
 const signupStyle = {
@@ -123,6 +125,13 @@ export default class Signup extends Component {
      */
     render() {
         const { classes } = this.props;
+
+        // Make sure applications haven't closed
+        try {
+            checkAppCloseDate();
+        } catch (e) {
+            return <AppClosedMessage classes={classes} error={e} />;
+        }
 
         return(
             <div className="accounts-grid">

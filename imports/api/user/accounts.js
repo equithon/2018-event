@@ -3,6 +3,8 @@ import { Meteor } from 'meteor/meteor';
 import { check, Match } from 'meteor/check';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 
+import checkAppCloseDate from '/imports/api/AppCloseDate.js';
+
 
 /*
  * Configure accounts in our app.
@@ -42,6 +44,9 @@ Accounts.validateNewUser((user) => {
  * We also add new fields to the default user.
  */
 Accounts.onCreateUser((options, user) => {
+    /* Don't accept any new users after application deadline */
+    checkAppCloseDate();
+
     /* Verify Captcha (synchronously so as to let the error propagate to the client) */
     Meteor.call('user.verifyCaptcha', options.captchaToken);
     console.log("VERIFIED CAPTCHA SUPPOSEDLY");

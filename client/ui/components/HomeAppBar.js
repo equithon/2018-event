@@ -5,6 +5,8 @@ import { Tracker } from 'meteor/tracker';
 import MediaQuery from 'react-responsive';
 import { Link } from 'react-router-dom';
 
+import { appsClosed } from '/imports/api/AppCloseDate.js';
+
 import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
 import Button from 'material-ui/Button';
@@ -43,14 +45,22 @@ export default class HomeAppBar extends Component {
         this.userC.stop();
     }
 
+    renderAppButton(closed) {
+        if (this.state.isTeam) return <AppbarButton link="/team" text="Team Home" iconClass="fas fa-home" />;
+        else if (closed) return <AppbarButton link="/apply" text="View Application" iconClass="fas fa-file" />;
+        return <AppbarButton link="/apply" text="Apply to Equithon" iconClass="fas fa-file" />;
+    }
+
     render() {
+        var closed = appsClosed();
+
         return (
             <AppBar id="appbar" position="fixed" color="inherit">
                 <Toolbar>
                     <div id="app-bar-grid">
                         {/* Application */}
                         <div style={{ gridArea: 'application', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                            <AppbarButton link="/apply" text="Apply to Equithon" iconClass="fas fa-file" />
+                            { this.renderAppButton(closed) }
                         </div>
 
                         {/* Logo */}
@@ -61,7 +71,7 @@ export default class HomeAppBar extends Component {
                         </div>
 
                         {/* Signup */}
-                        { (Meteor.userId()) ? false :
+                        { (closed || Meteor.userId()) ? false :
                             <div style={{ gridArea: 'signup', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                                 <AppbarButton link="/accounts/signup" text="Signup" iconClass="fas fa-user-plus" />
                             </div>

@@ -6,6 +6,8 @@ import { clientSubmitSchema, clientSaveSchema } from '/imports/api/Schema.js';
 import Applications from './applications.js';
 import { rateLimit } from '../RateLimiter.js';
 
+import checkAppCloseDate from '/imports/api/AppCloseDate.js';
+
 
 /*
  * Publish the fields of the application to the user who owns the application.
@@ -43,6 +45,9 @@ export const submitApplication = new ValidatedMethod({
     validate: clientSubmitSchema.validator(),
 
     run(application) {
+        /* Validate applications have not ended */
+        checkAppCloseDate();
+
         /* Validate user is logged in in order to submit application */
         if (!this.userId) {
             throw new Meteor.Error('applications.submit.unauthorized',
@@ -100,6 +105,9 @@ export const saveApplication = new ValidatedMethod({
     validate: clientSaveSchema.validator(),
 
     run(application) {
+        /* Validate applications have not ended */
+        checkAppCloseDate();
+
         /* Validate user is logged in in order to save application */
         if (!this.userId) {
             throw new Meteor.Error('application.save.unauthorized',

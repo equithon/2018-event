@@ -16,6 +16,8 @@ import { FormGroup, FormControlLabel, FormLabel, FormControl, FormHelperText } f
 import Input, { InputLabel } from 'material-ui/Input';
 import { withStyles } from 'material-ui/styles';
 
+import { appsClosed } from '/imports/api/AppCloseDate.js';
+
 import Text from "/client/ui/components/Text.js";
 import FlatColoredButton from '/client/ui/components/buttons/FlatColoredButton.js';
 import SuccessMessageChip from '/client/ui/components/notif-chips/SuccessMessageChip.js';
@@ -114,6 +116,10 @@ export const workshopsQuestion = "What kinds of workshops would you be likely to
 export const longAnswerQuestion = "What is an equity issue you are passionate about and want to take action to solve? Why is tackling this issue important to you? (Try to keep your response to 400 words or less)";
 
 const unverifiedMessage = <p>Please verify your email address in order to submit your application. Click <a style={{ color: 'white' }} href="/accounts/verify-email">here</a> to resend.</p>;
+
+
+// Whether or not applications have closed
+const closed = appsClosed();
 
 
 const styles = theme => ({
@@ -327,7 +333,7 @@ class Apply extends Component {
 
     /* General purpose onChange handler */
     handleFieldUpdate = name => event => {
-        if (!this.state.submitted) {
+        if (!this.state.submitted && !closed) {
             this.setState({
                 [name]: event.target.value,
             });
@@ -336,7 +342,7 @@ class Apply extends Component {
 
     /* onChange handler for Checkboxes */
     handleCheckedUpdate = name => (event, checked) => {
-        if (!this.state.submitted) {
+        if (!this.state.submitted && !closed) {
             this.setState({
                 [name]: {   // MERGE [event.target.value into this.state[name] rather than replace
                     ...this.state[name], [event.target.value]: checked
@@ -461,8 +467,10 @@ class Apply extends Component {
     render() {
         const { classes } = this.props;
 
-        if (!Meteor.userId()) return <Redirect to="/accounts/login" />;
-        if (this.state.currentUser && this.state.currentUser.isTeam) return <Redirect to="/team" />;
+        // Redirect user depending on if they are logged in and if applications have closed
+        if (!Meteor.userId() && closed) return <Redirect to="/accounts/login" />;
+        else if (!Meteor.userId()) return <Redirect to="/accounts/signup" />;
+
         return(
             <div id="application-form-wrapper">
                 <HomeAppBar />
@@ -627,28 +635,31 @@ class Apply extends Component {
                             }
                         </div>
 
-                        <div className="split-column-row" style={{ gridRowGap: '10px' }}>
-                            <div style={{ gridArea: 'left', textAlign: 'center' }}>
-                                <FlatColoredButton
-                                    disabled={ this.state.submitted }
-                                    onClick={this.saveApplication}
-                                    content="Save"
-                                />
+                        {/* Do not display save and submit buttons if applications have closed */}
+                        { (closed) ? false :
+                            <div className="split-column-row" style={{ gridRowGap: '10px' }}>
+                                <div style={{ gridArea: 'left', textAlign: 'center' }}>
+                                    <FlatColoredButton
+                                        disabled={ this.state.submitted }
+                                        onClick={this.saveApplication}
+                                        content="Save"
+                                    />
+                                </div>
+                                <div style={{ gridArea: 'right', textAlign: 'center' }}>
+                                    <FlatColoredButton
+                                        disabled={ this.state.submitted }
+                                        onClick={this.handleConfirmationModalOpen}
+                                        content="Submit"
+                                    />
+                                    <ConfirmationModal
+                                        open={this.state.confirmationModalOpen}
+                                        onClose={this.handleConfirmationModalClose}
+                                        onYes={this.submitApplication}
+                                        message="Are you sure you would like to submit your application? You cannot edit after submitting."
+                                    />
+                                </div>
                             </div>
-                            <div style={{ gridArea: 'right', textAlign: 'center' }}>
-                                <FlatColoredButton
-                                    disabled={ this.state.submitted }
-                                    onClick={this.handleConfirmationModalOpen}
-                                    content="Submit"
-                                />
-                                <ConfirmationModal
-                                    open={this.state.confirmationModalOpen}
-                                    onClose={this.handleConfirmationModalClose}
-                                    onYes={this.submitApplication}
-                                    message="Are you sure you would like to submit your application? You cannot edit after submitting."
-                                />
-                            </div>
-                        </div>
+                        }
                     </div>
                 </Paper>
                 <div className="footer"></div>
