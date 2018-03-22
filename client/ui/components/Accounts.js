@@ -108,6 +108,33 @@ export const AccountsFooter = ({ classes, link, text, buttonText }) => (
     </div>
 );
 
+/*
+ * Empty footer for spacing
+ */
+export const EmptyAccountsFooter = () => (
+    <div style={{ gridArea: 'footer', padding: '30px' }}></div>
+);
+
+/*
+ * Applications closed error message.
+ */
+export const AppClosedMessage = ({ classes, error }) => (
+    <div className="accounts-grid">
+        <div style={{ gridArea: 'body', textAlign: 'center' }}>
+            {/* Logo */}
+            <img className="accounts-logo" src="/logos/logo-bulb_256x256.png" />
+
+            {/* Applications closed message */}
+            <Text style={{ color: 'white' }} align="center" type="display2"
+                text="Unfortunately applications have closed. We hope you try again next year!" /><br/>
+            <Text style={{ color: 'white' }} align="center" type="headline"
+                text={error.error} />
+        </div>
+
+        <AccountsFooter classes={classes} link="/" text="" buttonText="HOME" />
+    </div>
+);
+
 /* Maybe useful? */
 const StaffOption = ({ classes }) => (
     <div style={{ textAlign: 'right' }}>

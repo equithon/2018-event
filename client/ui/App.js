@@ -107,7 +107,7 @@ export default class App extends Component {
 
                             <br/>
                             <div className='social-media-buttons'>
-                                <div style={{gridArea: 'email', padding: '10px', width: 'auto', textAlign: 'center'}}>
+                                <div style={{gridArea: 'email', padding: '10px', width: 'auto', textAlign: 'center'}}>  {/* TODO: Need new applications closed buttons */}
                                     <Link className="button-link" to="/apply">
                                         <FlatColoredButton content="Apply Now" />
                                     </Link>
@@ -230,6 +230,8 @@ export default class App extends Component {
  * Text to be displayed in the title row.
  * Props:
  * - align - Alignment applied to the text.
+ *
+ * TODO: Needs new applications closed text
  */
 const TitleRowText = ({ align }) => (
     <Text color="primary" type="display2" align={align}

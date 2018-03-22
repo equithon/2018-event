@@ -7,10 +7,12 @@ import Paper from 'material-ui/Paper';
 import Chip from 'material-ui/Chip';
 import Avatar from 'material-ui/Avatar';
 
+import { appsClosed } from '/imports/api/AppCloseDate.js';
+
 import Text from '/client/ui/components/Text.js';
 import FlatColoredButton from '/client/ui/components/buttons/FlatColoredButton.js';
 import ForgotPasswordModal from '/client/ui/components/modals/ForgotPasswordModal.js';
-import { AccountsFooter } from '/client/ui/components/Accounts.js';
+import { AccountsFooter, EmptyAccountsFooter } from '/client/ui/components/Accounts.js';
 import ErrorMessageChip from '/client/ui/components/notif-chips/ErrorMessageChip.js';
 
 
@@ -82,6 +84,8 @@ export default class Login extends Component {
      */
     render() {
         const { classes } = this.props;
+
+        var closed = appsClosed();
 
         return(
             <div className="accounts-grid">
@@ -169,7 +173,10 @@ export default class Login extends Component {
                 </div>
 
                 {/* Footer */}
-                <AccountsFooter classes={classes} link="/accounts/signup" text="New User?" buttonText="CREATE AN ACCOUNT" />
+                { (closed) ?
+                    <EmptyAccountsFooter /> :
+                    <AccountsFooter classes={classes} link="/accounts/signup" text="New User?" buttonText="CREATE AN ACCOUNT" />
+                }
             </div>
         );
     }
