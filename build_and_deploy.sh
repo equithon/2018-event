@@ -72,13 +72,22 @@ sed -i "s/\"version\": \".*\"/\"version\": \"${2}\"/" 'package.json' # Substitut
 
 echo "Bundle was built successfully"
 
-echo "Deploying application bundle to Elastic Beanstalk"
-if [[ "$1" == "${STAGING}" && -n "$2" && -n "$3" ]]; then
-  eb deploy "${ENV_STAGING}" -l "$2" -m "$3"
-elif [[ "$1" == "${STAGING}" && -n "$2" ]]; then
-  eb deploy "${ENV_STAGING}" -l "$2"
+which eb > /dev/null
+
+if [[ "$?" == 0 ]]; then
+  echo "Deploying application bundle to Elastic Beanstalk"
+  if [[ "$1" == "${STAGING}" && -n "$2" && -n "$3" ]]; then
+    eb deploy "${ENV_STAGING}" -l "$2" -m "$3"
+  elif [[ "$1" == "${STAGING}" && -n "$2" ]]; then
+    eb deploy "${ENV_STAGING}" -l "$2"
+  else
+    echo "ERROR: Invalid combination of environments and application versions. Not deploying."
+  fi
 else
-  echo "ERROR: Invalid combination of environments and application versions. Not deploying."
+  echo "Zipping contents for manual deployment"
+  zip -r "${2}.zip" .
 fi
+
+
 
 popd
