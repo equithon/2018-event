@@ -205,9 +205,9 @@ export const submitRating = new ValidatedMethod({
         // Ratings
         goalsRating:       { type: Number, min: 0, max: 1 },
         categoriesRating:  { type: Number, min: 0, max: 1 },
-        longAnswerRating1: { type: Number, min: 0, max: 2 },
-        longAnswerRating2: { type: Number, min: 0, max: 3 },
-        longAnswerRating3: { type: Number, min: 0, max: 3 },
+        specificIssue: { type: Number, min: 0, max: 2 },
+        whyImportant: { type: Number, min: 0, max: 3 },
+        passion: { type: Number, min: 0, max: 3 },
 
         // Verifications
         local: { type: Boolean },
@@ -244,9 +244,9 @@ export const submitRating = new ValidatedMethod({
                     // Ratings
                     goalsRating: rating.goalsRating,
                     categoriesRating: rating.categoriesRating,
-                    longAnswerRating1: rating.longAnswerRating1,
-                    longAnswerRating2: rating.longAnswerRating2,
-                    longAnswerRating3: rating.longAnswerRating3,
+                    specificIssue: rating.specificIssue,
+                    whyImportant: rating.whyImportant,
+                    passion: rating.passion,
                 },
             },
 

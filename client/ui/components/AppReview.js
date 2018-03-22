@@ -32,9 +32,9 @@ export default class AppReview extends Component {
             // Ratings
             goalsRating: 0,
             categoriesRating: 0,
-            longAnswerRating1: 0,
-            longAnswerRating2: 0,
-            longAnswerRating3: 0,
+            specificIssue: 0,
+            whyImportant: 0,
+            passion: 0,
 
             // Verifications
             local: false,
@@ -63,9 +63,9 @@ export default class AppReview extends Component {
             // Ratings
             goalsRating: Number(this.state.goalsRating),
             categoriesRating: Number(this.state.categoriesRating),
-            longAnswerRating1: Number(this.state.longAnswerRating1),
-            longAnswerRating2: Number(this.state.longAnswerRating2),
-            longAnswerRating3: Number(this.state.longAnswerRating3),
+            specificIssue: Number(this.state.specificIssue),
+            whyImportant: Number(this.state.whyImportant),
+            passion: Number(this.state.passion),
 
             // Verifications
             local: this.state.local,
@@ -91,29 +91,47 @@ export default class AppReview extends Component {
 
     handleNext() {
         Meteor.call('applications.getNextAppForReview', (err, res) => {
+            this.setState({ success: false });
             if (err) {
                 this.setState({
                     app: {},
-                    success: false,
                     submitDisabled: false,
                     message: err.reason,
                 });
             } else if (res) {
+                var prevId = (this.state.app && this.state.app._id);
+
                 this.setState({
                     app: res,
-                    success: false,
                     submitDisabled: false,
                     message: '',
+
                 });
             } else {
                 this.setState({
                     app: {},
-                    success: false,
                     submitDisabled: true,
                     message: 'There are no more applications to review',
                 });
             }
+
+            // Reset review fields if the application we are displaying has changed
+            if (!res || prevId !== res._id) {
+                this.setState({
+                    // Ratings
+                    goalsRating: 0,
+                    categoriesRating: 0,
+                    specificIssue: 0,
+                    whyImportant: 0,
+                    passion: 0,
+
+                    // Verifications
+                    local: false,
+                    grad: false,
+                });
+            }
         });
+
     }
 
     handleChange = name => event => {
@@ -198,20 +216,20 @@ export default class AppReview extends Component {
                         text={ <a href="https://docs.google.com/document/d/1HU4dUOhbEezH64oPvRjaYigrj47tSMoyVsAqGbfyW1c/edit?pli=1">Rubric</a> } />
                     <Text color="primary" type="subheading" text="Selection Ratings" />
                     {/* Goals Rating */}
-                    <Rating criteria="Goals:" type="number" value={this.state.goalsRating}
+                    <Rating criteria="Goals [0,1]:" type="number" value={this.state.goalsRating}
                         onChange={ this.handleChange('goalsRating') } />
                     {/* Categories Rating */}
-                    <Rating criteria="Categories:" type="number" value={this.state.categoriesRating}
+                    <Rating criteria="Categories [0,1]:" type="number" value={this.state.categoriesRating}
                         onChange={ this.handleChange('categoriesRating') } />
 
                     {/* Long Answer Ratings - See application rubric for more details */}
                     <Text color="primary" type="subheading" text="Long Answer Ratings" />
-                    <Rating criteria="Specific Issue:" type="number" value={this.state.longAnswerRating1}
-                        onChange={ this.handleChange('longAnswerRating1') } />
-                    <Rating criteria="Specific Issue:" type="number" value={this.state.longAnswerRating2}
-                        onChange={ this.handleChange('longAnswerRating2') } />
-                    <Rating criteria="Specific Issue:" type="number" value={this.state.longAnswerRating3}
-                        onChange={ this.handleChange('longAnswerRating3') } />
+                    <Rating criteria="Specific Issue [0,2]:" type="number" value={this.state.specificIssue}
+                        onChange={ this.handleChange('specificIssue') } />
+                    <Rating criteria="Why is this important [0,3]:" type="number" value={this.state.whyImportant}
+                        onChange={ this.handleChange('whyImportant') } />
+                    <Rating criteria="Perceived passion [0,3]:" type="number" value={this.state.passion}
+                        onChange={ this.handleChange('passion') } />
 
                     <Text color="primary" type="subheading" text="Manual Verifications" />
                     {/* Manual Verifications */}
