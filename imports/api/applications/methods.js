@@ -171,30 +171,56 @@ export const getNextAppForReview = new ValidatedMethod({
         if (!user.isTeam) throw new Meteor.Error('applications.getNextAppForReview.unauthorizedUser',
             'You must be a member of the Equithon team to review applications');
 
-        /* Find a submitted application that has less than 2 reviewers */
-        var appToReview = Applications.findOne({
+        var appToReview;
+
+        /* First look for an application that user is reviewing but has not completed reviewing.*/
+        appToReview = Applications.findOne({
             submitted: true,
-            $or: [
-                { ratings: { $exists: false } },                    // No ratings OR
-                { $and: [                                           //
-                    { 'ratings.1': { $exists: false } },            // less than 2 ratings AND
-                    { 'ratings.0.reviewer': { $ne: this.userId } }  // we have not rated it yet
-                ]}
-            ]
-        }, {
-            fields: {
-                yog: 1,
-                travellingFrom: 1,
-                experience: 1,
-                hackathon: 1,
-                hearAbout: 1,
-                goals: 1,
-                categories: 1,
-                workshops: 1,
-                longAnswer: 1,
-                ratings: 1,
-            }
+            ratings: { $elemMatch: {
+                reviewer: { $eq: this.userId },
+                complete: { $eq: false }
+            }}
         });
+
+        /*
+         * If user is not currently reviewing an application,
+         * find a submitted application that has less than 2 reviewers.
+         */
+        if (!appToReview) {
+            appToReview = Applications.findOne({
+                submitted: true,
+                $or: [
+                    { ratings: { $exists: false } },                    // No ratings OR
+                    { $and: [                                           //
+                        { 'ratings.1': { $exists: false } },            // less than 2 ratings AND
+                        { 'ratings.0.reviewer': { $ne: this.userId } }  // we have not rated it yet
+                    ]}
+                ]
+            }, {
+                fields: {
+                    yog: 1,
+                    travellingFrom: 1,
+                    experience: 1,
+                    hackathon: 1,
+                    hearAbout: 1,
+                    goals: 1,
+                    categories: 1,
+                    workshops: 1,
+                    longAnswer: 1,
+                    ratings: 1,
+                }
+            });
+
+            /* Update application with an incomplete reviewer */
+            if (appToReview) Applications.update({ _id: appToReview._id }, {
+                $push: {
+                    ratings: {
+                        reviewer: this.userId,
+                        complete: false
+                    }
+                }
+            });
+        }
 
         if (appToReview) delete appToReview.ratings;
         return appToReview;
@@ -238,15 +264,18 @@ export const submitRating = new ValidatedMethod({
             'Application does not exist');
 
         if (app.ratings && app.ratings.find(function(rating) {
-            return (rating.reviewer === this.userId) ? rating : undefined;
+            return (rating.reviewer === this.userId && rating.complete) ? rating : undefined;
         }.bind(this))) {
             throw new Meteor.Error('applications.submitRating.alreadyReviewed', 'Application already reviewed');
         }
 
-        /* Update the application corresponding to the given appId and a new rating and reviewer */
-        Applications.update({ _id: rating.appId } , {
-            $push: {
-                ratings: {
+        /* Update the incomplete rating for an application corresponding to rating.appId with the complete rating */
+        Applications.update({
+            _id: rating.appId,
+            'ratings.reviewer': this.userId
+        }, {
+            $set: {
+                'ratings.$': {
                     reviewer: this.userId,
 
                     // Ratings
@@ -255,11 +284,11 @@ export const submitRating = new ValidatedMethod({
                     specificIssue: rating.specificIssue,
                     whyImportant: rating.whyImportant,
                     passion: rating.passion,
-                },
-            },
 
-            // Verifications
-            $set: {
+                    complete: true
+                },
+
+                // Verifications
                 local: rating.local,
                 grad: rating.grad
             }
