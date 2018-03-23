@@ -7,6 +7,8 @@ import { BrowserRouter as Router, Route} from 'react-router-dom';
 import {MuiThemeProvider} from 'material-ui/styles';
 import {Card, CardContent, CardMedia} from "material-ui";
 
+import { appsClosed } from '/imports/api/AppCloseDate.js';
+
 import HomeAppBar from '/client/ui/components/HomeAppBar.js';
 import Text from '/client/ui/components/Text.js';
 import {Facebook, Twitter, Instagram} from '/client/ui/components/buttons/SocialMedia.js';
@@ -108,12 +110,14 @@ export default class App extends Component {
                             <br/>
                             <div className='social-media-buttons'>
                                 <div style={{gridArea: 'email', padding: '10px', width: 'auto', textAlign: 'center'}}>  {/* TODO: Need new applications closed buttons */}
-                                    <Link className="button-link" to="/apply">
-                                        <FlatColoredButton content="Apply Now" />
-                                    </Link>
+                                    { (appsClosed()) ? false :
+                                        <Link className="button-link" to="/apply">
+                                            <FlatColoredButton content="Apply Now" />
+                                        </Link>
+                                    }
 
                                     {/* Spacing */}
-                                    <div style={{ padding: '5px' }}></div>
+                                    { (appsClosed()) ? false : <div style={{ padding: '5px' }}></div> }
 
                                     <FlatColoredButton onClick={this.handleSubModalOpen} content="Stay Posted" />
                                     <SubscriptionModal open={this.state.subModalOpen} onClose={this.handleClose} />
