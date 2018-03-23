@@ -1,5 +1,5 @@
 // Applications close Friday March 23rd 11:59:59 PM EDT
-const AppCloseDate = new Date(1521820799000);
+const AppCloseDate = new Date(1521863999000);
 const AppCloseDateString = AppCloseDate.toDateString();
 
 /*

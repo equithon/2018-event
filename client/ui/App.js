@@ -109,7 +109,7 @@ export default class App extends Component {
 
                             <br/>
                             <div className='social-media-buttons'>
-                                <div style={{gridArea: 'email', padding: '10px', width: 'auto', textAlign: 'center'}}>  {/* TODO: Need new applications closed buttons */}
+                                <div style={{gridArea: 'email', padding: '10px', width: 'auto', textAlign: 'center'}}>
                                     { (appsClosed()) ? false :
                                         <Link className="button-link" to="/apply">
                                             <FlatColoredButton content="Apply Now" />
@@ -234,13 +234,21 @@ export default class App extends Component {
  * Text to be displayed in the title row.
  * Props:
  * - align - Alignment applied to the text.
- *
- * TODO: Needs new applications closed text
  */
 const TitleRowText = ({ align }) => (
-    <Text color="primary" type="display2" align={align}
-          text="Applications for Equithon 2018 close March 18!"
-    />
+    <div>
+        { appsClosed() ?
+            <div>   {/* Special text for when applications are closed */}
+                <Text color="primary" type="display2" align={align}
+                    text="Applications for Equithon 2018 are now closed." />
+                <Text color="primary" type="headline" align={align}
+                    text="Decisions will be released at the beginning of April." />
+            </div> :
+            <Text color="primary" type="display2" align={align}
+                  text="Applications for Equithon 2018 close March 18!"
+            />
+        }
+     </div>
 );
 
 /*
