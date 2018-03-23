@@ -68,13 +68,14 @@ Schema.applicationSubmit = new SimpleSchema({
     ratings: { type: Array, optional: true },
     'ratings.$': Object,
     'ratings.$.reviewer': String,
+    'ratings.$.complete': Boolean,
 
     // Rating criteria and values
-    'ratings.$.goalsRating': Number,
-    'ratings.$.categoriesRating': Number,
-    'ratings.$.specificIssue': Number,
-    'ratings.$.whyImportant': Number,
-    'ratings.$.passion': Number,
+    'ratings.$.goalsRating': { type: Number, optional : true },
+    'ratings.$.categoriesRating': { type: Number, optional : true },
+    'ratings.$.specificIssue': { type: Number, optional : true },
+    'ratings.$.whyImportant': { type: Number, optional : true },
+    'ratings.$.passion': { type: Number, optional : true },
 
     // Manual verifications
     local: { type: Boolean, optional: true },
@@ -140,13 +141,14 @@ Schema.applicationSave = new SimpleSchema({
     ratings: { type: Array, optional: true },
     'ratings.$': Object,
     'ratings.$.reviewer': String,
+    'ratings.$.complete': Boolean,
 
     // Rating criteria and values
-    'ratings.$.goalsRating': Number,
-    'ratings.$.categoriesRating': Number,
-    'ratings.$.specificIssue': Number,
-    'ratings.$.whyImportant': Number,
-    'ratings.$.passion': Number,
+    'ratings.$.goalsRating': { type: Number, optional : true },
+    'ratings.$.categoriesRating': { type: Number, optional : true },
+    'ratings.$.specificIssue': { type: Number, optional : true },
+    'ratings.$.whyImportant': { type: Number, optional : true },
+    'ratings.$.passion': { type: Number, optional : true },
 
     // Manual verifications
     local: { type: Boolean, optional: true },
