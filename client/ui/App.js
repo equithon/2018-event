@@ -179,6 +179,11 @@ export default class App extends Component {
                         </MediaQuery>
                     </div>
 
+                    {/* Sponsor Row */}
+                    <div style={{gridArea: 'sponsor-row', justifySelf: 'center'}}>
+
+                    </div>
+
                     {/* FAQ Row */}
                     <div style={{gridArea: 'faq-row', justifySelf: 'center'}}>
                         <Text color="primary" type="display2" align="center" text="Frequently Asked Questions" />
