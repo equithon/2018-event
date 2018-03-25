@@ -19,6 +19,7 @@ import FaqCard from '/client/ui/components/FaqCard.js';
 import FlatColoredButton from '/client/ui/components/buttons/FlatColoredButton.js';
 import Accounts from '/client/ui/components/Accounts.js';
 import TeamHome from '/client/ui/components/TeamHome.js';
+import SponsorLogo from "./components/SponsorLogo";
 
 const imageElevation = 7;
 
@@ -180,8 +181,25 @@ export default class App extends Component {
                     </div>
 
                     {/* Sponsor Row */}
-                    <div style={{gridArea: 'sponsor-row', justifySelf: 'center'}}>
-
+                    <div style={{ gridArea: 'sponsor-row', justifySelf: 'center' }}>
+                        <Text color="primary" type="display2" align="center" text="Sponsors" />
+                        <div style={{ display: 'flex', justifyContent: 'center' }}>
+                            <SponsorLogo src="/sponsors/uw.png" alt="University of Waterloo" width={600} />
+                        </div>
+                        <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
+                            <SponsorLogo src="/sponsors/google.png" alt="Google"/>
+                            <SponsorLogo src="/sponsors/facebook.png" alt="Facebook"/>
+                            <SponsorLogo src="/sponsors/stripe.png" alt="Stripe"/>
+                            <SponsorLogo src="/sponsors/bmo.jpg" alt="BMO"/>
+                            <SponsorLogo src="/sponsors/pagerduty.png" alt="Pagerduty"/>
+                            <SponsorLogo src="/sponsors/godaddy.png" alt="GoDaddy"/>
+                        </div>
+                        <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
+                            <SponsorLogo src="/sponsors/conrad.jpg" alt="Conrad" width={200}/>
+                            <SponsorLogo src="/sponsors/mathsoc.png" alt="MathSoc" width={200}/>
+                            <SponsorLogo src="/sponsors/heforshe.jpg" alt="HeForShe" width={200}/>
+                            <SponsorLogo src="/sponsors/wics.png" alt="HeForShe" width={200}/>
+                        </div>
                     </div>
 
                     {/* FAQ Row */}
