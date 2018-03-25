@@ -190,7 +190,7 @@ export default class App extends Component {
                             <SponsorLogo src="/sponsors/google.png" alt="Google"/>
                             <SponsorLogo src="/sponsors/facebook.png" alt="Facebook"/>
                             <SponsorLogo src="/sponsors/stripe.png" alt="Stripe"/>
-                            <SponsorLogo src="/sponsors/bmo.jpg" alt="BMO"/>
+                            <SponsorLogo src="/sponsors/bmo.png" alt="BMO"/>
                             <SponsorLogo src="/sponsors/pagerduty.png" alt="Pagerduty"/>
                             <SponsorLogo src="/sponsors/godaddy.png" alt="GoDaddy"/>
                         </div>
