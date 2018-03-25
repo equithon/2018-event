@@ -380,21 +380,27 @@ const FAQ = () => (
         />
         <br/>
         <FaqCard
-            question="When are applications open?"
-            answer="Applications for hackers are open now!"
+            question="When will I know if I am accepted to Equithon 2018?"
+            answer="The Equithon team is currently working hard to review applications. Decisions will be sent out by email in the beginning of April."
             number="6."
         />
         <br/>
         <FaqCard
-            question="How can I help with the event?"
-            answer={ <span>Registration for volunteers will open closer to the event, so sign up for our mailing list using the Stay Posted button above and follow us on social media to be notified when it opens! If you are interested in being a mentor, please send us an email at <a href="mailto:hello@equithon.org">hello@equithon.org</a>.</span>}
+            question="How do I get to Equithon if I'm not from Waterloo?"
+            answer="Depending on the location you're travelling from, the Equithon team may either be providing a bus for all hackers in your area, or we will reimburse for your travel costs. The maximum amount for reimbursement depends on distance to Waterloo and will be indicated to all accepted hackers in the RSVP form."
             number="7."
         />
         <br/>
         <FaqCard
-            question="Have more questions?"
+            question="How can I help with the event?"
+            answer={ <p>Registration for volunteers will open in the beginning of April! Sign up for our mailing list using the Stay Posted button above and follow us on social media to be notified when it opens! If you are interested in being a mentor, please send us an email at <a href="mailto:hello@equithon.org">hello@equithon.org</a>.</p>}
             number="8."
-            answer={ <span>Send us an email at <a href="mailto:hello@equithon.org">hello@equithon.org</a>.</span> }
+        />
+        <br/>
+        <FaqCard
+            question="Have more questions?"
+            number="9."
+            answer={ <p>Send us an email at <a href="mailto:hello@equithon.org">hello@equithon.org</a>.</p> }
         />
     </div>
 );
