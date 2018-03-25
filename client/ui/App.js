@@ -387,7 +387,7 @@ const FAQ = () => (
         <br/>
         <FaqCard
             question="How do I get to Equithon if I'm not from Waterloo?"
-            answer="Depending on the location you're travelling from, the Equithon team may either be providing a bus for all hackers in your area, or we will reimburse for your travel costs. The maximum amount for reimbursement depends on distance to Waterloo and will be indicated to all accepted hackers in the RSVP form."
+            answer="Depending on the location you're travelling from, the Equithon team may either be providing a bus for all hackers in your area, or we will reimburse your travel costs. The maximum amount for reimbursement depends on distance to Waterloo and will be indicated to all accepted hackers in the RSVP form."
             number="7."
         />
         <br/>
