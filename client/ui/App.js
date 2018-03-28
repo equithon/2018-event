@@ -85,7 +85,7 @@ export default class App extends Component {
 
                     {/* Title Row */}
                     <div id="title-row" className="split-column-row" style={{ gridArea: 'title-row', gridColumnGap: '20px', alignItems: 'center' }}>
-                        <div style={{ gridArea: 'left' }}>
+                        <div style={{ gridArea: 'left', overflow: 'hidden' }}>
                             {/*  */}
                             <MediaQuery maxDeviceWidth={600}>
                                 { (matches) => {
@@ -143,7 +143,7 @@ export default class App extends Component {
                             </MediaQuery>
                         </div>
 
-                        <div style={{gridArea: 'right'}}>
+                        <div style={{gridArea: 'right', overflow: 'hidden'}}>
                             <MediaQuery maxDeviceWidth={600}>
                                 { (matches) => (matches) ?
                                     <ImageCard id="info-row-image" image="/images/group-computing-small.png"
@@ -181,24 +181,24 @@ export default class App extends Component {
                     </div>
 
                     {/* Sponsor Row */}
-                    <div style={{ gridArea: 'sponsor-row', justifySelf: 'center' }}>
+                    <div style={{ gridArea: 'sponsor-row', justifySelf: 'center', maxWidth: '100%', padding: '0px 10px' }}>
                         <Text color="primary" type="display2" align="center" text="Sponsors" />
                         <div style={{ display: 'flex', justifyContent: 'center' }}>
-                            <SponsorLogo src="/sponsors/uw.png" alt="University of Waterloo" width={600} />
+                            <SponsorLogo src="/sponsors/uw.png" alt="University of Waterloo" targetWidth={600} />
                         </div>
-                        <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
-                            <SponsorLogo src="/sponsors/google.png" alt="Google"/>
-                            <SponsorLogo src="/sponsors/facebook.png" alt="Facebook"/>
-                            <SponsorLogo src="/sponsors/stripe.png" alt="Stripe"/>
-                            <SponsorLogo src="/sponsors/bmo.png" alt="BMO"/>
+                        <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', padding: '0px 30px' }}>
+                            <SponsorLogo src="/sponsors/google.png" alt="Google" padding={30}/>
+                            <SponsorLogo src="/sponsors/facebook.png" alt="Facebook" padding={30}/>
+                            <SponsorLogo src="/sponsors/stripe.png" alt="Stripe" padding={30}/>
+                            <SponsorLogo src="/sponsors/bmo.png" alt="BMO" padding={30}/>
                             <SponsorLogo src="/sponsors/pagerduty.png" alt="Pagerduty"/>
                             <SponsorLogo src="/sponsors/godaddy.png" alt="GoDaddy"/>
                         </div>
-                        <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
-                            <SponsorLogo src="/sponsors/conrad.jpg" alt="Conrad" width={200}/>
-                            <SponsorLogo src="/sponsors/mathsoc.png" alt="MathSoc" width={200}/>
-                            <SponsorLogo src="/sponsors/heforshe.jpg" alt="HeForShe" width={200}/>
-                            <SponsorLogo src="/sponsors/wics.png" alt="HeForShe" width={200}/>
+                        <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', padding: '0px 50px' }}>
+                            <SponsorLogo src="/sponsors/conrad.jpg" alt="Conrad" targetWidth={200} padding={50}/>
+                            <SponsorLogo src="/sponsors/mathsoc.png" alt="MathSoc" targetWidth={200} padding={50}/>
+                            <SponsorLogo src="/sponsors/heforshe.jpg" alt="HeForShe" targetWidth={200} padding={50}/>
+                            <SponsorLogo src="/sponsors/wics.png" alt="HeForShe" targetWidth={200} padding={50}/>
                         </div>
                     </div>
 
