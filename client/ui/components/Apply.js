@@ -6,7 +6,6 @@ import { Redirect } from 'react-router';
 import SimpleSchema from 'simpl-schema';
 
 import TextField from 'material-ui/TextField';
-import Button from 'material-ui/Button';
 import Chip from 'material-ui/Chip';
 import Avatar from 'material-ui/Avatar';
 import Paper from 'material-ui/Paper';
