@@ -62,7 +62,7 @@ class Text extends Component {
                   className={this.props.className}
                   style={Object.assign(this.modifyStyling(this.props.type), this.props.style)}
                   color={this.props.color}
-                  type={this.props.type}
+                  variant={this.props.type}
                   align={this.props.align}
                 >
                   {this.props.text}
@@ -74,7 +74,7 @@ class Text extends Component {
                   className={this.props.className}
                   style={this.props.style}
                   color={this.props.color}
-                  type={this.props.type}
+                  variant={this.props.type}
                   align={this.props.align}
                 >
                   {this.props.text}
