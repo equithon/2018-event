@@ -183,8 +183,9 @@ export default class App extends Component {
                     {/* Sponsor Row */}
                     <div style={{ gridArea: 'sponsor-row', justifySelf: 'center', maxWidth: '100%', padding: '0px 10px' }}>
                         <Text color="primary" type="display2" align="center" text="Sponsors" />
-                        <div style={{ display: 'flex', justifyContent: 'center' }}>
+                        <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
                             <SponsorLogo src="/sponsors/uw.png" alt="University of Waterloo" targetWidth={600} />
+                            <SponsorLogo src="/sponsors/mef.png" alt="MEF" targetWidth={400} />
                         </div>
                         <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', padding: '0px 30px' }}>
                             <SponsorLogo src="/sponsors/google.png" alt="Google" padding={30}/>
@@ -199,6 +200,11 @@ export default class App extends Component {
                             <SponsorLogo src="/sponsors/mathsoc.png" alt="MathSoc" targetWidth={200} padding={50}/>
                             <SponsorLogo src="/sponsors/heforshe.jpg" alt="HeForShe" targetWidth={200} padding={50}/>
                             <SponsorLogo src="/sponsors/wics.png" alt="HeForShe" targetWidth={200} padding={50}/>
+                        </div>
+                        <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', padding: '0px 10px' }}>
+                            <a href="https://www.stickermule.com/supports/equithon">
+                                <SponsorLogo src="/sponsors/stickermule.png" alt="StickerMule" targetWidth={50} />
+                            </a>
                         </div>
                     </div>
 
