@@ -82,6 +82,21 @@ body {
     padding: 50px;
 }
 
+#conduct-wrapper {
+    display: grid;
+
+    grid-template-columns: 10% 80% 10%;
+    grid-template-rows: auto;
+    grid-template-areas:
+        ". title-row ."
+        ". application-label-row ."
+        ". application-form-row ."
+        ". footer ."; /* For extra spacing */
+
+    padding-top: 110px;
+    width: 100%;
+}
+
 #title-row-image {
     height: 300px;
 }
