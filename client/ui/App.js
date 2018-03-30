@@ -19,7 +19,12 @@ import FaqCard from '/client/ui/components/FaqCard.js';
 import FlatColoredButton from '/client/ui/components/buttons/FlatColoredButton.js';
 import Accounts from '/client/ui/components/Accounts.js';
 import TeamHome from '/client/ui/components/TeamHome.js';
+<<<<<<< HEAD
+import CodeOfConduct from '/client/ui/components/CodeOfConduct.js';
+=======
 import SponsorLogo from "./components/SponsorLogo";
+
+>>>>>>> Initial commit for code of conduct page at equithon.org/conduct
 
 const imageElevation = 7;
 
@@ -250,6 +255,8 @@ export default class App extends Component {
 
                       {/* Team home page */}
                       <Route path="/team" component={TeamHome} />
+                      {/* Code of Conduct page */}
+                      <Route path="/conduct" component={CodeOfConduct} />
                   </div>
               </Router>
             </MuiThemeProvider>
