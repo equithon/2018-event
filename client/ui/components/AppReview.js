@@ -179,7 +179,7 @@ export default class AppReview extends Component {
 
                 <div style={{ gridArea: "qa-body" }}>
                     {/* Graduation Date */}
-                    <AppQA question="Year of Graduation (should be greater than 2018):" answer={ this.state.app.yog } />
+                    <AppQA question="Year of Graduation (should be greater than or equal to 2018):" answer={ this.state.app.yog } />
 
                     {/* Location */}
                     <AppQA question="Where are you travelling from?" answer={ this.state.app.travellingFrom } />
@@ -238,7 +238,7 @@ export default class AppReview extends Component {
                         onChange={ ((event) => this.setState({ local: event.target.checked })).bind(this) } />
 
                     {/* Student? */}
-                    <Verification criteria="Is this application's graduation date after 2018?" value={this.state.grad}
+                    <Verification criteria="Is this application's graduation date 2018 or later?" value={this.state.grad}
                         onChange={ ((event) => this.setState({ grad: event.target.checked })).bind(this) } />
                 </div>
 
