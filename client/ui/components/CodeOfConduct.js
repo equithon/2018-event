@@ -124,12 +124,12 @@ class CodeOfConduct extends Component {
                     </div>
                     <div style={{display: 'grid', gridTemplateRows: 'auto', gridArea: 'paragraph-9'}}>
                         <Text align="left" type="headline" color="primary" text={header9} />
-                        <Text align="left" type="body1" text={ <p>Equithon Organizing Committee <a href="mailto:hello@equithon.org">(hello@equithon.org)</a>.</p> } />
-                        <Text align="left" type="body1" text={ <p>Jo Atlee, Director of Women in Computer Science <a href="mailto:jmatlee@uwaterloo.ca">(jmatlee@uwaterloo.ca)</a>.</p> } />
+                        <Text align="left" type="body1" text={ <span>Equithon Organizing Committee <a href="mailto:hello@equithon.org">(hello@equithon.org)</a>.</span> } />
+                        <Text align="left" type="body1" text={ <span>Jo Atlee, Director of Women in Computer Science <a href="mailto:jmatlee@uwaterloo.ca">(jmatlee@uwaterloo.ca)</a>.</span> } />
                     </div>
                     <div style={{display: 'grid', gridTemplateRows: 'auto', gridArea: 'paragraph-10'}}>
                         <Text align="left" type="headline" color="primary" text={header10} />
-                        <Text align="left" type="body1" text={<p> This Code of Conduct is distributed under a <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-ShareAlike license</a>, derived from the <a href="http://opensourcebridge.org/about/code-of-conduct/">Open Source Bridge Code of Conduct</a>. </p> } />
+                        <Text align="left" type="body1" text={<span> This Code of Conduct is distributed under a <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-ShareAlike license</a>, derived from the <a href="http://opensourcebridge.org/about/code-of-conduct/">Open Source Bridge Code of Conduct</a>. </span> } />
                     </div>
                 </Paper>
                 <div className="footer"></div>
