@@ -89,12 +89,30 @@ body {
     grid-template-rows: auto;
     grid-template-areas:
         ". title-row ."
-        ". application-label-row ."
-        ". application-form-row ."
+        ". content-row ."
         ". footer ."; /* For extra spacing */
 
     padding-top: 110px;
-    width: 100%;
+}
+
+#conduct-page {
+    display: grid;
+    grid-row-gap: 20px;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    grid-template-areas:
+        "paragraph-1"
+        "paragraph-2"
+        "paragraph-3"
+        "paragraph-4"
+        "paragraph-5" 
+        "paragraph-6"
+        "paragraph-7"
+        "paragraph-8"
+        "paragraph-9"
+        "paragraph-10"
+        "paragraph-11";   
+    padding: 50px;
 }
 
 #title-row-image {
