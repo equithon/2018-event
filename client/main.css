@@ -82,39 +82,6 @@ body {
     padding: 50px;
 }
 
-#conduct-wrapper {
-    display: grid;
-
-    grid-template-columns: 10% 80% 10%;
-    grid-template-rows: auto;
-    grid-template-areas:
-        ". title-row ."
-        ". content-row ."
-        ". footer ."; /* For extra spacing */
-
-    padding-top: 110px;
-}
-
-#conduct-page {
-    display: grid;
-    grid-row-gap: 20px;
-    grid-template-columns: 1fr;
-    grid-template-rows: auto;
-    grid-template-areas:
-        "paragraph-1"
-        "paragraph-2"
-        "paragraph-3"
-        "paragraph-4"
-        "paragraph-5" 
-        "paragraph-6"
-        "paragraph-7"
-        "paragraph-8"
-        "paragraph-9"
-        "paragraph-10"
-        "paragraph-11";   
-    padding: 50px;
-}
-
 #title-row-image {
     height: 300px;
 }
@@ -250,6 +217,42 @@ body {
         "submit"
         "footer";
 
+    padding: 50px;
+}
+
+
+
+/* Code of Conduct page */
+#conduct-wrapper {
+    display: grid;
+
+    grid-template-columns: 10% 80% 10%;
+    grid-template-rows: auto;
+    grid-template-areas:
+        ". title-row ."
+        ". content-row ."
+        ". footer ."; /* For extra spacing */
+
+    padding-top: 110px;
+}
+
+#conduct-page {
+    display: grid;
+    grid-row-gap: 20px;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    grid-template-areas:
+        "paragraph-1"
+        "paragraph-2"
+        "paragraph-3"
+        "paragraph-4"
+        "paragraph-5" 
+        "paragraph-6"
+        "paragraph-7"
+        "paragraph-8"
+        "paragraph-9"
+        "paragraph-10"
+        "paragraph-11";   
     padding: 50px;
 }
 
