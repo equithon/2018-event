@@ -236,23 +236,7 @@ body {
     padding-top: 110px;
 }
 
-#conduct-page {
-    display: grid;
-    grid-row-gap: 20px;
-    grid-template-columns: 1fr;
-    grid-template-rows: auto;
-    grid-template-areas:
-        "paragraph-1"
-        "paragraph-2"
-        "paragraph-3"
-        "paragraph-4"
-        "paragraph-5" 
-        "paragraph-6"
-        "paragraph-7"
-        "paragraph-8"
-        "paragraph-9"
-        "paragraph-10"
-        "paragraph-11";   
+#conduct-page {  
     padding: 50px;
 }
 
@@ -388,6 +372,10 @@ body {
     }
 
     #application-form {
+        padding: 10px;
+    }
+
+    #conduct-page {
         padding: 10px;
     }
 }
