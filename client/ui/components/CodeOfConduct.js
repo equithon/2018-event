@@ -98,7 +98,7 @@ class CodeOfConduct extends Component {
                     </div>
                     <div style={{display: 'grid', gridTemplateRows: 'auto', gridArea: 'paragraph-3'}}>
                         <Text align="left" type="headline" color="primary" text={header3} />
-                        <Text align="left" type="body1" text={bullets}/>
+                        <ul> <Text align="left" type="body1" text={bullets}/></ul>
                         <Text align="left" type="body1" text={para4} />
                     </div>
                     <div style={{display: 'grid', gridTemplateRows: 'auto', gridArea: 'paragraph-4'}}>
