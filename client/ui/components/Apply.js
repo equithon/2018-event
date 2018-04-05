@@ -27,8 +27,6 @@ import ConfirmationModal from '/client/ui/components/modals/ConfirmationModal.js
 import { clientSubmitSchema } from '/imports/api/Schema.js';
 
 
-const Applications = new Mongo.Collection('applications');
-
 
 /* Application form field names */
 const textFieldNames = [ 'program', 'longAnswer', 'institution', 'travellingFrom',

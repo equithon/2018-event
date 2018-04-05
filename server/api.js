@@ -4,3 +4,4 @@ import '/imports/api/user/accounts.js';
 import '/imports/api/user/methods.js';
 import '/imports/api/applications/methods.js';
 import '/imports/api/captcha/methods.js';
+import '/imports/api/rsvps/methods.js';

@@ -82,6 +82,23 @@ body {
     padding: 50px;
 }
 
+.form-wrapper {
+    display: grid;
+
+    grid-row-gap: 20px;
+    grid-template-columns: 10% 80% 10%;
+    grid-template-rows: auto;
+    grid-template-areas:
+        ". title-row ."
+        ". body ."
+        ". footer ."; /* For extra spacing */
+}
+
+.form-paper {
+    grid-area: body;
+    padding: 50px;
+}
+
 #title-row-image {
     height: 300px;
 }
@@ -269,6 +286,9 @@ body {
     #application-form-wrapper {
         grid-template-columns: 20% 60% 20%;
     }
+    .form-wrapper {
+        grid-template-columns: 20% 60% 20%;
+    }
     .accounts-grid {
         grid-template-columns: 35% 30% 35%;
     }
@@ -372,6 +392,10 @@ body {
     }
 
     #application-form {
+        padding: 10px;
+    }
+
+    .form-paper {
         padding: 10px;
     }
 

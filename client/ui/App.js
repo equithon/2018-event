@@ -21,8 +21,13 @@ import Accounts from '/client/ui/components/Accounts.js';
 import TeamHome from '/client/ui/components/TeamHome.js';
 import CodeOfConduct from '/client/ui/components/CodeOfConduct.js';
 import SponsorLogo from "./components/SponsorLogo";
+import Rsvp from '/client/ui/components/RSVP.js';
 
 >>>>>>> Initial commit for code of conduct page at equithon.org/conduct
+
+/* Mongo Collection declarations */
+Applications = new Mongo.Collection('applications');
+Rsvps = new Mongo.Collection('rsvps');
 
 const imageElevation = 7;
 
@@ -255,6 +260,9 @@ export default class App extends Component {
                       <Route path="/team" component={TeamHome} />
                       {/* Code of Conduct page */}
                       <Route path="/conduct" component={CodeOfConduct} />
+
+                      {/* RSVP form page */}
+                      <Route path="/rsvp" component={Rsvp} />
                   </div>
               </Router>
             </MuiThemeProvider>
