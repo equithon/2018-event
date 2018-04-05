@@ -14,10 +14,16 @@ import { theme } from '/client/ui/CustomTheme.js';
 export default function FlatColoredButton(props) {
     return(
         <Button
-            style={ Object.assign({background: theme.palette.primary[500], borderRadius: '25px', color: 'white' }, props.style) }
+            style={
+                Object.assign({
+                    background: theme.palette.primary[500],
+                    borderRadius: '25px',
+                    color: (props.disabled) ? null : 'white'
+                }, props.style)
+            }
             disabled={ props.disabled }
             classes={ props.classes }
-            onClick={props.onClick}
+            onClick={ props.onClick }
         >
             {props.content}
         </Button>

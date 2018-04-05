@@ -4,6 +4,7 @@ import '/server/api.js';
 
 import { EmailSubscriptions } from '/imports/api/email-subscriptions/email-subscriptions.js';
 import Applications from '/imports/api/applications/applications.js';
+import Rsvps from '/imports/api/rsvps/rsvps.js';
 
 
 Meteor.startup(() => {
@@ -15,6 +16,12 @@ Meteor.startup(() => {
     });
 
     Applications.deny({
+      insert() { return true; },
+      update() { return true; },
+      remove() { return true; },
+    });
+
+    Rsvps.deny({
       insert() { return true; },
       update() { return true; },
       remove() { return true; },

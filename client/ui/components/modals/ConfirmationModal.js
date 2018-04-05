@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 
 import Modal from 'material-ui/Modal';
-import Radio, { RadioGroup } from 'material-ui/Radio';
 import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField';
 import { FormLabel, FormControl, FormControlLabel, FormHelperText } from 'material-ui/Form';
