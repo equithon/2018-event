@@ -438,7 +438,7 @@ class Apply extends Component {
     }
 
     /* Render a checkbox with options specified by valuesAndMessages using name and error states */
-    renderCheckbox(valuesAndMessages, name, label) {
+    renderCheckbox(valuesAndMessages, name) {
         var options = [];
 
         for (var i = 0; i < valuesAndMessages.values.length; ++i) {

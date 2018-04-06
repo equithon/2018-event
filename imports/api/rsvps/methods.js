@@ -14,8 +14,20 @@ Meteor.publish('rsvpData', function() {
     if (this.userId) {
         return Rsvps.find({ userId: this.userId }, {
             fields: {
-                attending: 1,
-                submitted: 1,
+                attending:             1,
+                confirmTravellingFrom: 1,
+                needBus:               1,
+                requireAccomodation:   1,
+                roommateRequest:       1,
+                roommateRequestName:   1,
+                roommateRequestEmail:  1,
+                roommateGender:        1,
+                roommatePreference:    1,
+                age:                   1,
+                diet:                  1,
+                dietText:              1,
+                shirtSize:             1,
+                submitted:             1,
             }
         });
     } else this.ready();
@@ -39,7 +51,14 @@ export const submitRSVP = new ValidatedMethod({
         roommateGender:        { type: String, optional: true },
         roommatePreference:    { type: String, optional: true },
         age:                   { type: Boolean },
-        diet:                  { type: String },
+        diet:                  { type: Object, optional: true },
+        'diet.vegetarian':     { type: Boolean },
+        'diet.vegan':          { type: Boolean },
+        'diet.gluten':         { type: Boolean },
+        'diet.halal':          { type: Boolean },
+        'diet.other':          { type: Boolean },
+        dietText:              { type: String, optional: true },
+        shirtSize:             { type: String },
     }).validator(),
 
     run(rsvp) {
@@ -69,6 +88,8 @@ export const submitRSVP = new ValidatedMethod({
                 roommatePreference:    rsvp.roommatePreference,
                 age:                   rsvp.age,
                 diet:                  rsvp.diet,
+                dietText:              rsvp.dietText,
+                shirtSize:             rsvp.shirtSize,
                 submitted:             rsvp.submitted,
             }
         }, (err, res) => {
