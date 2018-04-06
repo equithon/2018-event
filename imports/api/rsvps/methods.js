@@ -28,8 +28,18 @@ export const submitRSVP = new ValidatedMethod({
     name: 'rsvps.submit',
 
     validate: new SimpleSchema({
-        attending: { type: Boolean },
-        submitted: { type: Boolean },
+        attending:             { type: Boolean },
+        submitted:             { type: Boolean },
+        confirmTravellingFrom: { type: String },
+        needBus:               { type: Boolean, optional: true },
+        requireAccomodation:   { type: Boolean },
+        roommateRequest:       { type: Boolean, optional: true },
+        roommateRequestName:   { type: String, optional: true },
+        roommateRequestEmail:  { type: String, optional: true },
+        roommateGender:        { type: String, optional: true },
+        roommatePreference:    { type: String, optional: true },
+        age:                   { type: Boolean },
+        diet:                  { type: String },
     }).validator(),
 
     run(rsvp) {
@@ -48,8 +58,18 @@ export const submitRSVP = new ValidatedMethod({
         Rsvps.upsert({ userId: this.userId }, {
             $set: {
                 userId: this.userId,
-                attending: rsvp.attending,
-                submitted: rsvp.submitted,
+                attending:             rsvp.attending,
+                confirmTravellingFrom: rsvp.confirmTravellingFrom,
+                needBus:               rsvp.needBus,
+                requireAccomodation:   rsvp.requireAccomodation,
+                roommateRequest:       rsvp.roommateRequest,
+                roommateRequestName:   rsvp.roommateRequestName,
+                roommateRequestEmail:  rsvp.roommateRequestEmail,
+                roommateGender:        rsvp.roommateGender,
+                roommatePreference:    rsvp.roommatePreference,
+                age:                   rsvp.age,
+                diet:                  rsvp.diet,
+                submitted:             rsvp.submitted,
             }
         }, (err, res) => {
             if (err) throw err;
