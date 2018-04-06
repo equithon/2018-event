@@ -6,7 +6,7 @@ import Input from 'material-ui/Input';
 import Paper from 'material-ui/Paper';
 import Checkbox from 'material-ui/Checkbox';
 import Radio, { RadioGroup } from 'material-ui/Radio';
-import { FormLabel, FormControl, FormControlLabel, FormHelperText } from 'material-ui/Form';
+import { FormGroup, FormLabel, FormControl, FormControlLabel, FormHelperText } from 'material-ui/Form';
 
 
 import HomeAppBar from '/client/ui/components/HomeAppBar.js';
@@ -14,6 +14,11 @@ import Text from '/client/ui/components/Text.js';
 import FlatColoredButton from '/client/ui/components/buttons/FlatColoredButton.js';
 import ConfirmationModal from '/client/ui/components/modals/ConfirmationModal.js';
 
+
+const textFieldNames = [ 'confirmTravellingFrom', 'roommateRequestName', 'roommateRequestEmail',
+    'roommateGender', 'roommatePreference', 'dietText' ];
+const checkboxFieldNames = [ 'diet' ];
+const booleanFieldNames = [ 'attending', 'needBus', 'requireAccomodation', 'roommateRequest', 'age' ];
 
 export default class Rsvp extends Component {
     constructor(props) {
@@ -32,7 +37,9 @@ export default class Rsvp extends Component {
             roommateGender: '',
             roommatePreference: '',
             age: '',
-            diet: '',
+            diet: { vegetarian: false, vegan: false, gluten: false, halal: false, other: false },
+            dietText: '',
+            shirtSize: '',
 
             confirmationModalOpen: false,
             submitted: false,
@@ -57,13 +64,17 @@ export default class Rsvp extends Component {
             Meteor.subscribe('rsvpData');
 
             let rsvp = Rsvps.findOne();
-            if (rsvp) this.setState({
-                attending:             rsvp.attending.toString(),
-                confirmTravellingFrom: rsvp.confirmTravellingFrom,
-                submitted:             rsvp.submitted,
-            });
+            if (rsvp) {
+                textFieldNames.forEach((name) => this.setState({ [name]: (rsvp[name]) ? rsvp[name] : '' }));
+                booleanFieldNames.forEach((name) => this.setState({ [name]: (rsvp[name] != null) ? rsvp[name].toString() : '' }));
+                checkboxFieldNames.forEach((name) => {
+                    for (var checkProp in rsvp[name]) {
+                        this.setState({ [name]: { ...this.state[name], [checkProp]: rsvp[name][checkProp] }});
+                    }
+                });
 
-            console.log(rsvp);
+                this.setState({ submitted: rsvp.submitted });
+            }
         });
     }
 
@@ -84,6 +95,7 @@ export default class Rsvp extends Component {
             roommatePreference:    (this.state.roommatePreference) ? this.state.roommatePreference : undefined,
             age:                   this.toBoolean(this.state.age),
             diet:                  this.state.diet,
+            shirtSize:             (this.state.shirtSize) ? this.state.shirtSize : 's',
             submitted:             true,
         };
 
@@ -102,10 +114,44 @@ export default class Rsvp extends Component {
     };
 
     handleChange = name => event => {
-        this.setState({
-            [name]: event.target.value
-        });
+        if (!this.state.submitted) {
+            this.setState({
+                [name]: event.target.value
+            });
+        }
     };
+
+    handleChecked = name => (event, checked) => {
+        if (!this.state.submitted) {
+            this.setState({
+                [name]: {
+                    ...this.state[name], [event.target.value]: checked
+                }
+            });
+        }
+    };
+
+    renderCheckbox(values, messages, name, question) {
+        var checkboxes = [];
+
+        for (var i = 0; i < values.length; ++i) {
+            // Make variables accessible inside onChange
+            this.i = i; this.name = name; this.values = values; this.messages = messages;
+            checkboxes.push(
+                <FormControlLabel key={i} label={messages[i]}
+                    control={
+                        <Checkbox
+                            checked={this.state[name][values[i]]}
+                            onChange={ this.handleChecked(name) }
+                            value={values[i]}
+                        />
+                    }
+                />
+            );
+        }
+
+        return <CheckboxInput question={question} checkboxes={checkboxes} />;
+    }
 
     renderQuestion(name) {
         switch (name) {
@@ -115,7 +161,6 @@ export default class Rsvp extends Component {
                         <Text align="left" color="primary" type="display1" style={{ paddingBottom: '10px' }} text="Attendance" />
                         <BooleanQuestion
                             question="Will you attend Equithon May 4-6?"
-                            disabled={this.state.submitted}
                             value={this.state.attending}
                             onChange={ this.handleChange('attending') }
                         />
@@ -254,20 +299,40 @@ export default class Rsvp extends Component {
                                 onChange={ this.handleChange('age') }
                             />
 
-                            { this.renderQuestion('food') }
+                            { this.renderQuestion('foodswag') }
                         </span>
                     );
                 } else return false;
 
-            case 'food':
+            case 'foodswag':
                 if (this.state.age === 'true' || (this.state.age === 'false' && this.state.waiver)) {
+                    var dietValues = ['vegetarian', 'vegan', 'gluten', 'halal', 'other'];
+                    var dietMessages = ['Vegetarian', 'Vegan', 'Gluten', 'Halal', 'Other'];
+                    var shirtOptions = [];
+                    shirtOptions.push(<option key={0} value="s">S</option>);
+                    shirtOptions.push(<option key={1} value="m">M</option>);
+                    shirtOptions.push(<option key={2} value="l">L</option>);
+                    shirtOptions.push(<option key={3} value="xl">XL</option>);
+
                     return(
                         <span>
                             <Text align="left" color="primary" type="headline" style={{ paddingBottom: '10px' }} text="Food/Swag" />
-                            <TextInput
-                                question="Please enter any dietary restrictions you may have."
-                                value={this.state.diet}
-                                onChange={ this.handleChange('diet') }
+                            { this.renderCheckbox(dietValues, dietMessages, 'diet', 'Do you have any dietary restrictions?') }
+                            { (this.state.diet.other) ?
+                                    <span>
+                                        <TextField
+                                            style={{ paddingBottom: '10px' }}
+                                            value={this.state.dietText}
+                                            onChange={ this.handleChange('dietText') }
+                                        /><br/>
+                                    </span> : false
+                            }
+
+                            <SelectInput
+                                question="What is your t-shirt size?"
+                                value={this.state.shirtSize}
+                                onChange={ this.handleChange('shirtSize') }
+                                options={shirtOptions}
                             />
                         </span>
                     );
@@ -320,7 +385,7 @@ export default class Rsvp extends Component {
     }
 }
 
-const BooleanQuestion = ({ question, disabled, value, onChange }) => (
+const BooleanQuestion = ({ question, value, onChange }) => (
     <div className="split-column-row" style={{ paddingBottom: '10px' }}>
         <Text style={{ gridArea: 'left' }} align="left" color="inherit" type="headline" text={question} />
         <FormControl style={{ gridArea: 'right' }} component="fieldset" required>
@@ -330,9 +395,20 @@ const BooleanQuestion = ({ question, disabled, value, onChange }) => (
                 onChange={onChange}
                 row
             >
-                <FormControlLabel value="true" disabled={disabled} control={<Radio />} label="Yes" />
-                <FormControlLabel value="false" disabled={disabled} control={<Radio />} label="No" />
+                <FormControlLabel value="true" control={<Radio />} label="Yes" />
+                <FormControlLabel value="false" control={<Radio />} label="No" />
             </RadioGroup>
+        </FormControl>
+    </div>
+);
+
+const CheckboxInput = ({ question, checkboxes }) => (
+    <div>
+        <Text align="left" color="inherit" type="headline" text={question} />
+        <FormControl required>
+            <FormGroup>
+                {checkboxes}
+            </FormGroup>
         </FormControl>
     </div>
 );
