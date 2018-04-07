@@ -41,9 +41,9 @@ const schema = {
 
 // Check settings existence in `Meteor.settings`
 // This is the best practice for app security
-if (s3Conf && s3Conf.key && s3Conf.secret && s3Conf.bucket && s3Conf.region) {
+if (Meteor.settings.development || (s3Conf && s3Conf.key && s3Conf.secret && s3Conf.bucket && s3Conf.region)) {
   // Create a new S3 object
-  const s3 = new S3({
+  const s3 = (Meteor.settings.development) ? {} : new S3({
     secretAccessKey: s3Conf.secret,
     accessKeyId: s3Conf.key,
     region: s3Conf.region,
