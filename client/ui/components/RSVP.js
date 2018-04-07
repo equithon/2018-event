@@ -235,6 +235,7 @@ export default class Rsvp extends Component {
 
                             { this.renderQuestion('needBus') }
                             { this.renderQuestion('requireAccomodation') }
+                            { this.renderQuestion('age') }
                         </span>
                     );
                 } else return false;
@@ -259,17 +260,16 @@ export default class Rsvp extends Component {
                 } else return false;
 
             case 'requireAccomodation':
-                if (this.state.attending === 'true') {
+                if (this.state.attending === 'true' && this.state.confirmTravellingFrom !== 'grt' && this.state.confirmTravellingFrom !== '') {
                     return(
                         <span>
                             <BooleanQuestion
-                                question="Will you require overnight accomodation?"
+                                question="Will you require overnight accommodation?"
                                 value={this.state.requireAccomodation}
                                 onChange={ this.handleChange('requireAccomodation') }
                             />
 
                             { this.renderQuestion('roommateRequest') }
-                            { this.renderQuestion('age') }
                         </span>
                     );
                 } else return false;
@@ -336,7 +336,8 @@ export default class Rsvp extends Component {
                 } else return false;
 
             case 'age':
-                if (this.state.requireAccomodation === 'false' || this.state.roommateRequest) {
+                if (this.state.requireAccomodation === 'false' || this.state.confirmTravellingFrom === 'grt' ||
+                    this.state.confirmTravellingFrom === '' || this.state.roommateRequest) {
                     return(
                         <span>
                             <Text align="left" color="primary" type="headline" style={{ paddingBottom: '10px' }} text="Age" />
