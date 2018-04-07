@@ -243,7 +243,7 @@ class Apply extends Component {
         this.appC = Tracker.autorun(() => {
             Meteor.subscribe('applicationData');
 
-            let app = Applications.find().fetch()[0];
+            let app = Applications.findOne({});
             if (app) {
                 textFieldNames.forEach((name) => this.setState({ [name]: (app[name]) ? app[name] : '' }));
                 numberFieldNames.forEach((name) => this.setState({ [name]: (app[name]) ? app[name] : '' }));

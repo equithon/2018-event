@@ -69,16 +69,17 @@ export default class Rsvp extends Component {
         this.appC = Tracker.autorun(() => {
             Meteor.subscribe('applicationData');
 
-            let app = Applications.findOne();
-            if (app) this.setState({ accepted: app.accepted });
-
-            this.setState({ loaded: true });
+            let app = Applications.findOne({});
+            if (app) this.setState({
+                accepted: app.accepted,
+                loaded: true
+            });
         });
 
         this.rsvpC = Tracker.autorun(() => {
             Meteor.subscribe('rsvpData');
 
-            let rsvp = Rsvps.findOne();
+            let rsvp = Rsvps.findOne({});
             if (rsvp) {
                 textFieldNames.forEach((name) => this.setState({ [name]: (rsvp[name]) ? rsvp[name] : '' }));
                 booleanFieldNames.forEach((name) => this.setState({ [name]: (rsvp[name] != null) ? rsvp[name].toString() : '' }));
