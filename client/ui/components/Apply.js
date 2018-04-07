@@ -256,6 +256,8 @@ class Apply extends Component {
                 /* Handle additional select outcomes */
                 selectFieldNames.forEach((name) => this.initSelectState(valuesAndMessages[name], app[name], name));
 
+                console.log(app);
+
                 this.setState({
                     submitted: app.submitted,
                     accepted: app.accepted,
@@ -474,13 +476,18 @@ class Apply extends Component {
 
         if (this.state.loaded && this.state.accepted === undefined) {
             return <AlertBox type="notice" title={title}
-                message="Your application has been wait-listed. Check back later for updates." />;
+                message={ <span>
+                    Unfortunately, we are not able to offer you a spot at Equithon at this time, but you have been placed on our waiting list.
+                    We received so many awesome applications, but we are only able to accept a limited number of hackers. We will let you know via email if a spot opens up for you!
+                </span> }
+                />;
         } else if (this.state.loaded && this.state.accepted === false) {
             return(
                 <AlertBox type="notice" title={title}
                     message={ <span>
-                        Your application has been rejected.
-                        For more information, contact the Equithon team at <a href="mailto:hello@equithon.org">hello@equithon.org</a>.
+                        Unfortunately, we are not able to offer you a spot for this year’s event.
+                        We received so many awesome applications, but we are only able to accept a limited number of hackers.
+                        We hope you will apply next year and keep promoting equity in your school, workplace, and community!
                     </span> }
                 />
             );
@@ -489,8 +496,9 @@ class Apply extends Component {
                 <div style={{ textAlign: 'center' }}>
                     <AlertBox type="notice" title={title}
                         message={ <span>
-                            Congratulations! Your application has been approved!
-                            The next step is to RSVP by clicking the button below.
+                            We are happy to invite you to Equithon 2018! 
+                            We’re excited about your passion for equity and can’t wait to see what you can make at Equithon.
+                            Accept or decline this offer by completing the RSVP form by 11:55 PM on Wednesday, April 11, 2018.
                         </span> }
                     />
 
