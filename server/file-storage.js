@@ -16,12 +16,18 @@ import fs from 'fs';
 
 import Applications from '/imports/api/applications/applications.js';
 
-// Example: S3='{"s3":{"key": "xxx", "secret": "xxx", "bucket": "xxx", "region": "xxx""}}' meteor
-if (process.env.S3) {
-  Meteor.settings.s3 = JSON.parse(process.env.S3).s3;
+// Must be defined as environment variables
+if (process.env.AWS_ACCESS_KEY_ID && process.env.AWS_SECRET_KEY && process.env.USERFILES_BUCKET && process.env.USERFILES_BUCKET_REGION) {
+    Meteor.settings.s3 = {
+        key: process.env.AWS_ACCESS_KEY_ID,
+        secret: process.env.AWS_SECRET_KEY,
+        bucket: process.env.USERFILES_BUCKET,
+        region: process.env.USERFILES_BUCKET_REGION,
+    };
 }
 
 const s3Conf = Meteor.settings.s3 || {};
+
 const bound  = Meteor.bindEnvironment((callback) => {
   return callback();
 });

@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import { Redirect } from 'react-router';
+
 import TextField from 'material-ui/TextField';
 import Select from 'material-ui/Select';
 import Input from 'material-ui/Input';
@@ -7,7 +9,6 @@ import Paper from 'material-ui/Paper';
 import Checkbox from 'material-ui/Checkbox';
 import Radio, { RadioGroup } from 'material-ui/Radio';
 import { FormGroup, FormLabel, FormControl, FormControlLabel, FormHelperText } from 'material-ui/Form';
-
 
 import HomeAppBar from '/client/ui/components/HomeAppBar.js';
 import Text from '/client/ui/components/Text.js';
@@ -18,22 +19,23 @@ import SuccessMessageChip from '/client/ui/components/notif-chips/SuccessMessage
 import ErrorMessageChip from '/client/ui/components/notif-chips/ErrorMessageChip.js';
 
 
+/* Common definitions */
 const textFieldNames = [ 'confirmTravellingFrom', 'roommateRequestName', 'roommateRequestEmail',
     'roommateGender', 'roommatePreference', 'dietText' ];
 const checkboxFieldNames = [ 'diet' ];
 const booleanFieldNames = [ 'attending', 'needBus', 'requireAccomodation', 'roommateRequest', 'age' ];
-
 const confirmTravellingFromOptions = [ 'grt', 'toronto', 'montreal', 'other' ];
 
 const waiverLink = 'https://drive.google.com/file/d/1h8b3B6lBXEdppI8cAju8ykrhiIa5VFrO/view';
 
+/*
+ * RSVP form complete with waiver and resume file uploads.
+ */
 export default class Rsvp extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            travellingFrom: '',
-
             attending: '',
             confirmTravellingFrom: '',
             confirmTravellingFromText: '',
@@ -55,6 +57,7 @@ export default class Rsvp extends Component {
             errorMessage: '',
             confirmationModalOpen: false,
             submitted: false,
+            accepted: undefined,
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -67,9 +70,9 @@ export default class Rsvp extends Component {
             Meteor.subscribe('applicationData');
 
             let app = Applications.findOne();
-            if (app) this.setState({
-                travellingFrom: app.travellingFrom
-            });
+            if (app) this.setState({ accepted: app.accepted });
+
+            this.setState({ loaded: true });
         });
 
         this.rsvpC = Tracker.autorun(() => {
@@ -100,6 +103,11 @@ export default class Rsvp extends Component {
         });
     }
 
+    componentWillUnmount() {
+        if (this.appC) this.appC.stop();
+        if (this.rsvpC) this.rsvpC.stop();
+    }
+
     toBoolean(str) {
         return str === 'true';
     }
@@ -117,6 +125,7 @@ export default class Rsvp extends Component {
             roommatePreference:    (this.state.roommatePreference) ? this.state.roommatePreference : undefined,
             age:                   this.toBoolean(this.state.age),
             diet:                  this.state.diet,
+            dietText:              (this.state.diet.other) ? this.state.dietText : undefined,
             shirtSize:             (this.state.shirtSize) ? this.state.shirtSize : 's',
             waiver:                this.state.waiver,
             resume:                this.state.resume,
@@ -127,9 +136,7 @@ export default class Rsvp extends Component {
             rsvp.confirmTravellingFrom = (this.state.confirmTravellingFromText) ? this.state.confirmTravellingFromText : '';
         }
 
-
         Meteor.call('rsvps.submit', rsvp, (err, res) => {
-            console.log(err);
             if (err) {
                 this.setState({ success: false });
                 if (err.details) {  // Display the first validation error to the user
@@ -412,9 +419,13 @@ export default class Rsvp extends Component {
     }
 
     render() {
+        if (!Meteor.userId()) return <Redirect to="/login" />;
+        else if (this.state.loaded && !this.state.accepted) return <Redirect to="/apply" />;
+        else if (!this.state.loaded) return false;
+
         return(
             <div style={{ paddingTop: '110px' }}>
-                <HomeAppBar />
+                <HomeAppBar noAppButton/>
 
                 <div className="form-wrapper">
                     <div style={{ gridArea: 'title-row' }}>
