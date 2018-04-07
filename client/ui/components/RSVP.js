@@ -21,9 +21,9 @@ import ErrorMessageChip from '/client/ui/components/notif-chips/ErrorMessageChip
 
 /* Common definitions */
 const textFieldNames = [ 'confirmTravellingFrom', 'roommateRequestName', 'roommateRequestEmail',
-    'roommateGender', 'roommatePreference', 'dietText' ];
+    'roommateGender', 'dietText' ];
 const checkboxFieldNames = [ 'diet' ];
-const booleanFieldNames = [ 'attending', 'needBus', 'requireAccomodation', 'roommateRequest', 'age' ];
+const booleanFieldNames = [ 'attending', 'needBus', 'requireAccomodation', 'roommateRequest', 'roommatePreference', 'age' ];
 const confirmTravellingFromOptions = [ 'grt', 'toronto', 'montreal', 'other' ];
 
 const waiverLink = 'https://drive.google.com/file/d/1h8b3B6lBXEdppI8cAju8ykrhiIa5VFrO/view';
@@ -123,7 +123,7 @@ export default class Rsvp extends Component {
             roommateRequestName:   (this.state.roommateRequestName) ? this.state.roommateRequestName : undefined,
             roommateRequestEmail:  (this.state.roommateRequestEmail) ? this.state.roommateRequestEmail : undefined,
             roommateGender:        (this.state.roommateGender) ? this.state.roommateGender : undefined,
-            roommatePreference:    (this.state.roommatePreference) ? this.state.roommatePreference : undefined,
+            roommatePreference:    this.toBoolean(this.state.roommatePreference),
             age:                   this.toBoolean(this.state.age),
             diet:                  this.state.diet,
             dietText:              (this.state.diet.other) ? this.state.dietText : undefined,
@@ -295,8 +295,7 @@ export default class Rsvp extends Component {
                     var options = [];
                     options.push(<option key={0} value="m">Male</option>);
                     options.push(<option key={1} value="f">Female</option>);
-                    options.push(<option key={2} value="nb">Non-Binary</option>);
-                    options.push(<option key={3} value="other">Other</option>);
+                    options.push(<option key={2} value="other">Other</option>);
 
                     return(
                         <span>
@@ -309,11 +308,10 @@ export default class Rsvp extends Component {
                                 onChange={ this.handleChange('roommateGender') }
                                 options={options}
                             />
-                            <SelectInput
-                                question="Gender you would like to room with:"
+                            <BooleanQuestion
+                                question="Would you like to be assigned a roommate of the same gender?"
                                 value={this.state.roommatePreference}
                                 onChange={ this.handleChange('roommatePreference') }
-                                options={options}
                             />
                         </span>
                     );
@@ -484,7 +482,7 @@ export default class Rsvp extends Component {
 
 
 const BooleanQuestion = ({ question, value, onChange }) => (
-    <div className="split-column-row" style={{ paddingBottom: '10px' }}>
+    <div className="split-column-row" style={{ gridRowGap: '10px', gridColumnGap: '10px', paddingBottom: '10px' }}>
         <Text style={{ gridArea: 'left' }} align="left" color="inherit" type="headline" text={question} />
         <FormControl style={{ gridArea: 'right' }} component="fieldset" required>
             <RadioGroup

@@ -50,7 +50,7 @@ export const submitRSVP = new ValidatedMethod({
         roommateRequestName:   { type: String, optional: true },
         roommateRequestEmail:  { type: String, regEx: SimpleSchema.RegEx.Email, optional: true },
         roommateGender:        { type: String, optional: true },
-        roommatePreference:    { type: String, optional: true },
+        roommatePreference:    { type: Boolean, optional: true },
         age:                   { type: Boolean },
         diet:                  { type: Object, optional: true },
         'diet.vegetarian':     { type: Boolean },
