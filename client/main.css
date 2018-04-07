@@ -277,7 +277,7 @@ body {
 .progress-bar {
     height: 100%;
     border-radius: 25px;
-    background-color: #5a82ed;
+    background: #5a82ed;
 }
 
 /* Alert Box - taken from http://www.cssportal.com/blog/css-notification-boxes/ */
@@ -304,8 +304,8 @@ body {
     border: 1px solid #f2c779;
 }
 .notice {
-    background: #e3f7fc;
-    border: 1px solid #8ed9f6;
+    background: #e2e9fc;
+    border: 1px solid #5a82ed;
 }
 
 

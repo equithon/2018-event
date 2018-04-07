@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import { Tracker } from 'meteor/tracker';
 
-import { Redirect } from 'react-router';
+import { Link, Redirect } from 'react-router-dom';
 import SimpleSchema from 'simpl-schema';
 
 import TextField from 'material-ui/TextField';
@@ -486,12 +486,18 @@ class Apply extends Component {
             );
         } else if (this.state.loaded && this.state.accepted === true) {
             return(
-                <AlertBox type="notice" title={title}
-                    message={ <span>
-                        Congratulations! Your application has been approved!
-                        The next step is to RSVP <a href="/rsvp">here</a>.
-                    </span> }
-                />
+                <div style={{ textAlign: 'center' }}>
+                    <AlertBox type="notice" title={title}
+                        message={ <span>
+                            Congratulations! Your application has been approved!
+                            The next step is to RSVP by clicking the button below.
+                        </span> }
+                    />
+
+                    <Link className="button-link" to="/rsvp">
+                        <FlatColoredButton content="Go to RSVP form" />
+                    </Link>
+                </div>
             );
         }
 
