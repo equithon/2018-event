@@ -9,7 +9,7 @@ To install Meteor, follow this [link](https://www.meteor.com/install) and run th
 To run the meteor server, use
 ```bash
 $ meteor npm install
-$ meteor
+$ meteor --settings settings.json
 ```
 and go to `localhost:3000`.
 
