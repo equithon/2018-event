@@ -42,17 +42,26 @@ const schema = {
 // Check settings existence in `Meteor.settings`
 // This is the best practice for app security
 if (Meteor.settings.development || (s3Conf && s3Conf.key && s3Conf.secret && s3Conf.bucket && s3Conf.region)) {
-  // Create a new S3 object
-  const s3 = (Meteor.settings.development) ? {} : new S3({
-    secretAccessKey: s3Conf.secret,
-    accessKeyId: s3Conf.key,
-    region: s3Conf.region,
-    // sslEnabled: true, // optional
-    httpOptions: {
-      timeout: 6000,
-      agent: false
-    }
-  });
+   // Create a new S3 object
+   s3 = {};
+
+   // Stub out S3 object if we are in development to avoid unnecessary errors
+   if (Meteor.settings.development) {
+       s3.getObject = function() { return false; }
+       s3.putObject = function() { return false; }
+       s3.deleteObject = function() { return false; }
+   } else {
+       s3 = new S3({
+           secretAccessKey: s3Conf.secret,
+           accessKeyId: s3Conf.key,
+           region: s3Conf.region,
+           // sslEnabled: true, // optional
+           httpOptions: {
+               timeout: 6000,
+               agent: false
+           }
+       });
+   }
 
   // Declare the Meteor file collection on the Server
   const UserFiles = new FilesCollection({
