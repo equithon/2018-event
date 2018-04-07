@@ -18,7 +18,7 @@ export default class AlertBox extends Component {
 
     render() {
         return(
-            <div className={ 'alert-box ' + this.props.type }>
+            <div className={ 'alert-box ' + this.props.type } style={{ textAlign: 'left' }}>
                 <span className="title" style={{ display: 'flex', wrap: 'flex-wrap' }}>
                     <i className="fas fa-info-circle" style={{ paddingRight: '5px' }}></i>
                     <Text type="body2" color="inherit" text={this.props.title} />
