@@ -1,0 +1,20 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Directory of Users</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+  <ion-list class="users-list">
+    <ion-item *ngFor="let user of users | async">
+        {{user._id}}
+        {{user.name}}
+        {{user.role}}
+        {{user.status.doing}}
+    </ion-item>
+  </ion-list>
+</ion-content>

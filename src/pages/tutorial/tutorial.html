@@ -1,0 +1,32 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Log In</ion-title>
+    <ion-buttons end *ngIf="show_skip">
+      <button ion-button (click)="dismissTut()" color="primary">Skip</button>
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content no-bounce>
+  <ion-slides #slides (ionSlideWillChange)="toggleSkip($event)" pager>
+      <ion-slide>
+        <h1>This is the QR Scanner app for Equithon.</h1>
+      </ion-slide>
+      <ion-slide>
+        <p>We want to say thank you for volunteering to help out. 
+          The Equithon team couldn't have pulled off this event without you :)
+        </p>
+      </ion-slide>
+      <ion-slide>
+        <p>To scan a QR code, hold the camera view up to the code and check the user 
+          in through the popup that displays on the screen after scanning the code!</p>
+        <button ion-button (click)="dismissTut()">
+          Let's Go! 
+          <ion-icon name="arrow-forward"></ion-icon>
+        </button>
+      </ion-slide>
+    </ion-slides>
+</ion-content>
