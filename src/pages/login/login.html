@@ -1,0 +1,16 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Login</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <ion-input type="email" placeholder="Email" [(ngModel)]="email"></ion-input> 
+  <ion-input type="password" placeholder="Password" [(ngModel)]="pass"></ion-input> 
+  <button ion-button (click)="logIn()">Log In</button>
+</ion-content>

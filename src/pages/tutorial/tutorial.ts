@@ -20,7 +20,6 @@ export class TutorialPage {
   }
 
   ionViewDidEnter() {
-    this.menu.enable(false);
   }
 
   toggleSkip(slide: Slides){
@@ -28,8 +27,7 @@ export class TutorialPage {
   }
 
   dismissTut(){
-    this.menu.enable(true);
-    this.navCtrl.setRoot(ScannerPage);
+    this.navCtrl.setRoot(ScannerPage, {}, {animate: true});
   }
 
 }

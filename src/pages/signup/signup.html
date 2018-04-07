@@ -1,0 +1,14 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>signup</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <ion-input type="email" placeholder="Email" [(ngModel)]="email"></ion-input> 
+  <ion-input type="password" placeholder="Password" [(ngModel)]="pass"></ion-input> 
+  <button ion-button (click)="signUp()">Sign Up</button>
+</ion-content>

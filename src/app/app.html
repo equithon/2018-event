@@ -1,17 +1,59 @@
 <ion-split-pane>
-    <ion-menu [content]="content" id="logged-in-view">
-        <ion-header>
-            <ion-toolbar>
-                <ion-title>Menu</ion-title>
-            </ion-toolbar>
-        </ion-header>
-        <ion-content>
-            <button ion-button (click)="openScanner()">Scanner</button>
-            <button ion-button (click)="openDirectory()">Directory</button>
-        </ion-content>
-    </ion-menu>
+  <ion-menu id="loggedInView" [content]="content">
+    <ion-header>
+      <ion-toolbar>
+          <ion-title>Menu</ion-title>
+      </ion-toolbar>
+    </ion-header>
 
-    <ion-nav [root]="rootPage" #content main name="app"></ion-nav>
+    <ion-list>
+      <ion-list-header>
+        Navigate
+      </ion-list-header>
+      <button ion-item menuClose *ngFor="let navpage of navigationPages" (click)="openPage(navpage)">
+        {{navpage.title}}
+      </button>
+    </ion-list>
+
+    <ion-list>
+      <ion-list-header>
+        Account
+      </ion-list-header>
+      <button ion-item menuClose *ngFor="let navpage of loggedInPages" (click)="openPage(navpage)">
+        {{navpage.title}}
+      </button>
+    </ion-list>
+  </ion-menu>
+
+  <ion-menu id="loggedOutView" [content]="content">
+    <ion-header>
+        <ion-toolbar>
+            <ion-title>Menu</ion-title>
+        </ion-toolbar>
+    </ion-header>
+
+    <ion-list>
+      <ion-list-header>
+        Navigate
+      </ion-list-header>
+      <button ion-item menuClose *ngFor="let navpage of navigationPages" (click)="openPage(navpage)">
+        {{navpage.title}}
+      </button>
+    </ion-list>
+
+    <ion-list>
+      <ion-list-header>
+        Account
+      </ion-list-header>
+      <button ion-item menuClose *ngFor="let navpage of loggedOutPages" (click)="openPage(navpage)">
+        {{navpage.title}}
+      </button>
+    </ion-list>
+  </ion-menu>
+
+  
+
+  <ion-nav [root]="rootPage" #content main name="app"></ion-nav>
 </ion-split-pane>
 
 
