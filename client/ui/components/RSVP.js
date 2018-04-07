@@ -512,17 +512,19 @@ const CheckboxInput = ({ question, checkboxes }) => (
 const SelectInput = ({ question, value, onChange, error, options }) => (
     <div className="split-column-row" style={{ paddingBottom: '10px' }}>
         <Text style={{ gridArea: 'left' }} align="left" color="inherit" type="headline" text={question} />
-        <FormControl style={{ gridArea: 'right' }} error={ !!error }>
-            <Select
-                native
-                input={<Input />}
-                onChange={onChange}
-                value={value}
-            >
-                {options}
-            </Select>
-            { (error) ? <FormHelperText>{error}</FormHelperText> : false }
-        </FormControl>
+        <span style={{ gridArea: 'right' }}>
+            <FormControl error={ !!error }>
+                <Select
+                    native
+                    input={<Input />}
+                    onChange={onChange}
+                    value={value}
+                >
+                    {options}
+                </Select>
+                { (error) ? <FormHelperText>{error}</FormHelperText> : false }
+            </FormControl>
+        </span>
     </div>
 );
 
