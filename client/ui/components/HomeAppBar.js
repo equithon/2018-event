@@ -59,9 +59,11 @@ export default class HomeAppBar extends Component {
                 <Toolbar>
                     <div id="app-bar-grid">
                         {/* Application */}
-                        <div style={{ gridArea: 'application', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                            { this.renderAppButton(closed) }
-                        </div>
+                        { (this.props.noAppButton) ? false :
+                            <div style={{ gridArea: 'application', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                                { this.renderAppButton(closed) }
+                            </div>
+                        }
 
                         {/* Logo */}
                         <div style={{ gridArea: 'logo', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>

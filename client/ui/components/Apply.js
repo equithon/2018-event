@@ -23,6 +23,7 @@ import SuccessMessageChip from '/client/ui/components/notif-chips/SuccessMessage
 import ErrorMessageChip from '/client/ui/components/notif-chips/ErrorMessageChip.js';
 import HomeAppBar from '/client/ui/components/HomeAppBar.js';
 import ConfirmationModal from '/client/ui/components/modals/ConfirmationModal.js';
+import AlertBox from '/client/ui/components/notif-chips/AlertBox.js';
 
 import { clientSubmitSchema } from '/imports/api/Schema.js';
 
@@ -206,6 +207,9 @@ class Apply extends Component {
 
             verified: true, // Default verification status so we don't unnecessarily warn the user
             submitted: false,
+            accepted: undefined,
+
+            loaded: false,  // Whether or not the application is done loading
 
             confirmationModalOpen: false,
         };
@@ -252,7 +256,11 @@ class Apply extends Component {
                 /* Handle additional select outcomes */
                 selectFieldNames.forEach((name) => this.initSelectState(valuesAndMessages[name], app[name], name));
 
-                this.setState({ submitted: app.submitted, });
+                this.setState({
+                    submitted: app.submitted,
+                    accepted: app.accepted,
+                    loaded: true
+                });
             }
         });
     }
@@ -460,6 +468,36 @@ class Apply extends Component {
         return <CheckboxInput options={options} />;
     }
 
+    /* Render a application status update notification */
+    renderAppStatusNotification() {
+        let title = "Application Status Update";
+
+        if (this.state.loaded && this.state.accepted === undefined) {
+            return <AlertBox type="notice" title={title}
+                message="Your application has been wait-listed. Check back later for updates." />;
+        } else if (this.state.loaded && this.state.accepted === false) {
+            return(
+                <AlertBox type="notice" title={title}
+                    message={ <span>
+                        Your application has been rejected.
+                        For more information, contact the Equithon team at <a href="mailto:hello@equithon.org">hello@equithon.org</a>.
+                    </span> }
+                />
+            );
+        } else if (this.state.loaded && this.state.accepted === true) {
+            return(
+                <AlertBox type="notice" title={title}
+                    message={ <span>
+                        Congratulations! Your application has been approved!
+                        The next step is to RSVP <a href="/rsvp">here</a>.
+                    </span> }
+                />
+            );
+        }
+
+        return false
+    }
+
     /* Main render entry point */
     render() {
         const { classes } = this.props;
@@ -475,13 +513,18 @@ class Apply extends Component {
                 {/* Welcome the name of the user */}
                 <div style={{gridArea: 'title-row'}}>
                     <Text style={{ textAlign: 'center' }} color="primary" type="display2"
-                        text={ 'Welcome ' + this.getUserField('firstName') + ' ' + this.getUserField('lastName') + '!' } />
+                        text={ 'Welcome' +
+                            ((!this.state.loaded) ? '!' :
+                                ' ' + this.getUserField('firstName') + ' ' + this.getUserField('lastName') + '!')
+                        } />
                 </div>
 
                 {/* Display application submission status and any errors that occur */}
                 <div style={{ gridArea: 'application-label-row', paddingTop: '30px' }}>
                     <Text align="left" color="primary" type="title"
-                        text={ <p>Application > <em>{ (this.state.submitted) ? 'Submitted' : 'Incomplete' }</em></p> } />
+                        text={ <p>Application > <em>{
+                            (!this.state.loaded) ? 'Loading' : (this.state.submitted) ? 'Submitted' : 'Incomplete'
+                        }</em></p> } />
 
                     {/* Informative chips */}
                     <div style={{ display: 'grid', gridRowGap: '10px', padding: '10px', justifyContent: 'center' }}>
@@ -499,6 +542,9 @@ class Apply extends Component {
                         { (this.state.success) ?
                                 <SuccessMessageChip successMessage={this.state.successMessage} /> : false
                         }
+
+                        {/* Application status update */}
+                        { this.renderAppStatusNotification() }
                     </div>
                 </div>
 

@@ -237,8 +237,6 @@ body {
     padding: 50px;
 }
 
-
-
 /* Code of Conduct page */
 #conduct-wrapper {
     display: grid;
@@ -280,6 +278,34 @@ body {
     height: 100%;
     border-radius: 25px;
     background-color: #5a82ed;
+}
+
+/* Alert Box - taken from http://www.cssportal.com/blog/css-notification-boxes/ */
+.alert-box {
+    color: #555;
+    border-radius: 10px;
+    padding: 10px 10px 10px 10px;
+    margin: 10px;
+}
+.title {
+    font-weight: bold;
+    text-transform: uppercase;
+}
+.error {
+    background: #ffecec;
+    border: 1px solid #f5aca6;
+}
+.success {
+    background: #e9ffd9;
+    border: 1px solid #a6ca8a;
+}
+.warning {
+    background: #fff8c4;
+    border: 1px solid #f2c779;
+}
+.notice {
+    background: #e3f7fc;
+    border: 1px solid #8ed9f6;
 }
 
 

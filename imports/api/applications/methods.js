@@ -28,6 +28,7 @@ Meteor.publish('applicationData', function() {
                 categories:        1,
                 workshops:         1,
                 submitted:         1,
+                accepted:          1,
             }
         });
     } else {
