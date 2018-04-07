@@ -199,7 +199,7 @@ export default class Rsvp extends Component {
             case 'attending':
                 return(
                     <span>
-                        <Text align="left" color="primary" type="display1" style={{ paddingBottom: '10px' }} text="Attendance" />
+                        <Text align="left" color="primary" type="headline" style={{ paddingBottom: '10px' }} text="Attendance" />
                         <BooleanQuestion
                             question="Will you attend Equithon May 4-6?"
                             value={this.state.attending}
@@ -211,15 +211,15 @@ export default class Rsvp extends Component {
             case 'confirmTravellingFrom':
                 if (this.state.attending === 'true') {
                     var options = [];
-                    options.push(<option key={0} value="grt">I will be travelling from within GRT</option>);
-                    options.push(<option key={1} value="toronto">I will be travelling from Toronto</option>);
-                    options.push(<option key={2} value="mississauga">I will be travelling from Mississauga</option>);
+                    options.push(<option key={0} value="grt">I will be travelling from within Kitchener-Waterloo</option>);
+                    options.push(<option key={1} value="toronto">I will be travelling from Toronto or the GTA (not including the cities below)</option>);
+                    options.push(<option key={2} value="mississauga">I will be travelling from Mississauga, Brampton, Oakville, or Milton</option>);
                     options.push(<option key={3} value="other">I will be travelling from another location</option>);
                     return(
                         <span>
-                            <Text align="left" color="primary" type="display1" style={{ paddingBottom: '10px' }} text="Travel" />
+                            <Text align="left" color="primary" type="headline" style={{ paddingBottom: '10px' }} text="Travel" />
                             <SelectInput
-                                question="Where will you be travelling from May 4-6?"
+                                question="Where will you be travelling from?"
                                 value={this.state.confirmTravellingFrom}
                                 onChange={ this.handleChange('confirmTravellingFrom') }
                                 options={options}
@@ -227,7 +227,7 @@ export default class Rsvp extends Component {
 
                             { (this.state.confirmTravellingFrom === 'other') ?
                                     <TextInput
-                                        question="Please enter where you will be travelling from."
+                                        question="Please enter where you will be travelling from (City, Country)."
                                         value={this.state.confirmTravellingFromText}
                                         onChange={ this.handleChange('confirmTravellingFromText') }
                                     /> : false
@@ -243,7 +243,7 @@ export default class Rsvp extends Component {
                 if (this.state.confirmTravellingFrom === 'mississauga') {
                     return(
                         <BooleanQuestion
-                            question="A bus from McGill University will be provided for free. Would you like to reserve a spot on this bus?"
+                            question="A bus from Square One will be provided for free. Would you like to reserve a spot on this bus?"
                             value={this.state.needBus}
                             onChange={ this.handleChange('needBus') }
                         />
@@ -251,7 +251,7 @@ export default class Rsvp extends Component {
                 } else if (this.state.confirmTravellingFrom === 'toronto') {
                     return(
                         <BooleanQuestion
-                            question="A bus from the University of Toronto will be provided for free. Would you like to reserve a spot on this bus?"
+                            question="A bus from the University of Toronto (St. George Campus) will be provided for free. Would you like to reserve a spot on this bus?"
                             value={this.state.needBus}
                             onChange={ this.handleChange('needBus') }
                         />
@@ -263,7 +263,7 @@ export default class Rsvp extends Component {
                     return(
                         <span>
                             <BooleanQuestion
-                                question="Will you require living accomodation?"
+                                question="Will you require overnight accomodation?"
                                 value={this.state.requireAccomodation}
                                 onChange={ this.handleChange('requireAccomodation') }
                             />
@@ -279,7 +279,7 @@ export default class Rsvp extends Component {
                     return(
                         <span>
                             <BooleanQuestion
-                                question="Do you wish to request a specific persion for your roommate?"
+                                question="Do you wish to request a specific accepted hacker to be your roommate? The person must respond with your name to confirm the request."
                                 value={this.state.roommateRequest}
                                 onChange={ this.handleChange('roommateRequest') }
                             />
@@ -299,8 +299,8 @@ export default class Rsvp extends Component {
 
                     return(
                         <span>
-                            <Text align="left" color="inherit" type="headline" style={{ paddingBottom: '10px' }}
-                                text="You will be assigned a roommate. There will be specific male, female, and gender-neutral rooms. Please fill out the following" />
+                            <Text align="left" color="inherit" type="body2" style={{ paddingBottom: '10px' }}
+                                text="You will be assigned a roommate. There will be specific male, female, and gender-neutral rooms. Please fill out the following:" />
 
                             <SelectInput
                                 question="Your gender:"
@@ -327,7 +327,7 @@ export default class Rsvp extends Component {
                                 onChange={ this.handleChange('roommateRequestName') }
                             />
                             <TextInput
-                                question="Please enter your desired roommate's email address."
+                                question="Please enter your desired roommate's email address they used to create their equithon.org account."
                                 value={this.state.roommateRequestEmail}
                                 onChange={ this.handleChange('roommateRequestEmail') }
                             />
@@ -348,13 +348,13 @@ export default class Rsvp extends Component {
 
                             { (this.state.age === 'false') ?
                                 <span>
-                                    <Text align="left" color="primary" type="display1" style={{ paddingBottom: '10px' }}
+                                    <Text align="left" color="primary" type="body2" style={{ paddingBottom: '10px' }}
                                         text="Waiver" />
                                     <Text align="left" color="inherit" type="subheading" style={{ paddingBottom: '10px' }}
-                                        text={ <span>Please upload a copy of <a target="_blank" href={waiverLink}>this waiver</a> signed by your parent or guardian."</span> } />
+                                        text={ <span>Please upload a copy of <a target="_blank" href={waiverLink}>this consent form</a> signed by your parent or guardian.</span> } />
                                     <FileUpload what="waiver" disabled={this.state.submitted}
                                         onSuccess={ (() => this.setState({ waiver: true })).bind(this) }
-                                        onFailure={ (() => this.setState({ waiver: false })).bind(this) }
+                                        onFailure={ (() => this.setState({ waiver: true })).bind(this) }
                                     /><br/>
                                 </span> : false
                             }
@@ -367,7 +367,7 @@ export default class Rsvp extends Component {
             case 'foodswag':
                 if (this.state.age === 'true' || (this.state.age === 'false' && this.state.waiver)) {
                     var dietValues = ['vegetarian', 'vegan', 'gluten', 'halal', 'other'];
-                    var dietMessages = ['Vegetarian', 'Vegan', 'Gluten', 'Halal', 'Other'];
+                    var dietMessages = ['Vegetarian', 'Vegan', 'Gluten free', 'Halal', 'Other'];
                     var shirtOptions = [];
                     shirtOptions.push(<option key={0} value="s">S</option>);
                     shirtOptions.push(<option key={1} value="m">M</option>);
@@ -376,7 +376,7 @@ export default class Rsvp extends Component {
 
                     return(
                         <span>
-                            <Text align="left" color="primary" type="headline" style={{ paddingBottom: '10px' }} text="Food/Swag" />
+                            <Text align="left" color="primary" type="headline" style={{ paddingBottom: '10px' }} text="Logistics" />
                             { this.renderCheckbox(dietValues, dietMessages, 'diet', 'Do you have any dietary restrictions?') }
                             { (this.state.diet.other) ?
                                     <span>
@@ -401,9 +401,9 @@ export default class Rsvp extends Component {
             case 'resume':
                 return(
                     <span>
-                        <Text align="left" color="primary" type="display1" style={{ paddingBottom: '10px' }} text="Resumé" />
+                        <Text align="left" color="primary" type="headline" style={{ paddingBottom: '10px' }} text="Resume" />
                         <Text align="left" color="inherit" type="subheading" style={{ paddingBottom: '10px' }}
-                            text="Equithon has a variety of sponsors that are looking to hire students! You may upload your resumé to opt-in for this opportunity. By uploading your resumé, you give Equithon permission to share your uploaded file with its sponsors." />
+                            text="Equithon has a variety of sponsors that are looking to hire students! You may upload your resume to opt-in for this opportunity. By uploading your resume, you give Equithon permission to share your uploaded file with its sponsors." />
                         <FileUpload what="resume" disabled={this.state.submitted}
                             onSuccess={ (() => this.setState({ resume: true })).bind(this) }
                             onFailure={ (() => this.setState({ resume: false })).bind(this) }
@@ -418,7 +418,7 @@ export default class Rsvp extends Component {
     }
 
     render() {
-        if (!Meteor.userId()) return <Redirect to="/login" />;
+        if (!Meteor.userId()) return <Redirect to="/accounts/login" />;
         else if (this.state.loaded && !this.state.accepted) return <Redirect to="/apply" />;
         else if (!this.state.loaded) return false;
 
@@ -429,7 +429,10 @@ export default class Rsvp extends Component {
                 <div className="form-wrapper">
                     <div style={{ gridArea: 'title-row' }}>
                         <Text align="center" color="primary" type="display2" text="RSVP Form" />
-                        <Text align="center" color="textSecondary" type="subheading" text="Congratulations on being accepted to Equithon 2018! Please fill out this RSVP form to secure your spot" />
+                        <Text align="center" color="textSecondary" style={{ paddingTop: '20px'}} type="subheading" text={ <span>
+                            Congratulations on being accepted to Equithon 2018!<br/>
+                            Please submit this RSVP form by 11:55PM on Wednesday, April 11 to secure your spot.
+                            </span> } />
                     </div>
 
                     <Paper className="form-paper">
@@ -471,7 +474,7 @@ export default class Rsvp extends Component {
                             open={this.state.confirmationModalOpen}
                             onClose={ () => this.setState({ confirmationModalOpen: false }) }
                             onYes={this.submitRSVP}
-                            message="Are you sure you would like to submit your application? You cannot edit after submitting."
+                            message="Are you sure you would like to submit your RSVP? You cannot edit after submitting."
                         />
                     </Paper>
                 </div>
@@ -483,7 +486,7 @@ export default class Rsvp extends Component {
 
 const BooleanQuestion = ({ question, value, onChange }) => (
     <div className="split-column-row" style={{ gridRowGap: '10px', gridColumnGap: '10px', paddingBottom: '10px' }}>
-        <Text style={{ gridArea: 'left' }} align="left" color="inherit" type="headline" text={question} />
+        <Text style={{ gridArea: 'left' }} align="left" color="inherit" type="body2" text={question} />
         <FormControl style={{ gridArea: 'right' }} component="fieldset" required>
             <RadioGroup
                 aria-label="answer"
@@ -500,7 +503,7 @@ const BooleanQuestion = ({ question, value, onChange }) => (
 
 const CheckboxInput = ({ question, checkboxes }) => (
     <div>
-        <Text align="left" color="inherit" type="headline" text={question} />
+        <Text align="left" color="inherit" type="body2" text={question} />
         <FormControl required>
             <FormGroup>
                 {checkboxes}
@@ -511,7 +514,7 @@ const CheckboxInput = ({ question, checkboxes }) => (
 
 const SelectInput = ({ question, value, onChange, error, options }) => (
     <div className="split-column-row" style={{ paddingBottom: '10px' }}>
-        <Text style={{ gridArea: 'left' }} align="left" color="inherit" type="headline" text={question} />
+        <Text style={{ gridArea: 'left' }} align="left" color="inherit" type="body2" text={question} />
         <span style={{ gridArea: 'right' }}>
             <FormControl error={ !!error }>
                 <Select
@@ -530,7 +533,7 @@ const SelectInput = ({ question, value, onChange, error, options }) => (
 
 const TextInput = ({ question, value, onChange }) => (
     <div className="split-column-row" style={{ paddingBottom: '10px' }}>
-        <Text style={{ gridArea: 'left' }} align="left" color="inherit" type="headline" text={question} />
+        <Text style={{ gridArea: 'left' }} align="left" color="inherit" type="body2" text={question} />
         <TextField value={value} onChange={onChange} />
     </div>
 );
