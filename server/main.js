@@ -1,11 +1,11 @@
 import { Meteor } from 'meteor/meteor';
 
 import '/server/api.js';
+import '/server/file-storage.js';
 
 import { EmailSubscriptions } from '/imports/api/email-subscriptions/email-subscriptions.js';
 import Applications from '/imports/api/applications/applications.js';
 import Rsvps from '/imports/api/rsvps/rsvps.js';
-
 
 Meteor.startup(() => {
     // Deny all client-side updates on our collections.

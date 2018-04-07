@@ -269,6 +269,21 @@ body {
 }
 
 /*
+ * Progress Bars
+ */
+.progress-bar-container {
+    width: 100%;
+    border-radius: 25px;
+    background-color: #d5dffa;
+}
+.progress-bar {
+    height: 100%;
+    border-radius: 25px;
+    background-color: #5a82ed;
+}
+
+
+/*
  * For accounts background, we need to make sure we switch to
  * scaling by height once we have a big enough height.
  */

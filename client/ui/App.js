@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { Tracker } from 'meteor/tracker';
 
 import MediaQuery from 'react-responsive';
-import { BrowserRouter as Router, Route} from 'react-router-dom';
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import { FilesCollection } from 'meteor/ostrio:files';
 
 import {MuiThemeProvider} from 'material-ui/styles';
 import {Card, CardContent, CardMedia} from "material-ui";
@@ -28,6 +29,7 @@ import Rsvp from '/client/ui/components/RSVP.js';
 /* Mongo Collection declarations */
 Applications = new Mongo.Collection('applications');
 Rsvps = new Mongo.Collection('rsvps');
+UserFiles = new FilesCollection({ collectionName: 'userFiles' });
 
 const imageElevation = 7;
 

@@ -27,6 +27,8 @@ Meteor.publish('rsvpData', function() {
                 diet:                  1,
                 dietText:              1,
                 shirtSize:             1,
+                waiver:                1,
+                resume:                1,
                 submitted:             1,
             }
         });
@@ -41,7 +43,6 @@ export const submitRSVP = new ValidatedMethod({
 
     validate: new SimpleSchema({
         attending:             { type: Boolean },
-        submitted:             { type: Boolean },
         confirmTravellingFrom: { type: String },
         needBus:               { type: Boolean, optional: true },
         requireAccomodation:   { type: Boolean },
@@ -59,6 +60,8 @@ export const submitRSVP = new ValidatedMethod({
         'diet.other':          { type: Boolean },
         dietText:              { type: String, optional: true },
         shirtSize:             { type: String },
+        waiver:                { type: Boolean },
+        resume:                { type: Boolean },
     }).validator(),
 
     run(rsvp) {
@@ -90,7 +93,10 @@ export const submitRSVP = new ValidatedMethod({
                 diet:                  rsvp.diet,
                 dietText:              rsvp.dietText,
                 shirtSize:             rsvp.shirtSize,
-                submitted:             rsvp.submitted,
+                waiver:                rsvp.waiver,
+                resume:                rsvp.resume,
+
+                submitted:             true,
             }
         }, (err, res) => {
             if (err) throw err;
