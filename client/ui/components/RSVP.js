@@ -13,12 +13,19 @@ import HomeAppBar from '/client/ui/components/HomeAppBar.js';
 import Text from '/client/ui/components/Text.js';
 import FlatColoredButton from '/client/ui/components/buttons/FlatColoredButton.js';
 import ConfirmationModal from '/client/ui/components/modals/ConfirmationModal.js';
+import FileUpload from '/client/ui/components/FileUpload.js';
+import SuccessMessageChip from '/client/ui/components/notif-chips/SuccessMessageChip.js';
+import ErrorMessageChip from '/client/ui/components/notif-chips/ErrorMessageChip.js';
 
 
 const textFieldNames = [ 'confirmTravellingFrom', 'roommateRequestName', 'roommateRequestEmail',
     'roommateGender', 'roommatePreference', 'dietText' ];
 const checkboxFieldNames = [ 'diet' ];
 const booleanFieldNames = [ 'attending', 'needBus', 'requireAccomodation', 'roommateRequest', 'age' ];
+
+const confirmTravellingFromOptions = [ 'grt', 'toronto', 'montreal', 'other' ];
+
+const waiverLink = 'https://drive.google.com/file/d/1h8b3B6lBXEdppI8cAju8ykrhiIa5VFrO/view';
 
 export default class Rsvp extends Component {
     constructor(props) {
@@ -29,6 +36,7 @@ export default class Rsvp extends Component {
 
             attending: '',
             confirmTravellingFrom: '',
+            confirmTravellingFromText: '',
             needBus: '',
             requireAccomodation: '',
             roommateRequest: '',
@@ -40,7 +48,11 @@ export default class Rsvp extends Component {
             diet: { vegetarian: false, vegan: false, gluten: false, halal: false, other: false },
             dietText: '',
             shirtSize: '',
+            waiver: false,
+            resume: false,
 
+            success: false,
+            errorMessage: '',
             confirmationModalOpen: false,
             submitted: false,
         };
@@ -73,7 +85,17 @@ export default class Rsvp extends Component {
                     }
                 });
 
-                this.setState({ submitted: rsvp.submitted });
+                if (confirmTravellingFromOptions.find((val) => val === rsvp.confirmTravellingFrom)) {
+                    this.setState({ confirmTravellingFrom: rsvp.confirmTravellingFrom });
+                } else if (rsvp.confirmTravellingFrom) {
+                    this.setState({ confirmTravellingFrom: 'other', confirmTravellingFromText: rsvp.confirmTravellingFrom });
+                }
+
+                this.setState({
+                    waiver: rsvp.waiver,
+                    resume: rsvp.resume,
+                    submitted: rsvp.submitted
+                });
             }
         });
     }
@@ -96,18 +118,29 @@ export default class Rsvp extends Component {
             age:                   this.toBoolean(this.state.age),
             diet:                  this.state.diet,
             shirtSize:             (this.state.shirtSize) ? this.state.shirtSize : 's',
-            submitted:             true,
+            waiver:                this.state.waiver,
+            resume:                this.state.resume,
         };
+
+        // confirmTravellingFrom special case
+        if (this.state.confirmTravellingFrom === 'other') {
+            rsvp.confirmTravellingFrom = (this.state.confirmTravellingFromText) ? this.state.confirmTravellingFromText : '';
+        }
+
 
         Meteor.call('rsvps.submit', rsvp, (err, res) => {
             console.log(err);
             if (err) {
-                this.setState({
-                    submitted: false
-                });
+                this.setState({ success: false });
+                if (err.details) {  // Display the first validation error to the user
+                    this.setState({ errorMessage: err.details[0].message });
+                } else {
+                    this.setState({ errorMessage: err.reason });
+                }
             } else {
                 this.setState({
-                    submitted: true
+                    success: true,
+                    errorMessage: ''
                 });
             }
         });
@@ -184,6 +217,14 @@ export default class Rsvp extends Component {
                                 options={options}
                             />
 
+                            { (this.state.confirmTravellingFrom === 'other') ?
+                                    <TextInput
+                                        question="Please enter where you will be travelling from."
+                                        value={this.state.confirmTravellingFromText}
+                                        onChange={ this.handleChange('confirmTravellingFromText') }
+                                    /> : false
+                            }
+
                             { this.renderQuestion('needBus') }
                             { this.renderQuestion('requireAccomodation') }
                         </span>
@@ -251,7 +292,7 @@ export default class Rsvp extends Component {
 
                     return(
                         <span>
-                            <Text align="left" color="primary" type="headline" style={{ paddingBottom: '10px' }}
+                            <Text align="left" color="inherit" type="headline" style={{ paddingBottom: '10px' }}
                                 text="You will be assigned a roommate. There will be specific male, female, and gender-neutral rooms. Please fill out the following" />
 
                             <SelectInput
@@ -299,6 +340,19 @@ export default class Rsvp extends Component {
                                 onChange={ this.handleChange('age') }
                             />
 
+                            { (this.state.age === 'false') ?
+                                <span>
+                                    <Text align="left" color="primary" type="display1" style={{ paddingBottom: '10px' }}
+                                        text="Waiver" />
+                                    <Text align="left" color="inherit" type="subheading" style={{ paddingBottom: '10px' }}
+                                        text={ <span>Please upload a copy of <a target="_blank" href={waiverLink}>this waiver</a> signed by your parent or guardian."</span> } />
+                                    <FileUpload what="waiver" disabled={this.state.submitted}
+                                        onSuccess={ (() => this.setState({ waiver: true })).bind(this) }
+                                        onFailure={ (() => this.setState({ waiver: false })).bind(this) }
+                                    /><br/>
+                                </span> : false
+                            }
+
                             { this.renderQuestion('foodswag') }
                         </span>
                     );
@@ -338,6 +392,19 @@ export default class Rsvp extends Component {
                     );
                 } else return false;
 
+            case 'resume':
+                return(
+                    <span>
+                        <Text align="left" color="primary" type="display1" style={{ paddingBottom: '10px' }} text="Resumé" />
+                        <Text align="left" color="inherit" type="subheading" style={{ paddingBottom: '10px' }}
+                            text="Equithon has a variety of sponsors that are looking to hire students! You may upload your resumé to opt-in for this opportunity. By uploading your resumé, you give Equithon permission to share your uploaded file with its sponsors." />
+                        <FileUpload what="resume" disabled={this.state.submitted}
+                            onSuccess={ (() => this.setState({ resume: true })).bind(this) }
+                            onFailure={ (() => this.setState({ resume: false })).bind(this) }
+                        /><br/>
+                    </span>
+                );
+
             default:
                 console.log('Can\'t render ' + name);
         }
@@ -359,19 +426,37 @@ export default class Rsvp extends Component {
                         {/* Attending */}
                         { this.renderQuestion('attending') }
 
-                        {/* Travel Section */}
+                        {/* Rest of form */}
                         { this.renderQuestion('confirmTravellingFrom') }
 
+                        {/* Resume upload */}
+                        { (this.state.attending === 'true' && this.state.age === 'true' ||
+                            (this.state.age === 'false' && this.state.waiver)) ?
+                                this.renderQuestion('resume') : false
+                        }
+
+                        {/* Submit */}
                         { (this.state.attending === 'false' || this.state.age === 'true' ||
                             (this.state.age === 'false' && this.state.waiver)) ?
-                                <span>
-                                    <FlatColoredButton
-                                        disabled={ this.state.submitted }
-                                        onClick={ () => this.setState({ confirmationModalOpen: true }) }
-                                        content="Submit"
-                                    />
-                                </span> : false
+                                <div className="split-column-row">
+                                    <div style={{ gridArea: 'left' }}>
+                                        <FlatColoredButton
+                                            disabled={ this.state.submitted }
+                                            onClick={ () => this.setState({ confirmationModalOpen: true }) }
+                                            content="Submit"
+                                        />
+                                    </div>
+                                    <div style={{ gridArea: 'right', textAlign: 'center' }}>
+                                        { (this.state.errorMessage) ?
+                                            <ErrorMessageChip errorMessage={this.state.errorMessage} /> : false
+                                        }
+                                        { (this.state.success) ?
+                                            <SuccessMessageChip successMessage="Your RSVP form was successfully submitted" /> : false
+                                        }
+                                    </div>
+                                </div> : false
                         }
+
                         <ConfirmationModal
                             open={this.state.confirmationModalOpen}
                             onClose={ () => this.setState({ confirmationModalOpen: false }) }
@@ -384,6 +469,7 @@ export default class Rsvp extends Component {
         );
     }
 }
+
 
 const BooleanQuestion = ({ question, value, onChange }) => (
     <div className="split-column-row" style={{ paddingBottom: '10px' }}>
