@@ -21,7 +21,7 @@ import ErrorMessageChip from '/client/ui/components/notif-chips/ErrorMessageChip
 
 /* Common definitions */
 const textFieldNames = [ 'confirmTravellingFrom', 'roommateRequestName', 'roommateRequestEmail',
-    'roommateGender', 'dietText' ];
+    'roommateGender', 'dietText', 'shirtSize' ];
 const checkboxFieldNames = [ 'diet' ];
 const booleanFieldNames = [ 'attending', 'needBus', 'requireAccomodation', 'roommateRequest', 'roommatePreference', 'age' ];
 const confirmTravellingFromOptions = [ 'grt', 'toronto', 'montreal', 'other' ];
@@ -353,10 +353,19 @@ export default class Rsvp extends Component {
                                         text="Waiver" />
                                     <Text align="left" color="inherit" type="subheading" style={{ paddingBottom: '10px' }}
                                         text={ <span>Please upload a copy of <a target="_blank" href={waiverLink}>this consent form</a> signed by your parent or guardian.</span> } />
-                                    <FileUpload what="waiver" disabled={this.state.submitted}
-                                        onSuccess={ (() => this.setState({ waiver: true })).bind(this) }
-                                        onFailure={ (() => this.setState({ waiver: true })).bind(this) }
-                                    /><br/>
+
+                                    { (this.state.submitted) ? (this.state.waiver) ?
+                                            <Text type="body2" color="textSecondary" style={{ paddingBottom: '10px' }}
+                                                text="Successfully submitted waiver." /> :
+                                            <Text type="body2" color="textSecondary" style={{ paddingBottom: '10px' }}
+                                                text="No waiver submitted." /> :
+
+                                            <FileUpload what="waiver" disabled={this.state.submitted}
+                                                onSuccess={ (() => this.setState({ waiver: true })).bind(this) }
+                                                onFailure={ (() => this.setState({ waiver: false })).bind(this) }
+                                            />
+                                    }
+                                    <br/>
                                 </span> : false
                             }
 
@@ -405,10 +414,18 @@ export default class Rsvp extends Component {
                         <Text align="left" color="primary" type="headline" style={{ paddingBottom: '10px' }} text="Resume" />
                         <Text align="left" color="inherit" type="subheading" style={{ paddingBottom: '10px' }}
                             text="Equithon has a variety of sponsors that are looking to hire students! You may upload your resume to opt-in for this opportunity. By uploading your resume, you give Equithon permission to share your uploaded file with its sponsors." />
-                        <FileUpload what="resume" disabled={this.state.submitted}
-                            onSuccess={ (() => this.setState({ resume: true })).bind(this) }
-                            onFailure={ (() => this.setState({ resume: false })).bind(this) }
-                        /><br/>
+                        { (this.state.submitted) ? (this.state.resume) ?
+                                <Text type="body2" color="textSecondary" style={{ paddingBottom: '10px' }}
+                                    text="Successfully submitted resume." /> :
+                                <Text type="body2" color="textSecondary" style={{ paddingBottom: '10px' }}
+                                    text="No resume submitted." /> :
+
+                                <FileUpload what="resume" disabled={this.state.submitted}
+                                    onSuccess={ (() => this.setState({ resume: true })).bind(this) }
+                                    onFailure={ (() => this.setState({ resume: false })).bind(this) }
+                                />
+                        }
+                        <br/>
                     </span>
                 );
 
