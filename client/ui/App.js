@@ -131,7 +131,13 @@ export default class App extends Component {
                                     { (appsClosed()) ? false : <div style={{ padding: '5px' }}></div> }
 
                                     <FlatColoredButton onClick={this.handleSubModalOpen} content="Stay Posted" />
+                                    <div style={{ padding: '5px' }}></div>
+                                    <a className="button-link" href="https://equithon-volunteer.typeform.com/to/JxT6Vy">
+                                            <FlatColoredButton content="Volunteer" />
+                                    </a>
                                     <SubscriptionModal open={this.state.subModalOpen} onClose={this.handleClose} />
+                                    
+                                    
                                 </div>
 
                                 <div style={{gridArea: 'social', display: 'inline', width: 'auto', textAlign: 'center'}}>
@@ -284,9 +290,9 @@ const TitleRowText = ({ align }) => (
         { appsClosed() ?
             <div>   {/* Special text for when applications are closed */}
                 <Text color="primary" type="display2" align={align}
-                    text="Applications for Equithon 2018 are now closed." />
+                    text="See you at Equithon on May 4-6!" />
                 <Text color="primary" type="headline" align={align}
-                    text="Decisions will be released at the beginning of April." />
+                    text="Acceptances have been released by email." />
             </div> :
             <Text color="primary" type="display2" align={align}
                   text="Applications for Equithon 2018 close March 18!"
@@ -388,6 +394,57 @@ const SubTextBox = () => (
  */
 const FAQ = () => (
     <div>
+
+        <FaqCard
+            question="What can I make?"
+            answer="You can make anything that raises awareness of or addresses an issue related to equity in one of five categories. The categories for Equithon 2018 are: Access to Education, LGBTQ+ Rights, Mental Health, Physical Disabilities, and Women Empowerment. We will be providing resources leading up to and during Equithon to help you develop your ideas into a great hack."
+            number="1."
+        />
+        <br/>
+        <FaqCard
+            question="Can I work on a project at Equithon that I’ve already started?"
+            answer="No. To ensure fairness, hackers must submit projects started at Equithon."
+            number="2."
+        />
+        <br/>
+        <FaqCard
+            question="Why is Equithon not an overnight event?"
+            answer="We decided that Equithon should not be an overnight event because we want to be as inclusive as possible. Free overnight accommodation will be provided to hackers travelling from outside Kitchener-Waterloo. Hackers should indicate whether they require accommodation on their RSVP form."
+            number="3."
+        />
+        <br/>
+        <FaqCard
+            question="How do I get to Equithon if I'm not from Waterloo? Will I get reimbursed?"
+            answer={<span>The Equithon team will be providing bus two buses: one departing from University of Toronto St. George Campus and one departing from Square One in Mississauga. 
+                Accepted hackers can reserve seats on the buses on the RSVP form. Hackers from outside Waterloo, Toronto, and Mississauga must organize their own travel but will be reimbursed after the event. 
+                The maximum amount for reimbursement will be communicated to hackers via email after they submit the RSVP. Reimbursement will be based on average round-trip cost to Waterloo from the city indicated on the RSVP.
+                </span>}
+            number="4."
+        />
+        <br/>
+        <FaqCard
+            question="How do I request accessibility accommodations?"
+            answer={ <p>The Equithon team is happy to accommodate your needs in any way we can. Let us know if you require accommodation by sending an email to <a href="mailto:hello@equithon.org">hello@equithon.org</a>.</p>}
+            number="5."
+        />
+        <br/>
+
+        <FaqCard
+            question="How can I help with the event?"
+            answer={ <p>Registration for volunteers is open! Sign up to be a volunteer <a href="https://equithon-volunteer.typeform.com/to/JxT6Vy">here</a>! If you are interested in being a mentor, please send us an email at <a href="mailto:hello@equithon.org">hello@equithon.org</a>.</p>}
+            number="6."
+        />
+        <br/>
+        <FaqCard
+            question="Have more questions?"
+            number="7."
+            answer={ <p>Send us an email at <a href="mailto:hello@equithon.org">hello@equithon.org</a>.</p> }
+        />
+    </div>
+);
+
+
+        /*
         <FaqCard
             question="What is a hackathon?"
             answer="A hackathon is an event where the participants, either individually or in teams, build projects from scratch over a short period of time (in this case, three days) and present to a team of judges. Hackathons are a place to be creative, learn new skills, and make new friends!"
@@ -400,46 +457,11 @@ const FAQ = () => (
             number="2."
         />
         <br/>
-        <FaqCard
-            question="What can I make?"
-            answer="You can make anything that raises awareness of or addresses an issue related to equity in one of five categories. The categories for Equithon 2018 are: Access to Education, LGBTQ+ Rights, Mental Health, Physical Disabilities, and Women Empowerment. We will be providing resources leading up to and during Equithon to help you develop your ideas into a great hack."
-            number="3."
-        />
-        <br/>
-        <FaqCard
-            question="Can I work on a project at Equithon that I’ve already started?"
-            answer="No. To ensure fairness, hackers must submit projects started at Equithon."
-            number="4."
-        />
-        <br/>
-        <FaqCard
-            question="Why is Equithon not an overnight event?"
-            answer="We decided that Equithon should not be an overnight event because we want to be as inclusive as possible. Hackathons that span a whole weekend can be intimidating - we want people who would not normally be comfortable attending hackathons to join us too."
-            number="5."
-        />
-        <br/>
+
         <FaqCard
             question="When will I know if I am accepted to Equithon 2018?"
             answer="The Equithon team is currently working hard to review applications. Decisions will be sent out by email in the beginning of April."
-            number="6."
+            number="4."
         />
         <br/>
-        <FaqCard
-            question="How do I get to Equithon if I'm not from Waterloo?"
-            answer="Depending on the location you're travelling from, the Equithon team may either be providing a bus for all hackers in your area, or we will reimburse your travel costs. The maximum amount for reimbursement depends on distance to Waterloo and will be indicated to all accepted hackers in the RSVP form."
-            number="7."
-        />
-        <br/>
-        <FaqCard
-            question="How can I help with the event?"
-            answer={ <p>Registration for volunteers will open in the beginning of April! Sign up for our mailing list using the Stay Posted button above and follow us on social media to be notified when it opens! If you are interested in being a mentor, please send us an email at <a href="mailto:hello@equithon.org">hello@equithon.org</a>.</p>}
-            number="8."
-        />
-        <br/>
-        <FaqCard
-            question="Have more questions?"
-            number="9."
-            answer={ <p>Send us an email at <a href="mailto:hello@equithon.org">hello@equithon.org</a>.</p> }
-        />
-    </div>
-);
+        */
