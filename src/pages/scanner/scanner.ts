@@ -2,17 +2,21 @@ import { Component } from '@angular/core';
 import { Platform } from 'ionic-angular';
 import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner';
 import { Observable } from 'rxjs';
-import * as moment from 'moment';
+import { DetailProvider } from './../../providers/detail/detail';
+import { Meteor } from 'meteor/meteor';
 
 
 @Component({
   templateUrl: 'scanner.html'
 })
 export class ScannerPage {
+
     users;
-   
+    query_id: string;
+
 	constructor(public platform: Platform,
-				public qrScanner: QRScanner) {
+                public qrScanner: QRScanner,
+                public detail: DetailProvider) {
     }
    
     openScanner(){
@@ -25,11 +29,13 @@ export class ScannerPage {
 
 
                 // start scanning
-                let scanSub = this.qrScanner.scan().subscribe((text: string) => {
-					console.log('Scanned something', text);
+                let scanSub = this.qrScanner.scan().subscribe((scanned: string) => {
+					console.log('Scanned something', scanned);
 					(window.document.querySelector('ion-app') as HTMLElement).classList.remove('cameraView');
                     this.qrScanner.hide(); // hide camera preview
                     scanSub.unsubscribe(); // stop scanning
+                    this.query_id = scanned;
+                    this.showScanned();
                 });
 
 				// show camera preview
@@ -52,6 +58,12 @@ export class ScannerPage {
 			console.log('cordova not running: make sure this is running natively on a phone.')
 		}
         
+    }
+
+    showScanned() {
+        let queried_user: any = Meteor.users.findOne({_id: this.query_id}) || null;
+        let detail_type = queried_user ? 'user' : 'error';
+        this.detail.showDetail({type: detail_type, info: queried_user});
     }
 
   }

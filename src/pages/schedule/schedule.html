@@ -1,0 +1,20 @@
+<ion-header>
+
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Schedule</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  this should be where the schedule goes
+  <ion-list>
+    <button ion-item *ngFor="let evnt of events" (click)="this.detail.showDetail({type: 'event', info: evnt})">
+      {{evnt.name}}
+    </button>
+  </ion-list>
+</ion-content>

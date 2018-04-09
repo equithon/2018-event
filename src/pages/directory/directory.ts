@@ -1,21 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Observable } from 'rxjs';
-import * as moment from 'moment';
-import 'rxjs/add/operator/mergeMap';
+import { Meteor } from 'meteor/meteor';
+import { Accounts } from 'meteor/accounts-base';
+import { DetailProvider } from './../../providers/detail/detail';
 
 @Component({
   selector: 'page-directory',
   templateUrl: 'directory.html',
 })
-export class DirectoryPage implements OnInit {
+export class DirectoryPage {
 
   attendees: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
-  }
-
-  ngOnInit() {
+  constructor(public navCtrl: NavController, 
+              public navParams: NavParams,
+              public detail: DetailProvider) {
+    this.attendees = Meteor.users.find().fetch();
+    console.log(this.attendees);
+    console.log(Meteor.user());
   }
 
   ionViewDidLoad() {

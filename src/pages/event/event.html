@@ -1,0 +1,23 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>{{event.name}}</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="view.dismiss()">
+        <ion-icon name="close"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+  
+
+</ion-header>
+
+
+<ion-content padding>
+Type: {{event.type}} <br>
+Location: {{event.location}} <br>
+Start: {{event.time_start}} <br>
+End: {{event.time_end}} <br>
+Total Spots: {{event.spots_tot}} <br>
+Spots Available: {{event.spots_free}}
+</ion-content>

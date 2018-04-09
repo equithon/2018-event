@@ -2,8 +2,11 @@ ion-app.cameraView, ion-app.cameraView ion-content, ion-app.cameraView .nav-deco
     background: transparent none !important; 
 }
 
-#open-scanner-button {
+.content-button {
     width: 100%;
+}
+
+#open-scanner {
     margin-top: 200px;
 }
 

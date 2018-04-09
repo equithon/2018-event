@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Platform, MenuController, Nav, Events } from 'ionic-angular';
+import { Platform, MenuController, ModalController, Nav, Events, Modal, ToastController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Meteor } from 'meteor/meteor';
@@ -13,6 +13,7 @@ import { ScannerPage } from '../pages/scanner/scanner';
 import { DirectoryPage } from './../pages/directory/directory';
 import { LoginPage } from './../pages/login/login';
 import { SignupPage } from './../pages/signup/signup';
+import { SchedulePage } from './../pages/schedule/schedule';
 
 
 export interface PageInterface {
@@ -33,7 +34,8 @@ export class MyApp {
 
   navigationPages: PageInterface[] = [
     { title: 'Scanner', name: 'ScannerPage', component: ScannerPage, icon: '' },
-    { title: 'Directory', name: 'DirectoryPage', component: DirectoryPage, icon: '' }
+    { title: 'Directory', name: 'DirectoryPage', component: DirectoryPage, icon: '' },
+    { title: 'Schedule', name: 'SchedulePage', component: SchedulePage, icon: '' }
   ]
 
   loggedInPages: PageInterface[] = [
@@ -48,6 +50,7 @@ export class MyApp {
 
   constructor(public platform: Platform, 
               public menu: MenuController,
+              public toastCtrl: ToastController,
               public auth: AuthProvider,
               public events: Events,
               public statusBar: StatusBar, 
@@ -71,6 +74,8 @@ export class MyApp {
   }
 
   listenToLoginEvents() {
+
+    //add toast notifications!
     this.events.subscribe('user:register', () => {
       this.switchMenu(true);
     });

@@ -8,5 +8,8 @@
 </ion-header>
   
 <ion-content class="scanner-page-content">
-  <button ion-button (click)="openScanner()" id="open-scanner-button">Scan A Code</button>
+  <button ion-button (click)="openScanner()" id="open-scanner" class="content-button">Scan A Code</button>
+  <ion-input type="text" placeholder="Enter User ID" [(ngModel)]="query_id"></ion-input> 
+  <button ion-button (click)="showScanned()" id="manual-search" class="content-button">Search For User</button>
+
 </ion-content>

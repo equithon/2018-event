@@ -1,0 +1,17 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>User {{user._id}}</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="view.dismiss()">
+        <ion-icon name="close"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <ion-item>{{user._id}}</ion-item>
+</ion-content>
