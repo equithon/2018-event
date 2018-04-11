@@ -3,10 +3,18 @@ ion-app.cameraView, ion-app.cameraView ion-content, ion-app.cameraView .nav-deco
 }
 
 .content-button {
-    width: 100%;
+    width: 50%;
+    margin-left: 25%;
+    margin-right: 25%;
 }
 
 #open-scanner {
     margin-top: 200px;
+}
+
+#manual-query-field {
+    width: 50%;
+    width: 50%;
+    margin: 10% 25% 0% 25%;
 }
 

@@ -1,14 +1,19 @@
 import { Injectable, ViewChild } from '@angular/core';
 import { Accounts } from 'meteor/accounts-base';
 import { Meteor } from 'meteor/meteor';
-import { Events, Nav } from 'ionic-angular';
+import { Events, Nav, LoadingController, ToastController } from 'ionic-angular';
 import { ProfilePage } from './../../pages/profile/profile';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Injectable()
 export class AuthProvider {
   @ViewChild(Nav) nav: Nav;
 
-  constructor(public events: Events) {
+
+  constructor(public events: Events,
+              public loadingCtrl: LoadingController,
+              public toastCtrl: ToastController,
+              private sanitizer: DomSanitizer) {
     console.log('Hello AuthProvider Provider');
   }
 
@@ -27,16 +32,49 @@ export class AuthProvider {
   }
 
   login(email: string, pass: string){
-    Meteor.loginWithPassword(email, pass);
-    if(Meteor.user() !== null){
-      this.events.publish('user:login', Date.now());
-      return true;
-    }
-    return false;
+    Meteor.loginWithPassword(email, pass, (error) => {
+      if(error) {
+        let error_toast = this.toastCtrl.create({
+          message: error.message,
+          duration: 2000,
+          position: 'top',
+          showCloseButton: true
+        })
+        error_toast.present();
+        console.log(error.message);
+      } else {
+        let success_load = this.loadingCtrl.create({
+          spinner: 'hide',
+          content: <string>this.sanitizer.bypassSecurityTrustHtml(`
+          <div class="custom-spinner-container">
+            <img src="assets/success_spinner.gif"></img>
+          </div>
+          `),
+          duration: 1500
+        });
+
+        success_load.onDidDismiss(() => {
+          // this would be a better place to put the checkmark 
+        });
+        success_load.present();
+        this.events.publish('user:login', Date.now());
+      }
+    });
+
+    
   }
 
   logout(){
     console.log('logging out');
+    let logout_load = this.loadingCtrl.create({
+      spinner: 'bubbles',
+      duration: 500
+    });
+
+    logout_load.onDidDismiss(() => {
+      // this would be a better place to put the checkmark 
+    });
+    logout_load.present();
     this.events.publish('user:logout', Date.now());
     Meteor.logout();
   }

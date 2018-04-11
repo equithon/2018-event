@@ -11,6 +11,8 @@
 <ion-content padding>
   this is where the directory would go
   <ion-list>
-    <button ion-item *ngFor="let attendee of attendees" (click)="this.detail.showDetail({type: 'user', info: attendee})">{{attendee._id}}</button>
+    <button ion-item *ngFor="let attendee of attendees" (click)="this.detail.showDetail({type: 'user', info: attendee})">
+      {{attendee._id}} <span *ngIf="attendee.emails">(logged in)</span>
+    </button>
   </ion-list>
 </ion-content>

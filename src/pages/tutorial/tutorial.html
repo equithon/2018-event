@@ -3,7 +3,7 @@
   <ion-navbar>
     <ion-title>Hey!</ion-title>
     <ion-buttons end *ngIf="show_skip">
-      <button ion-button (click)="dismissTut()" color="primary">Skip</button>
+      <button ion-button (click)="slides.slideTo(slides.length() - 1)" color="primary">Skip</button>
     </ion-buttons>
   </ion-navbar>
 
@@ -23,14 +23,22 @@
       <ion-slide>
         <p>To scan a QR code, hold the camera view up to the code and check the user 
           in through the popup that displays on the screen after scanning the code!</p>
-        <button ion-button (click)="dismissTut(true)" id="loggedInEnd">
-          Let's Go! &nbsp;
-          <ion-icon name="arrow-forward"></ion-icon>
-        </button>
-        <button ion-button (click)="dismissTut(false)" id="loggedOutEnd">
-          Log In &nbsp;
-          <ion-icon name="log-in"></ion-icon>
-        </button>
+        <span id="loggedInEnd">
+          <button ion-button (click)="dismissTut(true)">
+            Let's Go! &nbsp;
+            <ion-icon name="arrow-forward"></ion-icon>
+          </button>
+        </span>
+        <span id="loggedOutEnd">
+          <button ion-button (click)="dismissTut(false)">
+            Log In &nbsp;
+            <ion-icon name="log-in"></ion-icon>
+          </button> <br>
+          <button ion-button (click)="dismissTut(true)" class="secondary-button disable-hover">
+            Later
+          </button>
+        </span>
+        
       </ion-slide>
     </ion-slides>
 </ion-content>
