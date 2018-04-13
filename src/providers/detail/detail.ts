@@ -19,7 +19,7 @@ export class DetailProvider {
       pageType = EventPage;
     }
 
-    let detailModal = this.modalCtrl.create(pageType, {details: params.info});
+    let detailModal = this.modalCtrl.create(pageType, {view: params.view, details: params.info});
     detailModal.present();
   }
 

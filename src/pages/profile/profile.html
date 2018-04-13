@@ -10,7 +10,28 @@
 
 
 <ion-content padding>
-  <p *ngIf="loggedin">
-    current user's email: {{loggedin.emails[0].address}}
-  </p>
+  <div *ngIf="loggedin" id="user-info">
+    <!--
+
+      this stuff is all for visual appeal, useless for now
+    
+    <img src="assets/avatar_test.png" id="profile-avatar" class="img-round img-large"> <br>
+    current user's email: {{loggedin.emails[0].address}} <br>
+    <ion-item>
+      Location:
+      <ion-select [(ngModel)]="testselect">
+        <ion-option *ngFor="let evnt of events; let i=index" [value]="i">{{evnt.name}}</ion-option>
+      </ion-select>
+    </ion-item>
+    <img src="assets/badge-registration_role.png" class="img-round badge">
+    -->
+    current user id: {{loggedin._id}} <br>
+    <ion-item>
+      
+      <ion-select [(ngModel)]="testselect">
+        <ion-option *ngFor="let evnt of events; let i=index" [value]="i">{{evnt.name}}</ion-option>
+      </ion-select>
+    </ion-item>
+  </div>
+  
 </ion-content>

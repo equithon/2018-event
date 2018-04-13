@@ -33,9 +33,8 @@ export class MyApp {
   rootPage: any = Meteor.user() ? ScannerPage : TutorialPage; //NOT WORKING
 
   navigationPages: PageInterface[] = [
-    { title: 'Directory', name: 'DirectoryPage', component: DirectoryPage, icon: '' },
-    { title: 'Schedule', name: 'SchedulePage', component: SchedulePage, icon: '' },
-    { title: 'Scanner (volunteer only)', name: 'ScannerPage', component: ScannerPage, icon: '' }
+    { title: 'Scanner', name: 'ScannerPage', component: ScannerPage, icon: '' },
+    { title: 'Directory', name: 'DirectoryPage', component: DirectoryPage, icon: '' }
   ]
 
   loggedInPages: PageInterface[] = [
@@ -48,6 +47,7 @@ export class MyApp {
     { title: 'Sign up', name: 'SignupPage', component: SignupPage, icon: '' },
   ]
   
+  /*
   organizerPages: PageInterface[] = [];
 
   volunteerPages: PageInterface[] = [
@@ -56,7 +56,7 @@ export class MyApp {
 
   mentor_sponsorPages: PageInterface[] = [];
 
-  hackerPages: PageInterface[] = [];
+  hackerPages: PageInterface[] = []; */
 
   constructor(public platform: Platform, 
               public menu: MenuController,
@@ -86,38 +86,17 @@ export class MyApp {
   listenToLoginEvents() { 
     //add toast notifications!
     this.events.subscribe('user:register', () => {
-      let evnt_toast = this.toastCtrl.create({
-        message: 'User successfully registered!',
-        duration: 1000,
-        position: 'top',
-        showCloseButton: true
-      })
-      evnt_toast.present();
-
+      this.alertUser('User successfully registered!');
       this.switchMenu(true);
     });
 
     this.events.subscribe('user:login', () => {
-      let evnt_toast = this.toastCtrl.create({
-        message: 'Welcome back!',
-        duration: 1000,
-        position: 'top',
-        showCloseButton: true
-      })
-      evnt_toast.present();
-
+      this.alertUser('Welcome back!')
       this.switchMenu(true);
     });
 
     this.events.subscribe('user:logout', () => {
-      let evnt_toast = this.toastCtrl.create({
-        message: 'Successfully logged out.',
-        duration: 1000,
-        position: 'top',
-        showCloseButton: true
-      })
-      evnt_toast.present();
-
+      this.alertUser('Successfully logged out.');
       this.switchMenu(false);
     });
   }
@@ -125,6 +104,16 @@ export class MyApp {
   switchMenu(loggedIn) {
     this.menu.enable(loggedIn, 'loggedInView');
     this.menu.enable(!loggedIn, 'loggedOutView');
+  }
+
+  alertUser(msg: string) {
+    let alert_toast = this.toastCtrl.create({
+      message: msg,
+      duration: 1000,
+      position: 'top',
+      showCloseButton: true
+    })
+    alert_toast.present();
   }
 }
 

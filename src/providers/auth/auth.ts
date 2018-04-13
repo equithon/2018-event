@@ -18,11 +18,12 @@ export class AuthProvider {
   }
 
   register(new_user: any){
-    let fail: string = null;
+    let fail: Error = null;
     Accounts.createUser(new_user,
-                        function(error){ console.log('failed'); fail = error.reason; });
+                        function(error){ fail = error; }); 
+    console.log(fail);
     if(fail) {
-      console.log('failed to register with error: %s', fail);
+      console.log('failed to register with error: %s', fail.message);
       return false;
     }
     console.log('sucessfully registered %s', new_user.email);
@@ -66,15 +67,6 @@ export class AuthProvider {
 
   logout(){
     console.log('logging out');
-    let logout_load = this.loadingCtrl.create({
-      spinner: 'bubbles',
-      duration: 500
-    });
-
-    logout_load.onDidDismiss(() => {
-      // this would be a better place to put the checkmark 
-    });
-    logout_load.present();
     this.events.publish('user:logout', Date.now());
     Meteor.logout();
   }

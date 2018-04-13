@@ -9,8 +9,10 @@ import { ScannerPage } from './../scanner/scanner';
 })
 export class SignupPage {
 
-  email: string;
-  pass: string;
+  firstName: string;
+  lastName: string;
+  userEmail: string;
+  userPass: string;
 
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
@@ -22,7 +24,9 @@ export class SignupPage {
   }
 
   signUp(){
-    let registered = this.auth.register({email: this.email, password: this.pass});
+    let registered = this.auth.register({first: this.firstName, last: this.lastName, 
+                                         email: this.userEmail, password: this.userPass, 
+                                         canScan: true});
     if(registered) {
       this.navCtrl.setRoot(ScannerPage);
     }

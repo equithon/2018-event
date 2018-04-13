@@ -13,6 +13,7 @@ export class ScannerPage {
 
     users;
     query_id: string;
+    viewType: string = 'checkIn';
 
 	constructor(public platform: Platform,
                 public qrScanner: QRScanner,
@@ -63,7 +64,7 @@ export class ScannerPage {
     showScanned() {
         let queried_user: any = Meteor.users.findOne({_id: this.query_id}) || null;
         let detail_type = queried_user ? 'user' : 'error';
-        this.detail.showDetail({type: detail_type, info: queried_user});
+        this.detail.showDetail({type: detail_type, view: this.viewType, info: queried_user});
     }
 
   }

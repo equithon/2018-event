@@ -1,4 +1,5 @@
 <ion-split-pane>
+  <!-- Menu for logged in users -->
   <ion-menu id="loggedInView" [content]="content">
     <ion-header>
       <ion-toolbar>
@@ -25,6 +26,7 @@
     </ion-list>
   </ion-menu>
 
+  <!-- Menu for logged out users -->
   <ion-menu id="loggedOutView" [content]="content">
     <ion-header>
         <ion-toolbar>
@@ -50,8 +52,6 @@
       </button>
     </ion-list>
   </ion-menu>
-
-  
 
   <ion-nav [root]="rootPage" #content main name="app"></ion-nav>
 </ion-split-pane>
