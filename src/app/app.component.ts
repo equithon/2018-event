@@ -7,6 +7,7 @@ import { Meteor } from 'meteor/meteor';
 import { AuthProvider } from './../providers/auth/auth';
 
 import { TutorialPage } from '../pages/tutorial/tutorial';
+import { HelpPage } from '../pages/help/help';
 
 import { ProfilePage } from '../pages/profile/profile';
 import { ScannerPage } from '../pages/scanner/scanner';
@@ -30,25 +31,33 @@ export interface PageInterface {
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: any = Meteor.user() ? ScannerPage : TutorialPage; //NOT WORKING
+  rootPage: any = Meteor.userId() ? ScannerPage : TutorialPage; //NOT WORKING
 
   navigationPages: PageInterface[] = [
-    { title: 'Scanner', name: 'ScannerPage', component: ScannerPage, icon: '' },
+    { title: 'Scanner', name: 'ScannerPage', component: ScannerPage, icon: '' }
+  ];
+
+  organizerPages: PageInterface[] = [
     { title: 'Directory', name: 'DirectoryPage', component: DirectoryPage, icon: '' }
   ]
 
   loggedInPages: PageInterface[] = [
     { title: 'Profile', name: 'ProfilePage', component: ProfilePage, icon: '' },
     { title: 'Log out', name: 'ScannerPage', component: ScannerPage, logsOut: true, icon: '' }
-  ]
+  ];
 
   loggedOutPages: PageInterface[] = [
     { title: 'Log in', name: 'LoginPage', component: LoginPage, icon: '' },
-    { title: 'Sign up', name: 'SignupPage', component: SignupPage, icon: '' },
+    { title: 'Log in', name: 'LoginPage', component: SignupPage, icon: '' },
+  ];
+
+  miscPages: PageInterface[] = [
+    { title: 'Tutorial', name: 'TutorialPage', component: TutorialPage, icon: '' },
+    { title: 'Help', name: 'HelpPage', component: HelpPage, icon: '' }
   ]
   
   /*
-  organizerPages: PageInterface[] = [];
+  
 
   volunteerPages: PageInterface[] = [
     { title: 'Scanner', name: 'ScannerPage', component: ScannerPage, icon: '' }
@@ -92,11 +101,13 @@ export class MyApp {
 
     this.events.subscribe('user:login', () => {
       this.alertUser('Welcome back!')
+      if((Meteor.user() as any).role === 2) document.getElementById('organizer-view').style.display = 'inline';
       this.switchMenu(true);
     });
 
     this.events.subscribe('user:logout', () => {
       this.alertUser('Successfully logged out.');
+      document.getElementById('organizer-view').style.display = 'none';
       this.switchMenu(false);
     });
   }

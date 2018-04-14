@@ -14,18 +14,58 @@
 
 <ion-content padding>
 
-  <div *ngIf="viewType === 'edit'">
-    <ion-item>{{user.firstName}}</ion-item>
-    <ion-item>viewing with edit permissions</ion-item>
-  </div>
-  
-  <div *ngIf="viewType === 'checkIn'">
+  <!-- volunteer and checkin view -->
+  <div *ngIf="viewType === 1">
+    <div id="notLoggedInView" class="checkin-view error">
       <ion-item>{{user.firstName}}</ion-item>
-      <ion-item>viewing with checkin</ion-item>
-      <ion-item>
-        <ion-label>Event Name</ion-label>
-        <ion-toggle [checked]="been" (click)="checkUserIn()"></ion-toggle>
-      </ion-item>
+    </div>
+
+    <div id="noEventView" class="checkin-view error">
+      <p>
+        You have not checked in at an event. Make sure the event you're volunteering for is
+        selected on your Profile page, under the Status dropdown.
+      </p>
+    </div>
+
+    <div id="eventOverView" class="checkin-view error">
+      <p>
+        The event you are currently checked in at has ended. Make sure the event you're volunteering for
+        is currently running and selected on your Profile page, under the Status dropdown.
+      </p>
+    </div>
+
+    <div id="activitySuccessView" class="checkin-view success">
+      <p>successfully checked in {{user.firstName}} to activity</p>
+    </div>
+
+    <div id="activityFullView" class="checkin-view warning">
+      <p>failed to check in {{user.firstName}}: activity is full</p>
+    </div>
+
+    <div id="workshopSuccessView" class="checkin-view success">
+        <p>successfully checked in {{user.firstName}} to workshop</p>
+    </div>
+
+    <div id="workshopFullView" class="checkin-view warning">
+      <p>failed to check in {{user.firstName}}: workshop/talk is full</p>
+    </div>
+  
+  </div>
+
+
+
+
+
+
+
+
+  <!-- organizer edit: this view is not a priority right now -->
+  <div *ngIf="viewType === 2">
+      <ion-item>{{user.firstName}}</ion-item>
+    <ion-item *ngFor="let evnt of events">
+      <ion-label>{{evnt.name}}</ion-label>
+      <ion-toggle [disabled]="user.beenTo.indexOf(evnt._id) > -1" [checked]="user.beenTo.indexOf(evnt._id) > -1" (click)="checkUserIn(evnt._id)"></ion-toggle>
+    </ion-item>
   </div>
 
 </ion-content>

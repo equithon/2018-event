@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { Events } from './collections/events';
-import { Event, EventType } from './models';
+import { Event, EventType, UserRole } from './models';
 import { Accounts } from 'meteor/accounts-base';
 
 
@@ -46,17 +46,20 @@ Meteor.methods({
     {$set: {'scanInfo.atEvent': eventId}
   });
   },
-  'users.checkIn'({ userId, eventId }) { // RIGHT NOW THIS ALLOWS FOR DUPLICATE ENTRIES!!!!!!!!
-    Meteor.users.update(userId, 
-      {$push: {'beenTo': eventId}
-    });
+  'users.checkIn'({ userId, eventId }) {
+    if(Meteor.users.find({ _id: userId, beenTo: eventId}).count() === 0) { // prevent duplicate entries
+      Meteor.users.update(userId, 
+        {$push: {'beenTo': eventId}
+      });
     }
+  }
 });
 
 Accounts.onCreateUser((options, user) => {
   console.log('new user created, setting custom fields');
   user.firstName = options.first;
   user.lastName = options.last;
+  user.role = UserRole.VOLUNTEER;
   user.scanInfo = options.canScan ? {atEvent: null, amtScanned: 0} : null; // if new user can scan, create
   user.beenTo = []; // new users have gone to no events
   user.badges = []; // new users have no badges

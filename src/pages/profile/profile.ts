@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams } from 'ionic-angular';
 import { Meteor } from 'meteor/meteor';
 import { Event, EventType } from './../../../api/server/models';
 import { Events } from './../../../api/server/collections/events';

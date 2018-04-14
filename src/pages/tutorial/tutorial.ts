@@ -1,8 +1,9 @@
 import { Component, ViewChild, OnInit } from '@angular/core';
-import { IonicPage, NavController, NavParams, Slides, MenuController, Platform } from 'ionic-angular';
+import { NavController, NavParams, Slides, MenuController, Platform } from 'ionic-angular';
 import { Meteor } from 'meteor/meteor';
 import { ScannerPage } from './../scanner/scanner';
 import { LoginPage } from './../login/login';
+import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner';
 
 
 @Component({
@@ -18,7 +19,8 @@ export class TutorialPage implements OnInit {
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
               public menu: MenuController,
-              public platform: Platform) {
+              public platform: Platform,
+              public qrScanner: QRScanner) {
     this.show_skip = true;
   }
 

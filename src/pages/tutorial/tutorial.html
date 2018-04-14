@@ -1,7 +1,7 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>Hey!</ion-title>
+    <ion-title>eQRScanner</ion-title>
     <ion-buttons end *ngIf="show_skip">
       <button ion-button (click)="slides.slideTo(slides.length() - 1)" color="primary">Skip</button>
     </ion-buttons>
@@ -13,16 +13,40 @@
 <ion-content no-bounce>
   <ion-slides #slides (ionSlideWillChange)="toggleSkip($event)" pager>
       <ion-slide>
-        <h1>This is the QR Scanner app for Equithon.</h1>
+        <img src="assets/imgs/tutorial_slides/tutorial-slide1.png"/>
+        <h1>Hey! Thanks for volunteering for Equithon.</h1>
       </ion-slide>
       <ion-slide>
-        <p>We want to say thank you for volunteering to help out. 
-          The Equithon team couldn't have pulled off this event without you :)
+        <img src="assets/imgs/tutorial_slides/tutorial-slide2.png"/>
+        <p>
+          First, we need you to give the app permission to use your camera.
+          If you decline, the app won't be able to scan anything D:
+        </p>
+        <button ion-button (click)="qrScanner.prepare()">
+          Sure! &nbsp;
+          <ion-icon name="arrow-forward"></ion-icon>
+        </button>
+      </ion-slide>
+      <ion-slide>
+        <img src="assets/imgs/tutorial_slides/tutorial-slide3.png"/>
+        <p>
+          After you log in, head over to your profile and check 
+          in to your station by selecting the event you're volunteering for on the Status dropdown.
         </p>
       </ion-slide>
       <ion-slide>
-        <p>To scan a QR code, hold the camera view up to the code and check the user 
-          in through the popup that displays on the screen after scanning the code!</p>
+        <img src="assets/imgs/tutorial_slides/tutorial-slide4.png"/>
+        <p>
+          Let's get to work! Hold the scanner up to a QR code until it registers. A popup will appear - if 
+          there are any instructions on it, follow them. If not, you just finished checking in that attendee!
+        </p>
+      </ion-slide>
+      <ion-slide>
+        <h2>Got it? Great! You're ready to go.</h2>
+        <p>
+          If you need any more help, check out the Help page or reopen this tutorial
+          from the side menu.
+        </p>
         <span id="loggedInEnd">
           <button ion-button (click)="dismissTut(true)">
             Let's Go! &nbsp;

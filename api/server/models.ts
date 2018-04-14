@@ -1,3 +1,12 @@
+export enum UserRole {
+    ORGANIZER = 1,
+    VOLUNTEER,
+    JUDGE,
+    HACKER,
+    MENTOR,
+    SPONSOR
+}
+
 export enum EventType {
     MEAL = 1,
     ACTIVITY,

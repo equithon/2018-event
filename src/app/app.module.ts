@@ -19,6 +19,7 @@ import { SignupPage } from './../pages/signup/signup';
 import { UserPage } from './../pages/user/user';
 import { EventPage } from '../pages/event/event';
 import { ErrorPage } from './../pages/error/error';
+import { HelpPage } from './../pages/help/help';
 
 import { MyApp } from './app.component';
 
@@ -27,6 +28,7 @@ import { MyApp } from './app.component';
     MyApp,
     ScannerPage,
     TutorialPage,
+    HelpPage,
     DirectoryPage,
     LoginPage,
     ProfilePage,
@@ -46,6 +48,7 @@ import { MyApp } from './app.component';
     MyApp,
     ScannerPage,
     TutorialPage,
+    HelpPage,
     DirectoryPage,
     LoginPage,
     ProfilePage,

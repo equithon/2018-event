@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams } from 'ionic-angular';
 import { Observable } from 'rxjs';
 import { Meteor } from 'meteor/meteor';
 import { Accounts } from 'meteor/accounts-base';

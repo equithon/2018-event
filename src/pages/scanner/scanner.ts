@@ -4,16 +4,15 @@ import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner';
 import { Observable } from 'rxjs';
 import { DetailProvider } from './../../providers/detail/detail';
 import { Meteor } from 'meteor/meteor';
-
+import { UserRole } from './../../../api/server/models';
 
 @Component({
   templateUrl: 'scanner.html'
 })
 export class ScannerPage {
 
-    users;
+    users: [any];
     queryId: string;
-    viewType: string = 'checkIn';
 
 	constructor(public platform: Platform,
                 public qrScanner: QRScanner,
@@ -37,7 +36,6 @@ export class ScannerPage {
                     this.qrScanner.hide(); // hide camera preview
                     scanSub.unsubscribe(); // stop scanning
                     this.queryId = scanned;
-                    this.viewType = 'checkIn';
                     this.showScanned();
                 });
 
@@ -65,10 +63,10 @@ export class ScannerPage {
 
     showScanned() {
         console.log("finding user with %s", this.queryId);
-        let queried_user: any = null;
+        let queriedUser: any = null;
         Meteor.subscribe('users', () => { // i dont think this is the most efficient, fix later
-            queried_user = Meteor.users.findOne({_id: this.queryId});
-            this.detail.showDetail({type: queried_user ? 'user' : 'error', view: this.viewType, info: queried_user});
+            queriedUser = Meteor.users.findOne({_id: this.queryId});
+            this.detail.showDetail({type: queriedUser ? 'user' : 'error', view: 1, info: queriedUser});
         });
         
     }
