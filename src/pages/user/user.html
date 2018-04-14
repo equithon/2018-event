@@ -13,6 +13,19 @@
 
 
 <ion-content padding>
-  <ion-item>{{user._id}}</ion-item>
-  <ion-item>viewing with {{viewType}}</ion-item>
+
+  <div *ngIf="viewType === 'edit'">
+    <ion-item>{{user.firstName}}</ion-item>
+    <ion-item>viewing with edit permissions</ion-item>
+  </div>
+  
+  <div *ngIf="viewType === 'checkIn'">
+      <ion-item>{{user.firstName}}</ion-item>
+      <ion-item>viewing with checkin</ion-item>
+      <ion-item>
+        <ion-label>Event Name</ion-label>
+        <ion-toggle [checked]="been" (click)="checkUserIn()"></ion-toggle>
+      </ion-item>
+  </div>
+
 </ion-content>

@@ -26,10 +26,11 @@
     <img src="assets/badge-registration_role.png" class="img-round badge">
     -->
     current user id: {{loggedin._id}} <br>
+    current user location id: {{loggedin.scanInfo.atEvent}} <br>
     <ion-item>
       
-      <ion-select [(ngModel)]="testselect">
-        <ion-option *ngFor="let evnt of events; let i=index" [value]="i">{{evnt.name}}</ion-option>
+      <ion-select [(ngModel)]="loggedin.scanInfo.atEvent" (ngModelChange)="updateCheckin()">
+        <ion-option *ngFor="let evnt of events" [value]="evnt._id">{{evnt.name}}</ion-option>
       </ion-select>
     </ion-item>
   </div>

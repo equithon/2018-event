@@ -12,12 +12,13 @@ import { Meteor } from 'meteor/meteor';
 export class ScannerPage {
 
     users;
-    query_id: string;
+    queryId: string;
     viewType: string = 'checkIn';
 
 	constructor(public platform: Platform,
                 public qrScanner: QRScanner,
                 public detail: DetailProvider) {
+        
     }
    
     openScanner(){
@@ -35,7 +36,8 @@ export class ScannerPage {
 					(window.document.querySelector('ion-app') as HTMLElement).classList.remove('cameraView');
                     this.qrScanner.hide(); // hide camera preview
                     scanSub.unsubscribe(); // stop scanning
-                    this.query_id = scanned;
+                    this.queryId = scanned;
+                    this.viewType = 'checkIn';
                     this.showScanned();
                 });
 
@@ -62,9 +64,13 @@ export class ScannerPage {
     }
 
     showScanned() {
-        let queried_user: any = Meteor.users.findOne({_id: this.query_id}) || null;
-        let detail_type = queried_user ? 'user' : 'error';
-        this.detail.showDetail({type: detail_type, view: this.viewType, info: queried_user});
+        console.log("finding user with %s", this.queryId);
+        let queried_user: any = null;
+        Meteor.subscribe('users', () => { // i dont think this is the most efficient, fix later
+            queried_user = Meteor.users.findOne({_id: this.queryId});
+            this.detail.showDetail({type: queried_user ? 'user' : 'error', view: this.viewType, info: queried_user});
+        });
+        
     }
 
   }

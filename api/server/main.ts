@@ -40,13 +40,17 @@ Meteor.startup(() => {
 
 });
 
-Meteor.publish('users', () => { 
-  console.log('ok');
-  return Meteor.users.find(); 
-});
-
-Meteor.publish(null, function() {
-  return Meteor.users.find({_id: this.userId}, {fields: {firstName: 1, lastName: 1, scanInfo: 1, beento: 1, badges: 1}});
+Meteor.methods({
+  'users.updateLoc'({ userId, eventId }) {
+  Meteor.users.update(userId, 
+    {$set: {'scanInfo.atEvent': eventId}
+  });
+  },
+  'users.checkIn'({ userId, eventId }) { // RIGHT NOW THIS ALLOWS FOR DUPLICATE ENTRIES!!!!!!!!
+    Meteor.users.update(userId, 
+      {$push: {'beenTo': eventId}
+    });
+    }
 });
 
 Accounts.onCreateUser((options, user) => {

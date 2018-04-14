@@ -11,11 +11,14 @@ import { DetailProvider } from './../../providers/detail/detail';
 })
 export class SchedulePage {
 
-  events: Event[] = Events.find({}).fetch();
+  events: Event[];
   
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
               public detail: DetailProvider) {
+    Meteor.subscribe('events', () => {
+      this.events = Events.find().fetch();
+    });
   }
 
   ionViewDidLoad() {

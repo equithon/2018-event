@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Meteor } from 'meteor/meteor';
+import { Event, EventType } from './../../../api/server/models';
+import { Events } from './../../../api/server/collections/events';
+
 
 // this page should only be shown when there is a logged in user
 @Component({
@@ -11,20 +14,32 @@ export class ProfilePage {
 
   loggedin: any;
   testselect: any = "0";
-  events: any = [
-    {name: "Therapy Dogs", location: "STC 0040", time: "1:30PM", duration: "1 hour"},
-    {name: "Intro to iOS", location: "STC 0040", time: "11:30AM", duration: "1 hour"},
-    {name: "Dinner with Aunty's Kitchen", location: "STC 0040", time: "5:30PM", duration: "1 hour"}
-  ]
+  events: Event[];
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
-    Meteor.subscribe('users');
     this.loggedin = Meteor.user() || null;
+    // change this subscribe to something less network/data intensive
+    Meteor.subscribe('events', () => {
+      this.events = Events.find().fetch();
+    });
     console.log(this.loggedin);
   }
 
   ionViewDidLoad() {
     console.log('loaded profile page');
+  }
+
+  updateCheckin() {
+    Meteor.call('users.updateLoc', {
+      userId: this.loggedin._id,
+      eventId: this.loggedin.scanInfo.atEvent
+    }, (err, res) => {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log('updated');
+      }
+    });
   }
 
 }
