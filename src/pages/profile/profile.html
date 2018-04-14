@@ -29,7 +29,7 @@
     current user role: {{loggedin.role}} <br>
     current user location id: {{loggedin.scanInfo.atEvent}} <br>
     <ion-item>  
-      <ion-select [(ngModel)]="loggedin.scanInfo.atEvent" (ngModelChange)="updateCheckin()">
+      <ion-select [(ngModel)]="loggedin.scanInfo.atEvent" (ngModelChange)="auth.updateCheckIn(this.loggedin.scanInfo.atEvent)">
         <ion-option *ngFor="let evnt of events" [value]="evnt._id">{{evnt.name}}</ion-option>
       </ion-select>
     </ion-item>

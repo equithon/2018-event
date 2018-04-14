@@ -22,13 +22,7 @@ export class LoginPage {
   }
 
   logIn(){
-    let x = this.auth.login(this.email, this.pass);
-    Accounts.onLogin(
-      () => {this.navCtrl.setRoot(ProfilePage, {}, {animate: true}); }
-    )
-    Accounts.onLoginFailure(
-      () => {console.log('couldnt log in');}
-    )
+    this.auth.login(this.email, this.pass);
   }
 
 }

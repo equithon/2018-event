@@ -17,11 +17,8 @@ export class DirectoryPage {
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
               public detail: DetailProvider) {
-    Meteor.subscribe('users', () => {
-      this.attendees = Meteor.users.find().fetch();
-      console.log(this.attendees);
-    });
-    console.log(Meteor.user());
+    this.attendees = Meteor.users.find().fetch();
+    console.log(this.attendees);
   }
 
   ionViewDidLoad() {

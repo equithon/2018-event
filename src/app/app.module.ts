@@ -22,6 +22,7 @@ import { ErrorPage } from './../pages/error/error';
 import { HelpPage } from './../pages/help/help';
 
 import { MyApp } from './app.component';
+import { DataProvider } from '../providers/data/data';
 
 @NgModule({
   declarations: [
@@ -64,7 +65,8 @@ import { MyApp } from './app.component';
     QRScanner,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     AuthProvider,
-    DetailProvider
+    DetailProvider,
+    DataProvider
   ]
 })
 export class AppModule {}

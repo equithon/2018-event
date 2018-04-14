@@ -15,6 +15,7 @@ export enum EventType {
     WORKSHOP_TECH_ADV,
     WORKSHOP_NON_TECH,
     WORKSHOP_OTHER,
+    JUDGING,
     OTHER
 }
 
@@ -23,8 +24,8 @@ export interface Event {
     name: string,
     type: EventType,
     location: string,
-    time_start: string,
-    time_end: string,
+    time_start: number,
+    time_end: number,
     spots_tot: number,
     spots_free: number
 }

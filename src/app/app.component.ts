@@ -48,24 +48,13 @@ export class MyApp {
 
   loggedOutPages: PageInterface[] = [
     { title: 'Log in', name: 'LoginPage', component: LoginPage, icon: '' },
-    { title: 'Log in', name: 'LoginPage', component: SignupPage, icon: '' },
+    { title: 'Sign up', name: 'LoginPage', component: SignupPage, icon: '' },
   ];
 
   miscPages: PageInterface[] = [
     { title: 'Tutorial', name: 'TutorialPage', component: TutorialPage, icon: '' },
     { title: 'Help', name: 'HelpPage', component: HelpPage, icon: '' }
   ]
-  
-  /*
-  
-
-  volunteerPages: PageInterface[] = [
-    { title: 'Scanner', name: 'ScannerPage', component: ScannerPage, icon: '' }
-  ]
-
-  mentor_sponsorPages: PageInterface[] = [];
-
-  hackerPages: PageInterface[] = []; */
 
   constructor(public platform: Platform, 
               public menu: MenuController,
@@ -75,6 +64,7 @@ export class MyApp {
               public statusBar: StatusBar, 
               public splashScreen: SplashScreen) {
 
+    console.log('starting')
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
@@ -88,6 +78,7 @@ export class MyApp {
   }
 
   openPage(page: PageInterface){
+    console.log('user is' + Meteor.user());
     this.nav.setRoot(page.component);
     if(page.logsOut) this.auth.logout();
   }
@@ -101,13 +92,14 @@ export class MyApp {
 
     this.events.subscribe('user:login', () => {
       this.alertUser('Welcome back!')
-      if((Meteor.user() as any).role === 2) document.getElementById('organizer-view').style.display = 'inline';
+      if ((Meteor.user() as any).role === 1) document.getElementById('organizerView').style.display = 'inline';
       this.switchMenu(true);
+      this.nav.setRoot(ProfilePage, {}, {animate: true});
     });
 
     this.events.subscribe('user:logout', () => {
       this.alertUser('Successfully logged out.');
-      document.getElementById('organizer-view').style.display = 'none';
+      document.getElementById('organizerView').style.display = 'none';
       this.switchMenu(false);
     });
   }

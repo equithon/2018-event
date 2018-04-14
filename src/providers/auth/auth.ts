@@ -44,6 +44,7 @@ export class AuthProvider {
         error_toast.present();
         console.log(error.message);
       } else {
+        console.log('loggedin')
         let success_load = this.loadingCtrl.create({
           spinner: 'hide',
           content: <string>this.sanitizer.bypassSecurityTrustHtml(`
@@ -53,15 +54,10 @@ export class AuthProvider {
           `),
           duration: 1500
         });
-
-        success_load.onDidDismiss(() => {
-          // this would be a better place to put the checkmark 
-        });
         success_load.present();
         this.events.publish('user:login', Date.now());
       }
     });
-
     
   }
 
@@ -69,6 +65,19 @@ export class AuthProvider {
     console.log('logging out');
     this.events.publish('user:logout', Date.now());
     Meteor.logout();
+  }
+
+  updateCheckIn(chosenEvent) {
+    Meteor.call('users.updateLoc', {
+        userId: Meteor.userId(),
+        eventId: chosenEvent
+    }, (err, res) => {
+        if (err) {
+        console.log(err);
+        } else {
+        console.log('updated');
+        }
+    });
   }
 
 }

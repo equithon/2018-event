@@ -2,22 +2,41 @@ import { Component } from '@angular/core';
 import { Platform } from 'ionic-angular';
 import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner';
 import { Observable } from 'rxjs';
-import { DetailProvider } from './../../providers/detail/detail';
+
 import { Meteor } from 'meteor/meteor';
-import { UserRole } from './../../../api/server/models';
+import { UserRole, Event } from './../../../api/server/models';
+import { Events } from './../../../api/server/collections/events';
+import { AuthProvider } from './../../providers/auth/auth';
+import { DetailProvider } from './../../providers/detail/detail';
+import { DataProvider } from './../../providers/data/data';
 
 @Component({
   templateUrl: 'scanner.html'
 })
 export class ScannerPage {
 
-    users: [any];
+    users: any[];
     queryId: string;
+    events: Event[];
+    chosenEvent: string;
 
 	constructor(public platform: Platform,
                 public qrScanner: QRScanner,
-                public detail: DetailProvider) {
-        
+                public detail: DetailProvider,
+                public auth: AuthProvider,
+                public data: DataProvider) {
+        Meteor.subscribe('events', () => {
+            this.events = Events.find({}).fetch();
+            console.log(this.events);
+            console.log(Meteor.user());
+            if(Meteor.user() && ((Meteor.user() as any).role === 1 || (Meteor.user() as any).role === 2)) {
+                console.log('showing event selector');
+                this.chosenEvent = (Meteor.user() as any).scanInfo.atEvent;
+                document.getElementById('eventSelector').style.display = 'inline';
+            } else {
+                document.getElementById('eventSelector').style.display = 'none';
+            }
+        })
     }
    
     openScanner(){
@@ -36,7 +55,7 @@ export class ScannerPage {
                     this.qrScanner.hide(); // hide camera preview
                     scanSub.unsubscribe(); // stop scanning
                     this.queryId = scanned;
-                    this.showScanned();
+                    this.checkUserIn()
                 });
 
 				// show camera preview
@@ -58,17 +77,14 @@ export class ScannerPage {
 		} else {
 			console.log('cordova not running: make sure this is running natively on a phone.')
 		}
-        
     }
 
-    showScanned() {
-        console.log("finding user with %s", this.queryId);
-        let queriedUser: any = null;
-        Meteor.subscribe('users', () => { // i dont think this is the most efficient, fix later
-            queriedUser = Meteor.users.findOne({_id: this.queryId});
-            this.detail.showDetail({type: queriedUser ? 'user' : 'error', view: 1, info: queriedUser});
-        });
-        
+    checkUserIn() {
+        console.log('attempting to check user in...');
+        let checkinResult = this.data.checkUserIn(this.queryId);
+        this.detail.showDetail({type: (checkinResult === 'noUserView') ? 'error' : 'user', view: checkinResult, info: {user: this.queryId, event: null}});
     }
 
-  }
+    
+
+}
