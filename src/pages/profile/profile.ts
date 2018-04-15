@@ -18,16 +18,11 @@ export class ProfilePage {
   constructor(public navCtrl: NavController, public navParams: NavParams,
               public auth: AuthProvider) {
     this.loggedin = Meteor.user() || null;
-    // change this subscribe to something less network/data intensive
-    Meteor.subscribe('events', () => {
-      this.events = Events.find().fetch();
-    });
-    console.log('called')
-    console.log(this.loggedin);
+    this.events = Events.find().fetch();
   }
 
   ionViewDidLoad() {
-    console.log('loaded profile page');
+    console.log('~ loaded Profile Page ~');
   }
 
 

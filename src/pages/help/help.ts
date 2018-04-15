@@ -11,7 +11,7 @@ export class HelpPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad HelpPage');
+    console.log('~ loaded Help Page ~');
   }
 
 }

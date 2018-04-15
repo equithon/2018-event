@@ -20,7 +20,7 @@ export class SignupPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad SignupPage');
+    console.log('~ loaded Signup Page ~');
   }
 
   signUp(){

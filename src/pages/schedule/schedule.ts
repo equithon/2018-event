@@ -16,13 +16,11 @@ export class SchedulePage {
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
               public detail: DetailProvider) {
-    Meteor.subscribe('events', () => {
-      this.events = Events.find().fetch();
-    });
+    this.events = Events.find().fetch();
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad SchedulePage');
+    console.log('~ loaded Schedule Page ~');
   }
 
 }

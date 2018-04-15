@@ -20,26 +20,14 @@ export class UserPage {
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
               public view: ViewController) {
-    console.log(Meteor.users.find({}).fetch())
     this.user = Meteor.users.findOne({_id: navParams.get('details').user})
-    console.log(this.user)
     this.curLoc = Meteor.user() ? (Meteor.user() as any).scanInfo.atEvent : null;
     this.viewType = navParams.get('view');
-    console.log('displaying VIEW ' + this.viewType);
-    
-    Meteor.subscribe('events', () => {
-      this.events = Events.find().fetch();
-    })
-    console.log(this.curLoc);
-    console.log(this.events);
-    
-    console.log('read in user %s', this.user._id);
-    console.log(this.user);
+    this.events = Events.find().fetch();
   }
 
   ionViewDidLoad() {
-    console.log('loaded user page');
-    console.log(document.getElementById(this.viewType))
+    console.log('~ loaded User Page with ViewType %s ~', this.viewType);
     document.getElementById(this.viewType).style.display = 'inline';
   }
 
@@ -52,6 +40,7 @@ export class UserPage {
         console.log(err);
       } else {
         console.log('updated');
+        this.user.beenTo.push(atEvent);
       }
     });
   }

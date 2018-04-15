@@ -8,7 +8,7 @@ import { ErrorPage } from './../../pages/error/error';
 export class DetailProvider {
 
   constructor(public modalCtrl: ModalController) {
-    console.log('Hello DetailProvider Provider');
+    console.log('~ initialized Detail Provider ~');
   }
 
   showDetail(params) {

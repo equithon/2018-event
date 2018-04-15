@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Platform, MenuController, ModalController, Nav, Events, Modal, ToastController } from 'ionic-angular';
+import { Platform, MenuController, ModalController, Nav, Events as EventControl, Modal, ToastController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Meteor } from 'meteor/meteor';
@@ -43,7 +43,7 @@ export class MyApp {
 
   loggedInPages: PageInterface[] = [
     { title: 'Profile', name: 'ProfilePage', component: ProfilePage, icon: '' },
-    { title: 'Log out', name: 'ScannerPage', component: ScannerPage, logsOut: true, icon: '' }
+    { title: 'Log out', name: 'ScannerPage', component: LoginPage, logsOut: true, icon: '' }
   ];
 
   loggedOutPages: PageInterface[] = [
@@ -60,7 +60,7 @@ export class MyApp {
               public menu: MenuController,
               public toastCtrl: ToastController,
               public auth: AuthProvider,
-              public events: Events,
+              public eventCtrl: EventControl,
               public statusBar: StatusBar, 
               public splashScreen: SplashScreen) {
 
@@ -78,26 +78,27 @@ export class MyApp {
   }
 
   openPage(page: PageInterface){
-    console.log('user is' + Meteor.user());
+    if(page.logsOut){
+      this.auth.logout();
+    }
     this.nav.setRoot(page.component);
-    if(page.logsOut) this.auth.logout();
   }
 
   listenToLoginEvents() { 
     //add toast notifications!
-    this.events.subscribe('user:register', () => {
+    this.eventCtrl.subscribe('user:register', () => {
       this.alertUser('User successfully registered!');
       this.switchMenu(true);
     });
 
-    this.events.subscribe('user:login', () => {
+    this.eventCtrl.subscribe('user:login', () => {
       this.alertUser('Welcome back!')
       if ((Meteor.user() as any).role === 1) document.getElementById('organizerView').style.display = 'inline';
       this.switchMenu(true);
       this.nav.setRoot(ProfilePage, {}, {animate: true});
     });
 
-    this.events.subscribe('user:logout', () => {
+    this.eventCtrl.subscribe('user:logout', () => {
       this.alertUser('Successfully logged out.');
       document.getElementById('organizerView').style.display = 'none';
       this.switchMenu(false);

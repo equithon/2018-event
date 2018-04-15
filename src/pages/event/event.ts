@@ -14,11 +14,10 @@ export class EventPage {
               public navParams: NavParams,
               public view: ViewController) {
     this.event = navParams.get('details');
-    console.log(this.event);
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad EventPage');
+    console.log('~ loaded Directory Page ~');
   }
 
 }

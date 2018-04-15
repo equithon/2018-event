@@ -26,31 +26,21 @@ export class DataProvider {
     miscError: 'unexpectedErrorView'
   }
 
-  events: any;
+  events: Event[];
   users: any;
 
 
   constructor() {
-    console.log('Hello DataProvider Provider');
+    console.log('~ initialized Data Provider ~');
     Meteor.subscribe('users');
     Meteor.subscribe('events');
-    /*Meteor.subscribe('events', () => {
-      this.events = new Mongo.Collection('all_events');
-      this.events = Events.find({});
-      console.log(this.events);
-    })
-
-    Meteor.subscribe('users', () => {
-      this.users = new Mongo.Collection('all_users');
-      this.users = Meteor.users.find({});
-      console.log(this.users);
-    }) */
   }
 
   checkUserIn(scannedId): string {
 
     let selectedUser: any = Meteor.users.findOne({ _id: scannedId });
-
+    console.log('checkin user is ');
+    console.log(selectedUser);
 
     if(!selectedUser){
       console.log('no user found');
@@ -61,25 +51,17 @@ export class DataProvider {
       return this.checkinOptions.cannotCheckin;
     }
 
+
     let curEventId = ((Meteor.user()) as any).scanInfo.atEvent;
     let selectedEvent: Event = Events.findOne({ _id: curEventId });
-    
-
+    console.log('checkin event is ');
+    console.log(selectedEvent);
 
     if(!curEventId){
       console.log('no event is selected');
       return this.checkinOptions.eventNotSet;
     }
 
-    
-
-    console.log('checkin event is ');
-    console.log(selectedEvent);
-
-    console.log('checkin user is ');
-    console.log(selectedUser);
-
-    
     if(!selectedEvent) {
       console.log('no event found');
       return this.checkinOptions.eventNotFound;

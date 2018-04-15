@@ -18,11 +18,10 @@ export class DirectoryPage {
               public navParams: NavParams,
               public detail: DetailProvider) {
     this.attendees = Meteor.users.find().fetch();
-    console.log(this.attendees);
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad DirectoryPage');
+    console.log('~ loaded Directory Page ~');
   }
 
 }

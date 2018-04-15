@@ -14,7 +14,7 @@ export class ErrorPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad ErrorPage');
+    console.log('~ loaded Error Page ~');
   }
 
 }

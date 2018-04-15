@@ -1,7 +1,7 @@
 import { Injectable, ViewChild } from '@angular/core';
 import { Accounts } from 'meteor/accounts-base';
 import { Meteor } from 'meteor/meteor';
-import { Events, Nav, LoadingController, ToastController } from 'ionic-angular';
+import { Events as EventControl, Nav, LoadingController, ToastController } from 'ionic-angular';
 import { ProfilePage } from './../../pages/profile/profile';
 import { DomSanitizer } from '@angular/platform-browser';
 
@@ -10,11 +10,11 @@ export class AuthProvider {
   @ViewChild(Nav) nav: Nav;
 
 
-  constructor(public events: Events,
+  constructor(public eventCtrl: EventControl,
               public loadingCtrl: LoadingController,
               public toastCtrl: ToastController,
               private sanitizer: DomSanitizer) {
-    console.log('Hello AuthProvider Provider');
+    console.log('~ initialized Auth Provider ~');
   }
 
   register(new_user: any){
@@ -27,22 +27,22 @@ export class AuthProvider {
       return false;
     }
     console.log('sucessfully registered %s', new_user.email);
-    this.events.publish('user:register', Date.now());
+    this.eventCtrl.publish('user:register', Date.now());
     return true;
 
   }
 
   login(email: string, pass: string){
-    Meteor.loginWithPassword(email, pass, (error) => {
-      if(error) {
+    Meteor.loginWithPassword(email, pass, (err) => {
+      if(err) {
         let error_toast = this.toastCtrl.create({
-          message: error.message,
+          message: err.message,
           duration: 2000,
           position: 'top',
           showCloseButton: true
         })
         error_toast.present();
-        console.log(error.message);
+        console.log(err.message);
       } else {
         console.log('loggedin')
         let success_load = this.loadingCtrl.create({
@@ -55,16 +55,27 @@ export class AuthProvider {
           duration: 1500
         });
         success_load.present();
-        this.events.publish('user:login', Date.now());
+        this.eventCtrl.publish('user:login', Date.now());
       }
     });
     
   }
 
-  logout(){
-    console.log('logging out');
-    this.events.publish('user:logout', Date.now());
-    Meteor.logout();
+  logout(){    
+    Meteor.logout((err) => {
+      if(err) {
+        let error_toast = this.toastCtrl.create({
+          message: err.message,
+          duration: 2000,
+          position: 'top',
+          showCloseButton: true
+        })
+        error_toast.present();
+        console.log(err.message);
+      } else {
+        this.eventCtrl.publish('user:logout', Date.now());
+      }
+    });
   }
 
   updateCheckIn(chosenEvent) {
@@ -75,7 +86,7 @@ export class AuthProvider {
         if (err) {
         console.log(err);
         } else {
-        console.log('updated');
+        console.log('updated current user\'s location');
         }
     });
   }
