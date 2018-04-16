@@ -141,14 +141,6 @@ export default class App extends Component {
                                     <a className="button-link" href="https://equithon-volunteer.typeform.com/to/JxT6Vy">
                                         <FlatColoredButton content="Volunteer" />
                                     </a>
-
-                                    {/* Spacing */}
-                                    <div style={{ padding: '5px' }}></div>
-
-                                    {/* Calendar */}
-                                    <Link className="button-link" to="/calendar">
-                                        <FlatColoredButton content="Schedule" />
-                                    </Link>
                                     
                                     {/* SubscriptionModal for Stay Posted */}
                                     <SubscriptionModal open={this.state.subModalOpen} onClose={this.handleClose} />
@@ -287,7 +279,7 @@ export default class App extends Component {
                       <Route path="/rsvp" component={Rsvp} />
 
                       {/* Calendar page */}
-                      <Calendar path="/calendar" component={Calendar} />
+                      <Route path="/calendar" component={Calendar} />
                   </div>
               </Router>
             </MuiThemeProvider>
@@ -425,9 +417,15 @@ const FAQ = () => (
         />
         <br/>
         <FaqCard
+            question="Where do I find the schedule?"
+            answer={ <span>You can view the full schedule <Link to="/calendar">here</Link>.</span> }
+            number="3."
+        />
+        <br/>
+        <FaqCard
             question="Why is Equithon not an overnight event?"
             answer="We decided that Equithon should not be an overnight event because we want to be as inclusive as possible. Free overnight accommodation will be provided to hackers travelling from outside Kitchener-Waterloo. Hackers should indicate whether they require accommodation on their RSVP form."
-            number="3."
+            number="4."
         />
         <br/>
         <FaqCard
@@ -436,25 +434,25 @@ const FAQ = () => (
                 Accepted hackers can reserve seats on the buses on the RSVP form. Hackers from outside Waterloo, Toronto, and Mississauga must organize their own travel but will be reimbursed after the event. 
                 The maximum amount for reimbursement will be communicated to hackers via email after they submit the RSVP. Reimbursement will be based on average round-trip cost to Waterloo from the city indicated on the RSVP.
                 </span>}
-            number="4."
+            number="5."
         />
         <br/>
         <FaqCard
             question="How do I request accessibility accommodations?"
             answer={ <span>The Equithon team is happy to accommodate your needs in any way we can. Let us know if you require accommodation by sending an email to <a href="mailto:hello@equithon.org">hello@equithon.org</a>.</span>}
-            number="5."
+            number="6."
         />
         <br/>
 
         <FaqCard
             question="How can I help with the event?"
             answer={ <span>Registration for volunteers is open! Sign up to be a volunteer <a href="https://equithon-volunteer.typeform.com/to/JxT6Vy">here</a>! If you are interested in being a mentor, please send us an email at <a href="mailto:hello@equithon.org">hello@equithon.org</a>.</span>}
-            number="6."
+            number="7."
         />
         <br/>
         <FaqCard
             question="Have more questions?"
-            number="7."
+            number="8."
             answer={ <span>Send us an email at <a href="mailto:hello@equithon.org">hello@equithon.org</a>.</span> }
         />
     </div>
