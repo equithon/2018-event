@@ -79,7 +79,7 @@ export class AuthProvider {
   }
 
   updateCheckIn(chosenEvent) {
-    Meteor.call('users.updateLoc', {
+    Meteor.call('users.updateScanLoc', {
         userId: Meteor.userId(),
         eventId: chosenEvent
     }, (err, res) => {

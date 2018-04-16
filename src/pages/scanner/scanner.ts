@@ -31,7 +31,7 @@ export class ScannerPage {
 
 	ionViewDidLoad(){
 		if (Meteor.user() && ((Meteor.user() as any).role === 1 || (Meteor.user() as any).role === 2)) {
-			this.chosenEvent = (Meteor.user() as any).scanInfo.atEvent;
+			this.chosenEvent = (Meteor.user() as any).specificInfo.atEvent;
 			document.getElementById('eventSelector').style.display = 'inline';
 		} else {
 			document.getElementById('eventSelector').style.display = 'none';

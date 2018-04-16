@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, ViewController } from 'ionic-angular';
+import { DataProvider } from './../../providers/data/data';
 import { Events } from './../../../api/server/collections/events';
 import { Event } from './../../../api/server/models';
 
@@ -15,13 +16,12 @@ export class UserPage {
   viewType: string;
   curLoc: string;
 
-  
-
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
-              public view: ViewController) {
+              public view: ViewController,
+              public data: DataProvider) {
     this.user = Meteor.users.findOne({_id: navParams.get('details').user})
-    this.curLoc = Meteor.user() ? (Meteor.user() as any).scanInfo.atEvent : null;
+    this.curLoc = Meteor.user() ? (Meteor.user() as any).specificInfo.atEvent : null;
     this.viewType = navParams.get('view');
     this.events = Events.find().fetch();
   }
@@ -31,18 +31,13 @@ export class UserPage {
     document.getElementById(this.viewType).style.display = 'inline';
   }
 
-  checkUserIn(atEvent) {
-    Meteor.call('users.checkIn', {
-      userId: this.user._id,
-      eventId: atEvent
-    }, (err, res) => {
-      if (err) {
-        console.log(err);
-      } else {
-        console.log('updated');
-        this.user.beenTo.push(atEvent);
-      }
-    });
+  checkUserIn(atEvent, eventType) {
+    if(this.data.userCheckinEvent(this.user._id, atEvent, eventType)){
+      console.log('successfully updated');
+      this.user.beenTo.push(atEvent);
+    } else {
+      console.log('something went wrong while updating');
+    }
   }
 
 }

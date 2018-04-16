@@ -1,5 +1,5 @@
 export enum UserRole {
-    ORGANIZER = 1,
+    ORGANIZER = 0,
     VOLUNTEER,
     JUDGE,
     HACKER,
@@ -8,7 +8,7 @@ export enum UserRole {
 }
 
 export enum EventType {
-    MEAL = 1,
+    MEAL = 0,
     ACTIVITY,
     WORKSHOP_TECH_BGNR,
     WORKSHOP_TECH_INTER,
@@ -16,6 +16,7 @@ export enum EventType {
     WORKSHOP_NON_TECH,
     WORKSHOP_OTHER,
     JUDGING,
+    REGISTRATION,
     OTHER
 }
 
@@ -26,7 +27,7 @@ export interface Event {
     location: string,
     time_start: number,
     time_end: number,
-    spots_tot: number,
-    spots_free: number
+    spots_tot?: number,
+    spots_free?: number
 }
   
