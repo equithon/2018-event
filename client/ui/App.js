@@ -23,6 +23,7 @@ import TeamHome from '/client/ui/components/TeamHome.js';
 import CodeOfConduct from '/client/ui/components/CodeOfConduct.js';
 import SponsorLogo from "./components/SponsorLogo";
 import Rsvp from '/client/ui/components/RSVP.js';
+import Calendar from '/client/ui/components/Calendar.js';
 
 >>>>>>> Initial commit for code of conduct page at equithon.org/conduct
 
@@ -130,14 +131,27 @@ export default class App extends Component {
                                     {/* Spacing */}
                                     { (appsClosed()) ? false : <div style={{ padding: '5px' }}></div> }
 
+                                    {/* Stay Posted */}
                                     <FlatColoredButton onClick={this.handleSubModalOpen} content="Stay Posted" />
+
+                                    {/* Spacing */}
                                     <div style={{ padding: '5px' }}></div>
+
+                                    {/* Volunteer */}
                                     <a className="button-link" href="https://equithon-volunteer.typeform.com/to/JxT6Vy">
-                                            <FlatColoredButton content="Volunteer" />
+                                        <FlatColoredButton content="Volunteer" />
                                     </a>
+
+                                    {/* Spacing */}
+                                    <div style={{ padding: '5px' }}></div>
+
+                                    {/* Calendar */}
+                                    <Link className="button-link" to="/calendar">
+                                        <FlatColoredButton content="Schedule" />
+                                    </Link>
+                                    
+                                    {/* SubscriptionModal for Stay Posted */}
                                     <SubscriptionModal open={this.state.subModalOpen} onClose={this.handleClose} />
-                                    
-                                    
                                 </div>
 
                                 <div style={{gridArea: 'social', display: 'inline', width: 'auto', textAlign: 'center'}}>
@@ -271,6 +285,9 @@ export default class App extends Component {
 
                       {/* RSVP form page */}
                       <Route path="/rsvp" component={Rsvp} />
+
+                      {/* Calendar page */}
+                      <Calendar path="/calendar" component={Calendar} />
                   </div>
               </Router>
             </MuiThemeProvider>
