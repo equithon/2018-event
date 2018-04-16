@@ -141,6 +141,14 @@ export default class App extends Component {
                                     <a className="button-link" href="https://equithon-volunteer.typeform.com/to/JxT6Vy">
                                         <FlatColoredButton content="Volunteer" />
                                     </a>
+
+                                    {/* Spacing */}
+                                    <div style={{ padding: '5px' }}></div>
+
+                                    {/* Schedule */}
+                                    <Link className="button-link" to="/schedule">
+                                        <FlatColoredButton content="View Schedule" />
+                                    </Link>
                                     
                                     {/* SubscriptionModal for Stay Posted */}
                                     <SubscriptionModal open={this.state.subModalOpen} onClose={this.handleClose} />
