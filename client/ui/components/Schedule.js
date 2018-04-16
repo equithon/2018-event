@@ -35,7 +35,7 @@ export default class Schedule extends Component {
                     <br/>
 
                     <Text align="left" color="primary" type="display1" text="SAT 5" />
-                    <CalendarEntry when="8 - 11:30 pm" event="WORKSHOPS, ACTIVITIES, AND TALKS" special />
+                    <CalendarEntry when="8 am - 11:30 pm" event="WORKSHOPS, ACTIVITIES, AND TALKS" special />
                     <CalendarEntry when="8 - 9:30 am" event="BREAKFAST" />
                     <CalendarEntry when="12 - 1:30 pm" event="LUNCH" />
                     <CalendarEntry when="6 - 7:30 pm" event="DINNER" />
