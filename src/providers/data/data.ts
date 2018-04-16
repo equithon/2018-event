@@ -23,6 +23,7 @@ export class DataProvider {
     judgeFail: 'judgeDeniedView',
 
     eventSuccess: 'eventSuccessView',
+    userAlreadyScanned: 'eventDuplicateView',
     eventFull: 'eventFullView',
 
     firstMeal: 'mealSuccessView',
@@ -31,20 +32,24 @@ export class DataProvider {
     
   }
 
+ 
   badges = {
-    organizer: 'I\'m an organizer!',
-    hacker: 'I\'m a hacker!',
-    volunteer: 'I\'m a volunteer!',
-    mentor: 'I\'m a mentor!',
-    sponsor: 'I\'m a sponsor!',
-    registered: 'I registered!',
+
+    role0: 'I\'m an organizer!',
+    role1: 'I\'m a volunteer!',
+    role2: 'I\'m a judge!',
+    role3: 'I\'m a hacker!',
+    role4: 'I\'m a mentor!',
+    role5: 'I\'m a sponsor!',
+    registered: 'I registered for Equithon!',
     judged: 'I presented my project!',
     starScanner: 'I scanned over 50 codes!',
     workshop1: 'I participated in a workshop!',
     workshop5: 'I participated in 5 workshops!!',
     eaten10: 'I\'ve eaten 10 meals! Wow!'
-  
+
   }
+
 
   events: Event[];
   users: any;
@@ -59,7 +64,11 @@ export class DataProvider {
 
   checkUserIn(scannedId): string {
 
+    let curUser: any = Meteor.user();
     let selectedUser: any = Meteor.users.findOne({ _id: scannedId });
+    console.log('logged in user is ');
+    console.log(curUser);
+
     console.log('checkin user is ');
     console.log(selectedUser);
 
@@ -68,13 +77,13 @@ export class DataProvider {
       console.log('no user found');
       return this.checkinOptions.userNotFound;
     } // user is not a volunteer or organizer, show the default view
-    else if(!Meteor.user() || ((Meteor.user() as any).role !== 1 || (Meteor.user() as any).role !== 1)) {
+    else if(!curUser || (curUser.role !== UserRole.ORGANIZER && curUser.role !== UserRole.VOLUNTEER)) {
       console.log('user is not a volunteer or organizer or not logged in, showing default view');
       return this.checkinOptions.cannotCheckin;
     }
 
 
-    let curEventId = ((Meteor.user()) as any).specificInfo.atEvent;
+    let curEventId = curUser.specificInfo.atEvent;
     let selectedEvent: Event = Events.findOne({ _id: curEventId });
     console.log('checkin event is ');
     console.log(selectedEvent);
@@ -95,10 +104,11 @@ export class DataProvider {
       return this.checkinOptions.eventNotValid;
 
     } // event is registration
-    else if(selectedEvent.type === EventType.REGISTRATION ) {
+    else if(selectedEvent.type === EventType.REGISTRATION) {
       if(selectedUser.badges.indexOf(this.badges.registered) > -1) {
         console.log('user has already registered!');
         return this.checkinOptions.registerWarning;
+
       } else if(this.userCheckinRegister(scannedId)) {
         console.log('successfully registered %s', selectedUser.name);
         return this.checkinOptions.registerSuccess;
@@ -106,6 +116,34 @@ export class DataProvider {
       }
       console.log('something is off about %s - cant check them in!', selectedUser.name);
       return this.checkinOptions.registerFail;
+
+    } // user hasnt registered yet
+    else if(selectedUser.badges.indexOf(this.badges.registered) === -1) {
+      console.log('something is off about %s - they haven\'t registered yet! send them to the help desk', selectedUser.name);
+      return this.checkinOptions.userNotRegistered;
+    } // event is a meal
+    else if(selectedEvent.type === EventType.MEAL) {
+      if(selectedUser.beenTo.indexOf(curEventId) === -1) { // user's first meal
+        this.userCheckinEvent(scannedId, selectedEvent._id, selectedEvent.type);
+        // user has special dietary restrictions
+        if(selectedUser.specificInfo.mealExceptions.length > 0){
+          console.log('%s has special restrictions', selectedEvent.name);
+          return this.checkinOptions.specialMeal;
+          
+        }
+        console.log('%s first meal', selectedEvent.name);
+        return this.checkinOptions.firstMeal;
+
+      } 
+      // user's second or more meal
+      this.userCheckinEvent(scannedId, selectedEvent._id, selectedEvent.type);
+      console.log('%s not first meal', selectedEvent.name);
+      return this.checkinOptions.tooFastMeal;
+
+    } // user already scanned at the event
+    else if(selectedUser.beenTo.indexOf(curEventId) > -1) {
+      console.log('user already been to %s', selectedEvent.name);
+      return this.checkinOptions.userAlreadyScanned;
 
     } // event is judging
     else if(selectedEvent.type === EventType.JUDGING) {
@@ -122,25 +160,7 @@ export class DataProvider {
       return this.checkinOptions.judgeFail;
 
     } 
-    // event is a meal
-    else if(selectedEvent.type === EventType.MEAL) {
-      if(selectedUser.beenTo.indexOf(curEventId) === -1) {
-        this.userCheckinEvent(scannedId, selectedEvent._id, selectedEvent.type);
-        // user has special dietary restrictions
-        if(selectedUser.specificInfo.mealExceptions.length > 0){
-          console.log('%s has special retrictions', selectedEvent.name);
-          return this.checkinOptions.specialMeal;
-          
-        }
-        console.log('%s first meal', selectedEvent.name);
-        return this.checkinOptions.firstMeal;
-
-      } // current behaviour is not final, right now if they go for seconds it will give them a warning
-      this.userCheckinEvent(scannedId, selectedEvent._id, selectedEvent.type);
-      console.log('%s not first meal', selectedEvent.name);
-      return this.checkinOptions.tooFastMeal;
-
-    } 
+    
     // event is full
     else if(selectedEvent.spots_free <= 0) {
       console.log('%s is full', selectedEvent.name);
@@ -170,6 +190,7 @@ export class DataProvider {
   }
 
 
+  // ERROR: always returns false, cannot return from callback 
   // updates the user in meteor, adds badge to user
   userCheckinRegister(curUserId){
     Meteor.call('users.checkInRegister', {

@@ -14,6 +14,7 @@
 
 <ion-content padding>
 
+  <!-- default view: this view is not a priority right now -->
   <div id="defaultView" class="normal-view"> 
     <ion-item>{{user.firstName}}</ion-item>
   </div>
@@ -53,7 +54,8 @@
   </div>
 
   <div id="notRegisteredView" class="checkin-view error">
-    <ion-item>{{user.firstName}}</ion-item>
+    <ion-item>{{user.firstName}} has not registered! send them to the special 
+              cases desk if registration is open, or the help desk if registration is closed</ion-item>
   </div>
 
   <div id="unexpectedErrorView" class="checkin-view error">
@@ -88,6 +90,10 @@
 
   <div id="eventSuccessView" class="checkin-view success">
     <p>successfully checked in {{user.firstName}} to activity</p>
+  </div>
+
+  <div id="eventDuplicateView" class="checkin-view error">
+    <p>failed to check in {{user.firstName}}: user has already been to event</p>
   </div>
 
   <div id="eventFullView" class="checkin-view warning">

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { AuthProvider } from './../../providers/auth/auth';
 import { ScannerPage } from './../scanner/scanner';
+import { UserRole } from './../../../api/server/models';
 
 @Component({
   selector: 'page-signup',
@@ -25,8 +26,8 @@ export class SignupPage {
 
   signUp(){
     let registered = this.auth.register({first: this.firstName, last: this.lastName, 
-                                         email: this.userEmail, password: this.userPass, 
-                                         canScan: true});
+                                         role: UserRole.HACKER, dietary: [], shirt: 'S',
+                                         email: this.userEmail, password: this.userPass});
     if(registered) {
       this.navCtrl.setRoot(ScannerPage);
     }

@@ -30,7 +30,8 @@ export class ScannerPage {
 	}
 
 	ionViewDidLoad(){
-		if (Meteor.user() && ((Meteor.user() as any).role === 1 || (Meteor.user() as any).role === 2)) {
+		if (Meteor.user() && ((Meteor.user() as any).role === UserRole.ORGANIZER || (Meteor.user() as any).role === UserRole.VOLUNTEER)) {
+			console.log('should be displaying event selector')
 			this.chosenEvent = (Meteor.user() as any).specificInfo.atEvent;
 			document.getElementById('eventSelector').style.display = 'inline';
 		} else {
