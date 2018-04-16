@@ -19,8 +19,10 @@ export default class CodeOfConduct extends Component {
         super(props);
     }
 
+    componentDidMount() {
+        window.scroll(0, 0);    // Scroll up when loading new page
+    }
 
-    /***** Rendering *****/
     /* Rendering entry point */
     render() {
         const { classes } = this.props;

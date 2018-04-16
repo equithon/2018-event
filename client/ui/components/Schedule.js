@@ -5,9 +5,13 @@ import Paper from 'material-ui/Paper';
 import HomeAppBar from '/client/ui/components/HomeAppBar.js';
 import Text from '/client/ui/components/Text.js';
 
-export default class Calendar extends Component {
+export default class Schedule extends Component {
     constructor(props) {
         super(props);
+    }
+
+    componentDidMount() {
+        window.scroll(0, 0);    // Scroll up when loading new page
     }
 
     render() {

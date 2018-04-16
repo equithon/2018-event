@@ -19,6 +19,8 @@ export default class TeamHome extends Component {
     }
 
     componentDidMount() {
+        window.scroll(0, 0);    // Scroll up when loading new page
+
         this.userC = Tracker.autorun(() => {
             let user = Meteor.user();
             this.setState({

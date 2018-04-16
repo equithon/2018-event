@@ -227,6 +227,8 @@ class Apply extends Component {
 
     /* Meteor.user is an asynchronous call so we need to hook into it and react to it */
     componentDidMount() {
+        window.scroll(0, 0);    // Scroll up when loading new page
+
         /* User computations - we keep track of Meteor's user here and hook it into our component */
         this.userC = Tracker.autorun(() => {
             let user = Meteor.user();
