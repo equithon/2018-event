@@ -442,7 +442,7 @@ export default class Rsvp extends Component {
 
         return(
             <div style={{ paddingTop: '110px' }}>
-                <HomeAppBar noAppButton/>
+                <HomeAppBar noAppButton />
 
                 <div className="form-wrapper">
                     <div style={{ gridArea: 'title-row' }}>
