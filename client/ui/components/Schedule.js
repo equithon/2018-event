@@ -25,7 +25,7 @@ export default class Schedule extends Component {
                     <br/>
                 </div>
 
-                <Paper style={{ gridArea: 'body', padding: '50px' }}>
+                <Paper className="form-paper">
                     <Text align="left" color="primary" type="display1" text="FRI 4" />
                     <CalendarEntry when="5:30 - 8 pm" event="REGISTRATION" />
                     <CalendarEntry when="6:30 - 8 pm" event="DINNER" />
