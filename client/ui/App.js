@@ -23,7 +23,7 @@ import TeamHome from '/client/ui/components/TeamHome.js';
 import CodeOfConduct from '/client/ui/components/CodeOfConduct.js';
 import SponsorLogo from "./components/SponsorLogo";
 import Rsvp from '/client/ui/components/RSVP.js';
-import Calendar from '/client/ui/components/Calendar.js';
+import Schedule from '/client/ui/components/Schedule.js';
 
 >>>>>>> Initial commit for code of conduct page at equithon.org/conduct
 
@@ -278,8 +278,8 @@ export default class App extends Component {
                       {/* RSVP form page */}
                       <Route path="/rsvp" component={Rsvp} />
 
-                      {/* Calendar page */}
-                      <Route path="/calendar" component={Calendar} />
+                      {/* Schedule page */}
+                      <Route path="/schedule" component={Schedule} />
                   </div>
               </Router>
             </MuiThemeProvider>
@@ -418,7 +418,7 @@ const FAQ = () => (
         <br/>
         <FaqCard
             question="Where do I find the schedule?"
-            answer={ <span>You can view the full schedule <Link to="/calendar">here</Link>.</span> }
+            answer={ <span>You can view the full schedule <Link to="/schedule">here</Link>.</span> }
             number="3."
         />
         <br/>

@@ -66,6 +66,8 @@ export default class Rsvp extends Component {
     }
 
     componentDidMount() {
+        window.scroll(0, 0);    // Scroll up when loading new page
+
         this.appC = Tracker.autorun(() => {
             Meteor.subscribe('applicationData');
 
