@@ -2,6 +2,10 @@ ion-app.cameraView, ion-app.cameraView ion-content, ion-app.cameraView .nav-deco
     background: transparent none !important; 
 }
 
+ion-app.cameraView ion-button, ion-app.cameraView ion-input {
+    display: none;
+}
+
 .content-button {
     width: 50%;
     margin-left: 25%;

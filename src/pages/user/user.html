@@ -1,7 +1,7 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>User {{user._id}}</ion-title>
+    <ion-title>{{user.firstName}} {{user.lastName}}</ion-title>
     <ion-buttons end>
       <button ion-button icon-only (click)="view.dismiss()">
         <ion-icon name="close"></ion-icon>
@@ -16,12 +16,40 @@
 
   <!-- default view: this view is not a priority right now -->
   <div id="defaultView" class="normal-view"> 
-    <ion-item>{{user.firstName}}</ion-item>
+    <ion-item>id: <p>{{user._id}}</p></ion-item>
+    <ion-item>role:  <p>{{this.data.roleToString(user.role)}}</p></ion-item>
+    <ion-item>shirt size: <p>{{user.specificInfo.shirtSize}}</p></ion-item>
+    <ion-item>
+      dietary restrictions: <br>
+      <span *ngFor="let restrict of user.mealExceptions">{{restrict}}</span>
+    </ion-item>
+    <ion-item>
+      been to: <br>
+      <span *ngFor="let evnt of user.beenTo">{{evnt.name}}</span>
+    </ion-item>
+    <ion-item>
+      badges: <br>
+      <span *ngFor="let badge of user.badges">{{badge}}</span>
+    </ion-item>
   </div>
 
   <!-- organizer edit: this view is not a priority right now -->
   <div id="organizerEditView" class="edit-view"> 
-    <ion-item>{{user.firstName}}</ion-item>
+    <ion-item>id: <p>{{user._id}}</p></ion-item>
+    <ion-item>role:  <p>{{this.data.roleToString(user.role)}}</p></ion-item>
+    <ion-item>shirt size: <p>{{user.specificInfo.shirtSize}}</p></ion-item>
+    <ion-item>
+      dietary restrictions: <br>
+      <p *ngFor="let restrict of user.specificInfo.mealExceptions">{{restrict}} </p>
+    </ion-item>
+    <ion-item>
+      been to: <br>
+      <p *ngFor="let evnt of user.beenTo">{{ corresEvent(evnt).name }}</p>
+    </ion-item>
+    <ion-item>
+      badges: <br>
+      <p *ngFor="let badge of user.badges">{{badge}}</p>
+    </ion-item>
     <ion-item *ngFor="let evnt of events">
       <ion-label>{{evnt.name}}</ion-label>
       <ion-toggle [disabled]="user.beenTo.indexOf(evnt._id) > -1" [checked]="user.beenTo.indexOf(evnt._id) > -1" (click)="checkUserIn(evnt._id, evnt.type)"></ion-toggle>

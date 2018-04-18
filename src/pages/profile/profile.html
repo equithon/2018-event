@@ -25,8 +25,9 @@
     </ion-item>
     <img src="assets/badge-registration_role.png" class="img-round badge">
     -->
+    {{loggedin.firstName}} {{loggedin.lastName}}<br>
     current user id: {{loggedin._id}} <br>
-    current user role: {{loggedin.role}} <br>
+    current user role: {{this.data.roleToString(loggedin.role)}} <br>
     current user location id: {{loggedin.specificInfo.atEvent}} <br>
     <ion-item>  
       <ion-select [(ngModel)]="loggedin.specificInfo.atEvent" (ngModelChange)="auth.updateCheckIn(this.loggedin.specificInfo.atEvent)">

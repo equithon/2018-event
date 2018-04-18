@@ -12,7 +12,7 @@
   this is where the directory would go
   <ion-list>
     <button ion-item *ngFor="let attendee of attendees" (click)="this.detail.showDetail({type: 'user', view: 'organizerEditView', info: {user: attendee._id, event: null}})">
-      {{attendee._id}} <span *ngIf="attendee.emails">(logged in)</span>
+      {{attendee.firstName}} {{attendee.lastName}}<span *ngIf="attendee.emails">(logged in)</span>
     </button>
   </ion-list>
 </ion-content>

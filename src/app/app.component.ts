@@ -93,7 +93,7 @@ export class MyApp {
 
     this.eventCtrl.subscribe('user:login', () => {
       this.alertUser('Welcome back!')
-      if ((Meteor.user() as any).role === 1) document.getElementById('organizerView').style.display = 'inline';
+      if ((Meteor.user() as any).role === 0) document.getElementById('organizerView').style.display = 'inline';
       this.switchMenu(true);
       this.nav.setRoot(ProfilePage, {}, {animate: true});
     });

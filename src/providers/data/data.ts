@@ -50,6 +50,15 @@ export class DataProvider {
 
   }
 
+  roleStrings = [
+    'Organizer',
+    'Volunteer',
+    'Judge',
+    'Hacker',
+    'Mentor',
+    'Sponsor'
+  ]
+
 
   events: Event[];
   users: any;
@@ -238,6 +247,10 @@ export class DataProvider {
         return true;
       }
     });
+  }
+
+  roleToString(role: number) {
+    return this.roleStrings[role];
   }
 
 }
