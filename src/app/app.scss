@@ -16,7 +16,7 @@
 // automatically applied to the <body> element in the app.
 #loggedInView, #loggedOutView {
     ion-list:nth-child(2) {
-        margin-top: $navbar-ios-height + 20px;
+        margin-top: $navbar-ios-height + 12px;
         
     }   
 }

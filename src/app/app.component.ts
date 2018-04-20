@@ -38,7 +38,8 @@ export class MyApp {
   ];
 
   organizerPages: PageInterface[] = [
-    { title: 'Directory', name: 'DirectoryPage', component: DirectoryPage, icon: '' }
+    { title: 'Directory', name: 'DirectoryPage', component: DirectoryPage, icon: '' },
+    { title: 'Sign up', name: 'LoginPage', component: SignupPage, icon: '' }
   ]
 
   loggedInPages: PageInterface[] = [
@@ -47,8 +48,7 @@ export class MyApp {
   ];
 
   loggedOutPages: PageInterface[] = [
-    { title: 'Log in', name: 'LoginPage', component: LoginPage, icon: '' },
-    { title: 'Sign up', name: 'LoginPage', component: SignupPage, icon: '' },
+    { title: 'Log in', name: 'LoginPage', component: LoginPage, icon: '' }
   ];
 
   miscPages: PageInterface[] = [

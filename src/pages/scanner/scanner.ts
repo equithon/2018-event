@@ -79,9 +79,40 @@ export class ScannerPage {
 		}
 	}
 
-	checkUserIn() {
-		let checkinResult = this.data.checkUserIn(this.queryId);
-		this.detail.showDetail({ type: (checkinResult === 'noUserView') ? 'error' : 'user', view: checkinResult, info: { user: this.queryId, event: null } });
+	checkUserIn(): void {
+
+		Meteor.call('users.checkIn', {
+			userId: this.queryId
+		}, 
+		(err, res: string) => {
+
+			if (err) {
+				console.log('check-in could not be completed, error was:');
+				console.log(err);
+			} else {
+				console.log('check in result was:');
+				console.log(res);
+				this.handleCheckIn(res);
+			}
+
+		});
+
+
+	}
+
+
+	handleCheckIn(res: string): void {
+		if(res === 'userNotFound') {
+			this.detail.showDetail({ type: 'error', view: null });
+		} else {
+			let displayView: string = res + 'View';
+			console.log('showing view ' + displayView);
+			this.detail.showDetail({ type: 'user', view: displayView});
+
+		}
+
+		
+
 	}
 
 

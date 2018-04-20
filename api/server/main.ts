@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { Events } from './collections/events';
-import { Event, EventType, UserRole } from './models';
+import { Event, EventType, UserRole, Badges } from './models';
 import { Accounts } from 'meteor/accounts-base';
 
 
@@ -36,14 +36,14 @@ Meteor.startup(() => {
 
     let evnt5 = Events.insert(
       { _id: '2b8we03mt9bw9', name: 'Programming Fundamentals',
-        type: EventType.WORKSHOP_TECH_BGNR, location: 'QNC 1502',
+        type: EventType.WORKSHOP, location: 'QNC 1502',
         time_start: Date.now(), time_end: Date.now() + (86400000 * 3),
         spots_tot: 60, spots_free: 4 });
     console.log(evnt5);
 
     let evnt6 = Events.insert(
       { _id: '19bw249g8wqu0', name: 'Data Science',
-        type: EventType.WORKSHOP_TECH_INTER, location: 'QNC 2506',
+        type: EventType.WORKSHOP, location: 'QNC 2506',
         time_start: Date.now(), time_end: Date.now() + (86400000 * 3),
         spots_tot: 60, spots_free: 0 });
     console.log(evnt6);
@@ -127,23 +127,6 @@ let roleSpecificInfo = [ // important information to keep track of for each user
 
 ]
 
-let badges = {
-
-  role0: 'I\'m an organizer!',
-  role1: 'I\'m a volunteer!',
-  role2: 'I\'m a judge!',
-  role3: 'I\'m a hacker!',
-  role4: 'I\'m a mentor!',
-  role5: 'I\'m a sponsor!',
-  registered: 'I registered for Equithon!',
-  judged: 'I presented my project!',
-  starScanner: 'I scanned over 50 codes!',
-  workshop1: 'I participated in a workshop!',
-  workshop5: 'I participated in 5 workshops!!',
-  eaten10: 'I\'ve eaten 10 meals! Wow!'
-
-}
-
 Accounts.onCreateUser((options, user) => {
   console.log('new user created, setting custom fields');
   user.firstName = options.first;
@@ -151,7 +134,7 @@ Accounts.onCreateUser((options, user) => {
   user.role = options.role;
   user.specificInfo = Object.assign({ shirtSize: options.shirt, mealExceptions: options.dietary }, roleSpecificInfo[user.role]);
   user.beenTo = []; // new users have gone to no events
-  user.badges = [badges[('role' + user.role)]]; // new users have no badges except their role badge
+  user.badges = [Badges[('role' + user.role)]]; // new users have no badges except their role badge
   
   return user;
 })

@@ -1,7 +1,7 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>{{user.firstName}} {{user.lastName}}</ion-title>
+    <ion-title>User Page</ion-title>
     <ion-buttons end>
       <button ion-button icon-only (click)="view.dismiss()">
         <ion-icon name="close"></ion-icon>
@@ -15,8 +15,9 @@
 <ion-content padding>
 
   <!-- default view: this view is not a priority right now -->
-  <div id="defaultView" class="normal-view"> 
-    <ion-item>id: <p>{{user._id}}</p></ion-item>
+  <div id="cannotCheckInView" class="normal-view"> 
+    <p> you're viewing the default view because you can't do anything right now</p>
+     <!--<ion-item>id: <p>{{user._id}}</p></ion-item>
     <ion-item>role:  <p>{{this.data.roleToString(user.role)}}</p></ion-item>
     <ion-item>shirt size: <p>{{user.specificInfo.shirtSize}}</p></ion-item>
     <ion-item>
@@ -30,11 +31,112 @@
     <ion-item>
       badges: <br>
       <span *ngFor="let badge of user.badges">{{badge}}</span>
-    </ion-item>
+    </ion-item> -->
   </div>
 
+
+  <div id="eventNotSelectedView" class="checkin-view error">
+    <p>
+      You have not checked in at an event. Make sure the event you're volunteering for is
+      selected on your Profile page, under the Status dropdown.
+    </p>
+  </div>
+
+  <div id="eventExpiredView" class="checkin-view error">
+    <p>
+      The event you are currently checked in at is not currently going on! Make sure the event you're volunteering for
+      is currently running and selected on your Profile page, under the Status dropdown.
+    </p>
+  </div>
+
+
+  <div id="eventNotFoundView" class="checkin-view error">
+    <p>
+      The event you're checked in at is not in the database! 
+      This shouldn't happen. Try resetting your status - if this error still pops up, contact a Director.
+    </p>
+  </div>
+
+  <div id="eventFullView" class="checkin-view error">
+    <p>failed to check in: activity is full - see if there are empty seats</p>
+  </div>
+
+
+
+
+  <div id="userAlreadyScannedView" class="checkin-view warning">
+    <p>the user has already been scanned at this event/meal/judging</p>
+  </div>
+
+  <div id="userCannotRegisterView" class="checkin-view error">
+    <p>the user cannot be registered - please send them to the special cases/help desk</p>
+  </div>
+
+  <div id="userAlreadyRegisteredView" class="checkin-view warning">
+    <p>the user has already registered!</p>
+  </div>
+
+  <div id="userNotRegisteredView" class="checkin-view error">
+    <p>error checking in: user isn't registered!</p>
+  </div>
+
+
+
+  <div id="judgingWrongLocView" class="checkin-view warning">
+    <p>the user is at the wrong location judging</p>
+  </div>
+
+  <div id="judgingWrongTimeView" class="checkin-view warning">
+    <p>the user is at the wrong time slot for judging</p>
+  </div>
+
+  <div id="judgingUnreleasedView" class="checkin-view warning">
+    <p>judging information (room/time) has not yet been released - stay posted for updates</p>
+  </div>
+
+  <div id="judgingUnableView" class="checkin-view error">
+    <p>the user cannot be judged - probably not a hacker</p>
+  </div>
+
+
+  <div id="mealTooSoonView" class="checkin-view warning">
+    <p>the user has been eating too fast!</p>
+  </div>
+
+  <div id="mealRestrictionView" class="checkin-view warning">
+    <p>the user has meal restrictions</p>
+  </div>
+
+  <div id="mealCheckedInView" class="checkin-view">
+    <p>successfully checked in user to meal</p>
+  </div>
+
+  <div id="registrationCheckedInView" class="checkin-view">
+    <p>successfully registered user</p>
+  </div>
+
+  <div id="judgingCheckedInView" class="checkin-view">
+    <p>successfully checked user into judging</p>
+  </div>
+
+  <div id="eventCheckedInView" class="checkin-view">
+    <p>successfully checked user into event!</p>
+  </div>
+
+  
+
+
+
+
+
+
+
+
   <!-- organizer edit: this view is not a priority right now -->
+  
   <div id="organizerEditView" class="edit-view"> 
+    <p> this is the organizer edit/view page</p>
+    <!--
     <ion-item>id: <p>{{user._id}}</p></ion-item>
     <ion-item>role:  <p>{{this.data.roleToString(user.role)}}</p></ion-item>
     <ion-item>shirt size: <p>{{user.specificInfo.shirtSize}}</p></ion-item>
@@ -50,98 +152,12 @@
       badges: <br>
       <p *ngFor="let badge of user.badges">{{badge}}</p>
     </ion-item>
+    
     <ion-item *ngFor="let evnt of events">
       <ion-label>{{evnt.name}}</ion-label>
       <ion-toggle [disabled]="user.beenTo.indexOf(evnt._id) > -1" [checked]="user.beenTo.indexOf(evnt._id) > -1" (click)="checkUserIn(evnt._id, evnt.type)"></ion-toggle>
-    </ion-item>
-  </div>
-    
-
-
-  <!-- volunteer and checkin views -->
-
-  <div id="noEventView" class="checkin-view error">
-    <p>
-      You have not checked in at an event. Make sure the event you're volunteering for is
-      selected on your Profile page, under the Status dropdown.
-    </p>
-  </div>
-  
-  <div id="notFoundView" class="checkin-view error">
-    <p>
-      The event you're checked in at is not in the database! 
-      This shouldn't happen. Try resetting your status - if this error still pops up, contact a Director.
-    </p>
-  </div>
-
-  <div id="notValidView" class="checkin-view error">
-    <p>
-      The event you are currently checked in at has ended. Make sure the event you're volunteering for
-      is currently running and selected on your Profile page, under the Status dropdown.
-    </p>
-  </div>
-
-  <div id="notRegisteredView" class="checkin-view error">
-    <ion-item>{{user.firstName}} has not registered! send them to the special 
-              cases desk if registration is open, or the help desk if registration is closed</ion-item>
-  </div>
-
-  <div id="unexpectedErrorView" class="checkin-view error">
-    <p>
-      An unexpected error has occurred.
-      This shouldn't happen. Try resetting your status or rescanning the ID and if this error still pops up, contact a Director.
-    </p>
-  </div>
-
-
-  <div id="registerSuccessView" class="checkin-view success">
-    <p>successfully register {{user.firstName}}: their shirt size is {{user.specificInfo.shirtSize}}</p>
-  </div>
-
-  <div id="registerWarningView" class="checkin-view warning">
-      <p>register warning {{user.firstName}}: they've probably already been registered</p>
-    </div>
-
-  <div id="registerFailView" class="checkin-view error">
-    <p>failed to register {{user.firstName}}: please direct them to the special cases table</p>
-  </div>
-
-
-  <div id="judgeSuccessView" class="checkin-view success">
-    <p>successfully checked in {{user.firstName}} for judging</p>
-  </div>
-
-  <div id="judgeDeniedView" class="checkin-view error">
-    <p>failed to check in {{user.firstName}}: it is not their time to judge or they are at the wrong judging room.</p>
-  </div>
-
-
-  <div id="eventSuccessView" class="checkin-view success">
-    <p>successfully checked in {{user.firstName}} to activity</p>
-  </div>
-
-  <div id="eventDuplicateView" class="checkin-view error">
-    <p>failed to check in {{user.firstName}}: user has already been to event</p>
-  </div>
-
-  <div id="eventFullView" class="checkin-view warning">
-    <p>failed to check in {{user.firstName}}: activity is full - see if there are empty seats</p>
-  </div>
-
-
-  <div id="mealSuccessView" class="checkin-view success">
-    <p>this is {{user.firstName}} first meal</p>
-  </div>
-
-  <div id="mealExceptionView" class="checkin-view warning">
-    <p>{{user.firstName}} has meal exceptions:</p>
-    <span *ngFor="let restriction of user.specificInfo.mealExceptions">
-      {{restriction}}
-    </span>
-  </div>
-
-  <div id="mealWarningView" class="checkin-view warning">
-    <p>{{user.firstName}} is eating too fast! (seconds very soon into a meal time start)</p>
+    </ion-item> 
+    -->
   </div>
 
 </ion-content>

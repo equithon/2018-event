@@ -10,14 +10,62 @@ export enum UserRole {
 export enum EventType {
     MEAL = 0,
     ACTIVITY,
-    WORKSHOP_TECH_BGNR,
-    WORKSHOP_TECH_INTER,
-    WORKSHOP_TECH_ADV,
-    WORKSHOP_NON_TECH,
-    WORKSHOP_OTHER,
+    WORKSHOP,
+    PANEL,
     JUDGING,
     REGISTRATION,
+    SPECIAL,
     OTHER
+}
+
+export enum CheckInCodes {
+
+	cannotCheckIn = 'cannotCheckIn',
+	eventNotSelected = 'eventNotSelected',
+	eventExpired = 'eventExpired',
+	eventNotFound = 'eventNotFound',
+	eventFull = 'eventFull',
+
+    userNotFound = 'userNotFound',
+	userAlreadyScanned = 'userAlreadyScanned',
+	userCannotRegister = 'userCannotRegister', 
+	userAlreadyRegistered = 'userAlreadyRegistered', 
+	userNotRegistered = 'userNotRegistered',
+
+	judgingWrongLoc = 'judgingWrongLoc', 
+	judgingWrongTime = 'judgingWrongTime',
+	judgingUnreleased = 'judgingUnreleased',
+	judgingUnable = 'judgingUnable',
+
+    miscError = 'miscError',
+    
+    mealTooSoon = 'mealTooSoon',
+	mealRestriction = 'mealRestriction',
+	mealCheckedIn = 'mealCheckedIn',
+	registrationCheckedIn = 'registrationCheckedIn',
+	judgingCheckedIn = 'judgingCheckedIn',
+	eventCheckedIn = 'eventCheckedIn'
+}
+
+
+
+export enum Badges {
+
+	role0 = 'I\'m an organizer!',
+	role1 = 'I\'m a volunteer!',
+	role2 = 'I\'m a judge!',
+	role3 = 'I\'m a hacker!',
+	role4 = 'I\'m a mentor!',
+	role5 = 'I\'m a sponsor!',
+	starScanner10 = 'I\'ve checked in more than 10 people!',
+	starScanner50 = 'I\'ve checked in more than 50 people!',
+	starScanner100 = 'I\'ve checked in more than 100 people!',
+	registered = 'I registered for Equithon!',
+	judged = 'I presented my project!',
+	active = 'I participated in an activity!',
+	learner = 'I learned something at a workshop!',
+	winner = 'I won a prize!'
+  
 }
 
 export interface Event {
@@ -30,4 +78,6 @@ export interface Event {
     spots_tot?: number,
     spots_free?: number
 }
+
+
   
