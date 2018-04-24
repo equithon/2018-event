@@ -38,9 +38,7 @@ export class MyApp {
     'Organizer',
     'Volunteer',
     'Judge',
-    'Hacker',
-    'Mentor',
-    'Sponsor'
+    'Hacker'
   ]
 
   navigationPages: PageInterface[] = [
@@ -120,7 +118,14 @@ export class MyApp {
     if(scannedCt && Meteor.user()){
       console.log('ok')
       document.getElementById("profileName").innerHTML = (Meteor.user() as any).firstName;
-      document.getElementById("profileRole").innerHTML = this.roleToString((Meteor.user() as any).role);
+      let curRole = (Meteor.user() as any).role;
+      if(curRole === UserRole.ORGANIZER){
+        document.getElementById("profileRole").innerHTML = (Meteor.user() as any).specificInfo.title;
+      } else if (curRole === UserRole.VOLUNTEER) {
+        document.getElementById("profileRole").innerHTML = (Meteor.user() as any).specificInfo.team + this.roleToString(curRole);
+      } else {
+        document.getElementById("profileRole").innerHTML = this.roleToString(curRole);
+      }
       if((Meteor.user() as any).role === UserRole.ORGANIZER || (Meteor.user() as any).role === UserRole.VOLUNTEER){
         document.getElementById("scannerIcon").style.display = 'inline';
         document.getElementById("amtScanned").innerHTML = (Meteor.user() as any).specificInfo.amtScanned;

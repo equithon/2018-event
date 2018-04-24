@@ -2,9 +2,8 @@ export enum UserRole {
     ORGANIZER = 0,
     VOLUNTEER,
     JUDGE,
-    HACKER,
-    MENTOR,
-    SPONSOR
+    HACKER
+    
 }
 
 export enum EventType {
@@ -54,8 +53,6 @@ export enum Badges {
 	role1 = 'I\'m a volunteer!',
 	role2 = 'I\'m a judge!',
 	role3 = 'I\'m a hacker!',
-	role4 = 'I\'m a mentor!',
-	role5 = 'I\'m a sponsor!',
 	starScanner10 = 'I\'ve checked in more than 10 people!',
 	starScanner50 = 'I\'ve checked in more than 50 people!',
 	starScanner100 = 'I\'ve checked in more than 100 people!',

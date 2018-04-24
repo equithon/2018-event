@@ -73,7 +73,7 @@ Meteor.startup(() => {
 
     let volunteer = Accounts.createUser(
       <any>
-      { first: 'Dave', last: 'Smith', 
+      { first: 'Paniel', last: 'Deng', 
         role: UserRole.VOLUNTEER, dietary: ['Lactose Intolerant'],  shirt: 'M',
         email: 'volunteer@gmail.com', password: 'volunteer'}
     );
@@ -94,36 +94,17 @@ Meteor.startup(() => {
         email: 'hacker@gmail.com', password: 'hacker'}
     );
     console.log(hacker);
-
-    let mentor = Accounts.createUser(
-      <any>
-      { first: 'Bob', last: 'Bobby', 
-        role: UserRole.MENTOR, dietary: ['Nut Allergy'], shirt: 'S',
-        email: 'mentor@gmail.com', password: 'mentor'}
-    );
-    console.log(mentor);
-
-    let sponsor = Accounts.createUser(
-      <any>
-      { first: 'Paniel', last: 'Deng', 
-        role: UserRole.SPONSOR, dietary: [], shirt: 'XL',
-        email: 'sponsor@gmail.com', password: 'sponsor'}
-    );
-    console.log(sponsor);
   }
-  
 
 });
 
 
 let roleSpecificInfo = [ // important information to keep track of for each user
 
-  { atEvent: null, amtScanned: 0 },
-  { atEvent: null, amtScanned: 0 },
+  { atEvent: null, amtScanned: 0, title: null },
+  { atEvent: null, amtScanned: 0, team: null },
   { judgingCategory: null, judgedUsers: [] },
-  { judgingLoc: null, judgingTime: null, devpostURL: null },
-  { mentorCategory: null },
-  { companyAffiliation: null, interestedUsers: [] }
+  { judgingLoc: null, judgingTime: null, devpostURL: null }
 
 ]
 
