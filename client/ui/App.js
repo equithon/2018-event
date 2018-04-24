@@ -137,14 +137,6 @@ export default class App extends Component {
                                     {/* Spacing */}
                                     <div style={{ padding: '5px' }}></div>
 
-                                    {/* Volunteer */}
-                                    <a className="button-link" href="https://equithon-volunteer.typeform.com/to/JxT6Vy">
-                                        <FlatColoredButton content="Volunteer" />
-                                    </a>
-
-                                    {/* Spacing */}
-                                    <div style={{ padding: '5px' }}></div>
-
                                     {/* Schedule */}
                                     <Link className="button-link" to="/schedule">
                                         <FlatColoredButton content="View Schedule" />
