@@ -5,6 +5,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { Meteor } from 'meteor/meteor';
 
 import { AuthProvider } from './../providers/auth/auth';
+import { UserRole } from './../../api/server/models';
 
 import { TutorialPage } from '../pages/tutorial/tutorial';
 import { HelpPage } from '../pages/help/help';
@@ -31,7 +32,16 @@ export interface PageInterface {
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: any = Meteor.userId() ? ScannerPage : TutorialPage; //NOT WORKING
+  rootPage: any = Meteor.userId() ? ScannerPage : TutorialPage; 
+
+  roleStrings = [
+    'Organizer',
+    'Volunteer',
+    'Judge',
+    'Hacker',
+    'Mentor',
+    'Sponsor'
+  ]
 
   navigationPages: PageInterface[] = [
     { title: 'Scanner', name: 'ScannerPage', component: ScannerPage, icon: '' }
@@ -43,7 +53,6 @@ export class MyApp {
   ]
 
   loggedInPages: PageInterface[] = [
-    { title: 'Profile', name: 'ProfilePage', component: ProfilePage, icon: '' },
     { title: 'Log out', name: 'ScannerPage', component: LoginPage, logsOut: true, icon: '' }
   ];
 
@@ -63,14 +72,13 @@ export class MyApp {
               public eventCtrl: EventControl,
               public statusBar: StatusBar, 
               public splashScreen: SplashScreen) {
-
-    console.log('starting')
+    
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       statusBar.styleDefault();
       splashScreen.hide();
-      this.switchMenu(Meteor.user() !== null); // changes menu if the user is logged in
+      this.switchMenu(Meteor.userId() !== null); // changes menu if the user is logged in
     });
 
     this.listenToLoginEvents();
@@ -93,21 +101,42 @@ export class MyApp {
 
     this.eventCtrl.subscribe('user:login', () => {
       this.alertUser('Welcome back!')
-      if ((Meteor.user() as any).role === 0) document.getElementById('organizerView').style.display = 'inline';
+      //if ((Meteor.user() as any).role === UserRole.ORGANIZER) document.getElementById('organizerView').style.display = 'inline';
       this.switchMenu(true);
-      this.nav.setRoot(ProfilePage, {}, {animate: true});
+      this.nav.setRoot(ScannerPage, {}, {animate: true});
     });
 
     this.eventCtrl.subscribe('user:logout', () => {
       this.alertUser('Successfully logged out.');
-      document.getElementById('organizerView').style.display = 'none';
+      //document.getElementById('organizerView').style.display = 'none';
       this.switchMenu(false);
     });
+
   }
 
+  refreshProfile() {
+    console.log(Meteor.user());
+    let scannedCt = document.getElementById("profile-details");
+    if(scannedCt && Meteor.user()){
+      console.log('ok')
+      document.getElementById("profileName").innerHTML = (Meteor.user() as any).firstName;
+      document.getElementById("profileRole").innerHTML = this.roleToString((Meteor.user() as any).role);
+      if((Meteor.user() as any).role === UserRole.ORGANIZER || (Meteor.user() as any).role === UserRole.VOLUNTEER){
+        document.getElementById("scannerIcon").style.display = 'inline';
+        document.getElementById("amtScanned").innerHTML = (Meteor.user() as any).specificInfo.amtScanned;
+      }
+      document.getElementById("profileBadges").innerHTML = (Meteor.user() as any).badges.length;
+    }
+
+  }
   switchMenu(loggedIn) {
     this.menu.enable(loggedIn, 'loggedInView');
     this.menu.enable(!loggedIn, 'loggedOutView');
+  }
+
+
+  roleToString(role: number) {
+    return this.roleStrings[role];
   }
 
   alertUser(msg: string) {

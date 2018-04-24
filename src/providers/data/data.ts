@@ -33,14 +33,7 @@ export class DataProvider {
     
   }
 
-  roleStrings = [
-    'Organizer',
-    'Volunteer',
-    'Judge',
-    'Hacker',
-    'Mentor',
-    'Sponsor'
-  ]
+  
 
 
   events: Event[];
@@ -56,19 +49,8 @@ export class DataProvider {
 
 
 
-  roleToString(role: number) {
-    return this.roleStrings[role];
-  }
+  
 
-  alertUser(msg: string) {
-    let alert_toast = this.toastCtrl.create({
-      message: msg,
-      duration: 1000,
-      position: 'top',
-      showCloseButton: true
-    })
-    alert_toast.present();
-  }
 
   
 }

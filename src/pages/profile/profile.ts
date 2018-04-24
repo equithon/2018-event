@@ -26,5 +26,4 @@ export class ProfilePage {
     console.log('~ loaded Profile Page ~');
   }
 
-
 }

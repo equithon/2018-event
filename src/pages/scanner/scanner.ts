@@ -4,7 +4,7 @@ import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner';
 import { Observable } from 'rxjs';
 
 import { Meteor } from 'meteor/meteor';
-import { UserRole, Event } from './../../../api/server/models';
+import { UserRole, Event, TimeIntervals } from './../../../api/server/models';
 import { Events } from './../../../api/server/collections/events';
 import { AuthProvider } from './../../providers/auth/auth';
 import { DetailProvider } from './../../providers/detail/detail';
@@ -17,8 +17,8 @@ export class ScannerPage {
 
 	users: any[];
 	queryId: string;
-	events: Event[];
-	chosenEvent: string;
+	eventOptions: Event[];
+	eventChosen: string;
 
 	constructor(public platform: Platform,
 							public qrScanner: QRScanner,
@@ -26,13 +26,16 @@ export class ScannerPage {
 							public auth: AuthProvider,
 							public data: DataProvider,
 							public eventCtrl: EventControl) {
-		this.events = Events.find({}).fetch();
+		this.eventOptions = Events.find({}).fetch();
+		/*this.eventOptions = Events.find({}).fetch().filter((evnt) => {
+			evnt.time_start - TimeIntervals.hour <= Date.now() && Date.now() <= evnt.time_end + TimeIntervals.hour
+		}); */ // TODO: UNCOMMENT THIS FOR ACCURATE EVENT SELECTIONS
 	}
 
 	ionViewDidLoad(){
 		if (Meteor.user() && ((Meteor.user() as any).role === UserRole.ORGANIZER || (Meteor.user() as any).role === UserRole.VOLUNTEER)) {
 			console.log('should be displaying event selector')
-			this.chosenEvent = (Meteor.user() as any).specificInfo.atEvent;
+			this.eventChosen = (Meteor.user() as any).specificInfo.atEvent;
 			document.getElementById('eventSelector').style.display = 'inline';
 		} else {
 			document.getElementById('eventSelector').style.display = 'none';
@@ -81,7 +84,7 @@ export class ScannerPage {
 
 	checkUserIn(): void {
 
-		Meteor.call('users.checkIn', {
+		Meteor.call('scanner.checkIn', {
 			userId: this.queryId
 		}, 
 		(err, res: string) => {
@@ -93,6 +96,7 @@ export class ScannerPage {
 				console.log('check in result was:');
 				console.log(res);
 				this.handleCheckIn(res);
+				this.eventCtrl.publish('user:update', Date.now());
 			}
 
 		});
@@ -102,7 +106,7 @@ export class ScannerPage {
 
 
 	handleCheckIn(res: string): void {
-		if(res === 'userNotFound') {
+		if(res === 'miscError') {
 			this.detail.showDetail({ type: 'error', view: null });
 		} else {
 			let displayView: string = res + 'View';

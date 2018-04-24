@@ -26,19 +26,5 @@ export class UserPage {
     console.log('~ loaded User Page with ViewType %s ~', this.viewType);
     document.getElementById(this.viewType).style.display = 'inline';
   }
-
-  /*
-  checkUserIn(atEvent, eventType) {
-    if(this.data.userCheckinEvent(this.user._id, atEvent, eventType)){
-      console.log('successfully updated');
-      this.user.beenTo.push(atEvent);
-    } else {
-      console.log('something went wrong while updating');
-    }
-  } 
-
-  corresEvent(eventId){
-    return this.events.find(e => (e._id === eventId));
-  }*/
-
+  
 }

@@ -1,26 +1,29 @@
 import { Meteor } from 'meteor/meteor';
 import { Events } from './collections/events';
-import { Event, EventType, UserRole, CheckInCodes, Badges } from './models';
+import { Event, EventType, UserRole, CheckInCodes, Badges, TimeIntervals } from './models';
 import { Accounts } from 'meteor/accounts-base';
 
 
 
 Meteor.methods({
 
-
-	'user.updateScanLoc'({ userId, eventId }) {
+	'volunteer.checkIn'({ userId, eventId }) {
 		Meteor.users.update(userId,
-			{ $set: { 'specificInfo.atEvent': eventId } }
+			{ $set: { 'specificInfo.atEvent': eventId } } 
 		);
+
+		let scheduledShift = false; // TODO: THIS IS WHERE YOU IMPLEMENT THE ACTUAL CHECK WHEN SHIFTS ARE DONE
+
+		return scheduledShift ? 'success' : 'warning'; 
 	},
 
-	'users.checkIn'({ userId }) {
+	'scanner.checkIn'({ userId }) {
 
 		let scannedUser: any = Meteor.users.findOne({ _id: userId });
 		console.log(scannedUser);
 		let curUser: any = Meteor.user();
 		console.log(curUser);
-		let canScan: boolean = Meteor.userId() && (curUser.role === UserRole.ORGANIZER || curUser.role === UserRole.VOLUNTEER);
+		let canScan: boolean = Meteor.userId() && (curUser.role === UserRole.ORGANIZER || (curUser.role === UserRole.VOLUNTEER && curUser.badges.indexOf(Badges.registered) > -1));
 		let curEvent: Event;
 
 		let scanSuccess: string = null;
@@ -30,26 +33,28 @@ Meteor.methods({
 		if (!canScan) return CheckInCodes.cannotCheckIn;
 		if (curUser.specificInfo.atEvent) {
 			curEvent = Events.findOne({ _id: curUser.specificInfo.atEvent });
-			if (!curEvent) return CheckInCodes.eventNotFound;
-			if (curEvent.time_start > Date.now() || curEvent.time_end < Date.now() - 600000) { //10 min buffer time after event ends
-				return CheckInCodes.eventExpired;
-			}
 		} else {
 			return CheckInCodes.eventNotSelected;
 		}
 
-
-		console.log(curEvent.type);
-
-
 		// -- GENERAL ERRORS --
-		if (curEvent.type != EventType.REGISTRATION && scannedUser.badges.indexOf(Badges.registered) === -1) {
+		if (!curEvent) {
+			return CheckInCodes.eventNotFound; 
+		} else if (curEvent.time_start > Date.now() || curEvent.time_end < Date.now() - 600000) { //10 min buffer time after event ends
+			return CheckInCodes.eventExpired;
+		} else if (curUser.role !== UserRole.ORGANIZER && curEvent.type !== EventType.REGISTRATION && scannedUser.badges.indexOf(Badges.registered) === -1) {
 			return CheckInCodes.userNotRegistered;
-		} else if (curEvent.type !== EventType.MEAL && curEvent.type !== EventType.REGISTRATION && scannedUser.beenTo.indexOf(curEvent._id) > -1) {
+		} else if ((curEvent.type !== EventType.MEAL && scannedUser.beenTo.indexOf(curEvent._id) > -1) || (curEvent.type === EventType.REGISTRATION  && scannedUser.badges.indexOf(Badges.registered) > -1)) {
+			console.log('already scanned')
 			return CheckInCodes.userAlreadyScanned;
 		} else if (!isNaN(curEvent.spots_free) && curEvent.spots_free <= 0) {
 			return CheckInCodes.eventFull;
 		}
+		console.log(curEvent.type);
+
+
+		
+		
 
 
 		// ----------------------------- Handling Different Event Types ----------------------------
@@ -57,11 +62,7 @@ Meteor.methods({
 		if (curEvent.type === EventType.REGISTRATION) {
 			console.log('registration')
 			if (true) { // THIS IS WHERE YOU CHECK IF USER IS A VALID ATTENDEE
-				console.log('past true')
-				if (scannedUser.badges.indexOf(Badges.registered) > -1) {
-					console.log('already registered')
-					return CheckInCodes.userAlreadyRegistered;
-				}
+				
 				console.log('registering user');
 				Meteor.users.update(userId,
 					{ $push: { 'badges': Badges.registered } }
@@ -70,6 +71,7 @@ Meteor.methods({
 					{ $push: { 'beenTo': curEvent._id } }
 				);
 				scanSuccess = CheckInCodes.registrationCheckedIn;
+				
 			} else {
 				console.log('cannot register)');
 				return CheckInCodes.userCannotRegister;
@@ -100,8 +102,9 @@ Meteor.methods({
 			console.log('judging');
 			if (scannedUser.role === UserRole.HACKER) {
 				if (scannedUser.specificInfo.judgingLoc && scannedUser.specificInfo.judgingTime) {
+					// TODO: THIS IS WHERE YOU WOULD IMPLEMENT THE CHECK IN THE OTHER COLLECTION IF A USER IS UP FOR JUDGING
 					if (scannedUser.specificInfo.judgingLoc !== curEvent.location) return CheckInCodes.judgingWrongLoc;
-					if (scannedUser.specificInfo.judgingTime > Date.now() + 600000) return CheckInCodes.judgingWrongTime;
+					if (scannedUser.specificInfo.judgingTime > Date.now() + TimeIntervals.minute * 20) return CheckInCodes.judgingWrongTime;
 
 					Meteor.users.update(userId,
 						{ $push: { 'badges': Badges.judged } }

@@ -65,7 +65,7 @@ Meteor.startup(() => {
   if(Meteor.users.find({}).count() === 0){
     let organizer = Accounts.createUser(
       <any>
-      { first: 'Organizer', last: 'Test', 
+      { first: 'Alex', last: 'Xie', 
         role: UserRole.ORGANIZER, dietary: [], shirt: 'M',
         email: 'organizer@gmail.com', password: 'organizer'}
     );
@@ -73,7 +73,7 @@ Meteor.startup(() => {
 
     let volunteer = Accounts.createUser(
       <any>
-      { first: 'Volunteer', last: 'Test', 
+      { first: 'Dave', last: 'Smith', 
         role: UserRole.VOLUNTEER, dietary: ['Lactose Intolerant'],  shirt: 'M',
         email: 'volunteer@gmail.com', password: 'volunteer'}
     );
@@ -81,7 +81,7 @@ Meteor.startup(() => {
 
     let judge = Accounts.createUser(
       <any>
-      { first: 'Judge', last: 'Test', 
+      { first: 'Emma', last: 'Watson', 
         role: UserRole.JUDGE, dietary: [], shirt: 'XS',
         email: 'judge@gmail.com', password: 'judge'}
     );
@@ -89,7 +89,7 @@ Meteor.startup(() => {
 
     let hacker = Accounts.createUser(
       <any>
-      { first: 'Hacker', last: 'Test', 
+      { first: 'Mark', last: 'Zuckerberg', 
         role: UserRole.HACKER, dietary: ['Vegan', 'Halal'], shirt: 'M',
         email: 'hacker@gmail.com', password: 'hacker'}
     );
@@ -97,7 +97,7 @@ Meteor.startup(() => {
 
     let mentor = Accounts.createUser(
       <any>
-      { first: 'Mentor', last: 'Test', 
+      { first: 'Bob', last: 'Bobby', 
         role: UserRole.MENTOR, dietary: ['Nut Allergy'], shirt: 'S',
         email: 'mentor@gmail.com', password: 'mentor'}
     );
@@ -105,7 +105,7 @@ Meteor.startup(() => {
 
     let sponsor = Accounts.createUser(
       <any>
-      { first: 'Sponsor', last: 'Test', 
+      { first: 'Paniel', last: 'Deng', 
         role: UserRole.SPONSOR, dietary: [], shirt: 'XL',
         email: 'sponsor@gmail.com', password: 'sponsor'}
     );

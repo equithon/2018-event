@@ -15,7 +15,7 @@
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
 #loggedInView, #loggedOutView {
-    ion-list:nth-child(2) {
+    .menu-inner > :nth-child(2) {
         margin-top: $navbar-ios-height + 12px;
         
     }   
@@ -28,3 +28,41 @@ ion-navbar {
 #organizer-view {
     display: none;
 }
+
+#profile-div {
+    padding-top: 20px;
+    padding-bottom: 60px;
+    #profile-pic {
+        border: solid 4px rgba(216, 216, 216, 0.9);
+        margin-left: 15px;
+        margin-right: 15px;
+        width: 75px;
+        height: 75px;
+    }
+
+    #profile-details {
+        h2 {
+            margin-top: 4px;
+            margin-bottom: 0px;
+            
+        }
+        #profile-special {
+            padding-top: 5px;
+        }
+        #badgesIcon{
+            padding-left: 5px;
+        }
+    }
+
+    
+}
+
+.img-round {
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.inner-left {
+    float: left;
+}
+

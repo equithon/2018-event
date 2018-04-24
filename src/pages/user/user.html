@@ -17,23 +17,13 @@
   <!-- default view: this view is not a priority right now -->
   <div id="cannotCheckInView" class="normal-view"> 
     <p> you're viewing the default view because you can't do anything right now</p>
-     <!--<ion-item>id: <p>{{user._id}}</p></ion-item>
-    <ion-item>role:  <p>{{this.data.roleToString(user.role)}}</p></ion-item>
-    <ion-item>shirt size: <p>{{user.specificInfo.shirtSize}}</p></ion-item>
-    <ion-item>
-      dietary restrictions: <br>
-      <span *ngFor="let restrict of user.mealExceptions">{{restrict}}</span>
-    </ion-item>
-    <ion-item>
-      been to: <br>
-      <span *ngFor="let evnt of user.beenTo">{{evnt.name}}</span>
-    </ion-item>
-    <ion-item>
-      badges: <br>
-      <span *ngFor="let badge of user.badges">{{badge}}</span>
-    </ion-item> -->
   </div>
 
+  <!-- organizer edit: this view is not a priority right now -->
+  
+  <div id="organizerEditView" class="edit-view"> 
+    <p> this is the organizer edit/view page</p>
+  </div>
 
   <div id="eventNotSelectedView" class="checkin-view error">
     <p>
@@ -62,7 +52,9 @@
   </div>
 
 
-
+  <div id="userNotFoundView" class="checkin-view error">
+    <p>The user you have scanned was not found! Send them to the special cases desk if registration is open or the help desk otherwise immediately. </p>
+  </div>
 
   <div id="userAlreadyScannedView" class="checkin-view warning">
     <p>the user has already been scanned at this event/meal/judging</p>
@@ -72,9 +64,6 @@
     <p>the user cannot be registered - please send them to the special cases/help desk</p>
   </div>
 
-  <div id="userAlreadyRegisteredView" class="checkin-view warning">
-    <p>the user has already registered!</p>
-  </div>
 
   <div id="userNotRegisteredView" class="checkin-view error">
     <p>error checking in: user isn't registered!</p>
@@ -121,43 +110,6 @@
 
   <div id="eventCheckedInView" class="checkin-view">
     <p>successfully checked user into event!</p>
-  </div>
-
-  
-
-
-
-
-
-
-
-
-  <!-- organizer edit: this view is not a priority right now -->
-  
-  <div id="organizerEditView" class="edit-view"> 
-    <p> this is the organizer edit/view page</p>
-    <!--
-    <ion-item>id: <p>{{user._id}}</p></ion-item>
-    <ion-item>role:  <p>{{this.data.roleToString(user.role)}}</p></ion-item>
-    <ion-item>shirt size: <p>{{user.specificInfo.shirtSize}}</p></ion-item>
-    <ion-item>
-      dietary restrictions: <br>
-      <p *ngFor="let restrict of user.specificInfo.mealExceptions">{{restrict}} </p>
-    </ion-item>
-    <ion-item>
-      been to: <br>
-      <p *ngFor="let evnt of user.beenTo">{{ corresEvent(evnt).name }}</p>
-    </ion-item>
-    <ion-item>
-      badges: <br>
-      <p *ngFor="let badge of user.badges">{{badge}}</p>
-    </ion-item>
-    
-    <ion-item *ngFor="let evnt of events">
-      <ion-label>{{evnt.name}}</ion-label>
-      <ion-toggle [disabled]="user.beenTo.indexOf(evnt._id) > -1" [checked]="user.beenTo.indexOf(evnt._id) > -1" (click)="checkUserIn(evnt._id, evnt.type)"></ion-toggle>
-    </ion-item> 
-    -->
   </div>
 
 </ion-content>

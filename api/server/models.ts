@@ -29,7 +29,6 @@ export enum CheckInCodes {
     userNotFound = 'userNotFound',
 	userAlreadyScanned = 'userAlreadyScanned',
 	userCannotRegister = 'userCannotRegister', 
-	userAlreadyRegistered = 'userAlreadyRegistered', 
 	userNotRegistered = 'userNotRegistered',
 
 	judgingWrongLoc = 'judgingWrongLoc', 
@@ -66,6 +65,16 @@ export enum Badges {
 	learner = 'I learned something at a workshop!',
 	winner = 'I won a prize!'
   
+}
+
+export enum TimeIntervals {
+
+	day = 86400000,
+	hour = 3600000,
+	halfHour = 1800000,
+	fifteenMinutes = 900000,
+	minute = 60000
+
 }
 
 export interface Event {

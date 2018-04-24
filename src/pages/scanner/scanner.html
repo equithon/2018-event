@@ -4,8 +4,8 @@
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-item id="eventSelector">
-      <ion-select text-center [(ngModel)]="chosenEvent" (ngModelChange)="auth.updateCheckIn(chosenEvent)" [placeholder]="chosenEvent">
-        <ion-option *ngFor="let evnt of events" [value]="evnt._id">{{evnt.name}}</ion-option>
+      <ion-select text-center [(ngModel)]="eventChosen" (ngModelChange)="auth.updateCheckIn(eventChosen)" [placeholder]="eventChosen">
+        <ion-option *ngFor="let evnt of eventOptions" [value]="evnt._id">{{evnt.name}}</ion-option>
       </ion-select>
     </ion-item>
     

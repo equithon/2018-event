@@ -1,7 +1,7 @@
 import { Injectable, ViewChild } from '@angular/core';
 import { Accounts } from 'meteor/accounts-base';
 import { Meteor } from 'meteor/meteor';
-import { Events as EventControl, Nav, LoadingController, ToastController } from 'ionic-angular';
+import { Events as EventControl, Nav, LoadingController, ToastController, AlertController } from 'ionic-angular';
 import { ProfilePage } from './../../pages/profile/profile';
 import { DomSanitizer } from '@angular/platform-browser';
 
@@ -13,6 +13,7 @@ export class AuthProvider {
   constructor(public eventCtrl: EventControl,
               public loadingCtrl: LoadingController,
               public toastCtrl: ToastController,
+              public alertCtrl: AlertController,
               private sanitizer: DomSanitizer) {
     console.log('~ initialized Auth Provider ~');
   }
@@ -47,7 +48,8 @@ export class AuthProvider {
         console.log('loggedin')
         let success_load = this.loadingCtrl.create({
           spinner: 'hide',
-          content: <string>this.sanitizer.bypassSecurityTrustHtml(`
+          content: <string>this.sanitizer.bypassSecurityTrustHtml(
+            `
           <div class="custom-spinner-container">
             <img src="assets/success_spinner.gif"></img>
           </div>
@@ -79,15 +81,30 @@ export class AuthProvider {
   }
 
   updateCheckIn(chosenEvent) {
-    Meteor.call('user.updateScanLoc', {
-        userId: Meteor.userId(),
-        eventId: chosenEvent
-    }, (err, res) => {
+    console.log(chosenEvent);
+    console.log(Meteor.userId());
+    Meteor.call('volunteer.checkIn', {
+      userId: Meteor.userId(),
+      eventId: chosenEvent
+  }, (err, res) => {
+
         if (err) {
-        console.log(err);
-        } else {
-        console.log('updated current user\'s location');
+          console.log(err);
+        } else if(res === 'warning') {
+          let alert = this.alertCtrl.create({
+            title: 'Hmm...',
+            subTitle: 
+            `
+              You don't seem to be scheduled to volunteer at this event and/or this time.
+              Make sure you've selected the right event. If you've been rescheduled, ignore this warning.
+            `,
+            buttons: ['Got it.']
+          });
+          alert.present();
+          console.log('updated current user\'s location with warning');
         }
+        console.log('updated current user\'s location');
+
     });
   }
 
