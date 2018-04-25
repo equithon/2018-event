@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 
 import { Tracker } from 'meteor/tracker';
 
+import { Link, Route } from 'react-router-dom';
+
 import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField';
 
@@ -24,8 +26,7 @@ export default class UserSearch extends Component {
             lastName: '',
             email: '',
 
-            success: false,
-            message: '',
+            selectedUser: null,
         };
 
         this.searchC = null;
@@ -60,14 +61,11 @@ export default class UserSearch extends Component {
      * Rendering
      */
     renderSearchResults() {
-        console.log(this.state);
-
+        console.log(this.state.selectedUser);
         var search = {};
         if (this.state.firstName) search.firstName = this.state.firstName;
         if (this.state.lastName) search.lastName = this.state.lastName;
         if (this.state.email) search.emails = { address: this.state.email, verified: true };
-
-        console.log(search);
 
         var searchResult = Meteor.users.find(search, { limit: 10 }).fetch();
 
@@ -75,9 +73,14 @@ export default class UserSearch extends Component {
         if (searchResult) {
             for (var i = 0; i < searchResult.length; ++i) {
                 rows.push(
-                    <tr key={i} style={{ width: '100%' }}>
+                    <tr key={i} style={{ width: '100%' }} dataset={{ userId: searchResult[i]._id }}
+                        onClick={ (e) => {
+                            console.log(e.currentTarget);
+                            this.setState({ selectedUser: e.currentTarget.dataset.userid })
+                        }}>
+
                         <th><Text color="inherit" type="body1"
-                            text={searchResult[i].firstName} /></th>
+                                text={searchResult[i].firstName} /></th>
                         <th><Text color="inherit" type="body1"
                             text={searchResult[i].lastName} /></th>
                         <th><Text color="inherit" type="body1"
@@ -87,10 +90,8 @@ export default class UserSearch extends Component {
             }
         }
 
-        console.log(rows);
-
         return(
-            <table style={{ width: '100%' }}>
+            <table className="list" style={{ width: '100%', tableLayout: 'fixed' }}>
                 <thead>
                     <tr style={{ width: '100%' }}>
                         <th><Text color="primary" type="body1" text="First Name" /></th>
@@ -104,6 +105,9 @@ export default class UserSearch extends Component {
                 </tbody>
             </table>
         );
+    }
+
+    renderSelectedUser() {
     }
 
     render() {
@@ -134,15 +138,15 @@ export default class UserSearch extends Component {
                     value={this.state.email}
                 />
 
-                {/* Success/failure notification */}
-                <div style={{ gridArea: 'left' }}>
-                    { (this.state.success) ?
-                            <SuccessMessageChip successMessage={this.state.message} /> :
-                            <ErrorMessageChip errorMessage={this.state.message} />
-                    }
-                </div>
-
+                {/* Search Results */}
+                <br/>
+                <Text style={{ textAlign: 'center' }} color="primary" type="display2"
+                    text="Search Results" />
+                <br/>
                 { this.renderSearchResults() }
+
+                {/* Selected User */}
+                { this.renderSelectedUser() }
             </Paper>
         );
     }
