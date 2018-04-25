@@ -29,26 +29,26 @@ Meteor.methods({
 		let scanSuccess: string = null;
 
 		// ----------------------------- Handling Invalid Inputs ----------------------------
-		if (!scannedUser) return CheckInCodes.userNotFound;
-		if (!canScan) return CheckInCodes.cannotCheckIn;
+		if (!scannedUser) return {code: CheckInCodes.userNotFound, user: null };
+		if (!canScan) return {code: CheckInCodes.cannotCheckIn, user: scannedUser };
 		if (curUser.specificInfo.atEvent) {
 			curEvent = Events.findOne({ _id: curUser.specificInfo.atEvent });
 		} else {
-			return CheckInCodes.eventNotSelected;
+			return {code: CheckInCodes.eventNotSelected, user: scannedUser };
 		}
 
 		// -- GENERAL ERRORS --
 		if (!curEvent) {
-			return CheckInCodes.eventNotFound; 
+			return {code: CheckInCodes.eventNotFound, user: scannedUser }; 
 		} else if (curEvent.time_start > Date.now() || curEvent.time_end < Date.now() - 600000) { //10 min buffer time after event ends
-			return CheckInCodes.eventExpired;
+			return {code: CheckInCodes.eventExpired, user: scannedUser };
 		} else if (curUser.role !== UserRole.ORGANIZER && curEvent.type !== EventType.REGISTRATION && scannedUser.badges.indexOf(Badges.registered) === -1) {
-			return CheckInCodes.userNotRegistered;
+			return {code: CheckInCodes.userNotRegistered, user: scannedUser };
 		} else if ((curEvent.type !== EventType.MEAL && scannedUser.beenTo.indexOf(curEvent._id) > -1) || (curEvent.type === EventType.REGISTRATION  && scannedUser.badges.indexOf(Badges.registered) > -1)) {
 			console.log('already scanned')
-			return CheckInCodes.userAlreadyScanned;
+			return {code: CheckInCodes.userAlreadyScanned, user: scannedUser };
 		} else if (!isNaN(curEvent.spots_free) && curEvent.spots_free <= 0) {
-			return CheckInCodes.eventFull;
+			return {code: CheckInCodes.eventFull, user: scannedUser };
 		}
 		console.log(curEvent.type);
 
@@ -61,7 +61,7 @@ Meteor.methods({
 		// -- REGISTRATION --
 		if (curEvent.type === EventType.REGISTRATION) {
 			console.log('registration')
-			if (true) { // THIS IS WHERE YOU CHECK IF USER IS A VALID ATTENDEE
+			if (true) { // TODO: THIS IS WHERE YOU CHECK IF USER IS A VALID ATTENDEE
 				
 				console.log('registering user');
 				Meteor.users.update(userId,
@@ -74,7 +74,7 @@ Meteor.methods({
 				
 			} else {
 				console.log('cannot register)');
-				return CheckInCodes.userCannotRegister;
+				return {code: CheckInCodes.userCannotRegister, user: scannedUser };
 			}
 
 		}
@@ -103,8 +103,8 @@ Meteor.methods({
 			if (scannedUser.role === UserRole.HACKER) {
 				if (scannedUser.specificInfo.judgingLoc && scannedUser.specificInfo.judgingTime) {
 					// TODO: THIS IS WHERE YOU WOULD IMPLEMENT THE CHECK IN THE OTHER COLLECTION IF A USER IS UP FOR JUDGING
-					if (scannedUser.specificInfo.judgingLoc !== curEvent.location) return CheckInCodes.judgingWrongLoc;
-					if (scannedUser.specificInfo.judgingTime > Date.now() + TimeIntervals.minute * 20) return CheckInCodes.judgingWrongTime;
+					if (scannedUser.specificInfo.judgingLoc !== curEvent.location) return {code: CheckInCodes.judgingWrongLoc, user: scannedUser };
+					if (scannedUser.specificInfo.judgingTime > Date.now() + TimeIntervals.minute * 20) return {code: CheckInCodes.judgingWrongTime, user: scannedUser };
 
 					Meteor.users.update(userId,
 						{ $push: { 'badges': Badges.judged } }
@@ -114,10 +114,10 @@ Meteor.methods({
 					);
 					scanSuccess = CheckInCodes.judgingCheckedIn;
 				} else {
-					return CheckInCodes.judgingUnreleased;
+					return {code: CheckInCodes.judgingUnreleased, user: scannedUser };
 				}
 			} else {
-				return CheckInCodes.judgingUnable;
+				return {code: CheckInCodes.judgingUnable, user: scannedUser };
 			}
 			
 		}
@@ -153,12 +153,12 @@ Meteor.methods({
 				{ $inc: { 'specificInfo.amtScanned': 1 } }
 			);
 
-			return scanSuccess;
+			return {code: scanSuccess, user: scannedUser };
 
 		}
 
 
-		return CheckInCodes.miscError;
+		return {code: CheckInCodes.miscError, user: null };
 
 	}
 

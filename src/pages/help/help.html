@@ -12,4 +12,17 @@
 
 <ion-content padding>
   on this page will be a little about the app and important links (equithon website, volunteer slack channel, emergency numbers, etc)
+
+
+  <!-- FOR TESTING USER -->
+  <ion-item *ngFor="let view of viewOptions">
+    <button (click)="openView(view)">
+      {{view}}
+    </button>
+  </ion-item>
+
+  <!-- FOR TESTING USER -->
+
+
+
 </ion-content>

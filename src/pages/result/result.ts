@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, ViewController } from 'ionic-angular';
+import { Events } from 'api/collections/events';
+import { Event } from 'api/models';
 
 
 
@@ -10,11 +12,16 @@ import { NavController, NavParams, ViewController } from 'ionic-angular';
 export class ResultPage {
 
   viewType: string;
+  viewUser: any;
 
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
               public view: ViewController) {
     this.viewType = navParams.get('view');
+    this.viewUser = navParams.get('user');
+    console.log('viewtype is ' + this.viewType);
+    console.log(this.viewUser);
+
   }
 
   ionViewDidLoad() {

@@ -2,7 +2,6 @@ import { Injectable, ViewChild } from '@angular/core';
 import { Accounts } from 'meteor/accounts-base';
 import { Meteor } from 'meteor/meteor';
 import { Events as EventControl, Nav, LoadingController, ToastController, AlertController } from 'ionic-angular';
-import { ProfilePage } from './../../pages/profile/profile';
 import { DomSanitizer } from '@angular/platform-browser';
 
 @Injectable()
@@ -10,12 +9,21 @@ export class AuthProvider {
   @ViewChild(Nav) nav: Nav;
 
 
+  roleStrings = [
+    'Organizer',
+    'Volunteer',
+    'Judge',
+    'Hacker'
+  ]
+  
   constructor(public eventCtrl: EventControl,
               public loadingCtrl: LoadingController,
               public toastCtrl: ToastController,
               public alertCtrl: AlertController,
               private sanitizer: DomSanitizer) {
     console.log('~ initialized Auth Provider ~');
+    Meteor.subscribe('users');
+    Meteor.subscribe('events');
   }
 
   register(new_user: any){
@@ -51,7 +59,7 @@ export class AuthProvider {
           content: <string>this.sanitizer.bypassSecurityTrustHtml(
             `
           <div class="custom-spinner-container">
-            <img src="assets/success_spinner.gif"></img>
+            <img src="assets/imgs/success_spinner.gif"></img>
           </div>
           `),
           duration: 1500
@@ -106,6 +114,10 @@ export class AuthProvider {
         console.log('updated current user\'s location');
 
     });
+  }
+
+  roleToString(role: number) {
+    return this.roleStrings[role];
   }
 
 }

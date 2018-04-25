@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
-import { ProfilePage } from './../profile/profile';
 import { AuthProvider } from './../../providers/auth/auth';
 
 @Component({

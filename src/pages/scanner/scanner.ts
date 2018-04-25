@@ -7,8 +7,6 @@ import { Meteor } from 'meteor/meteor';
 import { UserRole, Event, TimeIntervals } from './../../../api/server/models';
 import { Events } from './../../../api/server/collections/events';
 import { AuthProvider } from './../../providers/auth/auth';
-import { DataProvider } from './../../providers/data/data';
-import { ErrorPage } from '../error/error';
 import { ResultPage } from '../result/result';
 @Component({
 	templateUrl: 'scanner.html'
@@ -23,7 +21,6 @@ export class ScannerPage {
 	constructor(public platform: Platform,
 				public qrScanner: QRScanner,
 				public auth: AuthProvider,
-				public data: DataProvider,
 				public eventCtrl: EventControl,
 				public modalCtrl: ModalController) {
 		this.eventOptions = Events.find({}).fetch();
@@ -110,7 +107,7 @@ export class ScannerPage {
 		Meteor.call('scanner.checkIn', {
 			userId: this.queryId
 		}, 
-		(err, res: string) => {
+		(err, res) => {
 
 			if (err) {
 				console.log('check-in could not be completed, error was:');
@@ -128,14 +125,10 @@ export class ScannerPage {
 	}
 
 
-	handleCheckIn(res: string): void {
+	handleCheckIn(res): void {
 		let detailModal: Modal;
-		if(res === 'miscError') {
-			detailModal = this.modalCtrl.create(ErrorPage, null);
-		} else {
-			console.log('showing view ' + res + 'View');
-			detailModal = this.modalCtrl.create(ResultPage, {view: res + 'View'});
-		}
+		console.log('showing view ' + res.code + 'View');
+		detailModal = this.modalCtrl.create(ResultPage, {view: res.code + 'View', user: res.user});
 
 		detailModal.onDidDismiss( () => {
 			this.showScanner();

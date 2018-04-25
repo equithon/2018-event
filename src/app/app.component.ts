@@ -10,11 +10,8 @@ import { UserRole } from './../../api/server/models';
 import { TutorialPage } from '../pages/tutorial/tutorial';
 import { HelpPage } from '../pages/help/help';
 
-import { ProfilePage } from '../pages/profile/profile';
 import { ScannerPage } from '../pages/scanner/scanner';
-import { DirectoryPage } from './../pages/directory/directory';
 import { LoginPage } from './../pages/login/login';
-import { SignupPage } from './../pages/signup/signup';
 import { SchedulePage } from './../pages/schedule/schedule';
 
 
@@ -34,20 +31,14 @@ export class MyApp {
 
   rootPage: any = Meteor.userId() ? ScannerPage : TutorialPage; 
 
-  roleStrings = [
-    'Organizer',
-    'Volunteer',
-    'Judge',
-    'Hacker'
-  ]
+  
 
   navigationPages: PageInterface[] = [
     { title: 'Scanner', name: 'ScannerPage', component: ScannerPage, icon: '' }
   ];
 
   organizerPages: PageInterface[] = [
-    { title: 'Directory', name: 'DirectoryPage', component: DirectoryPage, icon: '' },
-    { title: 'Sign up', name: 'LoginPage', component: SignupPage, icon: '' }
+    
   ]
 
   loggedInPages: PageInterface[] = [
@@ -122,9 +113,9 @@ export class MyApp {
       if(curRole === UserRole.ORGANIZER){
         document.getElementById("profileRole").innerHTML = (Meteor.user() as any).specificInfo.title;
       } else if (curRole === UserRole.VOLUNTEER) {
-        document.getElementById("profileRole").innerHTML = (Meteor.user() as any).specificInfo.team + this.roleToString(curRole);
+        document.getElementById("profileRole").innerHTML = (Meteor.user() as any).specificInfo.team + this.auth.roleToString(curRole);
       } else {
-        document.getElementById("profileRole").innerHTML = this.roleToString(curRole);
+        document.getElementById("profileRole").innerHTML = this.auth.roleToString(curRole);
       }
       if((Meteor.user() as any).role === UserRole.ORGANIZER || (Meteor.user() as any).role === UserRole.VOLUNTEER){
         document.getElementById("scannerIcon").style.display = 'inline';
@@ -140,9 +131,7 @@ export class MyApp {
   }
 
 
-  roleToString(role: number) {
-    return this.roleStrings[role];
-  }
+  
 
   alertUser(msg: string) {
     let alert_toast = this.toastCtrl.create({

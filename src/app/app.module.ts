@@ -6,20 +6,16 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner';
 import { MomentModule } from 'angular2-moment';
 
-import { AuthProvider } from './../providers/auth/auth';
-import { DataProvider } from '../providers/data/data';
-
 import { ScannerPage } from '../pages/scanner/scanner';
-import { TutorialPage } from '../pages/tutorial/tutorial';
-import { DirectoryPage } from './../pages/directory/directory';
 import { SchedulePage } from './../pages/schedule/schedule';
 import { LoginPage } from './../pages/login/login';
-import { ProfilePage } from './../pages/profile/profile';
-import { SignupPage } from './../pages/signup/signup';
-import { EventPage } from '../pages/event/event';
-import { ErrorPage } from './../pages/error/error';
-import { HelpPage } from './../pages/help/help';
+
 import { ResultPage } from './../pages/result/result';
+
+import { HelpPage } from './../pages/help/help';
+import { TutorialPage } from '../pages/tutorial/tutorial';
+
+import { AuthProvider } from './../providers/auth/auth';
 
 import { MyApp } from './app.component';
 
@@ -28,16 +24,12 @@ import { MyApp } from './app.component';
   declarations: [
     MyApp,
     ScannerPage,
+    SchedulePage,
     TutorialPage,
     HelpPage,
-    DirectoryPage,
     LoginPage,
-    ProfilePage,
-    SignupPage,
-    ResultPage,
-    SchedulePage,
-    EventPage,
-    ErrorPage
+    ResultPage
+    
   ],
   imports: [
     BrowserModule,
@@ -50,22 +42,16 @@ import { MyApp } from './app.component';
     ScannerPage,
     TutorialPage,
     HelpPage,
-    DirectoryPage,
     LoginPage,
-    ProfilePage,
-    SignupPage,
     ResultPage,
-    SchedulePage,
-    EventPage,
-    ErrorPage
+    SchedulePage
   ],
   providers: [
     StatusBar,
     SplashScreen,
     QRScanner,
-    {provide: ErrorHandler, useClass: IonicErrorHandler},
     AuthProvider,
-    DataProvider
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
   ]
 })
 export class AppModule {}
