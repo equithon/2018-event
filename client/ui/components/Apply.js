@@ -231,6 +231,8 @@ class Apply extends Component {
 
         /* User computations - we keep track of Meteor's user here and hook it into our component */
         this.userC = Tracker.autorun(() => {
+            Meteor.subscribe('userData');
+
             let user = Meteor.user();
             this.setState({
                 currentUser: user,
@@ -257,8 +259,6 @@ class Apply extends Component {
 
                 /* Handle additional select outcomes */
                 selectFieldNames.forEach((name) => this.initSelectState(valuesAndMessages[name], app[name], name));
-
-                console.log(app);
 
                 this.setState({
                     submitted: app.submitted,

@@ -7,16 +7,20 @@ import { rateLimit } from '../RateLimiter.js';
 
 
 /*
- * Publish additional user fields.
+ * Publish users.
  */
 Meteor.publish('userData', function () {
-  if (this.userId) {
-    return Meteor.users.find({ _id: this.userId }, {
-      fields: { firstName: 1, lastName: 1, isTeam: 1 }
-    });
-  } else {
-    this.ready();
-  }
+    var fields = {
+        firstName: 1,
+        lastName: 1,
+        emails: 1,
+        isTeam: 1
+    };
+
+    // Publish all users and their emails for team members and only your own user if not
+    if (this.userId && Meteor.user().isTeam) return Meteor.users.find({}, { fields });
+    else if (this.userId) return Meteor.users.find({ _id: this.userId }, { fields });
+    else this.ready();
 });
 
 
