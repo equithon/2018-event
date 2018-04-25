@@ -24,7 +24,7 @@ export default class AppReview extends Component {
         this.state = {
             success: false,
             submitDisabled: false,
-            errorMessage: '',
+            message: '',
             confirmationModalOpen: false,
 
             app: {},

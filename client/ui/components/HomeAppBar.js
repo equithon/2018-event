@@ -27,8 +27,9 @@ export default class HomeAppBar extends Component {
 
     componentDidMount() {
         this.userC = Tracker.autorun(() => {
-            let user = Meteor.user();
+            Meteor.subscribe('userData');
 
+            let user = Meteor.user();
             if (user && user.isTeam !== undefined) {
                 this.setState({
                     isTeam: user.isTeam

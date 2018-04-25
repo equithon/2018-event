@@ -7,6 +7,7 @@ import { Route, Link, Redirect } from 'react-router-dom';
 import HomeAppBar from '/client/ui/components/HomeAppBar.js';
 import FlatColoredButton from '/client/ui/components/buttons/FlatColoredButton.js';
 import AppReview from '/client/ui/components/AppReview.js';
+import UserSearch from '/client/ui/components/UserSearch.js';
 
 /*
  * Team Home Page
@@ -20,6 +21,8 @@ export default class TeamHome extends Component {
 
     componentDidMount() {
         window.scroll(0, 0);    // Scroll up when loading new page
+
+        Meteor.subscribe('userData');
 
         this.userC = Tracker.autorun(() => {
             let user = Meteor.user();
@@ -45,6 +48,7 @@ export default class TeamHome extends Component {
                 <div style={{ gridArea: 'body' }}>
                     <Route path="/team/app-review" component={AppReview} />
                     <Route path="/team/app-statistics" render={() => <h1> APP STATISTICS</h1>} />
+                    <Route path="/team/user-search" component={UserSearch} />
                 </div>
             </div>
         );
@@ -64,17 +68,31 @@ export default class TeamHome extends Component {
 }
 
 const AppButtons = () => (
-    <div className="split-column-row">
-        <div style={{ gridArea: 'left' }}>
-            <Link className="button-link" to="/team/app-review">
-                <FlatColoredButton content="Review an Application" />
-            </Link>
+    <div>
+        {/* Row 1 */}
+        <div className="split-column-row">
+            <div style={{ gridArea: 'left' }}>
+                <Link className="button-link" to="/team/app-review">
+                    <FlatColoredButton content="Review an Application" />
+                </Link>
+            </div>
+
+            <div style={{ gridArea: 'right' }}>
+                <Link className="button-link" to="/team/app-statistics">
+                    <FlatColoredButton content="View Application Statistics" />
+                </Link>
+            </div>
         </div>
 
-        <div style={{ gridArea: 'right' }}>
-            <Link className="button-link" to="/team/app-statistics">
-                <FlatColoredButton content="View Application Statistics" />
-            </Link>
+        <br/>
+
+        {/* Row 2 */}
+        <div className="split-column-row">
+            <div style={{ gridArea: 'left' }}>
+                <Link className="button-link" to="/team/user-search">
+                    <FlatColoredButton content="User Search" />
+                </Link>
+            </div>
         </div>
     </div>
 );

@@ -42,28 +42,8 @@ export default class App extends Component {
         this.state = {
             subModalOpen: false,
             unsubModalOpen: false,
-
-            userId: '',
         };
-
-        this.userIdComputation = undefined;
     };
-
-    componentDidMount() {
-        this.userIdComputation = Tracker.autorun(() => {
-            let userId = Meteor.userId();
-            if (userId) this.setState({
-                userId: userId,
-            });
-            else this.setState({
-                userId: '',
-            });
-        });
-    }
-
-    componentWillUnmount() {
-        this.userIdComputation.stop();
-    }
 
     handleSubModalOpen = () => {
         this.setState({
@@ -141,7 +121,7 @@ export default class App extends Component {
                                     <Link className="button-link" to="/schedule">
                                         <FlatColoredButton content="View Schedule" />
                                     </Link>
-                                    
+
                                     {/* SubscriptionModal for Stay Posted */}
                                     <SubscriptionModal open={this.state.subModalOpen} onClose={this.handleClose} />
                                 </div>
@@ -430,8 +410,8 @@ const FAQ = () => (
         <br/>
         <FaqCard
             question="How do I get to Equithon if I'm not from Waterloo? Will I get reimbursed?"
-            answer={<span>The Equithon team will be providing bus two buses: one departing from University of Toronto St. George Campus and one departing from Square One in Mississauga. 
-                Accepted hackers can reserve seats on the buses on the RSVP form. Hackers from outside Waterloo, Toronto, and Mississauga must organize their own travel but will be reimbursed after the event. 
+            answer={<span>The Equithon team will be providing bus two buses: one departing from University of Toronto St. George Campus and one departing from Square One in Mississauga.
+                Accepted hackers can reserve seats on the buses on the RSVP form. Hackers from outside Waterloo, Toronto, and Mississauga must organize their own travel but will be reimbursed after the event.
                 The maximum amount for reimbursement will be communicated to hackers via email after they submit the RSVP. Reimbursement will be based on average round-trip cost to Waterloo from the city indicated on the RSVP.
                 </span>}
             number="5."
