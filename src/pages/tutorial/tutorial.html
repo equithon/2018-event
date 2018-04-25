@@ -2,7 +2,7 @@
 
   <ion-navbar>
     <ion-title>eQRScanner</ion-title>
-    <ion-buttons end *ngIf="show_skip">
+    <ion-buttons end *ngIf="showSkip">
       <button ion-button (click)="slides.slideTo(slides.length() - 1)" color="primary">Skip</button>
     </ion-buttons>
   </ion-navbar>
@@ -22,9 +22,12 @@
           First, we need you to give the app permission to use your camera.
           If you decline, the app won't be able to scan anything D:
         </p>
-        <button ion-button (click)="qrScanner.prepare()">
-          Sure! &nbsp;
-          <ion-icon name="arrow-forward"></ion-icon>
+        <button ion-button (click)="allowScanning()" id="permission-ask">
+          Allow
+        </button>
+        <button ion-button id="permission-granted">
+          <ion-icon name="checkmark"></ion-icon> &nbsp;
+          Thanks! 
         </button>
       </ion-slide>
       <ion-slide>

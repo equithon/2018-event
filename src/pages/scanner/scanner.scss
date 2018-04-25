@@ -2,7 +2,7 @@ ion-app.cameraView, ion-app.cameraView ion-content, ion-app.cameraView .nav-deco
     background: transparent none !important; 
 }
 
-ion-app.cameraView ion-button, ion-app.cameraView ion-input {
+ion-app.cameraView ion-input {
     display: none;
 }
 
@@ -12,8 +12,8 @@ ion-app.cameraView ion-button, ion-app.cameraView ion-input {
     margin-right: 25%;
 }
 
-#open-scanner {
-    margin-top: 200px;
+#start-scanner {
+    margin-top: 20%;
 }
 
 #manual-query-field {
@@ -28,4 +28,12 @@ ion-select {
 
 #eventSelector { 
     display: none;
+}
+
+#scanner-reticle {
+    width: 225px;
+    height: 225px;
+    margin-left: 22%;
+    margin-top: 40%;
+
 }

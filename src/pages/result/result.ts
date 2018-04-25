@@ -1,19 +1,25 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, ViewController } from 'ionic-angular';
 
-let template = 'result.html';
+
 
 @Component({
   selector: 'page-result',
-  templateUrl: template,
+  templateUrl: 'result.html',
 })
 export class ResultPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  viewType: string;
+
+  constructor(public navCtrl: NavController, 
+              public navParams: NavParams,
+              public view: ViewController) {
+    this.viewType = navParams.get('view');
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad ResultPage');
+    console.log('~ loaded Check In Page with ViewType %s ~', this.viewType);
+    document.getElementById(this.viewType).style.display = 'inline';
   }
 
 }

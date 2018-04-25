@@ -12,7 +12,9 @@ import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner';
 })
 export class TutorialPage implements OnInit {
 
-  show_skip: boolean;
+  showSkip: boolean = true;
+  permissionGranted: boolean = false;
+
 
   @ViewChild('slides') slides: Slides;
 
@@ -21,7 +23,6 @@ export class TutorialPage implements OnInit {
               public menu: MenuController,
               public platform: Platform,
               public qrScanner: QRScanner) {
-    this.show_skip = true;
   }
 
   ionViewDidLoad(){
@@ -40,11 +41,29 @@ export class TutorialPage implements OnInit {
   }
 
   toggleSkip(slide: Slides){
-    this.show_skip = !slide.isEnd();
+    this.showSkip = !slide.isEnd();
   }
 
   dismissTut(loggedIn){
     this.navCtrl.setRoot((loggedIn ? ScannerPage : LoginPage), {}, {animate: true});
+  }
+
+  allowScanning(){
+    if (this.platform.is('cordova')) {
+			this.qrScanner.prepare().then((status) => {
+        if (status.authorized) {
+          document.getElementById('permission-granted').style.display = 'inline';
+          document.getElementById('permission-ask').style.display = 'none';
+        } else if (status.denied) {
+         // The video preview will remain black, and scanning is disabled. We can
+         // try to ask the user to change their mind, but we'll have to send them
+         // to their device settings with `QRScanner.openSettings()`.
+        }
+     });
+		} else {
+			console.log('cordova not running: make sure this is running natively on a phone.')
+		}
+    
   }
 
 }

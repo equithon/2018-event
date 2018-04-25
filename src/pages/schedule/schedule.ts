@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { Event, EventType } from './../../../api/server/models';
 import { Events } from './../../../api/server/collections/events';
-import { DetailProvider } from './../../providers/detail/detail';
 
 
 @Component({
@@ -14,8 +13,7 @@ export class SchedulePage {
   events: Event[];
   
   constructor(public navCtrl: NavController, 
-              public navParams: NavParams,
-              public detail: DetailProvider) {
+              public navParams: NavParams) {
   }
 
   ionViewDidLoad() {
