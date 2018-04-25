@@ -322,6 +322,22 @@ body {
     padding-top: 110px;
 }
 
+/* Table list */
+.list {
+    border-collapse: collapse;
+    border: 1px solid #757575;
+}
+.list th {
+    padding: 10px;
+    border-bottom: 1px solid #757575;
+}
+.list tbody > tr:nth-child(odd) {
+    background-color: #e2e9fc;
+}
+.list tbody > tr:hover {
+    background-color: #C6D3F7;
+}
+
 
 /*
  * For accounts background, we need to make sure we switch to
