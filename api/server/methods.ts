@@ -101,8 +101,8 @@ Meteor.methods({
 			scanSuccess = CheckInCodes.mealCheckedIn;
 			if (scannedUser.mealExceptions.length > 0) {
 				scanSuccess = CheckInCodes.mealRestriction;
-			} else if (scannedUser.beenTo.indexOf(curEvent._id) > -1 && curEvent.time_start > Date.now() - 600000) {
-				scanSuccess = CheckInCodes.mealTooSoon;
+			} else if (scannedUser.beenTo.indexOf(curEvent._id) > -1) {
+				scanSuccess = CheckInCodes.mealRepeat;
 			}
 			Meteor.users.update(userId,
 				{ $push: { 'beenTo': curEvent._id } }

@@ -25,7 +25,7 @@ export class HelpPage {
     'judgingUnreleased',
     'judgingUnable',
       
-    'mealTooSoon',
+    'mealRepeat',
     'mealRestriction',
     'mealCheckedIn',
     'registrationCheckedIn',

@@ -38,7 +38,7 @@ export enum CheckInCodes {
 
     miscError = 'miscError',
     
-    mealTooSoon = 'mealTooSoon',
+    mealRepeat = 'mealRepeat',
 	mealRestriction = 'mealRestriction',
 	mealCheckedIn = 'mealCheckedIn',
 	registrationCheckedIn = 'registrationCheckedIn',
