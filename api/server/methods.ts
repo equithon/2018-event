@@ -140,7 +140,7 @@ Meteor.methods({
 		if ([EventType.WORKSHOP, EventType.SPECIAL, EventType.PANEL, EventType.ACTIVITY].indexOf(curEvent.type) > -1) {
 			console.log('updating event');
 			Meteor.users.update(userId,
-				{ $push: { 'beenTo': curEvent._id } }
+				{ $addToSet: { 'beenTo': curEvent._id } }
 			);
 			if (curEvent.spots_free) {
 				Events.update(curEvent._id,
