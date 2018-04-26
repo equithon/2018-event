@@ -52,7 +52,7 @@ Meteor.methods({
 			return {code: CheckInCodes.eventNotFound, user: scannedUser }; 
 		} else if (curEvent.time_start > Date.now() || curEvent.time_end < Date.now() - 600000) { //10 min buffer time after event ends
 			return {code: CheckInCodes.eventExpired, user: scannedUser };
-		} else if (curUser.role !== UserRole.ORGANIZER && curEvent.type !== EventType.REGISTRATION && scannedUser.badges.indexOf(Badges.registered) === -1) {
+		} else if (curEvent.type !== EventType.REGISTRATION && scannedUser.badges.indexOf(Badges.registered) === -1) {
 			return {code: CheckInCodes.userNotRegistered, user: scannedUser };
 		} else if ((curEvent.type !== EventType.MEAL && scannedUser.beenTo.indexOf(curEvent._id) > -1) || (curEvent.type === EventType.REGISTRATION  && scannedUser.badges.indexOf(Badges.registered) > -1)) {
 			console.log('already scanned')
