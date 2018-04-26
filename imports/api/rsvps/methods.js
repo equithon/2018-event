@@ -7,33 +7,36 @@ import Applications from '/imports/api/applications/applications.js';
 import Rsvps from '/imports/api/rsvps/rsvps.js';
 import { rateLimit } from '../RateLimiter.js';
 
+
+const RSVPFields = {
+    attending:             1,
+    confirmTravellingFrom: 1,
+    needBus:               1,
+    requireAccomodation:   1,
+    roommateRequest:       1,
+    roommateRequestName:   1,
+    roommateRequestEmail:  1,
+    roommateGender:        1,
+    roommatePreference:    1,
+    age:                   1,
+    diet:                  1,
+    dietText:              1,
+    shirtSize:             1,
+    waiver:                1,
+    resume:                1,
+    submitted:             1,
+    userId:                1,
+};
+
 /*
  * Publish RSVP responses to the user that owns the RSVP form
  */
 Meteor.publish('rsvpData', function() {
     if (this.userId) {
-        return Rsvps.find({ userId: this.userId }, {
-            fields: {
-                attending:             1,
-                confirmTravellingFrom: 1,
-                needBus:               1,
-                requireAccomodation:   1,
-                roommateRequest:       1,
-                roommateRequestName:   1,
-                roommateRequestEmail:  1,
-                roommateGender:        1,
-                roommatePreference:    1,
-                age:                   1,
-                diet:                  1,
-                dietText:              1,
-                shirtSize:             1,
-                waiver:                1,
-                resume:                1,
-                submitted:             1,
-            }
-        });
+        return Rsvps.find({ userId: this.userId }, { fields: RSVPFields });
     } else this.ready();
 });
+
 
 /*
  * Submit a boolean answer from the RSVP form.
@@ -101,6 +104,27 @@ export const submitRSVP = new ValidatedMethod({
         }, (err, res) => {
             if (err) throw err;
         });
+    }
+});
+
+/*
+ * Retrieve RSVP form for a specific user provided that the requesting user is a team member
+ */
+export const getRSVPByUser = new ValidatedMethod({
+    name: 'rsvps.getByUser',
+
+    validate: new SimpleSchema({
+        userId: { type: String }
+    }).validator(),
+
+    run({ userId }) {
+        if (!this.userId) throw new Meteor.Error('rsvps.getByUser.unauthorized',
+                'You must be logged in to retrieve an RSVP form');
+
+        if (!Meteor.user().isTeam) throw new Meteor.Error('rsvps.getByUser.unauthorizedUser',
+                'You must be a team member to retrieve an RSVP form');
+
+        return Rsvps.findOne({ userId: userId }, { fields: RSVPFields });
     }
 });
 

@@ -14,7 +14,8 @@ Meteor.publish('userData', function () {
         firstName: 1,
         lastName: 1,
         emails: 1,
-        isTeam: 1
+        isTeam: 1,
+        checkedIn: 1,
     };
 
     // Publish all users and their emails for team members and only your own user if not
@@ -90,6 +91,28 @@ export const sendVerificationLink = new ValidatedMethod({
         }
     }
 });
+
+/*
+ * Check user into the event by setting checkedIn: true
+ */
+export const checkIn = new ValidatedMethod({
+    name: 'user.checkIn',
+
+    validate: new SimpleSchema({
+        userId: { type: String }
+    }).validator(),
+
+    run({ userId }) {
+        if (!this.userId) throw new Meteor.Error('user.checkIn.unauthorized',
+                'You need to be logged in to check in users');
+
+        if (!Meteor.user().isTeam) throw new Meteor.Error('user.checkIn.unauthorizedUser',
+                'You need to be a team member to check in users');
+
+        Meteor.users.update({ _id: userId }, { $set: { checkedIn: true } });
+    }
+});
+
 
 if (Meteor.isServer) {
     rateLimit({

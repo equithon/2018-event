@@ -324,12 +324,20 @@ body {
 
 /* Table list */
 .list {
+    width: 100%;
+    table-layout: fixed;
     border-collapse: collapse;
     border: 1px solid #757575;
 }
 .list th {
     padding: 10px;
     border-bottom: 1px solid #757575;
+}
+.list p {
+    overflow: auto;
+}
+.list thead > tr {
+    border-bottom: 3px solid #757575;
 }
 .list tbody > tr:nth-child(odd) {
     background-color: #e2e9fc;
