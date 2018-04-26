@@ -44,7 +44,7 @@ export class HelpPage {
   }
 
   openView(res: string) {
-    let detailModal = this.modalCtrl.create(ResultPage, { view: res + 'View', user: Meteor.users.findOne({ _id: 'xin8Zs8gw7d8zgnJX' }) });
+    let detailModal = this.modalCtrl.create(ResultPage, { view: res + 'View', user: Meteor.users.findOne({ _id: 'XmDzBBWrGDtmG9YSo' }) });
     detailModal.present();
   }
 

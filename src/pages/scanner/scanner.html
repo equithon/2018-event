@@ -4,7 +4,7 @@
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-item id="eventSelector">
-      <ion-select text-center [(ngModel)]="eventChosen" (ngModelChange)="auth.updateCheckIn(eventChosen)" [placeholder]="eventChosen">
+      <ion-select text-center [(ngModel)]="eventChosen" (ngModelChange)="auth.volunteerSignIn(eventChosen)" [placeholder]="eventChosen">
         <ion-option *ngFor="let evnt of eventOptions" [value]="evnt._id">{{evnt.name}}</ion-option>
       </ion-select>
     </ion-item>
@@ -16,6 +16,8 @@
   <img src="assets/imgs/qr_reticle.png" id="scanner-reticle"/>
   <button ion-button (click)="startScanning()" id="start-scanner" class="content-button">Scan A Code</button>
   
+  <!--
   <ion-input type="text" placeholder="Enter User ID" [(ngModel)]="queryId" id="manual-query-field"></ion-input> 
   <button ion-button (click)="checkUserIn()" id="manual-search" class="content-button">Search For User</button>
+  -->
 </ion-content>

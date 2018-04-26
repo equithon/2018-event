@@ -7,14 +7,24 @@ import { Accounts } from 'meteor/accounts-base';
 
 Meteor.methods({
 
-	'volunteer.checkIn'({ userId, eventId }) {
-		Meteor.users.update(userId,
-			{ $set: { 'specificInfo.atEvent': eventId } } 
-		);
+	'volunteer.signIn'({ eventId }) {
+		if(Meteor.userId()) {
+			Meteor.users.update(Meteor.userId(),
+				{ $set: { 'specificInfo.atEvent': eventId } } 
+			);
 
-		let scheduledShift = false; // TODO: THIS IS WHERE YOU IMPLEMENT THE ACTUAL CHECK WHEN SHIFTS ARE DONE
+			Meteor.users.update(Meteor.userId(),
+				{ $addToSet: { 'specificInfo.signedIn': eventId } } 
+			);
 
-		return scheduledShift ? 'success' : 'warning'; 
+			let scheduledShift = (Meteor.user() as any).role === UserRole.ORGANIZER || 
+								 (((Meteor.user() as any).role === UserRole.VOLUNTEER) ? ((Meteor.user() as any).specificInfo.shifts.indexOf(eventId) > -1) : false); // TODO: THIS IS WHERE YOU IMPLEMENT THE ACTUAL CHECK WHEN SHIFTS ARE DONE
+
+			return scheduledShift; 
+		} else {
+			throw new Meteor.Error('userNotSignedIn', 'The user is not signed in.');
+		}
+		
 	},
 
 	'scanner.checkIn'({ userId }) {
@@ -61,7 +71,10 @@ Meteor.methods({
 		// -- REGISTRATION --
 		if (curEvent.type === EventType.REGISTRATION) {
 			console.log('registration')
-			if (true) { // TODO: THIS IS WHERE YOU CHECK IF USER IS A VALID ATTENDEE
+
+			let canAttend = true; // TODO: THIS IS WHERE YOU CHECK IF USER IS A VALID ATTENDEE
+
+			if (canAttend) { 
 				
 				console.log('registering user');
 				Meteor.users.update(userId,
@@ -86,7 +99,7 @@ Meteor.methods({
 		if (curEvent.type === EventType.MEAL) {
 			console.log('meal');
 			scanSuccess = CheckInCodes.mealCheckedIn;
-			if (scannedUser.specificInfo.mealExceptions.length > 0) {
+			if (scannedUser.mealExceptions.length > 0) {
 				scanSuccess = CheckInCodes.mealRestriction;
 			} else if (scannedUser.beenTo.indexOf(curEvent._id) > -1 && curEvent.time_start > Date.now() - 600000) {
 				scanSuccess = CheckInCodes.mealTooSoon;

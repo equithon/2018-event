@@ -1,8 +1,9 @@
 export enum UserRole {
     ORGANIZER = 0,
     VOLUNTEER,
-    JUDGE,
-    HACKER
+	HACKER,
+	SPECIAL,
+	OTHER
     
 }
 
@@ -51,8 +52,9 @@ export enum Badges {
 
 	role0 = 'I\'m an organizer!',
 	role1 = 'I\'m a volunteer!',
-	role2 = 'I\'m a judge!',
-	role3 = 'I\'m a hacker!',
+	role2 = 'I\'m a hacker!',
+	role3 = 'I\'m a VIP!',
+	role4 = 'I\'m an attendee!',
 	starScanner10 = 'I\'ve checked in more than 10 people!',
 	starScanner50 = 'I\'ve checked in more than 50 people!',
 	starScanner100 = 'I\'ve checked in more than 100 people!',

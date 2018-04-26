@@ -23,10 +23,12 @@ export class ScannerPage {
 				public auth: AuthProvider,
 				public eventCtrl: EventControl,
 				public modalCtrl: ModalController) {
-		this.eventOptions = Events.find({}).fetch();
-		/*this.eventOptions = Events.find({}).fetch().filter((evnt) => {
-			evnt.time_start - TimeIntervals.hour <= Date.now() && Date.now() <= evnt.time_end + TimeIntervals.hour
-		}); */ // TODO: UNCOMMENT THIS FOR ACCURATE EVENT SELECTIONS
+		this.eventOptions = Events.find({}).fetch().filter((evnt) => {
+			return evnt.time_start - TimeIntervals.hour <= Date.now() && Date.now() <= evnt.time_end + TimeIntervals.hour;
+		}); 
+		console.log(this.eventOptions);
+		console.log(Events.find({}).fetch());
+		console.log(Meteor.users.find({}).fetch());
 
 	}
 

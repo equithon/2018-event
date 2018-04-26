@@ -88,17 +88,27 @@ export class AuthProvider {
     });
   }
 
-  updateCheckIn(chosenEvent) {
+  volunteerSignIn(chosenEvent) {
     console.log(chosenEvent);
-    console.log(Meteor.userId());
-    Meteor.call('volunteer.checkIn', {
-      userId: Meteor.userId(),
+    Meteor.call('volunteer.signIn', {
       eventId: chosenEvent
-  }, (err, res) => {
+    }, (err, res) => {
+        console.log(err);
+        console.log(res);
 
         if (err) {
-          console.log(err);
-        } else if(res === 'warning') {
+          let alert = this.alertCtrl.create({
+            title: 'Error',
+            subTitle: 
+            `
+              Something went wrong.
+            `,
+            buttons: ['Oh no!']
+          });
+          alert.present();
+          console.log('updated current user\'s location with warning');
+
+        } else if(!res) {
           let alert = this.alertCtrl.create({
             title: 'Hmm...',
             subTitle: 
@@ -110,8 +120,18 @@ export class AuthProvider {
           });
           alert.present();
           console.log('updated current user\'s location with warning');
+
+        } else {
+          let success_toast = this.toastCtrl.create({
+            message: 'Successfully signed in for shift.',
+            duration: 2000,
+            position: 'top',
+            showCloseButton: true
+          })
+          success_toast.present();
+          console.log('updated current user\'s location');
+
         }
-        console.log('updated current user\'s location');
 
     });
   }

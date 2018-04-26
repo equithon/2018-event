@@ -113,7 +113,7 @@ export class MyApp {
       if(curRole === UserRole.ORGANIZER){
         document.getElementById("profileRole").innerHTML = (Meteor.user() as any).specificInfo.title;
       } else if (curRole === UserRole.VOLUNTEER) {
-        document.getElementById("profileRole").innerHTML = (Meteor.user() as any).specificInfo.team + this.auth.roleToString(curRole);
+        document.getElementById("profileRole").innerHTML = (Meteor.user() as any).specificInfo.team + ' Volunteer';
       } else {
         document.getElementById("profileRole").innerHTML = this.auth.roleToString(curRole);
       }

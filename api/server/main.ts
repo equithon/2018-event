@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { Events } from './collections/events';
-import { Event, EventType, UserRole, Badges } from './models';
+import { Event, EventType, UserRole, Badges, TimeIntervals } from './models';
 import { Accounts } from 'meteor/accounts-base';
 
 
@@ -58,23 +58,25 @@ Meteor.startup(() => {
     let evnt8 = Events.insert(
       { _id: '90b93jbg2x9230', name: 'Dinner with Vincenzo\s',
         type: EventType.MEAL, location: 'STC Basement',
-        time_start: Date.now(), time_end: Date.now() + (86400000 * 3)});
+        time_start: Date.now() + TimeIntervals.hour, time_end: Date.now() + (86400000 * 3)});
     console.log(evnt8);
   }
 
   if(Meteor.users.find({}).count() === 0){
     let organizer = Accounts.createUser(
-      <any>
+      <any> // ORGANIZER
       { first: 'Alex', last: 'Xie', 
         role: UserRole.ORGANIZER, dietary: [], shirt: 'M',
+        specific: { atEvent: null, amtScanned: 0, title: 'Operations Coordinator' }, 
         email: 'organizer@gmail.com', password: 'organizer'}
     );
     console.log(organizer);
 
     let volunteer = Accounts.createUser(
-      <any>
+      <any> // VOLUNTEER
       { first: 'Paniel', last: 'Deng', 
         role: UserRole.VOLUNTEER, dietary: ['Lactose Intolerant'],  shirt: 'M',
+        specific: { atEvent: null, amtScanned: 0, team: 'Food', shifts: [ '2b8we03mt9bw9', '90b93jbg2x9230' ], signedIn: [ ] },  
         email: 'volunteer@gmail.com', password: 'volunteer'}
     );
     console.log(volunteer);
@@ -82,7 +84,8 @@ Meteor.startup(() => {
     let judge = Accounts.createUser(
       <any>
       { first: 'Emma', last: 'Watson', 
-        role: UserRole.JUDGE, dietary: [], shirt: 'XS',
+        role: UserRole.SPECIAL, dietary: [], shirt: 'XS',
+        specific: { title: 'Judge (Women Empowerment Category)' },
         email: 'judge@gmail.com', password: 'judge'}
     );
     console.log(judge);
@@ -91,6 +94,7 @@ Meteor.startup(() => {
       <any>
       { first: 'Mark', last: 'Zuckerberg', 
         role: UserRole.HACKER, dietary: ['Vegan', 'Halal'], shirt: 'M',
+        specific: { judgingLoc: 'STC 0040', judgingTime: null },   
         email: 'hacker@gmail.com', password: 'hacker'}
     );
     console.log(hacker);
@@ -101,10 +105,12 @@ Meteor.startup(() => {
 
 let roleSpecificInfo = [ // important information to keep track of for each user
 
-  { atEvent: null, amtScanned: 0, title: null },
-  { atEvent: null, amtScanned: 0, team: null },
-  { judgingCategory: null, judgedUsers: [] },
-  { judgingLoc: null, judgingTime: null, devpostURL: null }
+  { atEvent: null, amtScanned: 0, title: null },              // ORGANIZER
+  { atEvent: null, amtScanned: 0, team: null, shifts: [] },   // VOLUNTEER
+  { judgingLoc: null, judgingTime: null },                    // HACKER
+  { title: null },                                            // SPECIAL
+  { }                                                         // OTHER
+  
 
 ]
 
@@ -113,7 +119,9 @@ Accounts.onCreateUser((options, user) => {
   user.firstName = options.first;
   user.lastName = options.last;
   user.role = options.role;
-  user.specificInfo = Object.assign({ shirtSize: options.shirt, mealExceptions: options.dietary }, roleSpecificInfo[user.role]);
+  user.shirtSize = options.shirt;
+  user.mealExceptions = options.dietary;
+  user.specificInfo = options.specific;
   user.beenTo = []; // new users have gone to no events
   user.badges = [Badges[('role' + user.role)]]; // new users have no badges except their role badge
   
