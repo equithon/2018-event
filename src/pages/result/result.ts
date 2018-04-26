@@ -26,7 +26,7 @@ export class ResultPage {
 
   ionViewDidLoad() {
     console.log('~ loaded Check In Page with ViewType %s ~', this.viewType);
-    document.getElementById(this.viewType).style.display = 'inline';
+    document.getElementById(this.viewType).style.display = 'block';
   }
 
 }

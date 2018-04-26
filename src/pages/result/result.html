@@ -1,15 +1,4 @@
-<ion-header>
 
-  <ion-navbar>
-    <ion-title>Check In</ion-title>
-    <ion-buttons end>
-      <button ion-button icon-only (click)="view.dismiss()">
-        <ion-icon name="close"></ion-icon>
-      </button>
-    </ion-buttons>
-  </ion-navbar>
-
-</ion-header>
 
 
 <ion-content padding>
@@ -34,94 +23,142 @@
   </div>
 
   <div id="eventNotSelectedView" class="checkin-view error">
+    <img src="assets/imgs/result_views/event_notselected.png" class="result-img">
     <p>
-      You have not checked in at an event. Make sure the event you're volunteering for is
-      selected on your Profile page, under the Status dropdown.
+      You have not signed in at an event. 
     </p>
   </div>
 
   <div id="eventExpiredView" class="checkin-view error">
+    <img src="assets/imgs/result_views/event_expired.png" class="result-img">
     <p>
-      The event you are currently checked in at is not currently going on! Make sure the event you're volunteering for
-      is currently running and selected on your Profile page, under the Status dropdown.
+      Oh no! The event you've selected is not happening right now.
     </p>
   </div>
 
 
   <div id="eventNotFoundView" class="checkin-view error">
+    <img src="assets/imgs/result_views/misc_error.png" class="result-img">
     <p>
-      The event you're checked in at is not in the database! 
-      This shouldn't happen. Try resetting your status - if this error still pops up, contact a Director.
+      The event you're checked in at is not in the database!
     </p>
   </div>
 
   <div id="eventFullView" class="checkin-view error">
-    <p>failed to check in: activity is full - see if there are empty seats</p>
+    <img src="assets/imgs/result_views/event_full.png" class="result-img">
+    <p>
+      The event is full! See if there are empty seats.
+    </p>
   </div>
 
 
   <div id="userNotFoundView" class="checkin-view error">
-    <p>The user you have scanned was not found! Send them to the special cases desk if registration is open or the help desk otherwise immediately. </p>
+    <img src="assets/imgs/result_views/misc_error.png" class="result-img">
+    <p>
+      The scanned user was not found!
+    </p>
   </div>
 
   <div id="userAlreadyScannedView" class="checkin-view warning">
-    <p>the user has already been scanned at this event/meal/judging</p>
+    <img src="assets/imgs/result_views/user_alreadyscanned.png" class="result-img">
+    <p>
+      This user's already been scanned at this event!
+    </p>
   </div>
 
   <div id="userCannotRegisterView" class="checkin-view error">
-    <p>the user cannot be registered - please send them to the special cases/help desk</p>
+    <img src="assets/imgs/result_views/misc_error.png" class="result-img">
+    <p>
+      This user can't be registered. Send them to the special cases desk.
+    </p>
   </div>
 
   <div id="userNotRegisteredView" class="checkin-view error">
-    <p>error checking in: user isn't registered!</p>
+    <img src="assets/imgs/result_views/user_notregistered.png" class="result-img">
+    <p>
+      This user hasn't registered yet!
+    </p>
   </div>
 
 
 
   <div id="judgingWrongLocView" class="checkin-view warning">
-    <p>the user is at the wrong location judging</p>
+    <img src="assets/imgs/result_views/user_notregistered.png" class="result-img">
+    <p>
+      This user is at the wrong judging location.
+    </p>
   </div>
 
   <div id="judgingWrongTimeView" class="checkin-view warning">
-    <p>the user is at the wrong time slot for judging</p>
+    <img src="assets/imgs/result_views/user_notregistered.png" class="result-img">
+    <p>
+      This user is not up for judging at this time.
+    </p>
   </div>
 
   <div id="judgingUnreleasedView" class="checkin-view warning">
-    <p>judging information (room/time) has not yet been released - stay posted for updates</p>
+    <img src="assets/imgs/result_views/user_notregistered.png" class="result-img">
+    <p>
+      Judging information for teams has not yet been released.
+    </p>
   </div>
 
   <div id="judgingUnableView" class="checkin-view error">
-    <p>the user cannot be judged - probably not a hacker</p>
+    <img src="assets/imgs/result_views/user_notregistered.png" class="result-img">
+    <p>
+      This user is not a hacker and thus cannot be judged!
+    </p>
   </div>
 
 
-  <div id="mealRepeat" class="checkin-view warning">
-    <p>the user has already had a meal. make sure it's not too close to the start of the meal time or else please tell them to come back leter</p>
+  <div id="mealRepeatView" class="checkin-view warning">
+    <img src="assets/imgs/result_views/user_notregistered.png" class="result-img">
+    <p>
+      This user already had a meal. Make sure it's not too close to the start of the meal.
+    </p>
   </div>
 
   <div id="mealRestrictionView" class="checkin-view warning">
-    <p>the user has meal restrictions</p>
+    <img src="assets/imgs/result_views/user_notregistered.png" class="result-img">
+    <p>
+      This user has meal restrictions:
+    </p>
   </div>
 
   <div id="mealCheckedInView" class="checkin-view">
-    <p>successfully checked in user to meal</p>
+    <img src="assets/imgs/result_views/meal_success.png" class="result-img">
+    <p>
+      Successfully checked this user in...eat up!
+    </p>
   </div>
 
   <div id="registrationCheckedInView" class="checkin-view">
-    <p>successfully registered user</p>
+    <img src="assets/imgs/result_views/registration_success.png" class="result-img">
+    <p>
+      Successfully registered this user!
+    </p>
   </div>
 
   <div id="judgingCheckedInView" class="checkin-view">
-    <p>successfully checked user into judging</p>
+    <img src="assets/imgs/result_views/judging_success.png" class="result-img">
+    <p>
+      User is ready for judging!
+    </p>
   </div>
 
   <div id="eventCheckedInView" class="checkin-view">
-    <p>successfully checked user into event!</p>
+    <img src="assets/imgs/result_views/event_success.png" class="result-img">
+    <p>
+      Successfully checked user in to the event!
+    </p>
   </div>
 
 
   <div id="miscErrorView" class="checkin-view error">
-    <p>misc error</p>
+    <img src="assets/imgs/result_views/misc_error.png" class="result-img">
+    <p>
+      An unknown error has occurred.
+    </p>
   </div>
 
 

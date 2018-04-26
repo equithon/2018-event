@@ -1,8 +1,37 @@
 page-result {
 
-}
+    div {
+        
+    }
+    .scroll-content {
+        justify-content: center;
+        overflow-y: auto !important;
+        display: flex!important;
+        align-items: center!important;
+     }
 
+     ion-content {
+         border-radius: 5%;
+     }
+
+}
 
 .normal-view, .edit-view, .checkin-view {
+
     display: none;
+    text-align: center;
+    font-size: 20px;
+    padding: 5% 5% 5% 5%;
+    
+
+
+    .result-img {
+        margin-left: auto;
+        margin-right: auto;
+        max-width: 150px;
+        max-height: 150px;
+        display: block;
+    }
 }
+
+
