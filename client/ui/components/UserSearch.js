@@ -65,9 +65,9 @@ export default class UserSearch extends Component {
     viewUser = event => {
         var id = event.currentTarget.attributes.userid.value;
 
-        // Update user state
+        // Update user state and mark RSVP as loading until we get the result from the method
         var user = Meteor.users.findOne({ _id: id });
-        this.setState({ selectedUser: user });
+        this.setState({ selectedUser: user, selectedRSVP: 'loading' });
 
         // Update rsvp state
         if (user) Meteor.call('rsvps.getByUser', { userId: id }, (err, res) => {
@@ -112,25 +112,27 @@ export default class UserSearch extends Component {
 
         // Get results, limited to 10 users
         // Search pagination is a little too much work for this
-        var results = Meteor.users.find(search, { limit: 10 }).fetch();
+        var results = Meteor.users.find(search, { limit: 10 });
 
         // Data
         var rows = [];
         if (results) {
-            for (var i = 0; i < results.length; ++i) {
+            var k = 0;
+            results.forEach((result) => {
                 rows.push(
-                    <tr key={i} userid={results[i]._id} onClick={this.viewUser}>
+                    <tr key={k} userid={result._id} onClick={this.viewUser}>
                         <th><Text color="inherit" type="body1"
-                                text={results[i].firstName} /></th>
+                                text={result.firstName} /></th>
 
                         <th><Text color="inherit" type="body1"
-                            text={results[i].lastName} /></th>
+                            text={result.lastName} /></th>
 
                         <th><Text color="inherit" type="body1"
-                            text={results[i].emails[0].address} /></th>
+                            text={result.emails[0].address} /></th>
                     </tr>
                 );
-            }
+                ++k;
+            });
         }
 
         return(
@@ -186,7 +188,13 @@ export default class UserSearch extends Component {
     // Render the selected user's RSVP form in the form of a question answer table
     renderRSVP() {
         var rsvp = this.state.selectedRSVP;
-        if (!rsvp) return(
+        if (rsvp === 'loading') {
+            return(
+                <div style={{ textAlign: 'center' }}>
+                    <Text color="primary" type="title" text="Loading..." />
+                </div>
+            );
+        } else if (!rsvp) return(
             <div style={{ textAlign: 'center' }}>
                 <Text color="primary" type="title" text="This user does not have an RSVP form." />
             </div>
