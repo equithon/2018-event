@@ -313,6 +313,7 @@ body {
     display: grid;
 
     grid-template-columns: 10% 80% 10%;
+    grid-row-gap: 20px;
     grid-template-rows: auto;
     grid-template-areas:
         ". title-row ."
