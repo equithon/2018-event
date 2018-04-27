@@ -19,11 +19,8 @@ export default class Schedule extends Component {
             <div className="basic-page">
                 <HomeAppBar />
 
-                <div style={{ gridArea: 'title-row' }}>
-                    <br/>
-                    <Text align="center" color="primary" type="display2" text="Schedule" />
-                    <br/>
-                </div>
+                <Text style={{ gridArea: 'title-row', paddingTop: '10px' }}
+                    align="center" color="primary" type="display2" text="Schedule" />
 
                 <Paper className="form-paper">
                     <Text align="left" color="primary" type="display1" text="FRI 4" />

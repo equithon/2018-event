@@ -24,6 +24,7 @@ import CodeOfConduct from '/client/ui/components/CodeOfConduct.js';
 import SponsorLogo from "./components/SponsorLogo";
 import Rsvp from '/client/ui/components/RSVP.js';
 import Schedule from '/client/ui/components/Schedule.js';
+import Workshop from '/client/ui/components/Workshop.js';
 
 >>>>>>> Initial commit for code of conduct page at equithon.org/conduct
 
@@ -260,6 +261,9 @@ export default class App extends Component {
 
                       {/* Schedule page */}
                       <Route path="/schedule" component={Schedule} />
+
+                      {/* Workshop page */}
+                      <Route path="/workshop" component={Workshop} />
                   </div>
               </Router>
             </MuiThemeProvider>
