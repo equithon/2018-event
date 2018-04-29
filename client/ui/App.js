@@ -123,6 +123,12 @@ export default class App extends Component {
                                         <FlatColoredButton content="View Schedule" />
                                     </Link>
 
+                                    <div style={{ padding: '5px' }}></div>
+
+                                    <a className="button-link" href="https://drive.google.com/open?id=1BMnS2i4ITprgWSGcD8LHpGdeotpDIGqW">
+                                        <FlatColoredButton content="View Map">"View Map"</FlatColoredButton>
+                                    </a>
+
                                     {/* SubscriptionModal for Stay Posted */}
                                     <SubscriptionModal open={this.state.subModalOpen} onClose={this.handleClose} />
                                 </div>
