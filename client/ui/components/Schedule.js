@@ -24,63 +24,66 @@ export default class Schedule extends Component {
 
                 <Paper className="form-paper">
                     <Text align="left" color="primary" type="display1" text="FRI 4" />
-                    <CalendarEntry when="4pm - 12 am" event="ACCOMMODATION CHECKIN" special/>
-                    <CalendarEntry when="5:30 - 8 pm" event="REGISTRATION" />
-                    <CalendarEntry when="6 - 8 pm" event="DINNER" />
-                    <CalendarEntry when="8 - 9:30 pm" event="OPENING CEREMONIES" />
-                    <CalendarEntry when="9:30 - 10:30 pm" event="TEAM BUILDING WORKSHOP" />
+                    <CalendarEntry when="4pm - 12 am" event="ACCOMMODATION CHECKIN" location="Ron Eydt Village" special/>
+                    <CalendarEntry when="5:30 - 8 pm" event="REGISTRATION" location="STC Foyer" />
+                    <CalendarEntry when="6 - 8 pm" event="DINNER" location="STC Basement" />
+                    <CalendarEntry when="8 - 9:30 pm" event="OPENING CEREMONIES" location="STC 1012" />
+                    <CalendarEntry when="9:30 - 10:30 pm" event="TEAM BUILDING WORKSHOP" location="STC 1012" />
                     <CalendarEntry when="10 pm" event="HACKING BEGINS!" special />
 
                     <br/>
 
                     <Text align="left" color="primary" type="display1" text="SAT 5" />
                     <CalendarEntry when="8 am - 11:30 pm" event="WORKSHOPS, ACTIVITIES, AND TALKS" special />
-                    <CalendarEntry when="8 - 9:30 am" event="BREAKFAST" />
-                    <CalendarEntry when="9 - 10 am" event="PROGRAMMING FUNDAMENTALS WORKSHOP" />
-                    <CalendarEntry when="9 - 10 am" event="DEVELOPING YOUR IDEA WORKSHOP" />
-                    <CalendarEntry when="10 - 11:30 am" event="MEDITATION" />
-                    <CalendarEntry when="10:30 - 11:30 am" event="INTRO TO WEB DEV WORKSHOP" />
-                    <CalendarEntry when="11:30 am- 12 pm" event="MENTAL HEALTH TALK BY TINA CHAN" />
-                    <CalendarEntry when="12 - 2 pm" event="LUNCH" />
-
-                    <CalendarEntry when="1 - 2:30 pm" event="BACKEND PROGRAMMING WORKSHOP" />
-                    <CalendarEntry when="2 - 4 pm" event="ICE CREAM" />
+                    <CalendarEntry when="8 - 9:30 am" event="BREAKFAST" location="STC Basement" />
+                    <CalendarEntry when="9 - 10 am" event="PROGRAMMING FUNDAMENTALS WORKSHOP" location="STC 0050" />
+                    <CalendarEntry when="9 - 10 am" event="DEVELOPING YOUR IDEA WORKSHOP" location="STC 0060" />
+                    <CalendarEntry when="10 - 11:30 am" event="MEDITATION" location="QNC 1507" />
+                    <CalendarEntry when="10:30 - 11:30 am" event="INTRO TO WEB DEV WORKSHOP" location="STC 0050" />
+                    <CalendarEntry when="11:30 am- 12 pm" event="MENTAL HEALTH TALK BY TINA CHAN" location="STC 0050" />
+                    <CalendarEntry when="12 - 2 pm" event="LUNCH" location="STC Basement" />
+                    <CalendarEntry when="1 - 2:30 pm" event="BACKEND PROGRAMMING WORKSHOP" location="STC 0050" />
+                    <CalendarEntry when="2 - 4 pm" event="ICE CREAM" location="STC Basement"/>
                     <CalendarEntry when="2 - 11:30 pm" event="HACKENGER HUNT" special/>
-                    <CalendarEntry when="3 - 4:30 pm" event="DATA ANALYTICS WORKSHOP" />
-
-                    <CalendarEntry when="3 - 4 pm" event="INTRO TO UI/UX DESIGN WORKSHOP" />
-                    <CalendarEntry when="4 - 5:30 pm" event="MINUTE TO WIN IT" />
-                    <CalendarEntry when="6 - 8 pm" event="DINNER" />
-                    <CalendarEntry when="7 - 8:30 pm" event="REACT & JS WEB DEV WORKSHOP" />
-                    <CalendarEntry when="7 - 8 pm" event="PITCHING YOUR IDEA WORKSHOP" />
-                    <CalendarEntry when="7 - 8:30 pm" event="THERAPY DOGS" />
+                    <CalendarEntry when="3 - 4:30 pm" event="DATA ANALYTICS WORKSHOP" location="QNC 1502" />
+                    <CalendarEntry when="3 - 4 pm" event="INTRO TO UI/UX DESIGN WORKSHOP" location="QNC 2502" />
+                    <CalendarEntry when="4 - 5:30 pm" event="MINUTE TO WIN IT" location="De-stress Area" />
+                    <CalendarEntry when="6 - 8 pm" event="DINNER" location="STC Basement" />
+                    <CalendarEntry when="7 - 8:30 pm" event="REACT & JAVASCRIPT WEB DEV WORKSHOP" location="QNC 1502" />
+                    <CalendarEntry when="7 - 8 pm" event="PITCHING YOUR IDEA WORKSHOP" location="QNC 2502" />
+                    <CalendarEntry when="7 - 8:30 pm" event="THERAPY DOGS" location="QNC 1507" />
 
                     <br/>
 
                     <Text align="left" color="primary" type="display1" text="SUN 6" />
-                    <CalendarEntry when="8 - 9:30 am" event="BREAKFAST" />
-                    <CalendarEntry when="10 am - 4 pm" event="NETWORKING FAIR" special />
-                    <CalendarEntry when="11 am" event="HACKING ENDS" special />
-                    <CalendarEntry when="11 am" event="ACCOMMODATION CHECKOUT ENDS" special />
-                    <CalendarEntry when="12 - 2 pm" event="LUNCH" />
-                    <CalendarEntry when="12 - 3 pm" event="JUDGING" />
-                    <CalendarEntry when="4 - 6 pm" event="CLOSING CEREMONIES & WINNERS ANNOUNCED" />
+                    <CalendarEntry when="8 - 9:30 am" event="BREAKFAST" location="STC Basement" />
+                    <CalendarEntry when="10 am - 4 pm" event="NETWORKING FAIR" location="STC Foyer" special />
+                    <CalendarEntry when="11 am" event="HACKING ENDS & SUBMISSIONS DUE" special />
+                    <CalendarEntry when="11 am" event="ACCOMMODATION CHECKOUT ENDS" location="Ron Eydt Village" special />
+                    <CalendarEntry when="12 - 2 pm" event="LUNCH" location="STC Basement" />
+                    <CalendarEntry when="12 - 3 pm" event="JUDGING" location="STC 0010-0060" />
+                    <CalendarEntry when="4 - 6 pm" event="CLOSING CEREMONIES & WINNERS ANNOUNCED" location="STC 1012" />
                 </Paper>
             </div>
         );
     }
 }
 
-const CalendarEntry = ({ when, event, special }) => (
-    <div className="split-column-row" style={{ padding: '20px' }}>
+const CalendarEntry = ({ when, event, location, special }) => (
+    <div className="split-column-row" style={{ padding: '10px' }}>
         <div style={{ gridArea: 'left' }}>
-            <Text align="center" color="inherit" type="headline" text={<strong> {when} </strong>} />
+            <Text align="center" color="inherit" type="body2" text={<strong> {when} </strong>} />
         </div>
-        <div style={{ gridArea: 'right' }}>
+
+        <div style={{ gridArea: 'centre' }}>
             { (special) ?
-                <Text align="center" color="primary" type="headline" text={event} /> :
-                <Text align="center" color="inherit" type="headline" text={event} />
+                <Text align="center" color="primary" type="body2" text={event} /> :
+                <Text align="center" color="inherit" type="body2" text={event} />
             }
+        </div>
+
+        <div style={{ gridArea: 'right' }}>
+            <Text align="center" color="inherit" type="body2" text={location} />
         </div>
     </div>
 );
