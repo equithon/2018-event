@@ -26,7 +26,6 @@ import Rsvp from '/client/ui/components/RSVP.js';
 import Schedule from '/client/ui/components/Schedule.js';
 import Workshop from '/client/ui/components/Workshop.js';
 
->>>>>>> Initial commit for code of conduct page at equithon.org/conduct
 
 /* Mongo Collection declarations */
 Applications = new Mongo.Collection('applications');
@@ -392,7 +391,6 @@ const SubTextBox = () => (
  */
 const FAQ = () => (
     <div>
-
         <FaqCard
             question="What can I make?"
             answer="You can make anything that raises awareness of or addresses an issue related to equity in one of five categories. The categories for Equithon 2018 are: Access to Education, LGBTQ+ Rights, Mental Health, Physical Disabilities, and Women Empowerment. We will be providing resources leading up to and during Equithon to help you develop your ideas into a great hack."
@@ -412,43 +410,53 @@ const FAQ = () => (
         />
         <br/>
         <FaqCard
-            question="Why is Equithon not an overnight event?"
-            answer="We decided that Equithon should not be an overnight event because we want to be as inclusive as possible. Free overnight accommodation will be provided to hackers travelling from outside Kitchener-Waterloo. Hackers should indicate whether they require accommodation on their RSVP form."
+            question="Is overnight accommodation provided?"
+            answer={ <span>Free overnight accommodation is provided at Ron Eydt Village, a University of Waterloo Residence, for hackers who indicated they require it on their RSVP form.
+                        Rooms are equipped with linens, a blanket, a pillow and two towels along with body wash.
+                        You are responsible for bringing your own bathrobe, shower slippers, and amenities. There is also free parking, free WiFi, and free access to the fitness centre in REV (Ron Eydt Village).
+                        If you like big fluffy pillows, we recommend you bring one from home. Hackers staying in accommodation will have a roommate, either one you have requested specifically in your RSVP, or one will be assigned to you. If one is assigned to you, you will find that out during housing check-in on Friday, May 4.
+                </span> }
             number="4."
         />
         <br/>
         <FaqCard
-            question="How do I get to Equithon if I'm not from Waterloo? Will I get reimbursed?"
-            answer={<span>The Equithon team will be providing bus two buses: one departing from University of Toronto St. George Campus and one departing from Square One in Mississauga.
-                Accepted hackers can reserve seats on the buses on the RSVP form. Hackers from outside Waterloo, Toronto, and Mississauga must organize their own travel but will be reimbursed after the event.
-                The maximum amount for reimbursement will be communicated to hackers via email after they submit the RSVP. Reimbursement will be based on average round-trip cost to Waterloo from the city indicated on the RSVP.
-                </span>}
+            question="Are there buses provided?"
+            answer={<span>The Equithon team will be providing bus two buses. Both will depart from University of Toronto St. George Campus at 2:30pm and one will make a stop at Square One in Mississauga at 3:55pm. The buses will be filled on a first come first served basis, so it is recommended that hackers arrive at the pick-up location at least 15 minutes early.</span>}
             number="5."
+        />
+        <br/>
+        <FaqCard
+            question="Will I get reimbursed for my travel costs?"
+            answer={<span>Hackers from outside Waterloo, and not taking one of the provided buses must organize their own travel but will be reimbursed after the event. Please fill out <a href="https://goo.gl/forms/i8sboEdZBGXLkfhw2">this form</a> by May 3 to ensure you receive your reimbursement as soon as possible. At the event, drop by the help desk to provide physical receipts and sign the reimbursement request form.
+                The maximum amount for reimbursement has been communicated to hackers via email.
+                </span>}
+            number="6."
         />
         <br/>
         <FaqCard
             question="How do I request accessibility accommodations?"
             answer={ <span>The Equithon team is happy to accommodate your needs in any way we can. Let us know if you require accommodation by sending an email to <a href="mailto:hello@equithon.org">hello@equithon.org</a>.</span>}
-            number="6."
+            number="7."
         />
         <br/>
 
+        <FaqCard
+            question="Have more questions?"
+            number="8."
+            answer={ <span>Send us an email at <a href="mailto:hello@equithon.org">hello@equithon.org</a>.</span> }
+        />
+        <br/>
+    </div>
+);
+
+
+        /*
         <FaqCard
             question="How can I help with the event?"
             answer={ <span>Registration for volunteers is open! Sign up to be a volunteer <a href="https://equithon-volunteer.typeform.com/to/JxT6Vy">here</a>! If you are interested in being a mentor, please send us an email at <a href="mailto:hello@equithon.org">hello@equithon.org</a>.</span>}
             number="7."
         />
         <br/>
-        <FaqCard
-            question="Have more questions?"
-            number="8."
-            answer={ <span>Send us an email at <a href="mailto:hello@equithon.org">hello@equithon.org</a>.</span> }
-        />
-    </div>
-);
-
-
-        /*
         <FaqCard
             question="What is a hackathon?"
             answer="A hackathon is an event where the participants, either individually or in teams, build projects from scratch over a short period of time (in this case, three days) and present to a team of judges. Hackathons are a place to be creative, learn new skills, and make new friends!"
