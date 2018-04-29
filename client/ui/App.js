@@ -199,7 +199,6 @@ export default class App extends Component {
                             <SponsorLogo src="/sponsors/godaddy.png" alt="GoDaddy"/>
                         </div>
                         <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', padding: '0px 50px' }}>
-                            <SponsorLogo src="/sponsors/conrad.jpg" alt="Conrad" targetWidth={200} padding={50}/>
                             <SponsorLogo src="/sponsors/mathsoc.png" alt="MathSoc" targetWidth={200} padding={50}/>
                             <SponsorLogo src="/sponsors/heforshe.jpg" alt="HeForShe" targetWidth={200} padding={50}/>
                             <SponsorLogo src="/sponsors/wics.png" alt="HeForShe" targetWidth={200} padding={50}/>
