@@ -122,9 +122,11 @@ export default class App extends Component {
                                         <FlatColoredButton content="View Schedule" />
                                     </Link>
 
+                                    {/* Spacing */}
                                     <div style={{ padding: '5px' }}></div>
 
-                                    <a className="button-link" href="https://drive.google.com/open?id=1BMnS2i4ITprgWSGcD8LHpGdeotpDIGqW">
+                                    {/* Map */}
+                                    <a className="button-link" target="_blank" href="https://drive.google.com/open?id=1BMnS2i4ITprgWSGcD8LHpGdeotpDIGqW">
                                         <FlatColoredButton content="View Map">"View Map"</FlatColoredButton>
                                     </a>
 
