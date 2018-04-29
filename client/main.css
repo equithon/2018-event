@@ -124,8 +124,13 @@ body {
 
 .split-column-row {
     display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: "left right";
+}
+.tri-split-column-row {
+    display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    grid-template-areas: "left centre right";
+    grid-template-areas: "left center right";
 }
 
 .subtext-grid {
@@ -394,6 +399,15 @@ body {
         grid-template-rows: auto;
         grid-template-areas:
             "left"
+            "right";
+        grid-row-gap: 5px;
+    }
+    .tri-split-column-row {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+        grid-template-areas:
+            "left"
+            "center"
             "right";
         grid-row-gap: 5px;
     }

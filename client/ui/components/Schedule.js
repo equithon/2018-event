@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import MediaQuery from 'react-responsive';
+
 import Paper from 'material-ui/Paper';
 
 import HomeAppBar from '/client/ui/components/HomeAppBar.js';
@@ -24,6 +26,7 @@ export default class Schedule extends Component {
 
                 <Paper className="form-paper">
                     <Text align="left" color="primary" type="display1" text="FRI 4" />
+                    <MobileBar thickness="3" />
                     <CalendarEntry when="4pm - 12 am" event="ACCOMMODATION CHECKIN" location="Ron Eydt Village" special/>
                     <CalendarEntry when="5:30 - 8 pm" event="REGISTRATION" location="STC Foyer" />
                     <CalendarEntry when="6 - 8 pm" event="DINNER" location="STC Basement" />
@@ -34,6 +37,7 @@ export default class Schedule extends Component {
                     <br/>
 
                     <Text align="left" color="primary" type="display1" text="SAT 5" />
+                    <MobileBar thickness="3" />
                     <CalendarEntry when="8 am - 11:30 pm" event="WORKSHOPS, ACTIVITIES, AND TALKS" special />
                     <CalendarEntry when="8 - 9:30 am" event="BREAKFAST" location="STC Basement" />
                     <CalendarEntry when="9 - 10 am" event="PROGRAMMING FUNDAMENTALS WORKSHOP" location="STC 0050" />
@@ -56,6 +60,7 @@ export default class Schedule extends Component {
                     <br/>
 
                     <Text align="left" color="primary" type="display1" text="SUN 6" />
+                    <MobileBar thickness="3" />
                     <CalendarEntry when="8 - 9:30 am" event="BREAKFAST" location="STC Basement" />
                     <CalendarEntry when="10 am - 4 pm" event="NETWORKING FAIR" location="STC Foyer" special />
                     <CalendarEntry when="11 am" event="HACKING ENDS & SUBMISSIONS DUE" special />
@@ -70,20 +75,33 @@ export default class Schedule extends Component {
 }
 
 const CalendarEntry = ({ when, event, location, special }) => (
-    <div className="split-column-row" style={{ padding: '10px' }}>
-        <div style={{ gridArea: 'left' }}>
-            <Text align="center" color="inherit" type="body2" text={<strong> {when} </strong>} />
+    <div>
+        <div className="tri-split-column-row" style={{ padding: '10px' }}>
+            <div style={{ gridArea: 'left' }}>
+                <Text align="center" color="inherit" type="body2" text={<strong> {when} </strong>} />
+            </div>
+
+            <div style={{ gridArea: 'center' }}>
+                { (special) ?
+                    <Text align="center" color="primary" type="body2" text={event} /> :
+                    <Text align="center" color="inherit" type="body2" text={event} />
+                }
+            </div>
+
+            <div style={{ gridArea: 'right' }}>
+                <Text align="center" color="inherit" type="body2" text={location} />
+            </div>
         </div>
 
-        <div style={{ gridArea: 'centre' }}>
-            { (special) ?
-                <Text align="center" color="primary" type="body2" text={event} /> :
-                <Text align="center" color="inherit" type="body2" text={event} />
-            }
-        </div>
-
-        <div style={{ gridArea: 'right' }}>
-            <Text align="center" color="inherit" type="body2" text={location} />
-        </div>
+        {/* Bar for spacing */}
+        <MobileBar thickness="1" />
     </div>
+);
+
+const MobileBar = ({ thickness }) => (
+    <MediaQuery maxDeviceWidth={600}>
+        { (matches) => {
+            return (matches) ? <div style={{ height: thickness + 'px', backgroundColor: '#d5dffa' }}></div> : false;
+        }}
+    </MediaQuery>
 );
