@@ -1,7 +1,6 @@
+import { TimeIntervals } from './../../../api/server/models';
 import { Component } from '@angular/core';
 import { NavController, NavParams, ViewController } from 'ionic-angular';
-import { Events } from 'api/collections/events';
-import { Event } from 'api/models';
 
 
 
@@ -12,15 +11,22 @@ import { Event } from 'api/models';
 export class ResultPage {
 
   viewType: string;
-  viewUser: any;
+  viewDetails: any;
+  mealExceptionOptions: string[] = [
+    'Vegetarian',
+    'Vegan',
+    'Gluten-Free',
+    'Halal',
+    'Other'
+  ];
 
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
               public view: ViewController) {
-    this.viewType = navParams.get('view');
-    this.viewUser = navParams.get('user');
+    this.viewType = navParams.get('code') + 'View';
+    this.viewDetails = navParams.get('details');
     console.log('viewtype is ' + this.viewType);
-    console.log(this.viewUser);
+    console.log(this.viewDetails);
 
   }
 
@@ -28,5 +34,5 @@ export class ResultPage {
     console.log('~ loaded Check In Page with ViewType %s ~', this.viewType);
     document.getElementById(this.viewType).style.display = 'block';
   }
-
+  
 }

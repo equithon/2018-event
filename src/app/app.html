@@ -1,6 +1,7 @@
 <ion-split-pane>
   <!-- Menu for logged in users -->
   <ion-menu id="loggedInView" [content]="content" (ionOpen)="refreshProfile()">
+
     <ion-header>
       <ion-toolbar>
           <ion-title>Menu</ion-title>
@@ -8,18 +9,23 @@
     </ion-header>
 
     <div id="profile-div">
-      <div class="inner-left">
-          <img src="assets/imgs/profile/avatar_test.png" id="profile-pic" class="img-round">
-      </div>
-      <div id="profile-details" class="inner-right">
-        <h2 id="profileName">Alex</h2>
+      <div class="inner-left"> <img src="assets/imgs/profile/avatar_test.png" id="profile-pic" class="img-round"> </div>
+
+      <div id="userProfileView" class="inner-right">
+
+        <h2>
+            <span id="profileName"></span>
+            <ion-icon name="checkmark-circle" id="profileRegistered" style="display: none"></ion-icon>
+        </h2>
+        
         <span id="profileRole"></span><br>
-        <div id="profile-special">
-          <ion-icon name="qr-scanner" style="display:none;" id="scannerIcon"></ion-icon>
-          <span id="amtScanned"></span> 
-          <ion-icon name="trophy" id="badgesIcon"></ion-icon>
-          <span id="profileBadges"></span>
+
+        <div id="profileSpecial">
+          <ion-icon name="qr-scanner" id="profileScan" style="display: none;"></ion-icon>
+          <ion-icon name="clipboard" id="profileJudge" style="display: none;"></ion-icon>
+          <span id="profileDetails" style="display: none;"></span> 
         </div>
+
       </div>
     </div>
 
@@ -30,15 +36,19 @@
       <button ion-item menuClose *ngFor="let navpage of navigationPages" (click)="openPage(navpage)">
         {{navpage.title}}
       </button>
-      <button ion-item menuClose *ngFor="let navpage of loggedInPages" (click)="openPage(navpage)">
-        {{navpage.title}}
-      </button>
-
-      <!--<span id="organizerView">
+      <span id="organizerView">
         <button ion-item menuClose *ngFor="let navpage of organizerPages" (click)="openPage(navpage)">
           {{navpage.title}}
         </button>
-      </span> -->
+      </span>
+      <span id="volunteerView">
+        <button ion-item menuClose *ngFor="let navpage of volunteerPages" (click)="openPage(navpage)">
+          {{navpage.title}}
+        </button>
+      </span>
+      <button ion-item menuClose *ngFor="let navpage of loggedInPages" (click)="openPage(navpage)">
+        {{navpage.title}}
+      </button>
     </ion-list>
 
     <ion-list>
@@ -50,13 +60,11 @@
       </button>
     </ion-list>
 
-
-    
-    
   </ion-menu>
 
   <!-- Menu for logged out users -->
   <ion-menu id="loggedOutView" [content]="content">
+
     <ion-header>
         <ion-toolbar>
             <ion-title>Menu</ion-title>
@@ -83,9 +91,11 @@
         {{navpage.title}}
       </button>
     </ion-list>
+
   </ion-menu>
 
   <ion-nav [root]="rootPage" #content main name="app"></ion-nav>
+  
 </ion-split-pane>
 
 

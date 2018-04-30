@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, ModalController } from 'ionic-angular';
 import { ResultPage } from './../result/result';
+import { TimeIntervals } from './../../../api/server/models';
 
 @Component({
   selector: 'page-help',
@@ -31,7 +32,8 @@ export class HelpPage {
     'registrationCheckedIn',
     'judgingCheckedIn',
     'eventCheckedIn'
-  ]
+  ];
+
 
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
@@ -44,7 +46,12 @@ export class HelpPage {
   }
 
   openView(res: string) {
-    let detailModal = this.modalCtrl.create(ResultPage, { view: res + 'View', user: Meteor.users.findOne({ _id: 'XmDzBBWrGDtmG9YSo' }) }, {showBackdrop: true, enableBackdropDismiss: true});
+    let testDetails = { eventName: 'Programming Fundamentals', userName: 'Alex', shirtSize: 'S', 
+                        mealRestrictions: { vegetarian: true, vegan: true, gluten: true, halal: true, other: true }, 
+                        mealOther: 'Lactose Intolerant', 
+                        judgingTime: new Date().toLocaleTimeString('en-US', { hour: 'numeric', hour12: true, minute: 'numeric' }), judgingLoc: 'STC 0060' };
+
+    let detailModal = this.modalCtrl.create(ResultPage, { view: res, details: testDetails});
     detailModal.present();
   }
 

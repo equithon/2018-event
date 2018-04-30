@@ -1,23 +1,21 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
-import { IonicApp, IonicErrorHandler, IonicModule, NavController} from 'ionic-angular';
+import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
-import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner';
+import { QRScanner } from '@ionic-native/qr-scanner';
+import { ScreenOrientation } from '@ionic-native/screen-orientation';
 import { MomentModule } from 'angular2-moment';
+import { MyApp } from './app.component';
+
+import { AuthProvider } from './../providers/auth/auth';
 
 import { ScannerPage } from '../pages/scanner/scanner';
 import { SchedulePage } from './../pages/schedule/schedule';
 import { LoginPage } from './../pages/login/login';
-
-import { ResultPage } from './../pages/result/result';
-
 import { HelpPage } from './../pages/help/help';
 import { TutorialPage } from '../pages/tutorial/tutorial';
-
-import { AuthProvider } from './../providers/auth/auth';
-
-import { MyApp } from './app.component';
+import { ResultPage } from './../pages/result/result';
 
 
 @NgModule({
@@ -49,6 +47,7 @@ import { MyApp } from './app.component';
   providers: [
     StatusBar,
     SplashScreen,
+    ScreenOrientation,
     QRScanner,
     AuthProvider,
     {provide: ErrorHandler, useClass: IonicErrorHandler},

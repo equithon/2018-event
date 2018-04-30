@@ -5,22 +5,23 @@
 
   <!-- default view: this view is not a priority right now -->
   <div id="cannotCheckInView" class="normal-view"> 
-    <ion-item>{{viewUser.firstName}} {{viewUser.lastName}}</ion-item>
-    <ion-item>{{viewUser.role}}</ion-item>
-    <ion-item>Badges: {{viewUser.badges.length}}</ion-item>
-    <ion-item>Events Attended: {{viewUser.beenTo.length}}</ion-item>
+    <ion-item>Name: {{viewDetails.userName}}</ion-item>
+    <ion-item>Event: {{viewDetails.eventName}}</ion-item>
+    <ion-item>Shirt Size: {{viewDetails.shirtSize}}</ion-item>
+    <ion-item>Meal Restrictions: {{viewDetails.mealRestrictions}}</ion-item>
+    <ion-item>Other Restrictions: {{viewDetails.mealOther}}</ion-item>
     <p>this is the default view (UNFINISHED)</p>
   </div>
 
-  <!-- organizer edit: this view is not a priority right now -->
+  <!-- organizer edit: this view is not a priority right now
   
   <div id="organizerEditView" class="edit-view"> 
       <ion-item>{{viewUser.firstName}} {{viewUser.lastName}}</ion-item>
       <ion-item>{{viewUser.role}}</ion-item>
-      <ion-item>Badges: {{viewUser.badges.length}}</ion-item>
+      <ion-item>Registered: {{viewUser.registered}}</ion-item>
       <ion-item>Events Attended: {{viewUser.beenTo.length}}</ion-item>
       <p>this is the organizer edit/view (UNFINISHED)</p>
-  </div>
+  </div>  -->
 
   <div id="eventNotSelectedView" class="checkin-view error">
     <img src="assets/imgs/result_views/event_notselected.png" class="result-img">
@@ -29,14 +30,6 @@
     </p>
   </div>
 
-  <div id="eventExpiredView" class="checkin-view error">
-    <img src="assets/imgs/result_views/event_expired.png" class="result-img">
-    <p>
-      Oh no! The event you've selected is not happening right now.
-    </p>
-  </div>
-
-
   <div id="eventNotFoundView" class="checkin-view error">
     <img src="assets/imgs/result_views/misc_error.png" class="result-img">
     <p>
@@ -44,10 +37,17 @@
     </p>
   </div>
 
+  <div id="eventExpiredView" class="checkin-view error">
+    <img src="assets/imgs/result_views/event_expired.png" class="result-img">
+    <p>
+      Oh no! {{viewDetails.eventName}} is not happening right now. Please select a valid event.
+    </p>
+  </div>
+  
   <div id="eventFullView" class="checkin-view error">
     <img src="assets/imgs/result_views/event_full.png" class="result-img">
     <p>
-      The event is full! See if there are empty seats.
+      {{viewDetails.eventName}} is full! See if there are empty seats.
     </p>
   </div>
 
@@ -62,7 +62,7 @@
   <div id="userAlreadyScannedView" class="checkin-view warning">
     <img src="assets/imgs/result_views/user_alreadyscanned.png" class="result-img">
     <p>
-      This user's already been scanned at this event!
+      {{viewDetails.userName}} has already been scanned at this event!
     </p>
   </div>
 
@@ -73,10 +73,11 @@
     </p>
   </div>
 
+  <!-- user is a valid attendee but has not registered yet -->
   <div id="userNotRegisteredView" class="checkin-view error">
     <img src="assets/imgs/result_views/user_notregistered.png" class="result-img">
     <p>
-      This user hasn't registered yet!
+      {{viewDetails.userName}} hasn't been registered at Equithon yet! Send them to the help desk.
     </p>
   </div>
 
@@ -85,28 +86,28 @@
   <div id="judgingWrongLocView" class="checkin-view warning">
     <img src="assets/imgs/result_views/user_notregistered.png" class="result-img">
     <p>
-      This user is at the wrong judging location.
+      {{viewDetails.userName}} is at the wrong judging location. They should head to {{viewDetails.judgingLoc}}.
     </p>
   </div>
 
   <div id="judgingWrongTimeView" class="checkin-view warning">
     <img src="assets/imgs/result_views/user_notregistered.png" class="result-img">
     <p>
-      This user is not up for judging at this time.
+      {{viewDetails.userName}} isn't up for judging yet! They're being judged at {{viewDetails.judgingTime}}.
     </p>
   </div>
 
   <div id="judgingUnreleasedView" class="checkin-view warning">
     <img src="assets/imgs/result_views/user_notregistered.png" class="result-img">
     <p>
-      Judging information for teams has not yet been released.
+      Judging information for teams has not yet been released. Let them know they should continue checking Slack!
     </p>
   </div>
 
   <div id="judgingUnableView" class="checkin-view error">
     <img src="assets/imgs/result_views/user_notregistered.png" class="result-img">
     <p>
-      This user is not a hacker and thus cannot be judged!
+      {{viewDetails.userName}} is not a hacker and thus cannot be judged!
     </p>
   </div>
 
@@ -114,42 +115,49 @@
   <div id="mealRepeatView" class="checkin-view warning">
     <img src="assets/imgs/result_views/user_notregistered.png" class="result-img">
     <p>
-      This user already had a meal. Make sure it's not too close to the start of the meal.
+      {{viewDetails.userName}} has already had a meal. Make sure it's not too close to the start time.
     </p>
   </div>
 
   <div id="mealRestrictionView" class="checkin-view warning">
     <img src="assets/imgs/result_views/user_notregistered.png" class="result-img">
     <p>
-      This user has meal restrictions:
+      {{viewDetails.userName}} has meal restrictions:
     </p>
+    <ul id="mealRestrictionList">
+      <li *ngIf="this.viewDetails.mealRestrictions && this.viewDetails.mealRestrictions.vegetarian">Vegetarian</li>
+      <li *ngIf="this.viewDetails.mealRestrictions && this.viewDetails.mealRestrictions.vegan">Vegan</li>
+      <li *ngIf="this.viewDetails.mealRestrictions && this.viewDetails.mealRestrictions.gluten">Gluten Free</li>
+      <li *ngIf="this.viewDetails.mealRestrictions && this.viewDetails.mealRestrictions.halal">Halal</li>
+      <li *ngIf="this.viewDetails.mealRestrictions && this.viewDetails.mealRestrictions.other">Other: {{viewDetails.mealOther}}</li>
+    </ul>
   </div>
 
   <div id="mealCheckedInView" class="checkin-view">
     <img src="assets/imgs/result_views/meal_success.png" class="result-img">
     <p>
-      Successfully checked this user in...eat up!
+      {{viewDetails.userName}} has been checked in at {{viewDetails.eventName}}...eat up!
     </p>
   </div>
 
   <div id="registrationCheckedInView" class="checkin-view">
     <img src="assets/imgs/result_views/registration_success.png" class="result-img">
     <p>
-      Successfully registered this user!
+      Successfully registered {{viewDetails.userName}}! Their shirt size is {{viewDetails.shirtSize}}.
     </p>
   </div>
 
   <div id="judgingCheckedInView" class="checkin-view">
     <img src="assets/imgs/result_views/judging_success.png" class="result-img">
     <p>
-      User is ready for judging!
+      {{viewDetails.userName}} has been checked in and is ready for judging!
     </p>
   </div>
 
   <div id="eventCheckedInView" class="checkin-view">
     <img src="assets/imgs/result_views/event_success.png" class="result-img">
     <p>
-      Successfully checked user in to the event!
+      Successfully checked in {{viewDetails.userName}} to {{viewDetails.eventName}}!
     </p>
   </div>
 

@@ -16,7 +16,7 @@
 // automatically applied to the <body> element in the app.
 #loggedInView, #loggedOutView {
     .menu-inner > :nth-child(2) {
-        margin-top: $navbar-ios-height + 12px;
+        margin-top: $navbar-ios-height + 15px;
         
     }   
 }
@@ -40,17 +40,17 @@ ion-navbar {
         height: 75px;
     }
 
-    #profile-details {
+    #userProfileView {
         h2 {
             margin-top: 4px;
             margin-bottom: 0px;
             
+            #profileRegistered {
+                font-size: 75%;
+            }
         }
-        #profile-special {
+        #profileSpecial {
             padding-top: 5px;
-        }
-        #badgesIcon{
-            padding-left: 5px;
         }
     }
 
@@ -66,13 +66,17 @@ ion-navbar {
     float: left;
 }
 
+:not(.fullscreenModal) > .modal-wrapper {
+    margin: 35% 10% 20% 10%;
+    max-height: 50%;
+    border-radius: 5%;
 
-
-ion-modal {
-    .modal-wrapper {
-        margin: 35% 10% 20% 10%;
-        max-height: 50%;
+    ion-content, ion-header {
         border-radius: 5%;
+    }
+
+    .toolbar-background {
+        display: none;
     }
 }
 

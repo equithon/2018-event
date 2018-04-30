@@ -1,20 +1,30 @@
-<ion-header>
-
-  <ion-navbar>
-    <button ion-button menuToggle>
-      <ion-icon name="menu"></ion-icon>
-    </button>
-    <ion-title>Help</ion-title>
-  </ion-navbar>
-
-</ion-header>
-
-
 <ion-content padding>
-  on this page will be a little about the app and important links (equithon website, volunteer slack channel, emergency numbers, etc)
+  <h3>
+    Helpful Links:
+  </h3>
+  <ul>
+    <li><a href="http://equithon.org" target="_blank">Equithon Website</a></li> <br>
+    <li><a href="slack://channel?team=T568A78SG&id=GAEGHGVUK">Equithon Volunteer Slack Channel</a></li> <br>
+    <li><a href="slack://user?team=T568A78SG&id=UABV30MGQ">Send a Message to Alex (Voluteer Lead)</a></li> <br>
+    <li><a href="slack://file?team=T568A78SG&id={FILE_ID}">Volunteer Training Doc</a></li> <br><br>
+  
+  </ul>
 
+  <h3>
+    For Emergencies: <br>
+  </h3>
+  <ul>
+    <li><a href="tel:5198884911">Campus Police</a></li> <br>
+    <li><a href="tel:">Police/Fire/Ambulance</a></li> <br><br><br>
+  </ul>
 
-  <!-- FOR TESTING USER -->
+  <p>
+    This QR scanner app was built with &lt;3 by Alex Xie and the Equithon Dev team, for the 
+    volunteers who have kindly dedicated their time to helping out with the event. <br><br>
+  </p>
+  <p style="text-align: center; font-size: 75%">&copy; Alex Xie, Equithon (2018)</p>
+
+  <!-- FOR TESTING USERS -->
   <ion-item *ngFor="let view of viewOptions">
     <button (click)="openView(view)">
       {{view}}

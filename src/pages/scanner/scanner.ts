@@ -1,49 +1,54 @@
 import { Component } from '@angular/core';
 import { Platform, Events as EventControl, ModalController, Modal } from 'ionic-angular';
 import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner';
-import { Observable } from 'rxjs';
 
 import { Meteor } from 'meteor/meteor';
 import { UserRole, Event, TimeIntervals } from './../../../api/server/models';
-import { Events } from './../../../api/server/collections/events';
 import { AuthProvider } from './../../providers/auth/auth';
 import { ResultPage } from '../result/result';
+
+
 @Component({
+	selector: 'page-scanner',
 	templateUrl: 'scanner.html'
 })
 export class ScannerPage {
 
-	users: any[];
-	queryId: string;
-	eventOptions: Event[];
-	eventChosen: string;
+	eventOptions: Event[] = [];
+	eventChosen: string = 'a';
+	_eventSelectSub: () => void;
 
 	constructor(public platform: Platform,
 				public qrScanner: QRScanner,
 				public auth: AuthProvider,
 				public eventCtrl: EventControl,
 				public modalCtrl: ModalController) {
-		this.eventOptions = Events.find({}).fetch().filter((evnt) => {
-			return evnt.time_start - TimeIntervals.hour <= Date.now() && Date.now() <= evnt.time_end + TimeIntervals.hour;
-		}); 
-		console.log(this.eventOptions);
-		console.log(Events.find({}).fetch());
-		console.log(Meteor.users.find({}).fetch());
 
-	}
+		console.log('listening');
+		
 
-	ionViewDidLoad() {
+		this._eventSelectSub = () => {
+			this.toggleEventSelector();
+		}
+
+		// updates event selector with the events currently happening
+		Meteor.call('app.getEvents', {}, 
+		(err, res) => {
+
+			if (err) {
+				console.log('couldn\'t get events, error was:');
+				console.log(err);
+			} else {
+				this.eventOptions = res;
+			}
+		});
 		
 	}
 
 	ionViewDidEnter() {
-		if (Meteor.user() && ((Meteor.user() as any).role === UserRole.ORGANIZER || (Meteor.user() as any).role === UserRole.VOLUNTEER)) {
-			console.log('should be displaying event selector')
-			this.eventChosen = (Meteor.user() as any).specificInfo.atEvent;
-			document.getElementById('eventSelector').style.display = 'inline';
-		} else {
-			document.getElementById('eventSelector').style.display = 'none';
-		}
+		
+		this.listenToViewEvents();
+		this.toggleEventSelector();
 		if (this.platform.is('cordova')) {
 			console.log('opening scanner');
 			this.qrScanner.prepare()
@@ -62,20 +67,54 @@ export class ScannerPage {
 	}
 
 	ionViewWillLeave() {
+		console.log('closing scanner');
+		this.eventCtrl.unsubscribe('user:login', this._eventSelectSub);
+		this.eventCtrl.unsubscribe('user:logout', this._eventSelectSub);
 		this.hideScanner();
 	}
 
 
+	listenToViewEvents() {
+
+		this.eventCtrl.subscribe('scanner:focus', () => {
+			this.showScanner();
+		});
+
+		this.eventCtrl.subscribe('scanner:unfocus', () => {
+			console.log('listened')
+			this.hideScanner();
+		});
+
+		this.eventCtrl.subscribe('user:login', this._eventSelectSub);
+		this.eventCtrl.subscribe('user:logout', this._eventSelectSub);
+
+	}
+
+	toggleEventSelector() {
+		
+		try {
+			if (Meteor.user() && ((Meteor.user() as any).role === UserRole.ORGANIZER || (Meteor.user() as any).role === UserRole.VOLUNTEER)) {
+				console.log('should be displaying event selector')
+				console.log(document.getElementById('eventSelector'))
+				this.eventChosen = (Meteor.user() as any).atEvent;
+				document.getElementById('eventSelector').style.display = 'inline';
+			} else {
+				console.log('oijgow NOX')
+				document.getElementById('eventSelector').style.display = 'none';
+			};
+		} catch(err) {
+			console.log(err);
+		}
+	}
 
 	startScanning() {
 		// start scanning
 		if (this.platform.is('cordova')) {
-			let scanSub = this.qrScanner.scan().subscribe((scanned: string) => {
-				console.log('contents of scanned: ', scanned);
+			let scanSub = this.qrScanner.scan().subscribe((scannedId: string) => {
+				console.log('contents of scanned: ', scannedId);
 				this.hideScanner();
 				scanSub.unsubscribe(); // stop scanning
-				this.queryId = scanned;
-				this.checkUserIn();
+				this.checkUserIn(scannedId);
 			});
 		} else {
 			console.log('cordova not running: make sure this is running natively on a phone.')
@@ -84,10 +123,9 @@ export class ScannerPage {
 	}
 
 	showScanner() {
-		
 		(window.document.querySelector('ion-app') as HTMLElement).classList.add('cameraView');
-		//this.qrScanner.resumePreview();
 		this.qrScanner.show();
+		
 	}
 
 	hideScanner() {
@@ -95,19 +133,10 @@ export class ScannerPage {
 		this.qrScanner.hide(); // hide camera preview
 	}
 
-	toggleScanner(){
-		let closedScanner = (window.document.querySelector('ion-app') as HTMLElement).classList.toggle('cameraView');
-		if(closedScanner) {
-			this.qrScanner.hide(); // hide camera preview
-		} else {
-			this.qrScanner.show();
-		}
-	}
-
-	checkUserIn(): void {
+	checkUserIn(scannedId): void {
 
 		Meteor.call('scanner.checkIn', {
-			userId: this.queryId
+			userId: scannedId
 		}, 
 		(err, res) => {
 
@@ -118,7 +147,6 @@ export class ScannerPage {
 				console.log('check in result was:');
 				console.log(res);
 				this.handleCheckIn(res);
-				this.eventCtrl.publish('user:update', Date.now());
 			}
 
 		});
@@ -130,7 +158,7 @@ export class ScannerPage {
 	handleCheckIn(res): void {
 		let detailModal: Modal;
 		console.log('showing view ' + res.code + 'View');
-		detailModal = this.modalCtrl.create(ResultPage, {view: res.code + 'View', user: res.user});
+		detailModal = this.modalCtrl.create(ResultPage, res);
 
 		detailModal.onDidDismiss( () => {
 			this.showScanner();

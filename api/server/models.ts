@@ -44,6 +44,7 @@ export enum CheckInCodes {
 	registrationCheckedIn = 'registrationCheckedIn',
 	judgingCheckedIn = 'judgingCheckedIn',
 	eventCheckedIn = 'eventCheckedIn'
+	
 }
 
 

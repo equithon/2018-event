@@ -1,5 +1,5 @@
 import { Component, ViewChild, OnInit } from '@angular/core';
-import { NavController, NavParams, Slides, MenuController, Platform } from 'ionic-angular';
+import { NavController, NavParams, Slides, MenuController, Platform, ModalController, Events as EventControl, ViewController } from 'ionic-angular';
 import { Meteor } from 'meteor/meteor';
 import { ScannerPage } from './../scanner/scanner';
 import { LoginPage } from './../login/login';
@@ -13,8 +13,6 @@ import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner';
 export class TutorialPage implements OnInit {
 
   showSkip: boolean = true;
-  permissionGranted: boolean = false;
-
 
   @ViewChild('slides') slides: Slides;
 
@@ -22,10 +20,10 @@ export class TutorialPage implements OnInit {
               public navParams: NavParams,
               public menu: MenuController,
               public platform: Platform,
-              public qrScanner: QRScanner) {
-  }
-
-  ionViewDidLoad(){
+              public qrScanner: QRScanner,
+              public modalCtrl: ModalController,
+              public eventCtrl: EventControl,
+              public view: ViewController) {
   }
 
   ngOnInit() {
@@ -44,20 +42,25 @@ export class TutorialPage implements OnInit {
     this.showSkip = !slide.isEnd();
   }
 
-  dismissTut(loggedIn){
-    this.navCtrl.setRoot((loggedIn ? ScannerPage : LoginPage), {}, {animate: true});
+  dismissTut(showLogin){
+    if(showLogin) {
+      //this.eventCtrl.publish('scanner:unfocus', Date.now());
+      let loginView = this.modalCtrl.create(LoginPage);
+      /*loginView.onDidDismiss(() => {
+        this.navCtrl.setRoot(ScannerPage);
+      })*/
+      loginView.present();
+    } else {
+      this.navCtrl.setRoot(ScannerPage);
+    }
   }
 
   allowScanning(){
     if (this.platform.is('cordova')) {
-			this.qrScanner.prepare().then((status) => {
+			this.qrScanner.prepare().then((status: QRScannerStatus) => {
         if (status.authorized) {
           document.getElementById('permission-granted').style.display = 'inline';
           document.getElementById('permission-ask').style.display = 'none';
-        } else if (status.denied) {
-         // The video preview will remain black, and scanning is disabled. We can
-         // try to ask the user to change their mind, but we'll have to send them
-         // to their device settings with `QRScanner.openSettings()`.
         }
      });
 		} else {

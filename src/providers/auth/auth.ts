@@ -3,6 +3,7 @@ import { Accounts } from 'meteor/accounts-base';
 import { Meteor } from 'meteor/meteor';
 import { Events as EventControl, Nav, LoadingController, ToastController, AlertController } from 'ionic-angular';
 import { DomSanitizer } from '@angular/platform-browser';
+import { UserRole } from 'api/models';
 
 @Injectable()
 export class AuthProvider {
@@ -12,8 +13,9 @@ export class AuthProvider {
   roleStrings = [
     'Organizer',
     'Volunteer',
-    'Judge',
-    'Hacker'
+    'Hacker',
+    'VIP',
+    'OTHER'
   ]
   
   constructor(public eventCtrl: EventControl,
@@ -22,7 +24,6 @@ export class AuthProvider {
               public alertCtrl: AlertController,
               private sanitizer: DomSanitizer) {
     console.log('~ initialized Auth Provider ~');
-    Meteor.subscribe('users');
     Meteor.subscribe('events');
   }
 
@@ -42,6 +43,9 @@ export class AuthProvider {
   }
 
   login(email: string, pass: string){
+
+    // TODO: display loading indicator until logged in
+    
     Meteor.loginWithPassword(email, pass, (err) => {
       if(err) {
         let error_toast = this.toastCtrl.create({
@@ -72,20 +76,37 @@ export class AuthProvider {
   }
 
   logout(){    
-    Meteor.logout((err) => {
-      if(err) {
-        let error_toast = this.toastCtrl.create({
-          message: err.message,
-          duration: 2000,
-          position: 'top',
-          showCloseButton: true
-        })
-        error_toast.present();
-        console.log(err.message);
-      } else {
-        this.eventCtrl.publish('user:logout', Date.now());
-      }
+    let alert = this.alertCtrl.create({
+      title: 'Log out',
+      message: 'Are you sure you want to log out?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+        },
+        {
+          text: 'Yeah',
+          handler: () => {
+            Meteor.logout((err) => {
+              if(err) {
+                let error_toast = this.toastCtrl.create({
+                  message: err.message,
+                  duration: 2000,
+                  position: 'top',
+                  showCloseButton: true
+                })
+                error_toast.present();
+                console.log(err.message);
+              } else {
+                this.eventCtrl.publish('user:logout', Date.now());
+              }
+            });
+          }
+        }
+      ]
     });
+    alert.present();
+    
   }
 
   volunteerSignIn(chosenEvent) {
@@ -137,7 +158,26 @@ export class AuthProvider {
   }
 
   roleToString(role: number) {
-    return this.roleStrings[role];
+    let roleStr: string = null;
+
+    try {
+      roleStr = (Meteor.user() as any).title;
+    } catch {
+      console.log('can\'t get title of user. either they are not logged in or they have no title');
+    }
+
+    return roleStr ? roleStr : this.roleStrings[role];
+
+  }
+
+  alertUser(msg: string) {
+    let alert_toast = this.toastCtrl.create({
+      message: msg,
+      duration: 1000,
+      position: 'top',
+      showCloseButton: true
+    });
+    alert_toast.present();
   }
 
 }

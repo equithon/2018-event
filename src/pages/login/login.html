@@ -1,8 +1,5 @@
 <ion-header>
   <ion-navbar>
-    <button ion-button menuToggle>
-      <ion-icon name="menu"></ion-icon>
-    </button>
     <ion-title>Login</ion-title>
   </ion-navbar>
 
@@ -15,7 +12,7 @@
     <ion-input type="email" placeholder="Email" [(ngModel)]="email"></ion-input> 
   
     <ion-label stacked color="primary">Password</ion-label>
-    <ion-input type="password" placeholder="Password" [(ngModel)]="pass"></ion-input> 
+    <ion-input type="password" placeholder="Password" [(ngModel)]="pass" (enter)="logIn()"></ion-input> 
     <button ion-button (click)="logIn()">Log In</button>
   </div>
   

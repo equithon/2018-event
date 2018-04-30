@@ -1,7 +1,7 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>eQRScanner</ion-title>
+    <ion-title>EQRscanner</ion-title>
     <ion-buttons end *ngIf="showSkip">
       <button ion-button (click)="slides.slideTo(slides.length() - 1)" color="primary">Skip</button>
     </ion-buttons>
@@ -44,17 +44,17 @@
           from the side menu.
         </p>
         <span id="loggedInEnd">
-          <button ion-button (click)="dismissTut(true)">
+          <button ion-button (click)="dismissTut(false)">
             Let's Go! &nbsp;
             <ion-icon name="arrow-forward"></ion-icon>
           </button>
         </span>
         <span id="loggedOutEnd">
-          <button ion-button (click)="dismissTut(false)">
+          <button ion-button (click)="dismissTut(true)">
             Log In &nbsp;
             <ion-icon name="log-in"></ion-icon>
           </button> <br>
-          <button ion-button (click)="dismissTut(true)" class="secondary-button disable-hover">
+          <button ion-button (click)="dismissTut(false)" class="secondary-button disable-hover">
             Later
           </button>
         </span>

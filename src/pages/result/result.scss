@@ -1,18 +1,20 @@
 page-result {
-
-    div {
-        
-    }
+    
     .scroll-content {
         justify-content: center;
         overflow-y: auto !important;
         display: flex!important;
         align-items: center!important;
-     }
+    }
 
-     ion-content {
+    ion-content {
          border-radius: 5%;
-     }
+    }
+
+    #mealRestrictionList {
+        font-size: 14px;
+        text-align: left;
+    }
 
 }
 
@@ -30,6 +32,7 @@ page-result {
         margin-right: auto;
         max-width: 150px;
         max-height: 150px;
+        padding-top: 20px;
         display: block;
     }
 }
