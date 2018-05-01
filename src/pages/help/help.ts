@@ -51,7 +51,7 @@ export class HelpPage {
                         mealOther: 'Lactose Intolerant', 
                         judgingTime: new Date().toLocaleTimeString('en-US', { hour: 'numeric', hour12: true, minute: 'numeric' }), judgingLoc: 'STC 0060' };
 
-    let detailModal = this.modalCtrl.create(ResultPage, { view: res, details: testDetails});
+    let detailModal = this.modalCtrl.create(ResultPage, { code: res, details: testDetails});
     detailModal.present();
   }
 

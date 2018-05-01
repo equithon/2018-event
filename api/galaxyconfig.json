@@ -1,7 +1,7 @@
 {
   "galaxy.meteor.com": {
      "env": {
-       "MONGO_URL": "mongodb://alexieyizhe:eqrscanneradmin@aws-us-east-1-portal.25.dblayer.com:28207,aws-us-east-1-portal.31.dblayer.com:28207/testing?ssl=true"
+       "MONGO_URL": "mongodb://alexieyizhe:3qruithon@aws-us-east-1-portal.31.dblayer.com:26737,aws-us-east-1-portal.32.dblayer.com:26737/staging?ssl=true"
      }
    }
 }

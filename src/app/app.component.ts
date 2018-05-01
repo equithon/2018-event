@@ -149,7 +149,7 @@ export class MyApp {
       document.getElementById('profileName').innerHTML = curUser.firstName;
       document.getElementById('profileRole').innerHTML = this.auth.roleToString(curUser.role);
 
-      if(curUser.registered) document.getElementById('profileRegistered').style.display = 'inline';
+      if(curUser.checkedIn) document.getElementById('profileRegistered').style.display = 'inline';
       
       if(curUser.role === UserRole.ORGANIZER || curUser.role === UserRole.VOLUNTEER) {
         document.getElementById('profileScan').style.display = 'inline';

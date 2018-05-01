@@ -104,11 +104,11 @@ Meteor.methods({
 		if (curEvent.time_start > Date.now() || curEvent.time_end < Date.now() - TimeIntervals.fifteenMinutes) { //15 min buffer time after event ends
 			return {code: CheckInCodes.eventExpired, details: returnDetails };
 
-		} else if (curEvent.type !== EventType.REGISTRATION && !scannedUser.registered) {
+		} else if (curEvent.type !== EventType.REGISTRATION && !scannedUser.checkedIn) {
 			return {code: CheckInCodes.userNotRegistered, details: returnDetails };
 
 		} else if ((curEvent.type !== EventType.MEAL && scannedUser.beenTo.indexOf(curEvent._id) > -1) || 
-				   (curEvent.type === EventType.REGISTRATION && scannedUser.registered)) {
+				   (curEvent.type === EventType.REGISTRATION && scannedUser.checkedIn)) {
 			console.log('already scanned');
 			return {code: CheckInCodes.userAlreadyScanned, details: returnDetails };
 

@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Events } from './collections/events';
 import { Rsvps } from './collections/rsvps';
-import { Event, EventType, UserRole, Badges, TimeIntervals } from './models';
+import { Event, EventType, UserRole, TimeIntervals } from './models';
 import { Accounts } from 'meteor/accounts-base';
 
 
@@ -14,7 +14,6 @@ Meteor.startup(() => {
   let organizer: string, volunteer: string, judge: string, hacker: string;
   
   console.log("hello this is where you do stuff on startup");
-  if(Events.find({}).count() === 0){
     evnt1 = Events.insert(
       { _id: '204h308v43ur8', name: 'Registration',
         type: EventType.REGISTRATION, location: 'STC Concourse',
@@ -67,10 +66,10 @@ Meteor.startup(() => {
         type: EventType.MEAL, location: 'STC Basement',
         time_start: Date.now() + TimeIntervals.hour, time_end: Date.now() + (86400000 * 3)});
     console.log(evnt8);
-  }
+  
 
-  if(Meteor.users.find({}).count() === 0){
-    let organizer = Accounts.createUser(
+  
+    organizer = Accounts.createUser(
       <any> // ORGANIZER
       { first: 'Alex', last: 'Xie', 
         role: UserRole.ORGANIZER,
@@ -79,7 +78,7 @@ Meteor.startup(() => {
     );
     console.log(organizer);
 
-    let volunteer = Accounts.createUser(
+    volunteer = Accounts.createUser(
       <any> // VOLUNTEER
       { first: 'Paniel', last: 'Deng', 
         role: UserRole.VOLUNTEER, 
@@ -88,7 +87,7 @@ Meteor.startup(() => {
     );
     console.log(volunteer);
 
-    let judge = Accounts.createUser(
+    judge = Accounts.createUser(
       <any>
       { first: 'Emma', last: 'Watson', 
         role: UserRole.SPECIAL,
@@ -97,7 +96,7 @@ Meteor.startup(() => {
     );
     console.log(judge);
 
-    let hacker = Accounts.createUser(
+    hacker = Accounts.createUser(
       <any>
       { first: 'Mark', last: 'Zuckerberg', 
         role: UserRole.HACKER, 
@@ -109,7 +108,7 @@ Meteor.startup(() => {
     Rsvps.insert(
       { userId: volunteer, attending: true,
         dietary: { vegetarian: false, vegan: false, gluten: false, halal: true, other: true }, 
-        dietText: 'lactose intolerant', shirtSize: 's' }
+        dietText: 'Lactose Intolerant', shirtSize: 's' }
     ); 
 
     Rsvps.insert(
@@ -123,12 +122,12 @@ Meteor.startup(() => {
     ); 
 
     Rsvps.insert(
-      { userId: judge, attending: true,
+      { userId: hacker, attending: true,
         diet: { vegetarian: false, vegan: true, gluten: true, halal: false, other: false }, 
         dietText: null, shirtSize: 'xl' }
     ); 
 
-  }
+  
 
 });
 

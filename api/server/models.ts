@@ -48,25 +48,6 @@ export enum CheckInCodes {
 }
 
 
-
-export enum Badges {
-
-	role0 = 'I\'m an organizer!',
-	role1 = 'I\'m a volunteer!',
-	role2 = 'I\'m a hacker!',
-	role3 = 'I\'m a VIP!',
-	role4 = 'I\'m an attendee!',
-	starScanner10 = 'I\'ve checked in more than 10 people!',
-	starScanner50 = 'I\'ve checked in more than 50 people!',
-	starScanner100 = 'I\'ve checked in more than 100 people!',
-	registered = 'I registered for Equithon!',
-	judged = 'I presented my project!',
-	active = 'I participated in an activity!',
-	learner = 'I learned something at a workshop!',
-	winner = 'I won a prize!'
-  
-}
-
 export enum TimeIntervals {
 
 	day = 86400000,
