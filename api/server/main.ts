@@ -9,7 +9,7 @@ Meteor.startup(() => {
   // TODO: remove this code when deploying to production
   /* 
     SEED DATA FOR TESTING
-  */
+  
   let evnt1: string, evnt2: string, evnt3: string, evnt4: string, evnt5: string, evnt6: string, evnt7: string, evnt8: string;
   let organizer: string, volunteer: string, judge: string, hacker: string;
   
@@ -125,7 +125,7 @@ Meteor.startup(() => {
       { userId: hacker, attending: true,
         diet: { vegetarian: false, vegan: true, gluten: true, halal: false, other: false }, 
         dietText: null, shirtSize: 'xl' }
-    ); 
+    );  */
 
   
 
