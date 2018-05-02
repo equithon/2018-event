@@ -174,11 +174,12 @@ Meteor.methods({
 			if (scannedUser.role === UserRole.HACKER) {
 				if (scannedUser.judgingLoc && scannedUser.judgingTime) {
 					if (scannedUser.judgingLoc !== curEvent.location) return {code: CheckInCodes.judgingWrongLoc, details: returnDetails };
-					if (scannedUser.judgingTime > Date.now() + TimeIntervals.minute * 20) return {code: CheckInCodes.judgingWrongTime, details: returnDetails };
+					if (scannedUser.judgingTime > Date.now() + TimeIntervals.minute * 15) return {code: CheckInCodes.judgingWrongTime, details: returnDetails };
 					
 					Meteor.users.update(userId,
 						{ $set: { 'judged': true } }
 					);
+
 					Meteor.users.update(userId,
 						{ $push: { 'beenTo': curEvent._id } }
 					);
