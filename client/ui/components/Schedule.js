@@ -17,6 +17,19 @@ export default class Schedule extends Component {
     }
 
     render() {
+        // Redirect to external calendar
+        window.location = 'https://drive.google.com/file/d/1_qgh-L9b0aA288IGQu7_BxUJU_meMBvj/view?usp=sharing';
+
+        return(
+            <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
+                <Text align="center" type="title" color="primary" text="Redirecting..." />
+            </div>
+        );
+    }
+}
+
+/* REMOVED - USING EXTERNAL LINK INSTEAD
+    render() {
         return(
             <div className="basic-page">
                 <HomeAppBar />
@@ -72,8 +85,6 @@ export default class Schedule extends Component {
             </div>
         );
     }
-}
-
 const CalendarEntry = ({ when, event, location, special }) => (
     <div>
         <div className="tri-split-column-row" style={{ padding: '10px' }}>
@@ -93,7 +104,6 @@ const CalendarEntry = ({ when, event, location, special }) => (
             </div>
         </div>
 
-        {/* Bar for spacing */}
         <MobileBar thickness="1" />
     </div>
 );
@@ -105,3 +115,4 @@ const MobileBar = ({ thickness }) => (
         }}
     </MediaQuery>
 );
+*/
