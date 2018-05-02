@@ -70,12 +70,6 @@ Meteor.methods({
 		let scanSuccess: string = null;
 		let returnDetails: any = { eventName: null, userName: null, shirtSize: null, mealRestrictions: null, mealOther: null, judgingTime: null, judgingLoc: null };
 
-
-		// ------- Invalid Input Checking -------
-		let scannedUser: any = Meteor.users.findOne({ _id: userId });
-		let scannedRsvp: any = Rsvps.findOne({ userId: userId });
-		if (!scannedRsvp) return {code: CheckInCodes.userNotFound, details: returnDetails }; // first few if statements handle invalid inputs
-
 		let curUser: any = Meteor.user();
 		let canScan: boolean = Meteor.userId() && (curUser.role === UserRole.ORGANIZER || (curUser.role === UserRole.VOLUNTEER && curUser.checkedIn));
 		if (!canScan) return {code: CheckInCodes.cannotCheckIn, details: returnDetails }; // checks if a user is logged in and allowed to scan codes
@@ -83,6 +77,18 @@ Meteor.methods({
 
 		let curEvent: Event = Events.findOne({ _id: curUser.atEvent });
 		if (!curEvent) return {code: CheckInCodes.eventNotFound, details: returnDetails }; 
+
+		// ------- Invalid Input Checking -------
+		let scannedUser: any = Meteor.users.findOne({ _id: userId });
+		let scannedRsvp: any = Rsvps.findOne({ userId: userId });
+		if (!scannedRsvp){
+			if(curEvent.type === EventType.REGISTRATION) {
+				return {code: CheckInCodes.userCannotRegister, details: returnDetails };
+			}
+			return {code: CheckInCodes.userNotFound, details: returnDetails };
+		}  // first few if statements handle invalid inputs
+
+		
 
 
 		try {

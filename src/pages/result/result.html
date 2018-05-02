@@ -31,7 +31,7 @@
   </div>
 
   <div id="eventNotFoundView" class="checkin-view error">
-    <img src="assets/imgs/result_views/misc_error.png" class="result-img">
+    <img src="assets/imgs/result_views/event_notfound.png" class="result-img">
     <p>
       The event you're checked in at is not in the database!
     </p>
@@ -53,7 +53,7 @@
 
 
   <div id="userNotFoundView" class="checkin-view error">
-    <img src="assets/imgs/result_views/misc_error.png" class="result-img">
+    <img src="assets/imgs/result_views/user_notfound.png" class="result-img">
     <p>
       The scanned user was not found or is not a valid attendee!
     </p>
@@ -67,7 +67,7 @@
   </div>
 
   <div id="userCannotRegisterView" class="checkin-view error">
-    <img src="assets/imgs/result_views/misc_error.png" class="result-img">
+    <img src="assets/imgs/result_views/user_cannotregister.png" class="result-img">
     <p>
       This user can't be registered. Send them to the special cases desk.
     </p>
@@ -84,28 +84,28 @@
 
 
   <div id="judgingWrongLocView" class="checkin-view warning">
-    <img src="assets/imgs/result_views/user_notregistered.png" class="result-img">
+    <img src="assets/imgs/result_views/judging_wrongloc.png" class="result-img">
     <p>
       {{viewDetails.userName}} is at the wrong judging location. They should head to {{viewDetails.judgingLoc}}.
     </p>
   </div>
 
   <div id="judgingWrongTimeView" class="checkin-view warning">
-    <img src="assets/imgs/result_views/user_notregistered.png" class="result-img">
+    <img src="assets/imgs/result_views/judging_wrongtime.png" class="result-img">
     <p>
       {{viewDetails.userName}} isn't up for judging yet! They're being judged at {{viewDetails.judgingTime}}.
     </p>
   </div>
 
   <div id="judgingUnreleasedView" class="checkin-view warning">
-    <img src="assets/imgs/result_views/user_notregistered.png" class="result-img">
+    <img src="assets/imgs/result_views/judging_unreleased.png" class="result-img">
     <p>
       Judging information for teams has not yet been released. Let them know they should continue checking Slack!
     </p>
   </div>
 
   <div id="judgingUnableView" class="checkin-view error">
-    <img src="assets/imgs/result_views/user_notregistered.png" class="result-img">
+    <img src="assets/imgs/result_views/judging_unable.png" class="result-img">
     <p>
       {{viewDetails.userName}} is not a hacker and thus cannot be judged!
     </p>
@@ -113,14 +113,14 @@
 
 
   <div id="mealRepeatView" class="checkin-view warning">
-    <img src="assets/imgs/result_views/user_notregistered.png" class="result-img">
+    <img src="assets/imgs/result_views/meal_repeat.png" class="result-img">
     <p>
       {{viewDetails.userName}} has already had a meal. Make sure it's not too close to the start time.
     </p>
   </div>
 
   <div id="mealRestrictionView" class="checkin-view warning">
-    <img src="assets/imgs/result_views/user_notregistered.png" class="result-img">
+    <img src="assets/imgs/result_views/meal_restriction.png" class="result-img">
     <p>
       {{viewDetails.userName}} has meal restrictions:
     </p>
