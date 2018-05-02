@@ -57,8 +57,9 @@ export class MyApp {
     { title: 'Tutorial', component: TutorialPage, display: 'set', class: 'fullscreenModal', icon: '' },
     { title: 'Help', component: HelpPage, display: 'show', icon: '' }
   ]
-  
 
+  curAvatar = 0;
+  
   constructor(public platform: Platform, 
               public menu: MenuController,
               public toastCtrl: ToastController,
@@ -75,6 +76,7 @@ export class MyApp {
       this.switchMenu(Meteor.userId() !== null); // displays correct menu for loggedIn status
       if(platform.is('cordova')) this.screenOrient.lock('portrait');
       this.updateRoleView();
+      this.updateAvatar();
     });
 
     this.listenToLoginEvents();
@@ -90,7 +92,7 @@ export class MyApp {
 
     switch(page.display) {
       case 'set': {
-        this.nav.setRoot(page.component);
+        this.nav.setRoot(page.component, {}, {animate: true});
         break;
       }
 
@@ -127,7 +129,7 @@ export class MyApp {
       this.auth.alertUser('Welcome back!')
       this.updateRoleView();
       this.switchMenu(true);
-      this.nav.setRoot(ScannerPage);
+      this.nav.setRoot(ScannerPage, {}, {animate: true});
     });
 
     this.eventCtrl.subscribe('user:logout', () => {
@@ -173,6 +175,16 @@ export class MyApp {
     }
   }
 
+  updateAvatar() {
+    try {
+      document.getElementById('avatar' + ((this.curAvatar + 1) % 6)).style.display = 'inline';
+      document.getElementById('avatar' + (this.curAvatar)).style.display = 'none';
+      this.curAvatar = (this.curAvatar + 1) % 6;
+    } catch(err) {
+      console.log(err);
+    }
+    
+  }
 
   switchMenu(loggedIn) {
     this.menu.enable(loggedIn, 'loggedInView');

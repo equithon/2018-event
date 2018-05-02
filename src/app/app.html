@@ -9,7 +9,14 @@
     </ion-header>
 
     <div id="profile-div">
-      <div class="inner-left"> <img src="assets/imgs/profile/avatar_test.png" id="profile-pic" class="img-round"> </div>
+      <div class="inner-left" (click)="updateAvatar()"> 
+        <img src="assets/imgs/profile/avatar_female1.png" id="avatar0" class="img-round avatar" style="display: none;"> 
+        <img src="assets/imgs/profile/avatar_female2.png" id="avatar1" class="img-round avatar" style="display: none;">
+        <img src="assets/imgs/profile/avatar_female3.png" id="avatar2" class="img-round avatar" style="display: none;">
+        <img src="assets/imgs/profile/avatar_male1.png" id="avatar3" class="img-round avatar" style="display: none;">
+        <img src="assets/imgs/profile/avatar_male2.png" id="avatar4" class="img-round avatar" style="display: none;">
+        <img src="assets/imgs/profile/avatar_male3.png" id="avatar5" class="img-round avatar" style="display: none;">
+      </div>
 
       <div id="userProfileView" class="inner-right">
 

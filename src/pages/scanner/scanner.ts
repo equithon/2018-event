@@ -15,7 +15,7 @@ import { ResultPage } from '../result/result';
 export class ScannerPage {
 
 	eventOptions: Event[] = [];
-	eventChosen: string = 'a';
+	eventChosen: string = 'Registration';
 	_eventSelectSub: () => void;
 
 	constructor(public platform: Platform,

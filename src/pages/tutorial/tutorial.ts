@@ -51,7 +51,7 @@ export class TutorialPage implements OnInit {
       })*/
       loginView.present();
     } else {
-      this.navCtrl.setRoot(ScannerPage);
+      this.navCtrl.setRoot(ScannerPage, {}, {animate: true});
     }
   }
 
