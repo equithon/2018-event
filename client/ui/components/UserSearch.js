@@ -106,49 +106,60 @@ export default class UserSearch extends Component {
     // Render search results reactively according to given form fields
     renderSearchResults() {
         var search = {};
-        if (this.state.firstName) search.firstName = this.state.firstName;
-        if (this.state.lastName) search.lastName = this.state.lastName;
-        if (this.state.email) search.emails = { address: this.state.email, verified: true };    // Filter out non-verified users
+        if (this.state.firstName)search.firstName = { '$regex': '^' + this.state.firstName, '$options': 'i' };
+        if (this.state.lastName) search.lastName = { '$regex': '^' + this.state.lastName, '$options': 'i' };
+        if (this.state.email) search.emails = { '$elemMatch': { address: { '$regex': '^' + this.state.email }, verified: true } };
 
         // Get results, limited to 10 users
         // Search pagination is a little too much work for this
-        var results = Meteor.users.find(search, { limit: 10 });
+        var results;
+        var error = false;  // For displaying error on invalid search
+        try {
+            results = Meteor.users.find(search, { limit: 10 });
 
-        // Data
-        var rows = [];
-        if (results) {
-            var k = 0;
-            results.forEach((result) => {
-                rows.push(
-                    <tr key={k} userid={result._id} onClick={this.viewUser}>
-                        <th><Text color="inherit" type="body1"
-                                text={result.firstName} /></th>
+            // Create table rows for each result
+            var rows = [];
+            if (results) {
+                var k = 0;
+                results.forEach((result) => {
+                    rows.push(
+                        <tr key={k} userid={result._id} onClick={this.viewUser}>
+                            <th><Text color="inherit" type="body1"
+                                    text={result.firstName} /></th>
 
-                        <th><Text color="inherit" type="body1"
-                            text={result.lastName} /></th>
+                            <th><Text color="inherit" type="body1"
+                                text={result.lastName} /></th>
 
-                        <th><Text color="inherit" type="body1"
-                            text={result.emails[0].address} /></th>
-                    </tr>
-                );
-                ++k;
-            });
+                            <th><Text color="inherit" type="body1"
+                                text={result.emails[0].address} /></th>
+                        </tr>
+                    );
+                    ++k;
+                });
+            }
+        } catch (e) {
+            error = true;   // Display an error on invalid search
         }
 
-        return(
-            <table className="list">
-                <thead>
-                    <tr>
-                        <th><Text color="primary" type="body1" text="First Name" /></th>
-                        <th><Text color="primary" type="body1" text="Last Name" /></th>
-                        <th><Text color="primary" type="body1" text="Email" /></th>
-                    </tr>
-                </thead>
+        return (
+            (error) ?
+                <div style={{ textAlign: 'center' }}>
+                    <ErrorMessageChip errorMessage="Invalid search" />
+                </div> :
 
-                <tbody>
-                    {rows}
-                </tbody>
-            </table>
+                <table className="list">
+                    <thead>
+                        <tr>
+                            <th><Text color="primary" type="body1" text="First Name" /></th>
+                            <th><Text color="primary" type="body1" text="Last Name" /></th>
+                            <th><Text color="primary" type="body1" text="Email" /></th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {rows}
+                    </tbody>
+                </table>
         );
     }
 
