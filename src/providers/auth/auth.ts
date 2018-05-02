@@ -66,7 +66,7 @@ export class AuthProvider {
             <img src="assets/imgs/success_spinner.gif"></img>
           </div>
           `),
-          duration: 1500
+          duration: 1700
         });
         success_load.present();
         this.eventCtrl.publish('user:login', Date.now());

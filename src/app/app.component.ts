@@ -88,6 +88,7 @@ export class MyApp {
 
     if(page.logsOut){
       this.auth.logout();
+      return;
     }
 
     switch(page.display) {

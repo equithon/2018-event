@@ -99,7 +99,6 @@ export class ScannerPage {
 				this.eventChosen = (Meteor.user() as any).atEvent;
 				document.getElementById('eventSelector').style.display = 'inline';
 			} else {
-				console.log('oijgow NOX')
 				document.getElementById('eventSelector').style.display = 'none';
 			};
 		} catch(err) {
