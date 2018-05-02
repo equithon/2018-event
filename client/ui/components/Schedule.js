@@ -18,7 +18,7 @@ export default class Schedule extends Component {
 
     render() {
         // Redirect to external calendar
-        window.location = 'https://drive.google.com/file/d/1_qgh-L9b0aA288IGQu7_BxUJU_meMBvj/view?usp=sharing';
+        window.location.replace('https://drive.google.com/file/d/1_qgh-L9b0aA288IGQu7_BxUJU_meMBvj/view?usp=sharing');
 
         return(
             <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
