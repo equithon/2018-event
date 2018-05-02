@@ -154,7 +154,8 @@ Accounts.onCreateUser((options, user) => {
     user.atEvent = null;
     user.amtScanned = 0;
     user.title = options.title || 'Organizer'; // defaults to Organizer if nothing more specific is provided in options.title
-
+    user.shifts = options.shifts || [];
+    
   } else if(options.role === UserRole.HACKER) {
     user.judged = false; // if the hacker has presented their project yet or not
     user.judgingLoc = options.judgingLoc || null; 

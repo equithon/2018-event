@@ -22,7 +22,7 @@ export class SchedulePage {
   }
 
   ionViewDidEnter() {
-    Meteor.call('volunteer.getShifts', {}, 
+    Meteor.call('user.getShifts', {}, 
 		(err, res) => {
 
 			if (err) {

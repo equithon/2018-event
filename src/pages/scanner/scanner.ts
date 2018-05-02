@@ -32,7 +32,7 @@ export class ScannerPage {
 		}
 
 		// updates event selector with the events currently happening
-		Meteor.call('app.getEvents', {}, 
+		Meteor.call('volunteer.getEvents', {}, 
 		(err, res) => {
 
 			if (err) {

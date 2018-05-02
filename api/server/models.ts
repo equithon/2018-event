@@ -14,7 +14,8 @@ export enum EventType {
     PANEL,
     JUDGING,
     REGISTRATION,
-    SPECIAL,
+	SPECIAL,
+	ORGANIZER_ONLY,
     OTHER
 }
 
@@ -66,7 +67,7 @@ export interface Event {
     time_start: number,
     time_end: number,
     spots_tot?: number,
-    spots_free?: number
+	spots_free?: number
 }
 
 

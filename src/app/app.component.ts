@@ -34,11 +34,11 @@ export class MyApp {
   rootPage: any = Meteor.userId() ? ScannerPage : TutorialPage; 
 
   navigationPages: PageInterface[] = [
-    { title: 'Scanner', component: ScannerPage, display: 'set', icon: '' }
+    //{ title: 'Scanner', component: ScannerPage, display: 'set', icon: '' }
   ];
 
   organizerPages: PageInterface[] = [
-
+    { title: 'Shifts', component: SchedulePage, display: 'show', icon: '' }
   ];
 
   volunteerPages: PageInterface[] = [
