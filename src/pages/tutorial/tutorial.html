@@ -1,9 +1,9 @@
 <ion-header>
 
-  <ion-navbar>
+  <ion-navbar color="primary">
     <ion-title>EQRscanner</ion-title>
     <ion-buttons end *ngIf="showSkip">
-      <button ion-button (click)="slides.slideTo(slides.length() - 1)" color="primary">Skip</button>
+      <button ion-button (click)="slides.slideTo(slides.length() - 1)" color="white">Skip</button>
     </ion-buttons>
   </ion-navbar>
 
@@ -33,8 +33,8 @@
       <ion-slide>
         <img src="assets/imgs/tutorial_slides/tutorial-slide4.png"/>
         <p>
-          Let's get to work! Make sure you have an event selected, hold the scanner up to a QR code, and hit 'Scan'. A popup will appear - if 
-          there are any instructions on it, follow them. If not, you just checked them in!
+          Let's get to work! Make sure you have an event selected and hit 'Scan' to start scanning for a QR code. 
+          Once scanned, a popup will appear - if there are any instructions on it, follow them. If not, you just checked them in!
         </p>
       </ion-slide>
       <ion-slide>

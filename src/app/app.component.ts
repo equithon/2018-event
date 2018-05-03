@@ -37,13 +37,9 @@ export class MyApp {
     //{ title: 'Scanner', component: ScannerPage, display: 'set', icon: '' }
   ];
 
-  organizerPages: PageInterface[] = [
+  shiftsPages: PageInterface[] = [
     { title: 'Shifts', component: SchedulePage, display: 'show', icon: '' }
   ];
-
-  volunteerPages: PageInterface[] = [
-    { title: 'Shifts', component: SchedulePage, display: 'show', icon: '' }
-  ]
 
   loggedInPages: PageInterface[] = [
     { title: 'Log out', component: ScannerPage, logsOut: true, display: 'set', icon: '' }
@@ -58,7 +54,7 @@ export class MyApp {
     { title: 'Help', component: HelpPage, display: 'show', icon: '' }
   ]
 
-  curAvatar = 0;
+  curAvatar: number;
   
   constructor(public platform: Platform, 
               public menu: MenuController,
@@ -75,8 +71,7 @@ export class MyApp {
       splashScreen.hide();
       this.switchMenu(Meteor.userId() !== null); // displays correct menu for loggedIn status
       if(platform.is('cordova')) this.screenOrient.lock('portrait');
-      this.updateRoleView();
-      this.updateAvatar();
+      this.refreshProfile();
     });
 
     this.listenToLoginEvents();
@@ -128,14 +123,12 @@ export class MyApp {
 
     this.eventCtrl.subscribe('user:login', () => {
       this.auth.alertUser('Welcome back!')
-      this.updateRoleView();
       this.switchMenu(true);
       this.nav.setRoot(ScannerPage, {}, {animate: true});
     });
 
     this.eventCtrl.subscribe('user:logout', () => {
       this.auth.alertUser('Successfully logged out.');
-      this.updateRoleView();
       this.switchMenu(false);
     });
 
@@ -145,21 +138,28 @@ export class MyApp {
   /* 
 		Updates the profile of the user to reflect current state in db
 	*/
-  refreshProfile(userChanged: boolean) {
-   
+  refreshProfile() {
+  
     let curUser = (Meteor.user() as any);
+    
     try {
-      document.getElementById('profileName').innerHTML = curUser.firstName;
-      document.getElementById('profileRole').innerHTML = this.auth.roleToString(curUser.role);
 
-      if(curUser.checkedIn) document.getElementById('profileRegistered').style.display = 'inline';
+      if(isNaN(this.curAvatar) && curUser){ 
+        document.getElementById('profileName').innerHTML = curUser.firstName;
+        document.getElementById('profileRole').innerHTML = this.auth.roleToString(curUser.role);
+        this.updateAvatar();
+      }
       
-      if(curUser.role === UserRole.ORGANIZER || curUser.role === UserRole.VOLUNTEER) {
+      document.getElementById('shiftsView').style.display = 'none';
+      if(curUser && curUser.checkedIn) document.getElementById('profileRegistered').style.display = 'inline';
+      
+      if(curUser && (curUser.role === UserRole.ORGANIZER || curUser.role === UserRole.VOLUNTEER)) {
         document.getElementById('profileScan').style.display = 'inline';
         document.getElementById('profileDetails').style.display = 'inline';
         document.getElementById('profileDetails').innerHTML = curUser.amtScanned;
+        document.getElementById('shiftsView').style.display = 'inline';
         
-      } else if (curUser.role === UserRole.HACKER) {
+      } else if (curUser && curUser.role === UserRole.HACKER) {
         document.getElementById('profileJudge').style.display = 'inline';
         document.getElementById('profileDetails').style.display = 'inline';
         document.getElementById('profileDetails').innerHTML = curUser.judgingLoc && curUser.judgingTime ? (new Date(curUser.judgingTime)).toString() + ' > ' + curUser.judgingLoc : 'Unreleased'
@@ -170,19 +170,22 @@ export class MyApp {
         document.getElementById('profileJudge').style.display = 'none';
 
       } 
+
     } catch(err) {
       console.log(err);
-
+      this.auth.alertUser('An unknown error occurred.');
     }
   }
 
   updateAvatar() {
+    if(isNaN(this.curAvatar)) this.curAvatar = 0;
     try {
       document.getElementById('avatar' + ((this.curAvatar + 1) % 6)).style.display = 'inline';
       document.getElementById('avatar' + (this.curAvatar)).style.display = 'none';
       this.curAvatar = (this.curAvatar + 1) % 6;
     } catch(err) {
       console.log(err);
+      this.auth.alertUser('An unknown error occurred.');
     }
     
   }
@@ -190,21 +193,6 @@ export class MyApp {
   switchMenu(loggedIn) {
     this.menu.enable(loggedIn, 'loggedInView');
     this.menu.enable(!loggedIn, 'loggedOutView');
-  }
-
-
-  updateRoleView() {
-
-    document.getElementById('organizerView').style.display = 'none';
-    document.getElementById('volunteerView').style.display = 'none';
-
-    if(Meteor.user()) {
-      if ((Meteor.user() as any).role === UserRole.ORGANIZER) {
-        document.getElementById('organizerView').style.display = 'inline';
-      } else if ((Meteor.user() as any).role === UserRole.VOLUNTEER) {
-        document.getElementById('volunteerView').style.display = 'inline';
-      } 
-    }
   }
 
 }

@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { Events } from './collections/events';
+import { Applications } from './collections/applications';
 import { Rsvps } from './collections/rsvps';
 import { Event, EventType, UserRole, CheckInCodes, TimeIntervals } from './models';
 import { Accounts } from 'meteor/accounts-base';
@@ -69,6 +70,18 @@ Meteor.methods({
 		
 	},
 
+	
+	'user.getInputtedGender'( { userId } ) {
+
+		return 'female';
+		/*
+		let foundUser: any = Applications.find( { _id: userId }) || 
+		let gender: string = Applications.find({}).fetch();
+		return Applications.find(  { $and: [{ time_end: {$gte: Date.now() + TimeIntervals.hour } },
+									  { type: {$ne: EventType.ORGANIZER_ONLY } }] } ).fetch(); 
+		*/
+	},
+
 	'organizer.getEvents'() {
 		return Events.find(  {time_end: {$gte: Date.now() + TimeIntervals.hour} }).fetch(); 
 		
@@ -97,10 +110,7 @@ Meteor.methods({
 			// ------- Invalid Input Checking -------
 			let scannedUser: any = Meteor.users.findOne({ _id: userId });
 			let scannedRsvp: any = Rsvps.findOne({ userId: userId });
-			if (!scannedRsvp){
-				if(curEvent.type === EventType.REGISTRATION) {
-					return {code: CheckInCodes.userCannotRegister, details: returnDetails };
-				}
+			if (!scannedUser){
 				return {code: CheckInCodes.userNotFound, details: returnDetails };
 			}  // first few if statements handle invalid inputs
 
@@ -129,8 +139,8 @@ Meteor.methods({
 			} else if (curEvent.type !== EventType.REGISTRATION && !scannedUser.checkedIn) {
 				return {code: CheckInCodes.userNotRegistered, details: returnDetails };
 
-			} else if ((curEvent.type !== EventType.MEAL && scannedUser.beenTo.indexOf(curEvent._id) > -1) || 
-					(curEvent.type === EventType.REGISTRATION && scannedUser.checkedIn)) {
+			} else if ((curEvent.type !== EventType.MEAL && scannedUser.beenTo && scannedUser.beenTo.indexOf(curEvent._id) > -1) || 
+					   (curEvent.type === EventType.REGISTRATION && scannedUser.checkedIn)) {
 				console.log('already scanned');
 				return {code: CheckInCodes.userAlreadyScanned, details: returnDetails };
 
@@ -148,7 +158,7 @@ Meteor.methods({
 			if (curEvent.type === EventType.REGISTRATION) {
 				console.log('registration')
 
-				if (scannedRsvp.attending) { 
+				if (scannedRsvp && scannedRsvp.attending) { 
 					console.log('registering user');
 					Meteor.users.update(userId,
 						{ $set: { 'checkedIn': true } }
@@ -172,14 +182,17 @@ Meteor.methods({
 			if (curEvent.type === EventType.MEAL) {
 				console.log('meal');
 				scanSuccess = CheckInCodes.mealCheckedIn;
-				if (scannedUser.beenTo.indexOf(curEvent._id) > -1) {
+				if (scannedUser.beenTo && scannedUser.beenTo.indexOf(curEvent._id) > -1) {
 					scanSuccess = CheckInCodes.mealRepeat;
 				}
-				for(let key in scannedRsvp.diet) {
-					if (scannedRsvp.diet[key]) {
-						scanSuccess = CheckInCodes.mealRestriction;
-					}
-				} 
+				
+				if (scannedRsvp) {
+					for(let key in scannedRsvp.diet) {
+						if (scannedRsvp.diet[key]) {
+							scanSuccess = CheckInCodes.mealRestriction;
+						}
+					} 
+				}
 				
 				Meteor.users.update(userId,
 					{ $push: { 'beenTo': curEvent._id } }

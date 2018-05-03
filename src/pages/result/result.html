@@ -5,8 +5,16 @@
 
   <!-- default view: this view is not a priority right now -->
   <div id="cannotCheckInView" class="normal-view"> 
-    <ion-item>Name: {{viewDetails.userName}}</ion-item>
-    <p>this is the default view (UNFINISHED)</p>
+    <p style="font-size: 75%;">You've just found:</p>
+    <img src="assets/imgs/profile/avatar_female1.png" id="checkinAvatar0" class="user-img" style="display: none;"> 
+    <img src="assets/imgs/profile/avatar_female2.png" id="checkinAvatar1" class="user-img" style="display: none;">
+    <img src="assets/imgs/profile/avatar_female3.png" id="checkinAvatar2" class="user-img" style="display: none;">
+    <img src="assets/imgs/profile/avatar_male1.png" id="checkinAvatar3" class="user-img" style="display: none;">
+    <img src="assets/imgs/profile/avatar_male2.png" id="checkinAvatar4" class="user-img" style="display: none;">
+    <img src="assets/imgs/profile/avatar_male3.png" id="checkinAvatar5" class="user-img" style="display: none;">
+    <img src="assets/imgs/profile/avatar_feridun.jpg" id="checkinAvatarFeridun" class="user-img" style="display: none;">
+    <h1 style="font-size: 150%;">{{viewDetails.userName}}</h1>
+    <p id="hh-clue-inject"style="font-size: 85%;">Say hi!</p>
   </div>
 
   <div id="eventNotSelectedView" class="checkin-view error">

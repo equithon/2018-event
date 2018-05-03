@@ -43,8 +43,6 @@ export class AuthProvider {
   }
 
   login(email: string, pass: string){
-
-    // TODO: display loading indicator until logged in
     
     Meteor.loginWithPassword(email, pass, (err) => {
       if(err) {

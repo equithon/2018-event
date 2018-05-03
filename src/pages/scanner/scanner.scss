@@ -6,7 +6,7 @@ page-scanner {
         margin-right: 25%;
     }
     
-    #start-scanner {
+    #start-scanner, #stop-scanner {
         margin-top: 20%;
     }
     
@@ -21,6 +21,18 @@ page-scanner {
         width: 225px;
         height: 225px;
         margin-top: 20%;
+    }
+
+    ion-spinner {
+        * {
+          stroke: white !important;
+        }
+    
+        &.spinner-circles circle,
+        &.spinner-bubbles circle,
+        &.spinner-dots circle {
+          fill: white !important;
+        }
     }
     
 }

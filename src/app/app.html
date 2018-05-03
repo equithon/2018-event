@@ -3,7 +3,7 @@
   <ion-menu id="loggedInView" [content]="content" (ionOpen)="refreshProfile()">
 
     <ion-header>
-      <ion-toolbar>
+      <ion-toolbar color="primary">
           <ion-title>Menu</ion-title>
       </ion-toolbar>
     </ion-header>
@@ -43,13 +43,8 @@
       <button ion-item menuClose *ngFor="let navpage of navigationPages" (click)="openPage(navpage)">
         {{navpage.title}}
       </button>
-      <span id="organizerView">
-        <button ion-item menuClose *ngFor="let navpage of organizerPages" (click)="openPage(navpage)">
-          {{navpage.title}}
-        </button>
-      </span>
-      <span id="volunteerView">
-        <button ion-item menuClose *ngFor="let navpage of volunteerPages" (click)="openPage(navpage)">
+      <span id="shiftsView">
+        <button ion-item menuClose *ngFor="let navpage of shiftsPages" (click)="openPage(navpage)">
           {{navpage.title}}
         </button>
       </span>

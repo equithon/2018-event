@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Platform, Events as EventControl, ModalController, Modal } from 'ionic-angular';
 import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner';
 
-import { Meteor } from 'meteor/meteor';
+import { Meteor, Subscription } from 'meteor/meteor';
 import { UserRole, Event, TimeIntervals } from './../../../api/server/models';
 import { AuthProvider } from './../../providers/auth/auth';
 import { ResultPage } from '../result/result';
@@ -16,6 +16,7 @@ export class ScannerPage {
 
 	eventOptions: Event[] = [];
 	eventChosen: string = 'Registration';
+	scanSub: any;
 	_eventSelectSub: () => void;
 
 	constructor(public platform: Platform,
@@ -62,7 +63,8 @@ export class ScannerPage {
 				})
 				.catch((e: any) => console.log('Error is', e));
 		} else {
-			console.log('cordova not running: make sure this is running natively on a phone.')
+			console.log('cordova not running: make sure this is running natively on a phone.');
+			this.auth.alertUser('Scanning not available on this device.');
 		}
 	}
 
@@ -71,6 +73,7 @@ export class ScannerPage {
 		this.eventCtrl.unsubscribe('user:login', this._eventSelectSub);
 		this.eventCtrl.unsubscribe('user:logout', this._eventSelectSub);
 		this.hideScanner();
+		this.stopScanning();
 	}
 
 
@@ -83,6 +86,7 @@ export class ScannerPage {
 		this.eventCtrl.subscribe('scanner:unfocus', () => {
 			console.log('listened')
 			this.hideScanner();
+			this.stopScanning();
 		});
 
 		this.eventCtrl.subscribe('user:login', this._eventSelectSub);
@@ -109,16 +113,34 @@ export class ScannerPage {
 	startScanning() {
 		// start scanning
 		if (this.platform.is('cordova')) {
-			let scanSub = this.qrScanner.scan().subscribe((scannedId: string) => {
+			try {
+				document.getElementById('start-scanner').style.display = 'none';
+				document.getElementById('stop-scanner').style.display = 'inline';
+			} catch(err) {
+				console.log(err);
+			}
+			this.scanSub = this.qrScanner.scan().subscribe((scannedId: string) => {
 				console.log('contents of scanned: ', scannedId);
 				this.hideScanner();
-				scanSub.unsubscribe(); // stop scanning
+				this.stopScanning();
+				this.scanSub.unsubscribe(); // stop scanning
 				this.checkUserIn(scannedId);
 			});
 		} else {
 			console.log('cordova not running: make sure this is running natively on a phone.')
+			this.auth.alertUser('Scanning not available on this device.');
 		}
 		
+	}
+
+	stopScanning() {
+		try {
+			document.getElementById('start-scanner').style.display = 'inline';
+			document.getElementById('stop-scanner').style.display = 'none';
+			this.scanSub.unsubscribe();
+		} catch(err) {
+			console.log(err);
+		}
 	}
 
 	showScanner() {
