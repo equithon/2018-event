@@ -54,7 +54,7 @@ export class MyApp {
     { title: 'Help', component: HelpPage, display: 'show', icon: '' }
   ]
 
-  curAvatar: number;
+  curAvatar: number = 0;
   
   constructor(public platform: Platform, 
               public menu: MenuController,
@@ -71,7 +71,8 @@ export class MyApp {
       splashScreen.hide();
       this.switchMenu(Meteor.userId() !== null); // displays correct menu for loggedIn status
       if(platform.is('cordova')) this.screenOrient.lock('portrait');
-      this.refreshProfile();
+      this.refreshProfile(true);
+      this.updateAvatar();
     });
 
     this.listenToLoginEvents();
@@ -124,12 +125,15 @@ export class MyApp {
     this.eventCtrl.subscribe('user:login', () => {
       this.auth.alertUser('Welcome back!')
       this.switchMenu(true);
+      this.refreshProfile(true);
       this.nav.setRoot(ScannerPage, {}, {animate: true});
     });
 
     this.eventCtrl.subscribe('user:logout', () => {
       this.auth.alertUser('Successfully logged out.');
       this.switchMenu(false);
+      this.refreshProfile(true);
+      this.statusBar.styleDefault();
     });
 
   }
@@ -138,16 +142,16 @@ export class MyApp {
   /* 
 		Updates the profile of the user to reflect current state in db
 	*/
-  refreshProfile() {
+  refreshProfile(userChanged: boolean) {
+    this.statusBar.styleLightContent();
   
     let curUser = (Meteor.user() as any);
     
     try {
 
-      if(isNaN(this.curAvatar) && curUser){ 
+      if(userChanged){ 
         document.getElementById('profileName').innerHTML = curUser.firstName;
         document.getElementById('profileRole').innerHTML = this.auth.roleToString(curUser.role);
-        this.updateAvatar();
       }
       
       document.getElementById('shiftsView').style.display = 'none';
@@ -173,19 +177,16 @@ export class MyApp {
 
     } catch(err) {
       console.log(err);
-      this.auth.alertUser('An unknown error occurred.');
     }
   }
 
   updateAvatar() {
-    if(isNaN(this.curAvatar)) this.curAvatar = 0;
     try {
       document.getElementById('avatar' + ((this.curAvatar + 1) % 6)).style.display = 'inline';
       document.getElementById('avatar' + (this.curAvatar)).style.display = 'none';
       this.curAvatar = (this.curAvatar + 1) % 6;
     } catch(err) {
       console.log(err);
-      this.auth.alertUser('An unknown error occurred.');
     }
     
   }

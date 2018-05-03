@@ -1,8 +1,8 @@
 <ion-header>
 
-  <ion-navbar color="primary">
+  <ion-navbar>
     <ion-title>EQRscanner</ion-title>
-    <ion-buttons end *ngIf="showSkip">
+    <ion-buttons end *ngIf="showSkip" color="primary">
       <button ion-button (click)="slides.slideTo(slides.length() - 1)" color="white">Skip</button>
     </ion-buttons>
   </ion-navbar>

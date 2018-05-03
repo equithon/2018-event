@@ -3,7 +3,6 @@ import { Accounts } from 'meteor/accounts-base';
 import { Meteor } from 'meteor/meteor';
 import { Events as EventControl, Nav, LoadingController, ToastController, AlertController } from 'ionic-angular';
 import { DomSanitizer } from '@angular/platform-browser';
-import { UserRole } from 'api/models';
 
 @Injectable()
 export class AuthProvider {

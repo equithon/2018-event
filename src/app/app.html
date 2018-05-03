@@ -1,6 +1,6 @@
 <ion-split-pane>
   <!-- Menu for logged in users -->
-  <ion-menu id="loggedInView" [content]="content" (ionOpen)="refreshProfile()">
+  <ion-menu id="loggedInView" [content]="content" (ionOpen)="refreshProfile(true)" type="overlay" (ionClose)="statusBar.styleDefault()">
 
     <ion-header>
       <ion-toolbar color="primary">
@@ -65,7 +65,7 @@
   </ion-menu>
 
   <!-- Menu for logged out users -->
-  <ion-menu id="loggedOutView" [content]="content" >
+  <ion-menu id="loggedOutView" [content]="content" (ionOpen)="statusBar.styleLightContent()" type="overlay" (ionClose)="statusBar.styleDefault()">
 
     <ion-header>
         <ion-toolbar color="primary">

@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, ModalController } from 'ionic-angular';
-import { ResultPage } from './../result/result';
-import { TimeIntervals } from './../../../api/server/models';
 
 @Component({
   selector: 'page-help',

@@ -1,5 +1,4 @@
 import { AuthProvider } from './../../providers/auth/auth';
-import { TimeIntervals } from './../../../api/server/models';
 import { Component } from '@angular/core';
 import { NavController, NavParams, ViewController } from 'ionic-angular';
 

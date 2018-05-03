@@ -1,9 +1,10 @@
+import { StatusBar } from '@ionic-native/status-bar';
 import { Component } from '@angular/core';
 import { Platform, Events as EventControl, ModalController, Modal } from 'ionic-angular';
 import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner';
 
-import { Meteor, Subscription } from 'meteor/meteor';
-import { UserRole, Event, TimeIntervals } from './../../../api/server/models';
+import { Meteor } from 'meteor/meteor';
+import { UserRole, Event } from './../../../api/server/models';
 import { AuthProvider } from './../../providers/auth/auth';
 import { ResultPage } from '../result/result';
 
@@ -23,9 +24,11 @@ export class ScannerPage {
 				public qrScanner: QRScanner,
 				public auth: AuthProvider,
 				public eventCtrl: EventControl,
-				public modalCtrl: ModalController) {
+				public modalCtrl: ModalController,
+				public statusBar: StatusBar) {
 
-		console.log('listening');
+
+		
 		
 
 		this._eventSelectSub = () => {
@@ -48,6 +51,7 @@ export class ScannerPage {
 
 	ionViewDidEnter() {
 		
+		this.statusBar.styleDefault();
 		this.listenToViewEvents();
 		this.toggleEventSelector();
 		if (this.platform.is('cordova')) {
@@ -98,8 +102,6 @@ export class ScannerPage {
 		
 		try {
 			if (Meteor.user() && ((Meteor.user() as any).role === UserRole.ORGANIZER || (Meteor.user() as any).role === UserRole.VOLUNTEER)) {
-				console.log('should be displaying event selector')
-				console.log(document.getElementById('eventSelector'))
 				this.eventChosen = (Meteor.user() as any).atEvent;
 				document.getElementById('eventSelector').style.display = 'inline';
 			} else {

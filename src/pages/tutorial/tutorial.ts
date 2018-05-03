@@ -1,3 +1,4 @@
+import { StatusBar } from '@ionic-native/status-bar';
 import { Component, ViewChild, OnInit } from '@angular/core';
 import { NavController, NavParams, Slides, MenuController, Platform, ModalController, Events as EventControl, ViewController } from 'ionic-angular';
 import { Meteor } from 'meteor/meteor';
@@ -23,7 +24,8 @@ export class TutorialPage implements OnInit {
               public qrScanner: QRScanner,
               public modalCtrl: ModalController,
               public eventCtrl: EventControl,
-              public view: ViewController) {
+              public view: ViewController,
+              public statusBar: StatusBar) {
   }
 
   ngOnInit() {
@@ -38,6 +40,10 @@ export class TutorialPage implements OnInit {
     }
   }
 
+  ionViewDidEnter() {
+    this.statusBar.styleDefault();
+  }
+  
   toggleSkip(slide: Slides){
     this.showSkip = !slide.isEnd();
   }
