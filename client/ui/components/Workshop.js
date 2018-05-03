@@ -7,21 +7,21 @@ import Text from '/client/ui/components/Text.js';
 
 
 var dataScience = <span>
-                    <li> <Text text='Google account with BigQuery set up (https://cloud.google.com/bigquery/). We will be within the free tier limits for this workshop' /> </li>
+                    <li> <Text text={<span>Google account with <a href="https://cloud.google.com/bigquery/">BigQuery</a> set up. We will be within the free tier limits for this workshop</span> }/> </li>
                     <li> <Text text='Python (preferably v2.7)' /> </li>
-                    <li> <Text text='NumPy (compatible with Python 2.7): http://www.numpy.org/' /> </li>
-                    <li> <Text text='Pandas (compatible with Python 2.7): https://pandas.pydata.org/' /> </li>
-                    <li> <Text text='Scikit Learn (compatible with Python 2.7): http://scikit-learn.org/stable/' /> </li>
+                    <li> <Text text={<span><a href="http://www.numpy.org/">NumPy</a> (compatible with Python 2.7)</span> }/> </li>
+                    <li> <Text text={<span><a href="https://pandas.pydata.org/">Pandas</a> (compatible with Python 2.7)</span> }/> </li>
+                    <li> <Text text={<span><a href="http://scikit-learn.org/stable/">Scikit Learn</a> (compatible with Python 2.7)</span> }/> </li>
               </span>;
 
 var design = <span>
                     <li> Sketch software would be a nice to have so you can follow along </li>
-                    <li> <Text text='https://developer.apple.com/design/resources/' /> </li>
+                    <li> <Text text={<span><a href="https://developer.apple.com/design/resources/">Apple Design Resources</a></span> } /> </li>
               </span>;
 
 var react = <span>
-                    <li> <Text text='Download the slides: http://arlenyu.com/equithon-react-slides' /> </li>
-                    <li> <Text text='Clone this github repository if you want to follow along: https://github.com/arlen-yu/equithon-react-boilerplate' /> </li>
+                    <li> <Text text={<span>Download the slides <a href="http://arlenyu.com/equithon-react-slides">here</a></span> }/> </li>
+                    <li> <Text text={<span>Clone <a href="https://github.com/arlen-yu/equithon-react-boilerplate">this</a> github repository if you want to follow along</span>} /> </li>
               </span>;
 
 /*
