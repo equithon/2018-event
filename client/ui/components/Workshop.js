@@ -23,6 +23,10 @@ var react = <span>
                     <li> <Text text={<span>Download the slides <a href="http://arlenyu.com/equithon-react-slides">here</a></span> }/> </li>
                     <li> <Text text={<span>Clone <a href="https://github.com/arlen-yu/equithon-react-boilerplate">this</a> github repository if you want to follow along</span>} /> </li>
               </span>;
+var android = <span>
+                    <li> <Text text={<span>Android Studio. Instructions can be found <a href="https://developer.android.com/studio/install">here</a>.</span>} /> </li>
+                    <li> <Text text={<span>Download the slides <a href="https://drive.google.com/open?id=1jon8Esu1aGA184uN84i1B6tJYEjTC4n4">here</a> and <a href="https://drive.google.com/open?id=1maZgk8vJyLTsHdyJ5MSOYryapNoRH2I6">here</a>.</span>} /> </li>
+              </span>;
 
 /*
  * Workshop page for information
@@ -48,17 +52,28 @@ export default class Workshop extends Component {
                     <Text align="left" type="body1" text='Materials:' />
                     <ul> <Text align="left" type="body1" text={dataScience}/></ul>
                     <br/>
+
                     <Text align="left" type="headline" color="primary" text='UI/UX Design - Designing for iOS' />
                     <Text align="left" type="body1" text='Explore visual design, UI, UX and tips for today’s App Store.' />
                     <br/>
                     <Text align="left" type="body1" text='Materials:' />
                     <ul> <Text align="left" type="body1" text={design}/></ul>
+
                     <br/>
+
                     <Text align="left" type="headline" color="primary" text='React & JS - You Should Probably Learn React.js' />
                     <Text align="left" type="body1" text="An introduction to React.js, and why it's dominating front end development." />
                     <br/>
                     <Text align="left" type="body1" text='Materials:' />
                     <ul> <Text align="left" type="body1" text={react}/></ul>
+
+                    <br/>
+
+                    <Text align="left" type="headline" color="primary" text='Introduction to Android Development' />
+                    <Text align="left" type="body1" text="We will build from scratch an app to retrieve information from GitHub's REST API and list a user's repositories." />
+                    <br/>
+                    <Text align="left" type="body1" text="Materials:" />
+                    <ul> <Text align="left" type="body1" text={android}/></ul>
                 </Paper>
             </div>
         );
