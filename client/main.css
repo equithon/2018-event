@@ -45,7 +45,7 @@ body {
         ". subtext-row ."
         ". title-row ."
         ". info-row ."
-        ". quote-row ."
+        ". judges-row ."
         ". sponsor-row ."
         ". faq-row ."
         ". footer ."; /* For extra spacing */
@@ -457,7 +457,7 @@ body {
             "subtext-row"
             "title-row"
             "info-row"
-            "quote-row"
+            "judges-row"
             "sponsor-row"
             "faq-row"
             "footer"; /* For extra spacing */
