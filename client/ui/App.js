@@ -25,6 +25,7 @@ import SponsorLogo from "./components/SponsorLogo";
 import Rsvp from '/client/ui/components/RSVP.js';
 import Schedule from '/client/ui/components/Schedule.js';
 import Workshop from '/client/ui/components/Workshop.js';
+import JudgesAndSpeakers from '/client/ui/components/JudgesAndSpeakersImages.js';
 
 
 /* Mongo Collection declarations */
@@ -167,7 +168,7 @@ export default class App extends Component {
                         </div>
                     </div>
 
-                    {/* Quote Row */}
+                    {/* Quote Row - REMOVED IN FAVOR OF SPEAKERS & JUDGES
                     <div style={{gridArea: 'quote-row', justifySelf: 'center'}}>
                         <MediaQuery maxDeviceWidth={600}>
                             { (matches) => {
@@ -189,9 +190,17 @@ export default class App extends Component {
                             }}
                         </MediaQuery>
                     </div>
+                    */}
+
+                    {/* Judges Row */}
+                    <div style={{ gridArea: 'judges-row', justifySelf: 'center', maxWidth: '100%' }}>
+                        <Text color="primary" type="display2" align="center" text="Speakers & Judges" />
+                        <br/>
+                        <JudgesAndSpeakers />
+                    </div>
 
                     {/* Sponsor Row */}
-                    <div style={{ gridArea: 'sponsor-row', justifySelf: 'center', maxWidth: '100%', padding: '0px 10px' }}>
+                    <div style={{ gridArea: 'sponsor-row', justifySelf: 'center', maxWidth: '100%' }}>
                         <Text color="primary" type="display2" align="center" text="Sponsors" />
                         <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
                             <SponsorLogo src="/sponsors/uw.png" alt="University of Waterloo" targetWidth={600} />
