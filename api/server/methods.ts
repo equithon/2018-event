@@ -65,27 +65,12 @@ Meteor.methods({
 		Finds all the events at Equithon that are happening within +/- an hour of right now
 	*/
 	'volunteer.getEvents'() {
-		return Events.find(  { $and: [{ time_end: {$gte: Date.now() + TimeIntervals.hour } },
+		return Events.find(  { $and: [{ time_start: { $lte: Date.now() + (TimeIntervals.fifteenMinutes * 2) } },
+									  { time_end: { $gte: Date.now() - (TimeIntervals.fifteenMinutes * 2) } },
 									  { type: {$ne: EventType.ORGANIZER_ONLY } }] } ).fetch(); 
 		
 	},
 
-	
-	'user.getInputtedGender'( { userId } ) {
-
-		return 'female';
-		/*
-		let foundUser: any = Applications.find( { _id: userId }) || 
-		let gender: string = Applications.find({}).fetch();
-		return Applications.find(  { $and: [{ time_end: {$gte: Date.now() + TimeIntervals.hour } },
-									  { type: {$ne: EventType.ORGANIZER_ONLY } }] } ).fetch(); 
-		*/
-	},
-
-	'organizer.getEvents'() {
-		return Events.find(  {time_end: {$gte: Date.now() + TimeIntervals.hour} }).fetch(); 
-		
-	},
 
 	/* 
 		Registers a user for Equithon if at registration
@@ -101,6 +86,12 @@ Meteor.methods({
 
 			let curUser: any = Meteor.user();
 			let canScan: boolean = Meteor.userId() && (curUser.role === UserRole.ORGANIZER || (curUser.role === UserRole.VOLUNTEER && curUser.checkedIn));
+			try {
+				console.log('getting name')
+				returnDetails.userName = (Meteor.users.findOne({ _id: userId }) as any).firstName;
+			} catch(err) {
+				console.log(err);
+			}
 			if (!canScan) return {code: CheckInCodes.cannotCheckIn, details: returnDetails }; // checks if a user is logged in and allowed to scan codes
 			if (!(curUser.atEvent)) return {code: CheckInCodes.eventNotSelected, details: returnDetails };
 
@@ -115,25 +106,31 @@ Meteor.methods({
 			}  // first few if statements handle invalid inputs
 
 			
-
+			
 
 			try {
 				returnDetails.eventName = curEvent.name;
-				returnDetails.userName = scannedUser.firstName;
-				returnDetails.shirtSize = scannedRsvp.shirtSize.toUpperCase();
-				returnDetails.mealRestrictions = scannedRsvp.diet;
-				returnDetails.mealOther = scannedRsvp.dietOther;
-				returnDetails.judgingTime = new Date(scannedUser.judgingTime).toLocaleTimeString('en-US', { hour: 'numeric', hour12: true, minute: 'numeric' });
-				;
+				returnDetails.judgingTime = new Date((scannedUser.judgingTime ? scannedUser.judgingTime : 1)).toLocaleTimeString('en-US', { hour: 'numeric', hour12: true, minute: 'numeric' });
 				returnDetails.judgingLoc = scannedUser.judgingLoc;
 
 			} catch(err) {
 				console.log(err);
 			}
+
+			try {
+				returnDetails.shirtSize = scannedRsvp.shirtSize.toUpperCase();
+				returnDetails.mealRestrictions = scannedRsvp.diet;
+				returnDetails.mealOther = scannedRsvp.dietOther;
+
+			} catch(err) {
+				console.log(err);
+			}
+
+			
 			
 			
 
-			if (curEvent.time_start > Date.now() || curEvent.time_end < Date.now() - TimeIntervals.fifteenMinutes) { //15 min buffer time after event ends
+			if (curEvent.time_start > Date.now() + (TimeIntervals.minute * 20) || curEvent.time_end < Date.now() - (TimeIntervals.minute *  20)) { //15 min buffer time after event ends
 				return {code: CheckInCodes.eventExpired, details: returnDetails };
 
 			} else if (curEvent.type !== EventType.REGISTRATION && !scannedUser.checkedIn) {

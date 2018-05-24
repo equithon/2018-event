@@ -28,9 +28,6 @@ export class ScannerPage {
 				public statusBar: StatusBar) {
 
 
-		
-		
-
 		this._eventSelectSub = () => {
 			this.toggleEventSelector();
 		}
