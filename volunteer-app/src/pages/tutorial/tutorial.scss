@@ -1,0 +1,24 @@
+page-tutorial {
+    .secondary-button:hover {
+        background-color: rgb(219, 219, 219);
+    }
+    
+    .secondary-button {
+        background-color: white;
+        box-shadow: none;
+        color: grey;
+        
+    }
+    
+    ion-slide {
+        padding-left: 50px;
+        padding-right: 50px;
+    }
+    
+    #permission-granted {
+        display: none;
+    }
+
+}
+
+

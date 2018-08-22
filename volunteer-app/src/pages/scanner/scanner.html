@@ -1,0 +1,27 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <span id="eventSelector">
+      <ion-select text-center [(ngModel)]="eventChosen" (ngModelChange)="auth.volunteerSignIn(eventChosen)" [placeholder]="eventChosen" id="eventSelections">
+          <ion-option *ngFor="let evnt of eventOptions" [value]="evnt._id">{{evnt.name}}</ion-option>
+      </ion-select>
+    </span>
+    
+  </ion-navbar>
+</ion-header>
+  
+<ion-content class="scanner-page-content" no-bounce>
+  <div text-center>
+      <img src="assets/imgs/qr_reticle.png" id="scanner-reticle"/>
+  </div>
+  
+  <button ion-button (click)="startScanning()" id="start-scanner" class="content-button">
+    Scan
+  </button>
+  <button ion-button (click)="stopScanning()" id="stop-scanner" class="content-button" style="display: none;">
+    Scanning &nbsp; <ion-spinner name="dots"></ion-spinner>
+  </button>
+
+</ion-content>

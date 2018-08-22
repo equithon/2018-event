@@ -1,0 +1,1 @@
+export let Rsvps = new Mongo.Collection<any>('rsvps');

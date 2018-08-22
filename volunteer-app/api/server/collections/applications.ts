@@ -1,0 +1,1 @@
+export let Applications = new Mongo.Collection<any>('applications');
