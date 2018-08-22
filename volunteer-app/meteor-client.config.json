@@ -1,0 +1,8 @@
+{
+  "runtime": {
+    "DDP_DEFAULT_CONNECTION_URL": "http://eqrscanner.meteorapp.com"
+  },
+  "import": [
+ 
+  ]
+}

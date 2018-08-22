@@ -1,0 +1,7 @@
+{
+  "galaxy.meteor.com": {
+     "env": {
+       "MONGO_URL": "mongodb://equithon-scanner-production:3qruithonscanner@aws-us-east-1-portal.31.dblayer.com:26737/production?ssl=true"
+     }
+   }
+}

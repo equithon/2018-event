@@ -1,0 +1,46 @@
+page-scanner {
+
+    .content-button {
+        width: 50%;
+        margin-left: 25%;
+        margin-right: 25%;
+    }
+    
+    #start-scanner, #stop-scanner {
+        margin-top: 20%;
+    }
+    
+    ion-select {
+        max-width: 76% !important;
+        margin-left: 4%;
+        margin-right: 20%;
+    }
+    
+    
+    #scanner-reticle {
+        width: 225px;
+        height: 225px;
+        margin-top: 20%;
+    }
+
+    ion-spinner {
+        * {
+          stroke: white !important;
+        }
+    
+        &.spinner-circles circle,
+        &.spinner-bubbles circle,
+        &.spinner-dots circle {
+          fill: white !important;
+        }
+    }
+    
+}
+
+ion-app.cameraView, ion-app.cameraView ion-content, ion-app.cameraView .nav-decor {
+    background: transparent none !important; 
+}
+
+ion-app.cameraView ion-input {
+    display: none;
+}

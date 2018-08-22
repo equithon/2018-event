@@ -1,0 +1,103 @@
+<ion-split-pane>
+  <!-- Menu for logged in users -->
+  <ion-menu id="loggedInView" [content]="content" (ionOpen)="refreshProfile(true)" type="overlay" (ionClose)="statusBar.styleDefault()">
+
+    <ion-header>
+      <ion-toolbar color="primary">
+          <ion-title>Menu</ion-title>
+      </ion-toolbar>
+    </ion-header>
+
+    <div id="profile-div">
+      <div class="inner-left" (click)="updateAvatar()"> 
+        <img src="assets/imgs/profile/avatar_female1.png" id="avatar0" class="img-round avatar" style="display: none;"> 
+        <img src="assets/imgs/profile/avatar_female2.png" id="avatar1" class="img-round avatar" style="display: none;">
+        <img src="assets/imgs/profile/avatar_female3.png" id="avatar2" class="img-round avatar" style="display: none;">
+        <img src="assets/imgs/profile/avatar_male1.png" id="avatar3" class="img-round avatar" style="display: none;">
+        <img src="assets/imgs/profile/avatar_male2.png" id="avatar4" class="img-round avatar" style="display: none;">
+        <img src="assets/imgs/profile/avatar_male3.png" id="avatar5" class="img-round avatar" style="display: none;">
+      </div>
+
+      <div id="userProfileView" class="inner-right">
+
+        <h2>
+            <span id="profileName"></span>
+            <ion-icon name="checkmark-circle" id="profileRegistered" style="display: none"></ion-icon>
+        </h2>
+        
+        <span id="profileRole"></span><br>
+
+        <div id="profileSpecial">
+          <ion-icon name="qr-scanner" id="profileScan" style="display: none;"></ion-icon>
+          <ion-icon name="clipboard" id="profileJudge" style="display: none;"></ion-icon>
+          <span id="profileDetails" style="display: none;"></span> 
+        </div>
+
+      </div>
+    </div>
+
+    <ion-list>
+      <ion-list-header>
+        Navigate
+      </ion-list-header>
+      <button ion-item menuClose *ngFor="let navpage of navigationPages" (click)="openPage(navpage)">
+        {{navpage.title}}
+      </button>
+      <span id="shiftsView">
+        <button ion-item menuClose *ngFor="let navpage of shiftsPages" (click)="openPage(navpage)">
+          {{navpage.title}}
+        </button>
+      </span>
+      <button ion-item menuClose *ngFor="let navpage of loggedInPages" (click)="openPage(navpage)">
+        {{navpage.title}}
+      </button>
+    </ion-list>
+
+    <ion-list>
+      <ion-list-header>
+        More
+      </ion-list-header>
+      <button ion-item menuClose *ngFor="let navpage of miscPages" (click)="openPage(navpage)">
+        {{navpage.title}}
+      </button>
+    </ion-list>
+
+  </ion-menu>
+
+  <!-- Menu for logged out users -->
+  <ion-menu id="loggedOutView" [content]="content" (ionOpen)="statusBar.styleLightContent()" type="overlay" (ionClose)="statusBar.styleDefault()">
+
+    <ion-header>
+        <ion-toolbar color="primary">
+            <ion-title>Menu</ion-title>
+        </ion-toolbar>
+    </ion-header>
+
+    <ion-list>
+      <ion-list-header>
+        Navigate
+      </ion-list-header>
+      <button ion-item menuClose *ngFor="let navpage of navigationPages" (click)="openPage(navpage)">
+        {{navpage.title}}
+      </button>
+      <button ion-item menuClose *ngFor="let navpage of loggedOutPages" (click)="openPage(navpage)">
+        {{navpage.title}}
+      </button>
+    </ion-list>
+
+    <ion-list>
+      <ion-list-header>
+        More
+      </ion-list-header>
+      <button ion-item menuClose *ngFor="let navpage of miscPages" (click)="openPage(navpage)">
+        {{navpage.title}}
+      </button>
+    </ion-list>
+
+  </ion-menu>
+
+  <ion-nav [root]="rootPage" #content main name="app"></ion-nav>
+  
+</ion-split-pane>
+
+
